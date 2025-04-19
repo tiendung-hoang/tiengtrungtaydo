@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country and Adjective Practice</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #flag, #adjective {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #sentence {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practice Your Sentence!</h1>
+    <img id="flag" src="https://flagcdn.com/w320/jp.png" alt="Flag">
+    <img id="adjective" src="https://img.icons8.com/color/100/000000/brain.png" alt="Adjective">
+    <p id="sentence">I am from Japan and I am smart.</p>
+    <button onclick="generateSentence()">New Sentence</button>
+
+    <script>
+        const countries = [
+            { name: "Japan", flag: "https://flagcdn.com/w320/jp.png" },
+            { name: "Taiwan", flag: "https://flagcdn.com/w320/tw.png" },
+            { name: "China", flag: "https://flagcdn.com/w320/cn.png" },
+            { name: "USA", flag: "https://flagcdn.com/w320/us.png" },
+            { name: "UK", flag: "https://flagcdn.com/w320/gb.png" }
+        ];
+
+        const adjectives = [
+            { name: "smart", icon: "https://img.icons8.com/color/100/000000/brain.png" },
+            { name: "pretty", icon: "https://img.icons8.com/color/100/000000/girl.png" },
+            { name: "tall", icon: "https://img.icons8.com/color/100/000000/giraffe.png" }
+        ];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateSentence() {
+            const country = getRandomItem(countries);
+            const adjective = getRandomItem(adjectives);
+
+            document.getElementById("flag").src = country.flag;
+            document.getElementById("flag").alt = country.name;
+            document.getElementById("adjective").src = adjective.icon;
+            document.getElementById("adjective").alt = adjective.name;
+            document.getElementById("sentence").textContent = `I am from ${country.name} and I am ${adjective.name}.`;
+        }
+    </script>
+</body>
+</html>
