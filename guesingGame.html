@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 800px;
+        }
+        .photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Photo Guessing Game</h1>
+    <div class="photo-grid" id="photoGrid">
+        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131" alt="Cat" class="photo">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Beach" class="photo">
+        <img src="https://images.unsplash.com/photo-1518495973544-1c0f97e5b6f3" alt="Mountain" class="photo">
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352" alt="Food" class="photo">
+        <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071" alt="Forest" class="photo">
+        <img src="https://images.unsplash.com/photo-1516321310767-0e6d90c7e528" alt="Dog" class="photo">
+        <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e" alt="Lake" class="photo">
+        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="City" class="photo">
+        <img src="https://images.unsplash.com/photo-1503614472-8c93ca36fc60" alt="Sunset" class="photo">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" alt="Snow" class="photo">
+        <img src="https://images.unsplash.com/photo-1494548162494-384bba4ab999" alt="Flower" class="photo">
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01608902b" alt="Desert" class="photo">
+    </div>
+    <button onclick="showRandomPhoto()">Pick a Photo</button>
+
+    <script>
+        function showRandomPhoto() {
+            const photos = document.querySelectorAll('.photo');
+            const randomIndex = Math.floor(Math.random() * photos.length);
+            
+            photos.forEach((photo, index) => {
+                if (index !== randomIndex) {
+                    photo.style.display = 'none';
+                } else {
+                    photo.style.display = 'block';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
