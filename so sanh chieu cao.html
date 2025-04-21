@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đo Chiều Cao Vui Vẻ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ffcccb, #87ceeb);
+            margin: 0;
+            color: #333;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e8b57;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .fun-emoji {
+            font-size: 30px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Đo Chiều Cao Siêu Vui! 🎉</h1>
+    <button onclick="generateHeight()">Bấm để đo chiều cao! 🚀</button>
+    <div id="result"></div>
+
+    <script>
+        function generateHeight() {
+            const minHeight = 1.5;
+            const maxHeight = 1.8;
+            const height = (Math.random() * (maxHeight - minHeight) + minHeight).toFixed(2);
+            const funMessages = [
+                "Wow, cao như cây dừa! 🌴",
+                "Chà, cao thế này chắc chạm mây! ☁️",
+                "Ồ, cao như siêu mẫu luôn! 😎",
+                "Hài hước sao nổi khi bạn cao thế này! 😂"
+            ];
+            const randomMessage = funMessages[Math.floor(Math.random() * funMessages.length)];
+            document.getElementById('result').innerHTML = `Chiều cao của bạn là: ${height}m <span class="fun-emoji">${randomMessage}</span>`;
+        }
+    </script>
+</body>
+</html>
