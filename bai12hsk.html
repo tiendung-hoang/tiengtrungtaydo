@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的家</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="generateFamily()">我的家</button>
+    <div id="output"></div>
+
+    <script>
+        function generateFamily() {
+            // Family members with their icons
+            const members = [
+                { name: "我", icon: "🙋" },
+                { name: "爸爸", icon: "👨" },
+                { name: "妈妈", icon: "👩" },
+                { name: "弟弟", icon: "👦" },
+                { name: "哥哥", icon: "🧑" },
+                { name: "妹妹", icon: "👧" },
+                { name: "姐姐", icon: "👩" },
+                { name: "狗", icon: "🐶" },
+                { name: "猫", icon: "🐱" }
+            ];
+
+            // Actions and characteristics
+            const actions = ["吃饭", "写作", "学习", "跑步", "喝水", "睡觉"];
+            const characteristics = ["开心", "快", "漂亮", "好", "慢", "可爱"];
+
+            // Generate random family size (3 to 6)
+            const familySize = Math.floor(Math.random() * 4) + 3;
+            // Shuffle and select family members
+            const shuffledMembers = members.sort(() => Math.random() - 0.5).slice(0, familySize);
+            
+            // Generate heights
+            const family = shuffledMembers.map(member => {
+                let height;
+                if (member.name === "狗" || member.name === "猫") {
+                    height = (Math.random() * (0.5 - 0.2) + 0.2).toFixed(1);
+                } else {
+                    height = (Math.random() * (1.9 - 1.5) + 1.5).toFixed(1);
+                }
+                return { ...member, height };
+            });
+
+            // Select two random members for actions and characteristics
+            const actionMembers = family.sort(() => Math.random() - 0.5).slice(0, 2);
+            const actionsAndChars = actionMembers.map(member => {
+                const action = actions[Math.floor(Math.random() * actions.length)];
+                const characteristic = characteristics[Math.floor(Math.random() * characteristics.length)];
+                return { member: member.name, action, characteristic };
+            });
+
+            // Generate output
+            let output = `${family.map(m => `${m.name} ${m.icon}`).join(" ")}<br><br>`;
+            family.forEach(m => {
+                output += `${m.name}: ${m.height}m<br>`;
+            });
+            actionsAndChars.forEach(ac => {
+                output += `${ac.member}: ${ac.action} + ${ac.characteristic}<br>`;
+            });
+
+            // Display output
+            document.getElementById("output").innerHTML = output;
+        }
+    </script>
+</body>
+</html>
