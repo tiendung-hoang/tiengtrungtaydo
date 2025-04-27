@@ -3,99 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Quiz</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>English-Vietnamese Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .english-word {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .option:hover {
+            background-color: #45a049;
+        }
+        .question-number {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .congrats {
+            font-size: 24px;
+            color: #4CAF50;
+            display: none;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div id="quiz-container" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-2xl font-bold text-center mb-4">Vocabulary Quiz</h1>
-        <div id="question" class="text-xl font-semibold text-center mb-4"></div>
-        <div id="options" class="flex flex-col gap-2"></div>
-    </div>
-    <div id="congrats" class="hidden bg-green-100 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
-        <h1 class="text-2xl font-bold text-green-700">Congratulations!</h1>
-        <p class="text-lg">You have completed the vocabulary quiz!</p>
+<body>
+    <div class="quiz-container">
+        <div class="question-number">Question 1</div>
+        <div class="english-word"></div>
+        <div class="options">
+            <button class="option" onclick="checkAnswer(this)"></button>
+            <button class="option" onclick="checkAnswer(this)"></button>
+            <button class="option" onclick="checkAnswer(this)"></button>
+            <button class="option" onclick="checkAnswer(this)"></button>
+            <button class="option" onclick="checkAnswer(this)"></button>
+        </div>
+        <div class="congrats">Congratulations! You completed the quiz!</div>
     </div>
 
     <script>
-        const words = [
-            {
-                english: "Domesticate",
-                vietnamese: "Thuần hóa",
-                options: ["Thuần hóa", "Phát triển", "Biến đổi", "Trồng trọt", "Khai thác"]
-            },
-            {
-                english: "CRISPR",
-                vietnamese: "Công nghệ chỉnh sửa gen",
-                options: ["Công nghệ chỉnh sửa gen", "Hệ gen", "Biến đổi di truyền", "Công nghệ sinh học", "Kỹ thuật lai tạo"]
-            },
-            {
-                english: "Genome",
-                vietnamese: "Hệ gen",
-                options: ["Hệ gen", "Đột biến", "Di truyền", "Tính trạng", "Sắc tố"]
-            },
-            {
-                english: "Mutation",
-                vietnamese: "Đột biến",
-                options: ["Đột biến", "Tính trạng", "Hệ gen", "Sự phát triển", "Sự thay đổi"]
-            },
-            {
-                english: "Lycopene",
-                vietnamese: "Sắc tố đỏ",
-                options: ["Sắc tố đỏ", "Vitamin C", "Chất thơm", "Chất dinh dưỡng", "Chất chống oxy hóa"]
-            },
-            {
-                english: "Trait",
-                vietnamese: "Tính trạng",
-                options: ["Tính trạng", "Đặc điểm", "Sự thay đổi", "Hệ gen", "Đột biến"]
-            },
-            {
-                english: "Biodiversity",
-                vietnamese: "Đa dạng sinh học",
-                options: ["Đa dạng sinh học", "Hệ sinh thái", "Sự phát triển", "Đặc tính", "Môi trường"]
-            },
-            {
-                english: "Resistant",
-                vietnamese: "Kháng",
-                options: ["Kháng", "Miễn dịch", "Chịu đựng", "Phát triển", "Tăng trưởng"]
-            },
-            {
-                english: "Aromatic",
-                vietnamese: "Thơm",
-                options: ["Thơm", "Ngọt", "Mặn", "Chua", "Đậm đà"]
-            },
-            {
-                english: "Obscure",
-                vietnamese: "Ít được biết đến",
-                options: ["Ít được biết đến", "Phổ biến", "Nổi tiếng", "Rõ ràng", "Hiển nhiên"]
-            }
+        const vocabulary = [
+            { english: "Domesticate", vietnamese: "Thuần hóa", options: ["Thuần hóa", "Phân hủy", "Kiểm tra", "Tăng trưởng", "Bảo vệ"] },
+            { english: "Domestication", vietnamese: "Sự thuần hóa", options: ["Sự thuần hóa", "Sự phát triển", "Sự phá hủy", "Sự kiểm soát", "Sự đổi mới"] },
+            { english: "CRISPR", vietnamese: "Công cụ chỉnh sửa DNA", options: ["Công cụ chỉnh sửa DNA", "Máy nông nghiệp", "Hóa chất trồng trọt", "Kỹ thuật tưới", "Phân bón"] },
+            { english: "Genome", vietnamese: "Bộ gen", options: ["Bộ gen", "Hạt giống", "Đất trồng", "Cây trồng", "Nước tưới"] },
+            { english: "Genomic", vietnamese: "Thuộc về bộ gen", options: ["Thuộc về bộ gen", "Thuộc về đất", "Thuộc về nước", "Thuộc về cây", "Thuộc về thời tiết"] },
+            { english: "Mutation", vietnamese: "Đột biến", options: ["Đột biến", "Tăng trưởng", "Phát triển", "Thay đổi màu", "Hư hỏng"] },
+            { english: "Nutritious", vietnamese: "Giàu dinh dưỡng", options: ["Giàu dinh dưỡng", "Ngon miệng", "Màu sắc đẹp", "Dễ trồng", "Cứng cáp"] },
+            { english: "Lycopene", vietnamese: "Chất màu đỏ", options: ["Chất màu đỏ", "Vitamin A", "Chất xơ", "Đường tự nhiên", "Chất béo"] },
+            { english: "Trait", vietnamese: "Đặc điểm", options: ["Đặc điểm", "Kích thước", "Mùi vị", "Màu sắc", "Hình dạng"] },
+            { english: "Resistant", vietnamese: "Kháng cự", options: ["Kháng cự", "Yếu ớt", "Dễ vỡ", "Nhanh lớn", "Mềm mại"] },
+            { english: "Resistance", vietnamese: "Sự kháng cự", options: ["Sự kháng cự", "Sự phát triển", "Sự suy yếu", "Sự thay đổi", "Sự bảo vệ"] },
+            { english: "Aromatic", vietnamese: "Thơm", options: ["Thơm", "Chua", "Ngọt", "Đắng", "Mặn"] },
+            { english: "Devastate", vietnamese: "Phá hủy", options: ["Phá hủy", "Xây dựng", "Cải thiện", "Trồng trọt", "Bảo tồn"] },
+            { english: "Strains", vietnamese: "Giống", options: ["Giống", "Cây", "Hạt", "Rễ", "Lá"] },
+            { english: "Truss", vietnamese: "Chùm quả", options: ["Chùm quả", "Cành cây", "Rễ cây", "Lá cây", "Thân cây"] },
+            { english: "Sprawling", vietnamese: "Lan rộng", options: ["Lan rộng", "Gọn gàng", "Cao lớn", "Mọc thẳng", "Nở hoa"] },
+            { english: "Obscure", vietnamese: "Ít người biết", options: ["Ít người biết", "Nổi tiếng", "Dễ thấy", "Phổ biến", "Cổ điển"] },
+            { english: "Regulatory", vietnamese: "Quy định", options: ["Quy định", "Tự do", "Tùy chọn", "Kỹ thuật", "Thực hành"] },
+            { english: "Pigment", vietnamese: "Sắc tố", options: ["Sắc tố", "Hương vị", "Chất dinh dưỡng", "Nước", "Đất"] },
+            { english: "Cultivated", vietnamese: "Được trồng", options: ["Được trồng", "Mọc hoang", "Bị phá", "Được tưới", "Được hái"] },
+            { english: "Biodiversity", vietnamese: "Đa dạng sinh học", options: ["Đa dạng sinh học", "Đất đai", "Nước sạch", "Cây trồng", "Thời tiết"] },
+            { english: "Enhance", vietnamese: "Cải thiện", options: ["Cải thiện", "Làm hỏng", "Giữ nguyên", "Thu nhỏ", "Loại bỏ"] },
+            { english: "Yields", vietnamese: "Năng suất", options: ["Năng suất", "Chất lượng", "Kích thước", "Màu sắc", "Hương vị"] },
+            { english: "Tolerant", vietnamese: "Chịu đựng", options: ["Chịu đựng", "Yếu ớt", "Dễ chết", "Nhanh lớn", "Cứng cáp"] },
+            { english: "Compact", vietnamese: "Gọn gàng", options: ["Gọn gàng", "Lan rộng", "Cao lớn", "Mọc thấp", "Nở hoa"] },
+            { english: "Commercial", vietnamese: "Thương mại", options: ["Thương mại", "Miễn phí", "Cá nhân", "Truyền thống", "Tự nhiên"] },
+            { english: "Mainstream", vietnamese: "Phổ biến", options: ["Phổ biến", "Hiếm có", "Cổ xưa", "Độc đáo", "Bí mật"] },
+            { english: "Drought", vietnamese: "Hạn hán", options: ["Hạn hán", "Lũ lụt", "Mưa lớn", "Nắng ấm", "Gió mạnh"] },
+            { english: "Catapulted", vietnamese: "Được đẩy mạnh", options: ["Được đẩy mạnh", "Bị dừng lại", "Giữ nguyên", "Làm chậm", "Bị hủy"] },
+            { english: "Staple", vietnamese: "Chính yếu", options: ["Chính yếu", "Phụ trợ", "Hiếm có", "Tạm thời", "Thêm vào"] }
         ];
 
         let currentIndex = 0;
 
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         function loadQuestion() {
-            if (currentIndex >= words.length) {
-                document.getElementById('quiz-container').classList.add('hidden');
-                document.getElementById('congrats').classList.remove('hidden');
+            if (currentIndex >= vocabulary.length) {
+                document.querySelector('.english-word').style.display = 'none';
+                document.querySelector('.options').style.display = 'none';
+                document.querySelector('.question-number').style.display = 'none';
+                document.querySelector('.congrats').style.display = 'block';
                 return;
             }
 
-            const word = words[currentIndex];
-            document.getElementById('question').textContent = `${currentIndex + 1}. ${word.english}`;
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
-
-            word.options.forEach(option => {
-                const button = document.createElement('button');
-                button.textContent = option;
-                button.className = 'bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600';
-                button.onclick = () => checkAnswer(option, word.vietnamese);
-                optionsDiv.appendChild(button);
+            const question = vocabulary[currentIndex];
+            document.querySelector('.question-number').textContent = `Question ${currentIndex + 1}`;
+            document.querySelector('.english-word').textContent = question.english;
+            const options = document.querySelectorAll('.option');
+            const shuffledOptions = shuffle([...question.options]);
+            options.forEach((option, index) => {
+                option.textContent = shuffledOptions[index];
+                option.dataset.correct = shuffledOptions[index] === question.vietnamese;
             });
         }
 
-        function checkAnswer(selected, correct) {
-            if (selected === correct) {
+        function checkAnswer(button) {
+            if (button.dataset.correct === "true") {
                 currentIndex++;
                 loadQuestion();
             }
