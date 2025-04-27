@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Country and Adjective Practice</title>
+    <title>Học Ngày Giờ</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-        #flag, #adjective {
-            width: 100px;
-            height: 100px;
-            margin: 10px;
+        #timeDisplay {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
         }
         button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 1.2em;
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
@@ -30,47 +32,33 @@
         button:hover {
             background-color: #45a049;
         }
-        #sentence {
-            font-size: 24px;
-            margin: 20px 0;
-        }
     </style>
 </head>
 <body>
-    <h1>Practice Your Sentence!</h1>
-    <img id="flag" src="https://flagcdn.com/w320/jp.png" alt="Flag">
-    <img id="adjective" src="https://img.icons8.com/color/100/000000/brain.png" alt="Adjective">
-    <p id="sentence">I am from Japan and I am smart.</p>
-    <button onclick="generateSentence()">New Sentence</button>
+    <div id="timeDisplay">Nhấn "New" để bắt đầu</div>
+    <button onclick="generateRandomTime()">New</button>
 
     <script>
-        const countries = [
-            { name: "Japan", flag: "https://flagcdn.com/w320/jp.png" },
-            { name: "Taiwan", flag: "https://flagcdn.com/w320/tw.png" },
-            { name: "China", flag: "https://flagcdn.com/w320/cn.png" },
-            { name: "USA", flag: "https://flagcdn.com/w320/us.png" },
-            { name: "UK", flag: "https://flagcdn.com/w320/gb.png" }
-        ];
+        function generateRandomTime() {
+            // Tạo ngày giờ ngẫu nhiên từ 2000 đến 2025
+            const start = new Date(2000, 0, 1);
+            const end = new Date(2025, 11, 31);
+            const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
-        const adjectives = [
-            { name: "smart", icon: "https://img.icons8.com/color/100/000000/brain.png" },
-            { name: "pretty", icon: "https://img.icons8.com/color/100/000000/girl.png" },
-            { name: "tall", icon: "https://img.icons8.com/color/100/000000/giraffe.png" }
-        ];
+            // Lấy thông tin
+            const hours = randomDate.getHours().toString().padStart(2, '0');
+            const minutes = randomDate.getMinutes().toString().padStart(2, '0');
+            const date = randomDate.getDate().toString().padStart(2, '0');
+            const month = (randomDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = randomDate.getFullYear();
 
-        function getRandomItem(array) {
-            return array[Math.floor(Math.random() * array.length)];
-        }
+            // Tạo mảng thứ bằng tiếng Việt
+            const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+            const day = days[randomDate.getDay()];
 
-        function generateSentence() {
-            const country = getRandomItem(countries);
-            const adjective = getRandomItem(adjectives);
-
-            document.getElementById("flag").src = country.flag;
-            document.getElementById("flag").alt = country.name;
-            document.getElementById("adjective").src = adjective.icon;
-            document.getElementById("adjective").alt = adjective.name;
-            document.getElementById("sentence").textContent = `I am from ${country.name} and I am ${adjective.name}.`;
+            // Hiển thị
+            const displayText = `${hours}:${minutes}, ${day}, ${date}/${month}/${year}`;
+            document.getElementById('timeDisplay').textContent = displayText;
         }
     </script>
 </body>
