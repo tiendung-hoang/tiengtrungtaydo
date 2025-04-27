@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Ngày Giờ</title>
+    <title>Chinese Sentence Practice</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,51 +15,87 @@
             margin: 0;
             background-color: #f0f0f0;
         }
-        #timeDisplay {
+        #display {
             font-size: 2em;
             margin-bottom: 20px;
             text-align: center;
         }
         button {
             padding: 10px 20px;
-            font-size: 1.2em;
+            font-size: 1em;
+            margin: 10px;
             cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
             border: none;
             border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
         }
         button:hover {
             background-color: #45a049;
         }
+        #showButton {
+            background-color: #2196F3;
+        }
+        #showButton:hover {
+            background-color: #1e88e5;
+        }
+        #textDisplay {
+            font-size: 1.2em;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div id="timeDisplay">Nhấn "New" để bắt đầu</div>
-    <button onclick="generateRandomTime()">New</button>
+    <div id="display"></div>
+    <div id="textDisplay"></div>
+    <button onclick="generateSentence()">New</button>
+    <button id="showButton" onclick="toggleText()">Show</button>
 
     <script>
-        function generateRandomTime() {
-            // Tạo ngày giờ ngẫu nhiên từ 2000 đến 2025
-            const start = new Date(2000, 0, 1);
-            const end = new Date(2025, 11, 31);
-            const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        const characters = [
+            { emoji: "👧", pronoun: "她" },
+            { emoji: "👦", pronoun: "他" }
+        ];
 
-            // Lấy thông tin
-            const hours = randomDate.getHours().toString().padStart(2, '0');
-            const minutes = randomDate.getMinutes().toString().padStart(2, '0');
-            const date = randomDate.getDate().toString().padStart(2, '0');
-            const month = (randomDate.getMonth() + 1).toString().padStart(2, '0');
-            const year = randomDate.getFullYear();
+        const actions = [
+            { emoji: "💼", text: "上班", pinyin: "shàng bān" },
+            { emoji: "🏢", text: "下班", pinyin: "xià bān" },
+            { emoji: "🏠", text: "回家", pinyin: "huí jiā" },
+            { emoji: "🏫", text: "去学校", pinyin: "qù xué xiào" },
+            { emoji: "🍽️", text: "吃饭", pinyin: "chī fàn" },
+            { emoji: "🍎", text: "吃水果", pinyin: "chī shuǐ guǒ" },
+            { emoji: "💧", text: "喝水", pinyin: "hē shuǐ" },
+            { emoji: "🧋", text: "喝奶茶", pinyin: "hē nǎi chá" }
+        ];
 
-            // Tạo mảng thứ bằng tiếng Việt
-            const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
-            const day = days[randomDate.getDay()];
-
-            // Hiển thị
-            const displayText = `${hours}:${minutes}, ${day}, ${date}/${month}/${year}`;
-            document.getElementById('timeDisplay').textContent = displayText;
+        function getRandomTime() {
+            const hours = Math.floor(Math.random() * 12) + 1;
+            const period = Math.random() < 0.5 ? "上午" : "下午";
+            const periodPinyin = period === "上午" ? "shàng wǔ" : "xià wǔ";
+            return { time: `${period} ${hours}点`, pinyin: `${periodPinyin} ${hours} diǎn` };
         }
+
+        function generateSentence() {
+            const character = characters[Math.floor(Math.random() * characters.length)];
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            const time = getRandomTime();
+            const displayText = `${character.emoji} ${time.time} ${action.emoji}`;
+            const fullText = `${character.pronoun} ${time.time} ${action.text}`;
+            const pinyinText = `${character.pronoun} ${time.pinyin} ${action.pinyin}`;
+            
+            document.getElementById('display').innerText = displayText;
+            document.getElementById('textDisplay').innerHTML = `${fullText}<br>${pinyinText}`;
+            document.getElementById('textDisplay').style.display = 'none';
+        }
+
+        function toggleText() {
+            const textDisplay = document.getElementById('textDisplay');
+            textDisplay.style.display = textDisplay.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Generate initial sentence on page load
+        generateSentence();
     </script>
 </body>
 </html>
