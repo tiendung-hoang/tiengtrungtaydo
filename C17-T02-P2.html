@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English-Vietnamese Vocabulary Quiz</title>
+    <title>Stadiums Vocabulary Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,36 +72,46 @@
 
     <script>
         const vocabulary = [
-            { english: "Domesticate", vietnamese: "Thuần hóa", options: ["Thuần hóa", "Phân hủy", "Kiểm tra", "Tăng trưởng", "Bảo vệ"] },
-            { english: "Domestication", vietnamese: "Sự thuần hóa", options: ["Sự thuần hóa", "Sự phát triển", "Sự phá hủy", "Sự kiểm soát", "Sự đổi mới"] },
-            { english: "CRISPR", vietnamese: "Công cụ chỉnh sửa DNA", options: ["Công cụ chỉnh sửa DNA", "Máy nông nghiệp", "Hóa chất trồng trọt", "Kỹ thuật tưới", "Phân bón"] },
-            { english: "Genome", vietnamese: "Bộ gen", options: ["Bộ gen", "Hạt giống", "Đất trồng", "Cây trồng", "Nước tưới"] },
-            { english: "Genomic", vietnamese: "Thuộc về bộ gen", options: ["Thuộc về bộ gen", "Thuộc về đất", "Thuộc về nước", "Thuộc về cây", "Thuộc về thời tiết"] },
-            { english: "Mutation", vietnamese: "Đột biến", options: ["Đột biến", "Tăng trưởng", "Phát triển", "Thay đổi màu", "Hư hỏng"] },
-            { english: "Nutritious", vietnamese: "Giàu dinh dưỡng", options: ["Giàu dinh dưỡng", "Ngon miệng", "Màu sắc đẹp", "Dễ trồng", "Cứng cáp"] },
-            { english: "Lycopene", vietnamese: "Chất màu đỏ", options: ["Chất màu đỏ", "Vitamin A", "Chất xơ", "Đường tự nhiên", "Chất béo"] },
-            { english: "Trait", vietnamese: "Đặc điểm", options: ["Đặc điểm", "Kích thước", "Mùi vị", "Màu sắc", "Hình dạng"] },
-            { english: "Resistant", vietnamese: "Kháng cự", options: ["Kháng cự", "Yếu ớt", "Dễ vỡ", "Nhanh lớn", "Mềm mại"] },
-            { english: "Resistance", vietnamese: "Sự kháng cự", options: ["Sự kháng cự", "Sự phát triển", "Sự suy yếu", "Sự thay đổi", "Sự bảo vệ"] },
-            { english: "Aromatic", vietnamese: "Thơm", options: ["Thơm", "Chua", "Ngọt", "Đắng", "Mặn"] },
-            { english: "Devastate", vietnamese: "Phá hủy", options: ["Phá hủy", "Xây dựng", "Cải thiện", "Trồng trọt", "Bảo tồn"] },
-            { english: "Strains", vietnamese: "Giống", options: ["Giống", "Cây", "Hạt", "Rễ", "Lá"] },
-            { english: "Truss", vietnamese: "Chùm quả", options: ["Chùm quả", "Cành cây", "Rễ cây", "Lá cây", "Thân cây"] },
-            { english: "Sprawling", vietnamese: "Lan rộng", options: ["Lan rộng", "Gọn gàng", "Cao lớn", "Mọc thẳng", "Nở hoa"] },
-            { english: "Obscure", vietnamese: "Ít người biết", options: ["Ít người biết", "Nổi tiếng", "Dễ thấy", "Phổ biến", "Cổ điển"] },
-            { english: "Regulatory", vietnamese: "Quy định", options: ["Quy định", "Tự do", "Tùy chọn", "Kỹ thuật", "Thực hành"] },
-            { english: "Pigment", vietnamese: "Sắc tố", options: ["Sắc tố", "Hương vị", "Chất dinh dưỡng", "Nước", "Đất"] },
-            { english: "Cultivated", vietnamese: "Được trồng", options: ["Được trồng", "Mọc hoang", "Bị phá", "Được tưới", "Được hái"] },
-            { english: "Biodiversity", vietnamese: "Đa dạng sinh học", options: ["Đa dạng sinh học", "Đất đai", "Nước sạch", "Cây trồng", "Thời tiết"] },
-            { english: "Enhance", vietnamese: "Cải thiện", options: ["Cải thiện", "Làm hỏng", "Giữ nguyên", "Thu nhỏ", "Loại bỏ"] },
-            { english: "Yields", vietnamese: "Năng suất", options: ["Năng suất", "Chất lượng", "Kích thước", "Màu sắc", "Hương vị"] },
-            { english: "Tolerant", vietnamese: "Chịu đựng", options: ["Chịu đựng", "Yếu ớt", "Dễ chết", "Nhanh lớn", "Cứng cáp"] },
-            { english: "Compact", vietnamese: "Gọn gàng", options: ["Gọn gàng", "Lan rộng", "Cao lớn", "Mọc thấp", "Nở hoa"] },
-            { english: "Commercial", vietnamese: "Thương mại", options: ["Thương mại", "Miễn phí", "Cá nhân", "Truyền thống", "Tự nhiên"] },
-            { english: "Mainstream", vietnamese: "Phổ biến", options: ["Phổ biến", "Hiếm có", "Cổ xưa", "Độc đáo", "Bí mật"] },
-            { english: "Drought", vietnamese: "Hạn hán", options: ["Hạn hán", "Lũ lụt", "Mưa lớn", "Nắng ấm", "Gió mạnh"] },
-            { english: "Catapulted", vietnamese: "Được đẩy mạnh", options: ["Được đẩy mạnh", "Bị dừng lại", "Giữ nguyên", "Làm chậm", "Bị hủy"] },
-            { english: "Staple", vietnamese: "Chính yếu", options: ["Chính yếu", "Phụ trợ", "Hiếm có", "Tạm thời", "Thêm vào"] }
+            { english: "Architecture", vietnamese: "Kiến trúc", options: ["Kiến trúc", "Trang trí", "Xây dựng", "Vẽ tranh", "Thiết kế nội thất"] },
+            { english: "Scepticism", vietnamese: "Sự nghi ngờ", options: ["Sự nghi ngờ", "Sự tin tưởng", "Sự phấn khích", "Sự đồng ý", "Sự hiểu biết"] },
+            { english: "Medieval", vietnamese: "Thời trung cổ", options: ["Thời trung cổ", "Thời hiện đại", "Thời cổ đại", "Thời phục hưng", "Thời tương lai"] },
+            { english: "Cathedrals", vietnamese: "Nhà thờ lớn", options: ["Nhà thờ lớn", "Cung điện", "Chợ", "Trường học", "Bệnh viện"] },
+            { english: "Emblematic", vietnamese: "Biểu tượng", options: ["Biểu tượng", "Bình thường", "Ẩn giấu", "Không quan trọng", "Tạm thời"] },
+            { english: "Modernisation", vietnamese: "Hiện đại hóa", options: ["Hiện đại hóa", "Cổ điển hóa", "Bảo tồn", "Phá hủy", "Đơn giản hóa"] },
+            { english: "Disuse", vietnamese: "Không sử dụng", options: ["Không sử dụng", "Sử dụng nhiều", "Bảo trì", "Xây mới", "Trang trí"] },
+            { english: "Disrepair", vietnamese: "Hư hỏng", options: ["Hư hỏng", "Sửa chữa", "Mới xây", "Sạch sẽ", "Hoàn hảo"] },
+            { english: "Versatile", vietnamese: "Đa năng", options: ["Đa năng", "Cố định", "Hạn chế", "Đơn giản", "Phức tạp"] },
+            { english: "Fortress", vietnamese: "Pháo đài", options: ["Pháo đài", "Nhà ở", "Công viên", "Chợ", "Trường học"] },
+            { english: "Conservation", vietnamese: "Bảo tồn", options: ["Bảo tồn", "Phá hủy", "Xây dựng", "Trang trí", "Khai thác"] },
+            { english: "Spectacles", vietnamese: "Buổi trình diễn", options: ["Buổi trình diễn", "Cuộc họp", "Lớp học", "Chợ", "Bệnh viện"] },
+            { english: "Acoustics", vietnamese: "Âm thanh", options: ["Âm thanh", "Ánh sáng", "Màu sắc", "Kích thước", "Hình dạng"] },
+            { english: "Imposing", vietnamese: "Ấn tượng", options: ["Ấn tượng", "Bình thường", "Nhỏ bé", "Ẩn giấu", "Đơn giản"] },
+            { english: "Endured", vietnamese: "Tồn tại", options: ["Tồn tại", "Biến mất", "Hư hỏng", "Mới xây", "Sụp đổ"] },
+            { english: "Evolved", vietnamese: "Phát triển", options: ["Phát triển", "Thu nhỏ", "Giữ nguyên", "Hủy bỏ", "Bị phá"] },
+            { english: "Progressively", vietnamese: "Dần dần", options: ["Dần dần", "Nhanh chóng", "Đột ngột", "Không đổi", "Ngẫu nhiên"] },
+            { english: "Depot", vietnamese: "Kho", options: ["Kho", "Nhà ở", "Cửa hàng", "Công viên", "Trường học"] },
+            { english: "Romanticist", vietnamese: "Lãng mạn", options: ["Lãng mạn", "Thực tế", "Cổ điển", "Hiện đại", "Tối giản"] },
+            { english: "Embedded", vietnamese: "Gắn liền", options: ["Gắn liền", "Tách rời", "Di chuyển", "Ẩn giấu", "Phá bỏ"] },
+            { english: "Flexibility", vietnamese: "Linh hoạt", options: ["Linh hoạt", "Cứng nhắc", "Hạn chế", "Đơn giản", "Phức tạp"] },
+            { english: "Reinforced", vietnamese: "Gia cố", options: ["Gia cố", "Làm yếu", "Phá hủy", "Trang trí", "Thay đổi"] },
+            { english: "Suburban", vietnamese: "Ngoại ô", options: ["Ngoại ô", "Trung tâm", "Nông thôn", "Thành phố", "Ven biển"] },
+            { english: "Accessible", vietnamese: "Dễ tiếp cận", options: ["Dễ tiếp cận", "Khó tiếp cận", "Ẩn giấu", "Nguy hiểm", "Cấm vào"] },
+            { english: "Contribute", vietnamese: "Góp phần", options: ["Góp phần", "Ngăn cản", "Loại bỏ", "Thay thế", "Bỏ qua"] },
+            { english: "Innovative", vietnamese: "Sáng tạo", options: ["Sáng tạo", "Cũ kỹ", "Bình thường", "Truyền thống", "Đơn giản"] },
+            { english: "Strategies", vietnamese: "Chiến lược", options: ["Chiến lược", "Kế hoạch nhỏ", "Ý tưởng", "Sai lầm", "Thử nghiệm"] },
+            { english: "Hub", vietnamese: "Trung tâm", options: ["Trung tâm", "Khu vực nhỏ", "Ngoại vi", "Khu vực riêng", "Công viên"] },
+            { english: "Reinforces", vietnamese: "Củng cố", options: ["Củng cố", "Làm yếu", "Phá hủy", "Trang trí", "Thay đổi"] },
+            { english: "Compactness", vietnamese: "Sự gọn gàng", options: ["Sự gọn gàng", "Sự lan rộng", "Sự phức tạp", "Sự đơn giản", "Sự lớn mạnh"] },
+            { english: "Regenerate", vietnamese: "Tái tạo", options: ["Tái tạo", "Phá hủy", "Giữ nguyên", "Làm nhỏ", "Bỏ đi"] },
+            { english: "Catering", vietnamese: "Phục vụ", options: ["Phục vụ", "Cạnh tranh", "Xây dựng", "Trang trí", "Kiểm tra"] },
+            { english: "Blueprint", vietnamese: "Kế hoạch mẫu", options: ["Kế hoạch mẫu", "Bản vẽ", "Ý tưởng", "Sai lầm", "Thử nghiệm"] },
+            { english: "Phenomenon", vietnamese: "Hiện tượng", options: ["Hiện tượng", "Sự kiện", "Tình huống", "Vấn đề", "Kết quả"] },
+            { english: "Interconnected", vietnamese: "Kết nối", options: ["Kết nối", "Tách rời", "Độc lập", "Ẩn giấu", "Phá bỏ"] },
+            { english: "Photovoltaic", vietnamese: "Quang điện", options: ["Quang điện", "Năng lượng gió", "Năng lượng nước", "Nhiên liệu", "Hóa học"] },
+            { english: "Canopies", vietnamese: "Mái che", options: ["Mái che", "Tường", "Sàn nhà", "Cửa sổ", "Cột trụ"] },
+            { english: "Inaugurated", vietnamese: "Khánh thành", options: ["Khánh thành", "Phá hủy", "Xây dựng", "Sửa chữa", "Đóng cửa"] },
+            { english: "Emissions", vietnamese: "Khí thải", options: ["Khí thải", "Nước thải", "Rác thải", "Ánh sáng", "Âm thanh"] },
+            { english: "Sustainable", vietnamese: "Bền vững", options: ["Bền vững", "Tạm thời", "Nguy hiểm", "Phá hủy", "Hạn chế"] }
         ];
 
         let currentIndex = 0;
