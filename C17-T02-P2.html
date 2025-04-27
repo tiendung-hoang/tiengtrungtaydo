@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="quiz-container" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center mb-4">Vocabulary Quiz</h1>
+        <div id="question" class="text-xl font-semibold text-center mb-4"></div>
+        <div id="options" class="flex flex-col gap-2"></div>
+    </div>
+    <div id="congrats" class="hidden bg-green-100 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+        <h1 class="text-2xl font-bold text-green-700">Congratulations!</h1>
+        <p class="text-lg">You have completed the vocabulary quiz!</p>
+    </div>
+
+    <script>
+        const words = [
+            {
+                english: "Domesticate",
+                vietnamese: "Thuần hóa",
+                options: ["Thuần hóa", "Phát triển", "Biến đổi", "Trồng trọt", "Khai thác"]
+            },
+            {
+                english: "CRISPR",
+                vietnamese: "Công nghệ chỉnh sửa gen",
+                options: ["Công nghệ chỉnh sửa gen", "Hệ gen", "Biến đổi di truyền", "Công nghệ sinh học", "Kỹ thuật lai tạo"]
+            },
+            {
+                english: "Genome",
+                vietnamese: "Hệ gen",
+                options: ["Hệ gen", "Đột biến", "Di truyền", "Tính trạng", "Sắc tố"]
+            },
+            {
+                english: "Mutation",
+                vietnamese: "Đột biến",
+                options: ["Đột biến", "Tính trạng", "Hệ gen", "Sự phát triển", "Sự thay đổi"]
+            },
+            {
+                english: "Lycopene",
+                vietnamese: "Sắc tố đỏ",
+                options: ["Sắc tố đỏ", "Vitamin C", "Chất thơm", "Chất dinh dưỡng", "Chất chống oxy hóa"]
+            },
+            {
+                english: "Trait",
+                vietnamese: "Tính trạng",
+                options: ["Tính trạng", "Đặc điểm", "Sự thay đổi", "Hệ gen", "Đột biến"]
+            },
+            {
+                english: "Biodiversity",
+                vietnamese: "Đa dạng sinh học",
+                options: ["Đa dạng sinh học", "Hệ sinh thái", "Sự phát triển", "Đặc tính", "Môi trường"]
+            },
+            {
+                english: "Resistant",
+                vietnamese: "Kháng",
+                options: ["Kháng", "Miễn dịch", "Chịu đựng", "Phát triển", "Tăng trưởng"]
+            },
+            {
+                english: "Aromatic",
+                vietnamese: "Thơm",
+                options: ["Thơm", "Ngọt", "Mặn", "Chua", "Đậm đà"]
+            },
+            {
+                english: "Obscure",
+                vietnamese: "Ít được biết đến",
+                options: ["Ít được biết đến", "Phổ biến", "Nổi tiếng", "Rõ ràng", "Hiển nhiên"]
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function loadQuestion() {
+            if (currentIndex >= words.length) {
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('congrats').classList.remove('hidden');
+                return;
+            }
+
+            const word = words[currentIndex];
+            document.getElementById('question').textContent = `${currentIndex + 1}. ${word.english}`;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            word.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600';
+                button.onclick = () => checkAnswer(option, word.vietnamese);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                currentIndex++;
+                loadQuestion();
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
