@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chinese Sentence Practice</title>
+    <title>Chinese Quantifier Practice</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,6 +19,13 @@
             font-size: 2em;
             margin-bottom: 20px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .far {
+            margin: 0 30px;
         }
         button {
             padding: 10px 20px;
@@ -43,6 +50,7 @@
             font-size: 1.2em;
             margin-top: 10px;
             display: none;
+            text-align: center;
         }
     </style>
 </head>
@@ -54,38 +62,37 @@
 
     <script>
         const characters = [
-            { emoji: "👧", pronoun: "她" },
-            { emoji: "👦", pronoun: "他" },
-            { emoji: "🙋", pronoun: "我" }
+            { emoji: "🙋", pronoun: "我", pinyin: "wǒ" },
+            { emoji: "👧", pronoun: "我", pinyin: "wǒ" },
+            { emoji: "👦", pronoun: "我", pinyin: "wǒ" }
         ];
 
-        const actions = [
-            { emoji: "💼", text: "上班", pinyin: "shàng bān" },
-            { emoji: "🏢", text: "下班", pinyin: "xià bān" },
-            { emoji: "🏠", text: "回家", pinyin: "huí jiā" },
-            { emoji: "🏫", text: "去学校", pinyin: "qù xué xiào" },
-            { emoji: "🍽️", text: "吃饭", pinyin: "chī fàn" },
-            { emoji: "🍎", text: "吃水果", pinyin: "chī shuǐ guǒ" },
-            { emoji: "💧", text: "喝水", pinyin: "hē shuǐ" },
-            { emoji: "🧋", text: "喝奶茶", pinyin: "hē nǎi chá" }
+        const items = [
+            { emoji: "🍎", text: "苹果", pinyin: "píng guǒ", quantifier: "個", quantifierPinyin: "gè" },
+            { emoji: "📚", text: "书", pinyin: "shū", quantifier: "本", quantifierPinyin: "běn" },
+            { emoji: "🐶", text: "狗", pinyin: "gǒu", quantifier: "只", quantifierPinyin: "zhī" },
+            { emoji: "🐱", text: "猫", pinyin: "māo", quantifier: "只", quantifierPinyin: "zhī" },
+            { emoji: "🌸", text: "花", pinyin: "huā", quantifier: "朵", quantifierPinyin: "duǒ" }
         ];
 
-        function getRandomTime() {
-            const hours = Math.floor(Math.random() * 12) + 1;
-            const period = Math.random() < 0.5 ? "上午" : "下午";
-            const periodPinyin = period === "上午" ? "shàng wǔ" : "xià wǔ";
-            return { time: `${period} ${hours}点`, pinyin: `${periodPinyin} ${hours} diǎn` };
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
         }
 
         function generateSentence() {
             const character = characters[Math.floor(Math.random() * characters.length)];
-            const action = actions[Math.floor(Math.random() * actions.length)];
-            const time = getRandomTime();
-            const displayText = `${character.emoji} ${time.time} ${action.emoji}`;
-            const fullText = `${character.pronoun} ${time.time} ${action.text}`;
-            const pinyinText = `${character.pronoun} ${time.pinyin} ${action.pinyin}`;
+            const item = items[Math.floor(Math.random() * items.length)];
+            const number = getRandomNumber();
+            const isNear = Math.random() < 0.5;
+            const itemPart = `${number} ${item.quantifier} ${item.emoji}`;
+            const displayText = isNear 
+                ? `${character.emoji} ${itemPart}` 
+                : `${character.emoji}<span class="far"></span>${itemPart}`;
             
-            document.getElementById('display').innerText = displayText;
+            const fullText = `我有 ${number} ${item.quantifier} ${item.text}`;
+            const pinyinText = `wǒ yǒu ${number} ${item.quantifierPinyin} ${item.pinyin}`;
+            
+            document.getElementById('display').innerHTML = displayText;
             document.getElementById('textDisplay').innerHTML = `${fullText}<br>${pinyinText}`;
             document.getElementById('textDisplay').style.display = 'none';
         }
