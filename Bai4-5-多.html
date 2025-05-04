@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Cấu Trúc 多 Tiếng Trung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .item-container { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Học Cấu Trúc 多 Tiếng Trung</h1>
+    <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">
+        New
+    </button>
+    <div id="quantity" class="text-xl mb-4"></div>
+
+    <script>
+        const items = [
+            { icon: '☕', hanzi: '杯咖啡', pinyin: 'bēi kāfēi' },
+            { icon: '🍗', hanzi: '盘鸡肉', pinyin: 'pán jīròu' },
+            { icon: '✍️', hanzi: '支笔', pinyin: 'zhī bǐ' },
+            { icon: '📱', hanzi: '个手机', pinyin: 'gè shǒujī' },
+            { icon: '🌸', hanzi: '朵花', pinyin: 'duǒ huā' },
+            { icon: '📚', hanzi: '本书', pinyin: 'běn shū' }
+        ];
+
+        const numbers = [
+  { "value": 2, "hanzi": "两", "pinyin": "liǎng" },
+  { "value": 3, "hanzi": "三", "pinyin": "sān" },
+  { "value": 4, "hanzi": "四", "pinyin": "sì" },
+  { "value": 5, "hanzi": "五", "pinyin": "wǔ" },
+  { "value": 6, "hanzi": "六", "pinyin": "liù" },
+  { "value": 7, "hanzi": "七", "pinyin": "qī" },
+  { "value": 8, "hanzi": "八", "pinyin": "bā" },
+  { "value": 9, "hanzi": "九", "pinyin": "jiǔ" },
+  { "value": 10, "hanzi": "十", "pinyin": "shí" },
+  { "value": 11, "hanzi": "十一", "pinyin": "shí yī" },
+  { "value": 12, "hanzi": "十二", "pinyin": "shí èr" },
+  { "value": 13, "hanzi": "十三", "pinyin": "shí sān" },
+  { "value": 14, "hanzi": "十四", "pinyin": "shí sì" },
+  { "value": 15, "hanzi": "十五", "pinyin": "shí wǔ" },
+  { "value": 16, "hanzi": "十六", "pinyin": "shí liù" },
+  { "value": 17, "hanzi": "十七", "pinyin": "shí qī" },
+  { "value": 18, "hanzi": "十八", "pinyin": "shí bā" },
+  { "value": 19, "hanzi": "十九", "pinyin": "shí jiǔ" },
+  { "value": 20, "hanzi": "二十", "pinyin": "èr shí" },
+  { "value": 21, "hanzi": "二十一", "pinyin": "èr shí yī" },
+  { "value": 22, "hanzi": "二十二", "pinyin": "èr shí èr" },
+  { "value": 23, "hanzi": "二十三", "pinyin": "èr shí sān" },
+  { "value": 24, "hanzi": "二十四", "pinyin": "èr shí sì" },
+  { "value": 25, "hanzi": "二十五", "pinyin": "èr shí wǔ" },
+  { "value": 26, "hanzi": "二十六", "pinyin": "èr shí liù" },
+  { "value": 27, "hanzi": "二十七", "pinyin": "èr shí qī" },
+  { "value": 28, "hanzi": "二十八", "pinyin": "èr shí bā" },
+  { "value": 29, "hanzi": "二十九", "pinyin": "èr shí jiǔ" },
+  { "value": 30, "hanzi": "三十", "pinyin": "sān shí" },
+  { "value": 31, "hanzi": "三十一", "pinyin": "sān shí yī" },
+  { "value": 32, "hanzi": "三十二", "pinyin": "sān shí èr" },
+  { "value": 33, "hanzi": "三十三", "pinyin": "sān shí sān" },
+  { "value": 34, "hanzi": "三十四", "pinyin": "sān shí sì" },
+  { "value": 35, "hanzi": "三十五", "pinyin": "sān shí wǔ" },
+  { "value": 36, "hanzi": "三十六", "pinyin": "sān shí liù" },
+  { "value": 37, "hanzi": "三十七", "pinyin": "sān shí qī" },
+  { "value": 38, "hanzi": "三十八", "pinyin": "sān shí bā" },
+  { "value": 39, "hanzi": "三十九", "pinyin": "sān shí jiǔ" },
+  { "value": 40, "hanzi": "四十", "pinyin": "sì shí" },
+  { "value": 41, "hanzi": "四十一", "pinyin": "sì shí yī" },
+  { "value": 42, "hanzi": "四十二", "pinyin": "sì shí èr" },
+  { "value": 43, "hanzi": "四十三", "pinyin": "sì shí sān" },
+  { "value": 44, "hanzi": "四十四", "pinyin": "sì shí sì" },
+  { "value": 45, "hanzi": "四十五", "pinyin": "sì shí wǔ" },
+  { "value": 46, "hanzi": "四十六", "pinyin": "sì shí liù" },
+  { "value": 47, "hanzi": "四十七", "pinyin": "sì shí qī" },
+  { "value": 48, "hanzi": "四十八", "pinyin": "sì shí bā" },
+  { "value": 49, "hanzi": "四十九", "pinyin": "sì shí jiǔ" },
+  { "value": 50, "hanzi": "五十", "pinyin": "wǔ shí" },
+  { "value": 51, "hanzi": "五十一", "pinyin": "wǔ shí yī" },
+  { "value": 52, "hanzi": "五十二", "pinyin": "wǔ shí èr" },
+  { "value": 53, "hanzi": "五十三", "pinyin": "wǔ shí sān" },
+  { "value": 54, "hanzi": "五十四", "pinyin": "wǔ shí sì" },
+  { "value": 55, "hanzi": "五十五", "pinyin": "wǔ shí wǔ" },
+  { "value": 56, "hanzi": "五十六", "pinyin": "wǔ shí liù" },
+  { "value": 57, "hanzi": "五十七", "pinyin": "wǔ shí qī" },
+  { "value": 58, "hanzi": "五十八", "pinyin": "wǔ shí bā" },
+  { "value": 59, "hanzi": "五十九", "pinyin": "wǔ shí jiǔ" },
+  { "value": 60, "hanzi": "六十", "pinyin": "liù shí" },
+  { "value": 61, "hanzi": "六十一", "pinyin": "liù shí yī" },
+  { "value": 62, "hanzi": "六十二", "pinyin": "liù shí èr" },
+  { "value": 63, "hanzi": "六十三", "pinyin": "liù shí sān" },
+  { "value": 64, "hanzi": "六十四", "pinyin": "liù shí sì" },
+  { "value": 65, "hanzi": "六十五", "pinyin": "liù shí wǔ" },
+  { "value": 66, "hanzi": "六十六", "pinyin": "liù shí liù" },
+  { "value": 67, "hanzi": "六十七", "pinyin": "liù shí qī" },
+  { "value": 68, "hanzi": "六十八", "pinyin": "liù shí bā" },
+  { "value": 69, "hanzi": "六十九", "pinyin": "liù shí jiǔ" },
+  { "value": 70, "hanzi": "七十", "pinyin": "qī shí" },
+  { "value": 71, "hanzi": "七十一", "pinyin": "qī shí yī" },
+  { "value": 72, "hanzi": "七十二", "pinyin": "qī shí èr" },
+  { "value": 73, "hanzi": "七十三", "pinyin": "qī shí sān" },
+  { "value": 74, "hanzi": "七十四", "pinyin": "qī shí sì" },
+  { "value": 75, "hanzi": "七十五", "pinyin": "qī shí wǔ" },
+  { "value": 76, "hanzi": "七十六", "pinyin": "qī shí liù" },
+  { "value": 77, "hanzi": "七十七", "pinyin": "qī shí qī" },
+  { "value": 78, "hanzi": "七十八", "pinyin": "qī shí bā" },
+  { "value": 79, "hanzi": "七十九", "pinyin": "qī shí jiǔ" },
+  { "value": 80, "hanzi": "八十", "pinyin": "bā shí" },
+  { "value": 81, "hanzi": "八十一", "pinyin": "bā shí yī" },
+  { "value": 82, "hanzi": "八十二", "pinyin": "bā shí èr" },
+  { "value": 83, "hanzi": "八十三", "pinyin": "bā shí sān" },
+  { "value": 84, "hanzi": "八十四", "pinyin": "bā shí sì" },
+  { "value": 85, "hanzi": "八十五", "pinyin": "bā shí wǔ" },
+  { "value": 86, "hanzi": "八十六", "pinyin": "bā shí liù" },
+  { "value": 87, "hanzi": "八十七", "pinyin": "bā shí qī" },
+  { "value": 88, "hanzi": "八十八", "pinyin": "bā shí bā" },
+  { "value": 89, "hanzi": "八十九", "pinyin": "bā shí jiǔ" },
+  { "value": 90, "hanzi": "九十", "pinyin": "jiǔ shí" },
+  { "value": 91, "hanzi": "九十一", "pinyin": "jiǔ shí yī" },
+  { "value": 92, "hanzi": "九十二", "pinyin": "jiǔ shí èr" },
+  { "value": 93, "hanzi": "九十三", "pinyin": "jiǔ shí sān" },
+  { "value": 94, "hanzi": "九十四", "pinyin": "jiǔ shí sì" },
+  { "value": 95, "hanzi": "九十五", "pinyin": "jiǔ shí wǔ" },
+  { "value": 96, "hanzi": "九十六", "pinyin": "jiǔ shí liù" },
+  { "value": 97, "hanzi": "九十七", "pinyin": "jiǔ shí qī" },
+  { "value": 98, "hanzi": "九十八", "pinyin": "jiǔ shí bā" },
+  { "value": 99, "hanzi": "九十九", "pinyin": "jiǔ shí jiǔ" },
+  { "value": 100, "hanzi": "一百", "pinyin": "yī bǎi" }
+        ];
+
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generateQuantity() {
+            const number = getRandom(numbers);
+            const item = getRandom(items);
+            const quantityDiv = document.getElementById('quantity');
+            quantityDiv.innerHTML = `
+                <div class="item-container">
+                    ${number.value} ${item.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${number.hanzi}${item.hanzi} (${number.pinyin} ${item.pinyin})</span>
+                </div>
+                <span class="mx-2">多</span>
+            `;
+
+            // Add event listener to the show button
+            const showBtn = quantityDiv.querySelector('.showBtn');
+            showBtn.addEventListener('click', () => {
+                const textSpan = showBtn.nextElementSibling;
+                textSpan.classList.toggle('hidden-text');
+                textSpan.classList.toggle('show-text');
+                showBtn.textContent = textSpan.classList.contains('show-text') ? 'Hide' : 'Show';
+            });
+        }
+
+        document.getElementById('newBtn').addEventListener('click', generateQuantity);
+
+        // Generate initial quantity
+        generateQuantity();
+    </script>
+</body>
+</html>
