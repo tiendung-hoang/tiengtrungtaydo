@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Cấu Trúc 也 Tiếng Trung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .item-container { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Học Cấu Trúc 也 Tiếng Trung</h1>
+    <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">
+        New
+    </button>
+    <div id="sentence" class="text-xl mb-4"></div>
+
+    <script>
+        const pairs = [
+            [
+                { icon: '😊', hanzi: '漂亮', pinyin: 'piàoliang' },
+                { icon: '🥰', hanzi: '可爱', pinyin: 'kě\'ài' }
+            ],
+            [
+                { icon: '📏', hanzi: '高', pinyin: 'gāo' },
+                { icon: '🧠', hanzi: '聪明', pinyin: 'cōngmíng' }
+            ],
+            [
+                { icon: '📚', hanzi: '买书', pinyin: 'mǎi shū' },
+                { icon: '✍️', hanzi: '买笔', pinyin: 'mǎi bǐ' }
+            ],
+            [
+                { icon: '🍚', hanzi: '吃饭', pinyin: 'chī fàn' },
+                { icon: '🍗', hanzi: '吃鸡', pinyin: 'chī jī' }
+            ],
+            [
+                { icon: '💧', hanzi: '喝水', pinyin: 'hē shuǐ' },
+                { icon: '☕', hanzi: '喝咖啡', pinyin: 'hē kāfēi' }
+            ]
+        ];
+
+        function getRandomPair() {
+            return pairs[Math.floor(Math.random() * pairs.length)];
+        }
+
+        function generateSentence() {
+            const pair = getRandomPair();
+            const item1 = pair[0];
+            const item2 = pair[1];
+            const sentenceDiv = document.getElementById('sentence');
+            sentenceDiv.innerHTML = `
+                <div class="item-container">
+                    ${item1.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${item1.hanzi} (${item1.pinyin})</span>
+                </div>
+                <span class="mx-2">也</span>
+                <div class="item-container">
+                    ${item2.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${item2.hanzi} (${item2.pinyin})</span>
+                </div>
+            `;
+
+            // Add event listeners to all show buttons
+            document.querySelectorAll('.showBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const textSpan = btn.nextElementSibling;
+                    textSpan.classList.toggle('hidden-text');
+                    textSpan.classList.toggle('show-text');
+                    btn.textContent = textSpan.classList.contains('show-text') ? 'Hide' : 'Show';
+                });
+            });
+        }
+
+        document.getElementById('newBtn').addEventListener('click', generateSentence);
+
+        // Generate initial sentence
+        generateSentence();
+    </script>
+</body>
+</html>
