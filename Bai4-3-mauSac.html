@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Màu Sắc Tiếng Trung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .item-container { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Học Màu Sắc Tiếng Trung</h1>
+    <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">
+        New
+    </button>
+    <div id="color" class="text-xl mb-4"></div>
+
+    <script>
+        const colors = [
+            { icon: '🔵', hanzi: '蓝色', pinyin: 'lán sè', color: 'blue' },
+            { icon: '🔴', hanzi: '红色', pinyin: 'hóng sè', color: 'red' },
+            { icon: '🟡', hanzi: '黄色', pinyin: 'huáng sè', color: 'yellow' },
+            { icon: '🟢', hanzi: '绿色', pinyin: 'lǜ sè', color: 'green' },
+            { icon: '⚪', hanzi: '白色', pinyin: 'bái sè', color: 'white' },
+            { icon: '⚫', hanzi: '黑色', pinyin: 'hēi sè', color: 'black' }
+        ];
+
+        function getRandomColor() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function generateColor() {
+            const color = getRandomColor();
+            const colorDiv = document.getElementById('color');
+            colorDiv.innerHTML = `
+                <div class="item-container">
+                    ${color.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${color.hanzi} (${color.pinyin})</span>
+                </div>
+            `;
+
+            // Add event listener to the show button
+            const showBtn = colorDiv.querySelector('.showBtn');
+            showBtn.addEventListener('click', () => {
+                const textSpan = showBtn.nextElementSibling;
+                textSpan.classList.toggle('hidden-text');
+                textSpan.classList.toggle('show-text');
+                showBtn.textContent = textSpan.classList.contains('show-text') ? 'Hide' : 'Show';
+            });
+        }
+
+        document.getElementById('newBtn').addEventListener('click', generateColor);
+
+        // Generate initial color
+        generateColor();
+    </script>
+</body>
+</html>
