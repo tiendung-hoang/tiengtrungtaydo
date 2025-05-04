@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đảo Ngữ Tiếng Trung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .item-container { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Học Đảo Ngữ Tiếng Trung</h1>
+    <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">
+        New
+    </button>
+    <div id="sentence" class="text-xl mb-4"></div>
+
+    <script>
+        const items = [
+            { icon: '☕', hanzi: '咖啡', pinyin: 'kāfēi', type: 'object' },
+            { icon: '🍵', hanzi: '茶', pinyin: 'chá', type: 'object' },
+            { icon: '🥛', hanzi: '牛奶', pinyin: 'niúnǎi', type: 'object' },
+            { icon: '💧', hanzi: '水', pinyin: 'shuǐ', type: 'object' },
+            { icon: '🥓', hanzi: '猪肉', pinyin: 'zhūròu', type: 'food' },
+            { icon: '🥩', hanzi: '牛肉', pinyin: 'niúròu', type: 'food' },
+            { icon: '🍗', hanzi: '鸡肉', pinyin: 'jīròu', type: 'food' },
+            { icon: '✍️', hanzi: '笔', pinyin: 'bǐ', type: 'object' },
+            { icon: '📖', hanzi: '书', pinyin: 'shū', type: 'object' },
+            { icon: '📱', hanzi: '手机', pinyin: 'shǒujī', type: 'object' }
+        ];
+
+        const verbs = [
+            { icon: '❤️', hanzi: '喜欢', pinyin: 'xǐhuān' },
+            { icon: '✅', hanzi: '有', pinyin: 'yǒu' },
+            { icon: '🍽️', hanzi: '想吃', pinyin: 'xiǎng chī' }
+        ];
+
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generateSentence() {
+            const item1 = getRandom(items);
+            let item2;
+            do {
+                item2 = getRandom(items);
+            } while (item2 === item1);
+
+            const verb = getRandom(verbs);
+            const sentenceDiv = document.getElementById('sentence');
+            sentenceDiv.innerHTML = `
+                <div class="item-container">
+                    ${item1.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${item1.hanzi} (${item1.pinyin})</span>
+                </div>
+                <div class="item-container">
+                    ${item2.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${item2.hanzi} (${item2.pinyin})</span>
+                </div>
+                <div class="item-container">
+                    ${verb.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${verb.hanzi} (${verb.pinyin})</span>
+                </div>
+            `;
+
+            // Add event listeners to all show buttons
+            document.querySelectorAll('.showBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const textSpan = btn.nextElementSibling;
+                    textSpan.classList.toggle('hidden-text');
+                    textSpan.classList.toggle('show-text');
+                    btn.textContent = textSpan.classList.contains('show-text') ? 'Hide' : 'Show';
+                });
+            });
+        }
+
+        document.getElementById('newBtn').addEventListener('click', generateSentence);
+
+        // Generate initial sentence
+        generateSentence();
+    </script>
+</body>
+</html>
