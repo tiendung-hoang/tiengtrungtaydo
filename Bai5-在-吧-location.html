@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học về 在, 吧, và Vị trí</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .main-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .page-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px auto;
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #f44336;
+        }
+        .back-btn:hover {
+            background-color: #da190b;
+        }
+        #showBtn {
+            background-color: #008CBA;
+        }
+        #showBtn:hover {
+            background-color: #007399;
+        }
+        #output {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .icon {
+            font-size: 30px;
+            margin: 0 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-areas:
+                ". top ."
+                "left center right"
+                ". bottom .";
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .item {
+            font-size: 24px;
+        }
+        .center { grid-area: center; }
+        .top { grid-area: top; }
+        .bottom { grid-area: bottom; }
+        .left { grid-area: left; }
+        .right { grid-area: right; }
+    </style>
+</head>
+<body>
+    <div class="main-container" id="mainMenu">
+        <h1>Chọn bài học</h1>
+        <button onclick="showPage('page1')">在</button>
+        <button onclick="showPage('page2')">吧</button>
+        <button onclick="showPage('page3')">Vị trí</button>
+    </div>
+
+    <!-- Page 1: Học về 在 -->
+    <div class="page-container" id="page1">
+        <button class="back-btn" onclick="backToMenu()">Back</button>
+        <div class="container">
+            <h1>Học về 在</h1>
+            <button onclick="generateSentence1()">New</button>
+            <div id="output1"></div>
+            <button id="showBtn1" onclick="showChinese1()" class="hidden">Show</button>
+            <div id="chineseOutput1" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- Page 2: Học về 吧 -->
+    <div class="page-container" id="page2">
+        <button class="back-btn" onclick="backToMenu()">Back</button>
+        <div class="container">
+            <h1>Học về 吧</h1>
+            <button onclick="generateSentence2()">New</button>
+            <div id="output2"></div>
+            <button id="showBtn2" onclick="showChinese2()" class="hidden">Show</button>
+            <div id="chineseOutput2" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- Page 3: Học về Vị trí -->
+    <div class="page-container" id="page3">
+        <button class="back-btn" onclick="backToMenu()">Back</button>
+        <div class="container">
+            <h1>Học về Vị trí</h1>
+            <button onclick="generateLayout3()">New</button>
+            <div class="grid" id="output3">
+                <div class="item top" id="top3"></div>
+                <div class="item left" id="left3"></div>
+                <div class="item center" id="center3"></div>
+                <div class="item right" id="right3"></div>
+                <div class="item bottom" id="bottom3"></div>
+            </div>
+            <button id="showBtn3" onclick="showChinese3()" class="hidden">Show</button>
+            <div id="chineseOutput3" class="hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function backToMenu() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'block';
+        }
+
+        // Page 1: 在
+        const places = [
+            { en: "house", vi: "nhà", cn: "家里", py: "jiālǐ", icon: "🏠" },
+            { en: "park", vi: "công viên", cn: "公园", py: "gōngyuán", icon: "🌳" },
+            { en: "company", vi: "công ty", cn: "公司", py: "gōngsī", icon: "🏢" },
+            { en: "school", vi: "trường học", cn: "学校", py: "xuéxiào", icon: "🏫" },
+            { en: "room", vi: "phòng", cn: "房间", py: "fángjiān", icon: "🚪" },
+            { en: "Japan", vi: "Nhật Bản", cn: "日本", py: "Rìběn", icon: "🇯🇵" },
+            { en: "Taiwan", vi: "Đài Loan", cn: "台湾", py: "Táiwān", icon: "🇹🇼" },
+            { en: "China", vi: "Trung Quốc", cn: "中国", py: "Zhōngguó", icon: "🇨🇳" },
+            { en: "Vietnam", vi: "Việt Nam", cn: "越南", py: "Yuènán", icon: "🇻🇳" }
+        ];
+
+        const actions = [
+            { en: "write", vi: "viết chữ", cn: "写字", py: "xiě zì", icon: "✍️" },
+            { en: "read", vi: "đọc sách", cn: "读书", py: "dú shū", icon: "📖" },
+            { en: "eat", vi: "ăn cơm", cn: "吃饭", py: "chī fàn", icon: "🍚" },
+            { en: "drink", vi: "uống nước", cn: "喝水", py: "hē shuǐ", icon: "💧" },
+            { en: "phone", vi: "xem điện thoại", cn: "看手机", py: "kàn shǒujī", icon: "📱" }
+        ];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateSentence1() {
+            const place = getRandomItem(places);
+            const action = getRandomItem(actions);
+            document.getElementById("output1").innerHTML = `<span class="icon">${place.icon}</span>${place.vi} <span class="icon">${action.icon}</span>${action.vi}`;
+            document.getElementById("chineseOutput1").innerHTML = `在${place.cn}${action.cn}<br>${place.py} ${action.py}`;
+            document.getElementById("showBtn1").classList.remove("hidden");
+            document.getElementById("chineseOutput1").classList.add("hidden");
+        }
+
+        function showChinese1() {
+            document.getElementById("chineseOutput1").classList.remove("hidden");
+            document.getElementById("showBtn1").classList.add("hidden");
+        }
+
+        // Page 2: 吧
+        const pairs = [
+            {
+                item1: { en: "Vietnam", vi: "Việt Nam", cn: "越南", py: "Yuènán", icon: "🇻🇳" },
+                item2: { en: "China", vi: "Trung Quốc", cn: "中国", py: "Zhōngguó", icon: "🇨🇳" }
+            },
+            {
+                item1: { en: "chicken", vi: "thịt gà", cn: "鸡肉", py: "jīròu", icon: "🍗" },
+                item2: { en: "beef", vi: "thịt bò", cn: "牛肉", py: "niúròu", icon: "🥩" }
+            },
+            {
+                item1: { en: "coffee", vi: "cà phê", cn: "咖啡", py: "kāfēi", icon: "☕" },
+                item2: { en: "water", vi: "nước", cn: "水", py: "shuǐ", icon: "💧" }
+            },
+            {
+                item1: { en: "book", vi: "sách", cn: "书", py: "shū", icon: "📖" },
+                item2: { en: "pen", vi: "bút", cn: "笔", py: "bǐ", icon: "✍️" }
+            },
+            {
+                item1: { en: "rice", vi: "cơm", cn: "米饭", py: "mǐfàn", icon: "🍚" },
+                item2: { en: "hotpot", vi: "lẩu", cn: "火锅", py: "huǒguō", icon: "🍲" }
+            }
+        ];
+
+        function generateSentence2() {
+            const pair = getRandomItem(pairs);
+            const reverse = Math.random() < 0.5;
+            const item1 = reverse ? pair.item2 : pair.item1;
+            const item2 = reverse ? pair.item1 : pair.item2;
+            document.getElementById("output2").innerHTML = `<span class="icon">${item1.icon}</span>${item1.vi} hay <span class="icon">${item2.icon}</span>${item2.vi} đây?`;
+            document.getElementById("chineseOutput2").innerHTML = `${item1.cn}还是${item2.cn}吧？<br>${item1.py} háishì ${item2.py} ba?`;
+            document.getElementById("showBtn2").classList.remove("hidden");
+            document.getElementById("chineseOutput2").classList.add("hidden");
+        }
+
+        function showChinese2() {
+            document.getElementById("chineseOutput2").classList.remove("hidden");
+            document.getElementById("showBtn2").classList.add("hidden");
+        }
+
+        // Page 3: Vị trí
+        const items = [
+            { en: "chair", vi: "cái ghế", cn: "椅子", py: "yǐzi", icon: "🪑" },
+            { en: "table", vi: "cái bàn", cn: "桌子", py: "zhuōzi", icon: "🪵" },
+            { en: "chicken", vi: "con gà", cn: "鸡", py: "jī", icon: "🐔" },
+            { en: "house", vi: "cái nhà", cn: "房子", py: "fángzi", icon: "🏠" },
+            { en: "flower", vi: "hoa", cn: "花", py: "huā", icon: "🌸" },
+            { en: "book", vi: "sách", cn: "书", py: "shū", icon: "📖" },
+            { en: "pen", vi: "bút", cn: "笔", py: "bǐ", icon: "✍️" },
+            { en: "money", vi: "tiền", cn: "钱", py: "qián", icon: "💰" }
+        ];
+
+        const positions = [
+            { en: "above", vi: "phía trên", cn: "上面", py: "shàngmiàn" },
+            { en: "below", vi: "phía dưới", cn: "下面", py: "xiàmiàn" },
+            { en: "left", vi: "bên trái", cn: "左边", py: "zuǒbiān" },
+            { en: "right", vi: "bên phải", cn: "右边", py: "yòubiān" }
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateLayout3() {
+            const selectedItems = shuffleArray([...items]).slice(0, 5);
+            const centerItem = selectedItems[0];
+            const surroundingItems = selectedItems.slice(1);
+
+            document.getElementById("center3").innerHTML = `<span class="icon">${centerItem.icon}</span>${centerItem.vi}`;
+            document.getElementById("top3").innerHTML = `<span class="icon">${surroundingItems[0].icon}</span>${surroundingItems[0].vi}`;
+            document.getElementById("bottom3").innerHTML = `<span class="icon">${surroundingItems[1].icon}</span>${surroundingItems[1].vi}`;
+            document.getElementById("left3").innerHTML = `<span class="icon">${surroundingItems[2].icon}</span>${surroundingItems[2].vi}`;
+            document.getElementById("right3").innerHTML = `<span class="icon">${surroundingItems[3].icon}</span>${surroundingItems[3].vi}`;
+
+            const chineseOutput = `
+                ${surroundingItems[0].cn}在${centerItem.cn}的${positions[0].cn}<br>
+                ${surroundingItems[0].py} zài ${centerItem.py} de ${positions[0].py}<br>
+                ${surroundingItems[1].cn}在${centerItem.cn}的${positions[1].cn}<br>
+                ${surroundingItems[1].py} zài ${centerItem.py} de ${positions[1].py}<br>
+                ${surroundingItems[2].cn}在${centerItem.cn}的${positions[2].cn}<br>
+                ${surroundingItems[2].py} zài ${centerItem.py} de ${positions[2].py}<br>
+                ${surroundingItems[3].cn}在${centerItem.cn}的${positions[3].cn}<br>
+                ${surroundingItems[3].py} zài ${centerItem.py} de ${positions[3].py}
+            `;
+            document.getElementById("chineseOutput3").innerHTML = chineseOutput;
+            document.getElementById("showBtn3").classList.remove("hidden");
+            document.getElementById("chineseOutput3").classList.add("hidden");
+        }
+
+        function showChinese3() {
+            document.getElementById("chineseOutput3").classList.remove("hidden");
+            document.getElementById("showBtn3").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
