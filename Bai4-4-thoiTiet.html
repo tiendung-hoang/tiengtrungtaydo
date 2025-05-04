@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Thời Tiết Tiếng Trung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .item-container { display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-6">Học Thời Tiết Tiếng Trung</h1>
+    <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600">
+        New
+    </button>
+    <div id="weather" class="text-xl mb-4"></div>
+
+    <script>
+        const weatherConditions = [
+            { icon: '❄️', hanzi: '冷', pinyin: 'lěng' },
+            { icon: '🔥', hanzi: '热', pinyin: 'rè' },
+            { icon: '🌙', hanzi: '暗', pinyin: 'àn' },
+            { icon: '👍', hanzi: '好', pinyin: 'hǎo' }
+        ];
+
+        function getRandomWeather() {
+            return weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+        }
+
+        function generateWeather() {
+            const weather = getRandomWeather();
+            const weatherDiv = document.getElementById('weather');
+            weatherDiv.innerHTML = `
+                <div class="item-container">
+                    ${weather.icon}
+                    <button class="showBtn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Show</button>
+                    <span class="hidden-text">${weather.hanzi} (${weather.pinyin})</span>
+                </div>
+            `;
+
+            // Add event listener to the show button
+            const showBtn = weatherDiv.querySelector('.showBtn');
+            showBtn.addEventListener('click', () => {
+                const textSpan = showBtn.nextElementSibling;
+                textSpan.classList.toggle('hidden-text');
+                textSpan.classList.toggle('show-text');
+                showBtn.textContent = textSpan.classList.contains('show-text') ? 'Hide' : 'Show';
+            });
+        }
+
+        document.getElementById('newBtn').addEventListener('click', generateWeather);
+
+        // Generate initial weather condition
+        generateWeather();
+    </script>
+</body>
+</html>
