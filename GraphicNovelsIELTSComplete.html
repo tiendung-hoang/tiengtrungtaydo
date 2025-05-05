@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        .word {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        button.correct {
+            background-color: #4caf50;
+            color: white;
+        }
+        button.incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .congratulations {
+            font-size: 20px;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz">
+        <div class="word" id="word"></div>
+        <div class="options" id="options"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { english: "Graphic", vietnamese: "Đồ họa" },
+            { english: "Illustrated", vietnamese: "Minh họa" },
+            { english: "Distinguish", vietnamese: "Phân biệt" },
+            { english: "Sequential", vietnamese: "Liên tục" },
+            { english: "Phenomenon", vietnamese: "Hiện tượng" },
+            { english: "Hieroglyphics", vietnamese: "Chữ tượng hình" },
+            { english: "Medieval", vietnamese: "Trung cổ" },
+            { english: "Tapestries", vietnamese: "Thảm thêu" },
+            { english: "Narrative", vietnamese: "Tường thuật" },
+            { english: "Development", vietnamese: "Phát triển" },
+            { english: "Influence", vietnamese: "Ảnh hưởng" },
+            { english: "Prevent", vietnamese: "Ngăn cản" },
+            { english: "Quality", vietnamese: "Chất lượng" },
+            { english: "Storytelling", vietnamese: "Kể chuyện" },
+            { english: "Appealing", vietnamese: "Hấp dẫn" },
+            { english: "Enthusiasts", vietnamese: "Người đam mê" },
+            { english: "Accepted", vietnamese: "Chấp nhận" },
+            { english: "Librarians", vietnamese: "Thủ thư" },
+            { english: "Literature", vietnamese: "Văn học" },
+            { english: "Promote", vietnamese: "Thúc đẩy" },
+            { english: "Literacy", vietnamese: "Khả năng đọc viết" },
+            { english: "Attract", vietnamese: "Thu hút" },
+            { english: "Motivate", vietnamese: "Thúc đẩy" },
+            { english: "Outstanding", vietnamese: "Xuất sắc" },
+            { english: "Success", vietnamese: "Thành công" },
+            { english: "Motivational", vietnamese: "Tạo động lực" },
+            { english: "Reluctant", vietnamese: "Miễn cưỡng" },
+            { english: "Colourful", vietnamese: "Sặc sỡ" },
+            { english: "Encourage", vietnamese: "Khuyến khích" },
+            { english: "Abilities", vietnamese: "Khả năng" },
+            { english: "Lifelong", vietnamese: "Suốt đời" },
+            { english: "Benefits", vietnamese: "Lợi ích" },
+            { english: "Foreign", vietnamese: "Nước ngoài" },
+            { english: "Improving", vietnamese: "Cải thiện" },
+            { english: "Clues", vietnamese: "Gợi ý" },
+            { english: "Acquire", vietnamese: "Tiếp thu" },
+            { english: "Vocabulary", vietnamese: "Từ vựng" },
+            { english: "Reported", vietnamese: "Báo cáo" },
+            { english: "Subjects", vietnamese: "Môn học" },
+            { english: "Traditional", vietnamese: "Truyền thống" },
+            { english: "Discovered", vietnamese: "Khám phá" },
+            { english: "Visual", vietnamese: "Thị giác" },
+            { english: "Advanced", vietnamese: "Nâng cao" },
+            { english: "Element", vietnamese: "Yếu tố" }
+        ];
+
+        let currentWordIndex = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadWord() {
+            if (currentWordIndex >= vocabulary.length) {
+                document.getElementById('quiz').innerHTML = '<div class="congratulations">Congratulations! You have completed the quiz!</div>';
+                return;
+            }
+
+            const word = vocabulary[currentWordIndex];
+            document.getElementById('word').textContent = `${currentWordIndex + 1}. ${word.english}`;
+
+            const options = [word.vietnamese];
+            while (options.length < 5) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)].vietnamese;
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+            shuffle(options);
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, word.vietnamese, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (selected === correct) {
+                button.classList.add('correct');
+                setTimeout(() => {
+                    currentWordIndex++;
+                    loadWord();
+                }, 500);
+            } else {
+                button.classList.add('incorrect');
+                setTimeout(() => {
+                    button.classList.remove('incorrect');
+                }, 500);
+            }
+        }
+
+        loadWord();
+    </script>
+</body>
+</html>
