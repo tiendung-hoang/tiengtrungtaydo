@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+> 
+            max-width: 400px;
+        }
+        .word {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        button.correct {
+            background-color: #4caf50;
+            color: white;
+        }
+        button.incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .congratulations {
+            font-size: 20px;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz">
+        <div class="word" id="word"></div>
+        <div class="options" id="options"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { english: "Competitors", vietnamese: "Những người tham gia thi đấu" },
+            { english: "Average", vietnamese: "Trung bình" },
+            { english: "Qualify", vietnamese: "Đủ điều kiện" },
+            { english: "Essential", vietnamese: "Thiết yếu" },
+            { english: "Environment", vietnamese: "Môi trường" },
+            { english: "Master", vietnamese: "Làm chủ" },
+            { english: "Volume", vietnamese: "Khối lượng" },
+            { english: "Professional", vietnamese: "Chuyên nghiệp" },
+            { english: "Assignments", vietnamese: "Bài tập" },
+            { english: "Various", vietnamese: "Đa dạng" },
+            { english: "Methods", vietnamese: "Phương pháp" },
+            { english: "Outline", vietnamese: "Phác thảo" },
+            { english: "Issue", vietnamese: "Vấn đề" },
+            { english: "Skim", vietnamese: "Đọc lướt" },
+            { english: "Extract", vietnamese: "Trích xuất" },
+            { english: "Detail", vietnamese: "Chi tiết" },
+            { english: "Irrelevant", vietnamese: "Không liên quan" },
+            { english: "Improvements", vietnamese: "Sự cải thiện" },
+            { english: "Silently", vietnamese: "Im lặng" },
+            { english: "Pronounced", vietnamese: "Phát âm" },
+            { english: "Researchers", vietnamese: "Nhà nghiên cứu" },
+            { english: "Logically", vietnamese: "Hợp lý" },
+            { english: "Arrangement", vietnamese: "Sự sắp xếp" },
+            { english: "Chunking", vietnamese: "Phân đoạn" },
+            { english: "Individual", vietnamese: "Cá nhân" },
+            { english: "Fixing", vietnamese: "Tập trung" },
+            { english: "Block", vietnamese: "Khối" },
+            { english: "Instant", vietnamese: "Ngay lập tức" },
+            { english: "Rarely", vietnamese: "Hiếm khi" },
+            { english: "Skip", vietnamese: "Nhảy qua" },
+            { english: "Reduces", vietnamese: "Giảm" },
+            { english: "Period", vietnamese: "Khoảng thời gian" },
+            { english: "Flow", vietnamese: "Dòng chảy" },
+            { english: "Structure", vietnamese: "Cấu trúc" },
+            { english: "Muddling", vietnamese: "Làm rối" },
+            { english: "Overall", vietnamese: "Tổng thể" },
+            { english: "Irregular", vietnamese: "Không đều" },
+            { english: "Concentrate", vietnamese: "Tập trung" },
+            { english: "Comprehend", vietnamese: "Hiểu" },
+            { english: "Engaged", vietnamese: "Tham gia" },
+            { english: "Constantly", vietnamese: "Liên tục" },
+            { english: "Paragraph", vietnamese: "Đoạn văn" },
+            { english: "Progress", vietnamese: "Tiến bộ" }
+        ];
+
+        let currentWordIndex = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadWord() {
+            if (currentWordIndex >= vocabulary.length) {
+                document.getElementById('quiz').innerHTML = '<div class="congratulations">Congratulations! You have completed the quiz!</div>';
+                return;
+            }
+
+            const word = vocabulary[currentWordIndex];
+            document.getElementById('word').textContent = `${currentWordIndex + 1}. ${word.english}`;
+
+            const options = [word.vietnamese];
+            while (options.length < 5) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)].vietnamese;
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+            shuffle(options);
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, word.vietnamese, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (selected === correct) {
+                button.classList.add('correct');
+                setTimeout(() => {
+                    currentWordIndex++;
+                    loadWord();
+                }, 500);
+            } else {
+                button.classList.add('incorrect');
+                setTimeout(() => {
+                    button.classList.remove('incorrect');
+                }, 500);
+            }
+        }
+
+        loadWord();
+    </script>
+</body>
+</html>
