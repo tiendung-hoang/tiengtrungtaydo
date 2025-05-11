@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Listening Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6">Chinese Listening Comprehension Quiz</h1>
+        <form id="quizForm" class="space-y-6">
+            <!-- Question 1 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">1. 現在是星期幾？ </p>
+                <button type="button" onclick="speak('現在是星期幾？', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q1" value="a"> Hôm nay là thứ mấy?</label><br>
+                    <label><input type="radio" name="q1" value="b"> Bạn có thích thứ hai không?</label><br>
+                    <label><input type="radio" name="q1" value="c"> Bây giờ là mấy giờ?</label><br>
+                    <label><input type="radio" name="q1" value="d"> Hôm nay bạn có đi học không?</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer1', 'a', 'Hôm nay là thứ mấy?')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer1" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">2. 今天是星期一。 </p>
+                <button type="button" onclick="speak('今天是星期一。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q2" value="a"> Hôm nay là ngày mai.</label><br>
+                    <label><input type="radio" name="q2" value="b"> Hôm nay là thứ hai.</label><br>
+                    <label><input type="radio" name="q2" value="c"> Hôm nay là Chủ nhật.</label><br>
+                    <label><input type="radio" name="q2" value="d"> Hôm nay là thứ bảy.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer2', 'b', 'Hôm nay là thứ hai.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer2" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">3. 現在幾點？ </p>
+                <button type="button" onclick="speak('現在幾點？', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q3" value="a"> Bạn đang làm gì?</label><br>
+                    <label><input type="radio" name="q3" value="b"> Bây giờ là mấy giờ?</label><br>
+                    <label><input type="radio" name="q3" value="c"> Hôm nay là thứ mấy?</label><br>
+                    <label><input type="radio" name="q3" value="d"> Bây giờ là ngày nào?</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer3', 'b', 'Bây giờ là mấy giờ?')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer3" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="ོn shì lǜ de.)</p>
+                <button type="button" onclick="speak('這張桌是綠的。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q28" value="a"> Cái bàn này màu đen.</label><br>
+                    <label><input type="radio" name="q28" value="b"> Cái bàn này màu xanh lá.</label><br>
+                    <label><input type="radio" name="q28" value="c"> Cái bàn này màu đỏ.</label><br>
+                    <label><input type="radio" name="q28" value="d"> Cái bàn này màu trắng.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer28', 'b', 'Cái bàn này màu xanh lá.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer28" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 29 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">29. 我有兩隻狗。 </p>
+                <button type="button" onclick="speak('我有兩隻狗。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q29" value="a"> Tôi có hai con chó.</label><br>
+                    <label><input type="radio" name="q29" value="b"> Tôi có hai quyển sách.</label><br>
+                    <label><input type="radio" name="q29" value="c"> Tôi có hai con mèo.</label><br>
+                    <label><input type="radio" name="q29" value="d"> Tôi có hai bông hoa.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer29', 'a', 'Tôi có hai con chó.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer29" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 30 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">30. 那個蘋果很便宜。 </p>
+                <button type="button" onclick="speak('那個蘋果很便宜。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q30" value="a"> Quả táo đó rất cũ.</label><br>
+                    <label><input type="radio" name="q30" value="b"> Quả táo đó rất rẻ.</label><br>
+                    <label><input type="radio" name="q30" value="c"> Quả táo đó rất đắt.</label><br>
+                    <label><input type="radio" name="q30" value="d"> Quả táo đó rất mới.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer30', 'b', 'Quả táo đó rất rẻ.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer30" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <button type="button" onclick="submitQuiz()" class="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600">Submit Quiz</button>
+        </form>
+        <p id="result" class="text-xl font-semibold mt-4"></p>
+    </div>
+
+    <script>
+        function speak(text, lang) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            speechSynthesis.speak(utterance);
+        }
+
+        function showAnswer(id, correctValue, correctText) {
+            const element = document.getElementById(id);
+            element.textContent = `Correct Answer: ${correctText}`;
+            element.classList.remove('hidden');
+        }
+
+        function submitQuiz() {
+            const answers = {
+                q1: 'a', q2: 'b', q3: 'b', q4: 'a', q5: 'b', q6: 'a', q7: 'b', q8: 'c', q9: 'b', q10: 'c',
+                q11: 'b', q12: 'c', q13: 'b', q14: 'b', q15: 'b', q16: 'c', q17: 'c', q18: 'c', q19: 'c', q20: 'b',
+                q21: 'c', q22: 'b', q23: 'b', q24: 'b', q25: 'c', q26: 'b', q27: 'b', q28: 'b', q29: 'a', q30: 'b'
+            };
+            let score = 0;
+            const form = document.getElementById('quizForm');
+            for (let i = 1; i <= 30; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+            document.getElementById('result').textContent = `Your score: ${score}/30`;
+        }
+    </script>
+</body>
+</html>
