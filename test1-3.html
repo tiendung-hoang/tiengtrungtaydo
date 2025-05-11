@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Listening Quiz (Questions 31-50)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6">Chinese Listening Comprehension Quiz (Questions 31-50)</h1>
+        <form id="quizForm" class="space-y-6">
+            <!-- Question 31 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">31. 我很喜歡這本書。 (Wǒ hěn xǐhuān zhè běn shū.)</p>
+                <button type="button" onclick="speak('我很喜歡這本書。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin31')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin31" class="hidden text-gray-600 mt-2">Wǒ hěn xǐhuān zhè běn shū.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q31" value="a"> Tôi không thích quyển sách này.</label><br>
+                    <label><input type="radio" name="q31" value="b"> Tôi rất thích quyển sách này.</label><br>
+                    <label><input type="radio" name="q31" value="c"> Tôi rất thích con mèo này.</label><br>
+                    <label><input type="radio" name="q31" value="d"> Tôi không thích bông hoa này.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer31', 'b', 'Tôi rất thích quyển sách này.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer31" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 32 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">32. 這太貴了。 (Zhè tài guì le.)</p>
+                <button type="button" onclick="speak('這太貴了。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin32')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin32" class="hidden text-gray-600 mt-2">Zhè tài guì le.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q32" value="a"> Cái này quá mới.</label><br>
+                    <label><input type="radio" name="q32" value="b"> Cái này quá đắt.</label><br>
+                    <label><input type="radio" name="q32" value="c"> Cái này quá rẻ.</label><br>
+                    <label><input type="radio" name="q32" value="d"> Cái này quá cũ.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer32', 'b', 'Cái này quá đắt.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer32" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 33 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">33. 你也喜歡喝奶茶嗎？ (Nǐ yě xǐhuān hē nǎichá ma?)</p>
+                <button type="button" onclick="speak('你也喜歡喝奶茶嗎？', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin33')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin33" class="hidden text-gray-600 mt-2">Nǐ yě xǐhuān hē nǎichá ma?</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q33" value="a"> Bạn cũng thích ăn trái cây không?</label><br>
+                    <label><input type="radio" name="q33" value="b"> Bạn cũng thích uống trà sữa không?</label><br>
+                    <label><input type="radio" name="q33" value="c"> Bạn cũng thích uống nước không?</label><br>
+                    <label><input type="radio" name="q33" value="d"> Bạn cũng thích ăn cơm không?</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer33', 'b', 'Bạn cũng thích uống trà sữa không?')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer33" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 34 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">34. 這裡有很多書。 (Zhèlǐ yǒu hěn duō shū.)</p>
+                <button type="button" onclick="speak('這裡有很多書。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin34')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin34" class="hidden text-gray-600 mt-2">Zhèlǐ yǒu hěn duō shū.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q34" value="a"> Ở đây có rất nhiều mèo.</label><br>
+                    <label><input type="radio" name="q34" value="b"> Ở đây có rất nhiều sách.</label><br>
+                    <label><input type="radio" name="q34" value="c"> Ở đây có rất ít sách.</label><br>
+                    <label><input type="radio" name="q34" value="d"> Ở đây có rất nhiều hoa.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer34', 'b', 'Ở đây có rất nhiều sách.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer34" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 35 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">35. 大家都喜歡她。 (Dàjiā dōu xǐhuān tā.)</p>
+                <button type="button" onclick="speak('大家都喜歡她。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin35')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin35" class="hidden text-gray-600 mt-2">Dàjiā dōu xǐhuān tā.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q35" value="a"> Mọi người đều biết cô ấy.</label><br>
+                    <label><input type="radio" name="q35" value="b"> Mọi người đều thích cô ấy.</label><br>
+                    <label><input type="radio" name="q35" value="c"> Mọi người đều không thích cô ấy.</label><br>
+                    <label><input type="radio" name="q35" value="d"> Mọi người đều gặp cô ấy.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer35', 'b', 'Mọi người đều thích cô ấy.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer35" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 36 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">36. 他在學校。 (Tā zài xuéxiào.)</p>
+                <button type="button" onclick="speak('他在學校。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin36')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin36" class="hidden text-gray-600 mt-2">Tā zài xuéxiào.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q36" value="a"> Anh ấy ở quán cà phê.</label><br>
+                    <label><input type="radio" name="q36" value="b"> Anh ấy ở trường học.</label><br>
+                    <label><input type="radio" name="q36" value="c"> Anh ấy ở nhà.</label><br>
+                    <label><input type="radio" name="q36" value="d"> Anh ấy ở thư viện.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer36', 'b', 'Anh ấy ở trường học.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer36" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 37 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">37. 錢包在書下面。 (Qiánbāo zài shū xiàmiàn.)</p>
+                <button type="button" onclick="speak('錢包在書下面。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin37')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin37" class="hidden text-gray-600 mt-2">Qiánbāo zài shū xiàmiàn.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q37" value="a"> Ví tiền ở ngoài cửa.</label><br>
+                    <label><input type="radio" name="q37" value="b"> Ví tiền ở dưới quyển sách.</label><br>
+                    <label><input type="radio" name="q37" value="c"> Ví tiền ở trên bàn.</label><br>
+                    <label><input type="radio" name="q37" value="d"> Ví tiền ở trong phòng.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer37', 'b', 'Ví tiền ở dưới quyển sách.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer37" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 38 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">38. 你去圖書館吧。 (Nǐ qù túshūguǎn ba.)</p>
+                <button type="button" onclick="speak('你去圖書館吧。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin38')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin38" class="hidden text-gray-600 mt-2">Nǐ qù túshūguǎn ba.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q38" value="a"> Bạn đi trường học nhé.</label><br>
+                    <label><input type="radio" name="q38" value="b"> Bạn đi thư viện nhé.</label><br>
+                    <label><input type="radio" name="q38" value="c"> Bạn đi nhà bếp nhé.</label><br>
+                    <label><input type="radio" name="q38" value="d"> Bạn đi phòng khách nhé.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer38', 'b', 'Bạn đi thư viện nhé.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer38" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 39 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">39. 他在房間裡。 (Tā zài fángjiān lǐ.)</p>
+                <button type="button" onclick="speak('他在房間裡。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin39')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin39" class="hidden text-gray-600 mt-2">Tā zài fángjiān lǐ.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q39" value="a"> Anh ấy ở trên bàn.</label><br>
+                    <label><input type="radio" name="q39" value="b"> Anh ấy ở trong phòng.</label><br>
+                    <label><input type="radio" name="q39" value="c"> Anh ấy ở ngoài phòng.</label><br>
+                    <label><input type="radio" name="q39" value="d"> Anh ấy ở dưới ghế.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer39', 'b', 'Anh ấy ở trong phòng.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer39" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 40 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">40. 沙發上面沒有錢包。 (Shāfā shàngmiàn méiyǒu qiánbāo.)</p>
+                <button type="button" onclick="speak('沙發上面沒有錢包。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin40')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin40" class="hidden text-gray-600 mt-2">Shāfā shàngmiàn méiyǒu qiánbāo.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q40" value="a"> Trên bàn không có ví tiền.</label><br>
+                    <label><input type="radio" name="q40" value="b"> Trên ghế sofa không có ví tiền.</label><br>
+                    <label><input type="radio" name="q40" value="c"> Dưới ghế sofa không có ví tiền.</label><br>
+                    <label><input type="radio" name="q40" value="d"> Trong phòng khách không có ví tiền.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer40', 'b', 'Trên ghế sofa không có ví tiền.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer40" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 41 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">41. 我的書在桌子上面。 (Wǒ de shū zài zhuōzi shàngmiàn.)</p>
+                <button type="button" onclick="speak('我的書在桌子上面。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin41')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin41" class="hidden text-gray-600 mt-2">Wǒ de shū zài zhuōzi shàngmiàn.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q41" value="a"> Quyển sách của tôi ở ngoài cửa.</label><br>
+                    <label><input type="radio" name="q41" value="b"> Quyển sách của tôi ở trên bàn.</label><br>
+                    <label><input type="radio" name="q41" value="c"> Quyển sách của tôi ở dưới bàn.</label><br>
+                    <label><input type="radio" name="q41" value="d"> Quyển sách của tôi ở trong phòng.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer41', 'b', 'Quyển sách của tôi ở trên bàn.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer41" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 42 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">42. 他在客廳喝咖啡。 (Tā zài kètīng hē kāfēi.)</p>
+                <button type="button" onclick="speak('他在客廳喝咖啡。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin42')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin42" class="hidden text-gray-600 mt-2">Tā zài kètīng hē kāfēi.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q42" value="a"> Anh ấy đọc sách ở phòng khách.</label><br>
+                    <label><input type="radio" name="q42" value="b"> Anh ấy uống cà phê ở phòng khách.</label><br>
+                    <label><input type="radio" name="q42" value="c"> Anh ấy uống trà ở phòng khách.</label><br>
+                    <label><input type="radio" name="q42" value="d"> Anh ấy ăn cơm ở phòng khách.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer42', 'b', 'Anh ấy uống cà phê ở phòng khách.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer42" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 43 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">43. 房間裡有兩張椅子。 (Fángjiān lǐ yǒu liǎng zhāng yǐzi.)</p>
+                <button type="button" onclick="speak('房間裡有兩張椅子。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin43')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin43" class="hidden text-gray-600 mt-2">Fángjiān lǐ yǒu liǎng zhāng yǐzi.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q43" value="a"> Trong phòng có hai con mèo.</label><br>
+                    <label><input type="radio" name="q43" value="b"> Trong phòng có hai cái ghế.</label><br>
+                    <label><input type="radio" name="q43" value="c"> Trong phòng có hai quyển sách.</label><br>
+                    <label><input type="radio" name="q43" value="d"> Trong phòng có hai bông hoa.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer43', 'b', 'Trong phòng có hai cái ghế.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer43" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 44 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">44. 你再去找吧。 (Nǐ zài qù zhǎo ba.)</p>
+                <button type="button" onclick="speak('你再去找吧。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin44')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin44" class="hidden text-gray-600 mt-2">Nǐ zài qù zhǎo ba.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q44" value="a"> Bạn đi ngủ nhé.</label><br>
+                    <label><input type="radio" name="q44" value="b"> Bạn tìm lại lần nữa nhé.</label><br>
+                    <label><input type="radio" name="q44" value="c"> Bạn đi ăn cơm nhé.</label><br>
+                    <label><input type="radio" name="q44" value="d"> Bạn đi học nhé.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer44', 'b', 'Bạn tìm lại lần nữa nhé.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer44" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 45 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">45. 他在沙發前面看書。 (Tā zài shāfā qiánmiàn kàn shū.)</p>
+                <button type="button" onclick="speak('他在沙發前面看書。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin45')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin45" class="hidden text-gray-600 mt-2">Tā zài shāfā qiánmiàn kàn shū.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q45" value="a"> Anh ấy đọc sách ở trên ghế sofa.</label><br>
+                    <label><input type="radio" name="q45" value="b"> Anh ấy đọc sách ở trước ghế sofa.</label><br>
+                    <label><input type="radio" name="q45" value="c"> Anh ấy đọc sách ở sau ghế sofa.</label><br>
+                    <label><input type="radio" name="q45" value="d"> Anh ấy đọc sách ở dưới ghế sofa.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer45', 'b', 'Anh ấy đọc sách ở trước ghế sofa.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer45" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 46 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">46. 客廳裡有很多東西。 (Kètīng lǐ yǒu hěn duō dōngxī.)</p>
+                <button type="button" onclick="speak('客廳裡有很多東西。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin46')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin46" class="hidden text-gray-600 mt-2">Kètīng lǐ yǒu hěn duō dōngxī.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q46" value="a"> Trong phòng khách có rất nhiều ghế.</label><br>
+                    <label><input type="radio" name="q46" value="b"> Trong phòng khách có rất nhiều đồ.</label><br>
+                    <label><input type="radio" name="q46" value="c"> Trong phòng khách có rất ít đồ.</label><br>
+                    <label><input type="radio" name="q46" value="d"> Trong phòng khách có rất nhiều sách.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer46', 'b', 'Trong phòng khách có rất nhiều đồ.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer46" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 47 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">47. 我的貓在窗戶旁邊。 (Wǒ de māo zài chuānghù pángbiān.)</p>
+                <button type="button" onclick="speak('我的貓在窗戶旁邊。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin47')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin47" class="hidden text-gray-600 mt-2">Wǒ de māo zài chuānghù pángbiān.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q47" value="a"> Con mèo của tôi ở trong phòng khách.</label><br>
+                    <label><input type="radio" name="q47" value="b"> Con mèo của tôi ở cạnh cửa sổ.</label><br>
+                    <label><input type="radio" name="q47" value="c"> Con mèo của tôi ở trên bàn.</label><br>
+                    <label><input type="radio" name="q47" value="d"> Con mèo của tôi ở dưới giường.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer47', 'b', 'Con mèo của tôi ở cạnh cửa sổ.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer47" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 48 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">48. 他在廚房做飯。 (Tā zài chúfáng zuò fàn.)</p>
+                <button type="button" onclick="speak('他在廚房做飯。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin48')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin48" class="hidden text-gray-600 mt-2">Tā zài chúfáng zuò fàn.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q48" value="a"> Anh ấy uống nước ở nhà bếp.</label><br>
+                    <label><input type="radio" name="q48" value="b"> Anh ấy nấu ăn ở nhà bếp.</label><br>
+                    <label><input type="radio" name="q48" value="c"> Anh ấy đọc sách ở nhà bếp.</label><br>
+                    <label><input type="radio" name="q48" value="d"> Anh ấy ăn cơm ở nhà bếp.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer48', 'b', 'Anh ấy nấu ăn ở nhà bếp.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer48" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 49 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">49. 這張桌子太大了。 (Zhè zhāng zhuōzi tài dà le.)</p>
+                <button type="button" onclick="speak('這張桌子太大了。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin49')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin49" class="hidden text-gray-600 mt-2">Zhè zhāng zhuōzi tài dà le.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q49" value="a"> Cái bàn này quá rẻ.</label><br>
+                    <label><input type="radio" name="q49" value="b"> Cái bàn này quá lớn.</label><br>
+                    <label><input type="radio" name="q49" value="c"> Cái bàn này quá nhỏ.</label><br>
+                    <label><input type="radio" name="q49" value="d"> Cái bàn này quá đắt.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer49', 'b', 'Cái bàn này quá lớn.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer49" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <!-- Question 50 -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-lg font-semibold">50. 我們一起去吧。 (Wǒmen yīqǐ qù ba.)</p>
+                <button type="button" onclick="speak('我們一起去吧。', 'zh-TW')" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🔊 Play Audio</button>
+                <button type="button" onclick="togglePinyin('pinyin50')" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show Pinyin</button>
+                <p id="pinyin50" class="hidden text-gray-600 mt-2">Wǒmen yīqǐ qù ba.</p>
+                <div class="mt-4 space-y-2">
+                    <label><input type="radio" name="q50" value="a"> Chúng ta cùng đọc sách nhé.</label><br>
+                    <label><input type="radio" name="q50" value="b"> Chúng ta cùng đi nhé.</label><br>
+                    <label><input type="radio" name="q50" value="c"> Chúng ta cùng ăn cơm nhé.</label><br>
+                    <label><input type="radio" name="q50" value="d"> Chúng ta cùng đi học nhé.</label>
+                </div>
+                <button type="button" onclick="showAnswer('answer50', 'b', 'Chúng ta cùng đi nhé.')" class="mt-2 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Show Answer</button>
+                <p id="answer50" class="hidden text-green-600 mt-2"></p>
+            </div>
+
+            <button type="button" onclick="submitQuiz()" class="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600">Submit Quiz</button>
+        </form>
+        <p id="result" class="text-xl font-semibold mt-4"></p>
+    </div>
+
+    <script>
+        function speak(text, lang) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            speechSynthesis.speak(utterance);
+        }
+
+        function togglePinyin(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('hidden');
+        }
+
+        function showAnswer(id, correctValue, correctText) {
+            const element = document.getElementById(id);
+            element.textContent = `Correct Answer: ${correctText}`;
+            element.classList.remove('hidden');
+        }
+
+        function submitQuiz() {
+            const answers = {
+                q31: 'b', q32: 'b', q33: 'b', q34: 'b', q35: 'b', 
+                q36: 'b', q37: 'b', q38: 'b', q39: 'b', q40: 'b',
+                q41: 'b', q42: 'b', q43: 'b', q44: 'b', q45: 'b',
+                q46: 'b', q47: 'b', q48: 'b', q49: 'b', q50: 'b'
+            };
+            let score = 0;
+            const form = document.getElementById('quizForm');
+            for (let i = 31; i <= 50; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+            document.getElementById('result').textContent = `Your score: ${score}/20`;
+        }
+    </script>
+</body>
+</html>
