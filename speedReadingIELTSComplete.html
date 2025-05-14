@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Quiz</title>
+    <title>Vocabulary Quiz - Tribal Tourism</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,59 +69,68 @@
 
     <script>
         const vocab = [
-            { word: "tourism", sentence: "Tourism is popular in my city.", vietnamese: "du lịch", options: ["du lịch", "kinh tế", "tàu biển", "môi trường", "hành khách"] },
-            { word: "expensive", sentence: "This hotel is too expensive for me.", vietnamese: "đắt tiền", options: ["đắt tiền", "rẻ", "hữu ích", "đẹp", "an toàn"] },
-            { word: "leisure", sentence: "I read books in my leisure time.", vietnamese: "giải trí", options: ["giải trí", "công việc", "học tập", "thể thao", "nghỉ ngơi"] },
-            { word: "inhospitable", sentence: "The desert is an inhospitable place.", vietnamese: "khó sống", options: ["khó sống", "thân thiện", "ấm áp", "xanh tươi", "an toàn"] },
-            { word: "increasing", sentence: "The price of food is increasing.", vietnamese: "tăng", options: ["tăng", "giảm", "giữ nguyên", "biến đổi", "mất"] },
-            { word: "visitors", sentence: "Many visitors come to the museum.", vietnamese: "khách thăm", options: ["khách thăm", "nhân viên", "học sinh", "người dân", "bạn bè"] },
-            { word: "annual", sentence: "We have an annual school party.", vietnamese: "hàng năm", options: ["hàng năm", "hàng tháng", "hàng tuần", "một lần", "thường xuyên"] },
-            { word: "cruise", sentence: "They went on a cruise last summer.", vietnamese: "du thuyền", options: ["du thuyền", "máy bay", "xe buýt", "tàu hỏa", "xe đạp"] },
-            { word: "passengers", sentence: "The bus has 20 passengers today.", vietnamese: "hành khách", options: ["hành khách", "tài xế", "nhân viên", "khách hàng", "người đi bộ"] },
-            { word: "growth", sentence: "The city has seen rapid growth.", vietnamese: "tăng trưởng", options: ["tăng trưởng", "suy giảm", "thay đổi", "ổn định", "mất mát"] },
-            { word: "climate", sentence: "The climate here is very hot.", vietnamese: "khí hậu", options: ["khí hậu", "thời tiết", "mùa", "nhiệt độ", "mưa"] },
-            { word: "marine", sentence: "I love watching marine animals.", vietnamese: "biển", options: ["biển", "rừng", "núi", "sông", "đất"] },
-            { word: "economic", sentence: "The economic situation is improving.", vietnamese: "kinh tế", options: ["kinh tế", "xã hội", "văn hóa", "giáo dục", "chính trị"] },
-            { word: "downturn", sentence: "The downturn affected many jobs.", vietnamese: "suy thoái", options: ["suy thoái", "phát triển", "ổn định", "tăng trưởng", "thay đổi"] },
-            { word: "land-based", sentence: "We stayed at a land-based camp.", vietnamese: "trên đất liền", options: ["trên đất liền", "dưới biển", "trên không", "trong rừng", "trên núi"] },
-            { word: "fragile", sentence: "This glass is very fragile.", vietnamese: "dễ vỡ", options: ["dễ vỡ", "cứng", "mềm", "nặng", "nhẹ"] },
-            { word: "aircraft", sentence: "The aircraft landed safely.", vietnamese: "máy bay", options: ["máy bay", "tàu", "xe", "thuyền", "máy móc"] },
-            { word: "helicopters", sentence: "Helicopters flew over the city.", vietnamese: "trực thăng", options: ["trực thăng", "máy bay", "tàu", "xe tăng", "thuyền"] },
-            { word: "terrain", sentence: "The terrain was rocky and hard.", vietnamese: "địa hình", options: ["địa hình", "thời tiết", "cây cối", "động vật", "nước"] },
-            { word: "operations", sentence: "The factory started new operations.", vietnamese: "hoạt động", options: ["hoạt động", "kế hoạch", "nghiên cứu", "sản xuất", "dừng lại"] },
-            { word: "deliver", sentence: "They deliver food to my house.", vietnamese: "giao hàng", options: ["giao hàng", "nấu ăn", "mua sắm", "lưu trữ", "sửa chữa"] },
-            { word: "capable", sentence: "She is capable of doing this task.", vietnamese: "có khả năng", options: ["có khả năng", "không thể", "mệt mỏi", "bận rộn", "sợ hãi"] },
-            { word: "uncommon", sentence: "Snow is uncommon in my town.", vietnamese: "hiếm", options: ["hiếm", "phổ biến", "thường xuyên", "nhiều", "luôn luôn"] },
-            { word: "return", sentence: "I will return to school tomorrow.", vietnamese: "trở lại", options: ["trở lại", "rời đi", "ở lại", "đi xa", "nghỉ ngơi"] },
-            { word: "roughly", sentence: "It takes roughly 10 minutes to walk.", vietnamese: "khoảng", options: ["khoảng", "chính xác", "luôn luôn", "hiếm khi", "nhanh chóng"] },
-            { word: "data", sentence: "The data shows we need more time.", vietnamese: "dữ liệu", options: ["dữ liệu", "ý kiến", "câu chuyện", "bài báo", "hình ảnh"] },
-            { word: "deteriorated", sentence: "The old house has deteriorated.", vietnamese: "xuống cấp", options: ["xuống cấp", "cải thiện", "mới", "sạch sẽ", "đẹp"] },
-            { word: "related", sentence: "This book is related to history.", vietnamese: "liên quan", options: ["liên quan", "khác biệt", "mới", "cũ", "khó"] },
-            { word: "widely", sentence: "English is widely spoken here.", vietnamese: "phổ biến", options: ["phổ biến", "hiếm", "ít", "chỉ", "không"] },
-            { word: "accepted", sentence: "Her idea was accepted by all.", vietnamese: "chấp nhận", options: ["chấp nhận", "từ chối", "thay đổi", "bỏ qua", "trì hoãn"] },
-            { word: "regulations", sentence: "New regulations protect the park.", vietnamese: "quy định", options: ["quy định", "luật", "kế hoạch", "ý tưởng", "lời khuyên"] },
-            { word: "proposals", sentence: "They discussed new proposals.", vietnamese: "đề xuất", options: ["đề xuất", "quyết định", "lệnh", "báo cáo", "kết quả"] },
-            { word: "limit", sentence: "There is a limit on phone use.", vietnamese: "giới hạn", options: ["giới hạn", "tăng", "mở rộng", "cho phép", "bỏ qua"] },
-            { word: "vessels", sentence: "Many vessels sail on the river.", vietnamese: "tàu", options: ["tàu", "xe", "máy bay", "thuyền nhỏ", "xe đạp"] },
-            { word: "environmental", sentence: "We need environmental protection.", vietnamese: "môi trường", options: ["môi trường", "kinh tế", "xã hội", "văn hóa", "giáo dục"] },
-            { word: "protection", sentence: "Helmets provide protection.", vietnamese: "bảo vệ", options: ["bảo vệ", "phá hủy", "thay đổi", "tăng", "giảm"] },
-            { word: "continent", sentence: "Africa is a large continent.", vietnamese: "lục địa", options: ["lục địa", "đảo", "biển", "sông", "núi"] },
-            { word: "ashore", sentence: "We went ashore from the boat.", vietnamese: "lên bờ", options: ["lên bờ", "xuống nước", "trên tàu", "trong rừng", "trên núi"] },
-            { word: "guide", sentence: "The guide showed us the city.", vietnamese: "hướng dẫn viên", options: ["hướng dẫn viên", "khách", "tài xế", "giáo viên", "bạn"] },
-            { word: "risks", sentence: "Climbing mountains has risks.", vietnamese: "rủi ro", options: ["rủi ro", "an toàn", "vui vẻ", "dễ dàng", "cơ hội"] },
-            { word: "coastguard", sentence: "The coastguard rescued the boat.", vietnamese: "cảnh sát biển", options: ["cảnh sát biển", "cứu hỏa", "cảnh sát", "bác sĩ", "thuyền viên"] },
-            { word: "surveys", sentence: "Surveys show people like parks.", vietnamese: "khảo sát", options: ["khảo sát", "báo cáo", "tin tức", "kế hoạch", "ý kiến"] },
-            { word: "confirm", sentence: "Please confirm your appointment.", vietnamese: "xác nhận", options: ["xác nhận", "hủy", "thay đổi", "trì hoãn", "bỏ qua"] },
-            { word: "media", sentence: "The media reported the news.", vietnamese: "truyền thông", options: ["truyền thông", "sách", "trường học", "công ty", "bệnh viện"] },
-            { word: "coverage", sentence: "The event had a lot of coverage.", vietnamese: "phản ánh", options: ["phản ánh", "bỏ qua", "im lặng", "thay đổi", "kết thúc"] },
-            { word: "influence", sentence: "Friends can influence your choices.", vietnamese: "ảnh hưởng", options: ["ảnh hưởng", "ngăn cản", "bỏ qua", "giúp đỡ", "thay đổi"] },
+            { word: "tribal", sentence: "I visited a tribal village last summer.", vietnamese: "bộ lạc", options: ["bộ lạc", "thành phố", "nông thôn", "biển", "núi"] },
+            { word: "tourism", sentence: "Tourism helps our town grow.", vietnamese: "du lịch", options: ["du lịch", "nông nghiệp", "công nghiệp", "giáo dục", "y tế"] },
+            { word: "remote", sentence: "The village is in a remote area.", vietnamese: "xa xôi", options: ["xa xôi", "gần gũi", "đông đúc", "hiện đại", "an toàn"] },
+            { word: "destination", sentence: "Paris is a popular destination.", vietnamese: "điểm đến", options: ["điểm đến", "xuất phát", "trạm dừng", "kế hoạch", "vé"] },
+            { word: "local", sentence: "I buy fruit from local shops.", vietnamese: "địa phương", options: ["địa phương", "nước ngoài", "toàn cầu", "mới", "cũ"] },
+            { word: "culture", sentence: "I love learning about Japanese culture.", vietnamese: "văn hóa", options: ["văn hóa", "thể thao", "khoa học", "kinh tế", "chính trị"] },
+            { word: "accommodation", sentence: "The hotel is our accommodation.", vietnamese: "chỗ ở", options: ["chỗ ở", "phương tiện", "thức ăn", "giải trí", "cửa hàng"] },
+            { word: "facilities", sentence: "The school has new sports facilities.", vietnamese: "cơ sở vật chất", options: ["cơ sở vật chất", "giáo viên", "học sinh", "sách", "bàn"] },
+            { word: "share", sentence: "We share food with our neighbors.", vietnamese: "chia sẻ", options: ["chia sẻ", "giữ", "mua", "bán", "ném"] },
+            { word: "celebrations", sentence: "We have big celebrations on New Year.", vietnamese: "lễ hội", options: ["lễ hội", "học tập", "công việc", "nghỉ ngơi", "du lịch"] },
+            { word: "percent", sentence: "Only ten percent passed the test.", vietnamese: "phần trăm", options: ["phần trăm", "số lượng", "kết quả", "thời gian", "điểm"] },
+            { word: "holidays", sentence: "I go camping during holidays.", vietnamese: "kỳ nghỉ", options: ["kỳ nghỉ", "học kỳ", "cuối tuần", "ngày làm việc", "buổi tối"] },
+            { word: "compared", sentence: "My bag is compared to yours.", vietnamese: "so sánh", options: ["so sánh", "khác biệt", "giống nhau", "thay đổi", "giữ"] },
+            { word: "exchange", sentence: "We did a student exchange program.", vietnamese: "trao đổi", options: ["trao đổi", "mua bán", "tặng", "hủy", "giữ"] },
+            { word: "values", sentence: "Honesty is one of my values.", vietnamese: "giá trị", options: ["giá trị", "tiền", "thời gian", "kế hoạch", "mục tiêu"] },
+            { word: "lifestyle", sentence: "She lives a healthy lifestyle.", vietnamese: "lối sống", options: ["lối sống", "công việc", "giáo dục", "sở thích", "thời tiết"] },
+            { word: "attraction", sentence: "The zoo is a big attraction.", vietnamese: "sự thu hút", options: ["sự thu hút", "vấn đề", "kế hoạch", "công việc", "nguy hiểm"] },
+            { word: "chance", sentence: "I have a chance to win.", vietnamese: "cơ hội", options: ["cơ hội", "rủi ro", "thách thức", "kết quả", "mục tiêu"] },
+            { word: "convinced", sentence: "I’m not convinced this is true.", vietnamese: "thuyết phục", options: ["thuyết phục", "nghi ngờ", "đồng ý", "từ chối", "bỏ qua"] },
+            { word: "opinions", sentence: "We have different opinions on this.", vietnamese: "ý kiến", options: ["ý kiến", "sự thật", "kế hoạch", "câu hỏi", "lời khuyên"] },
+            { word: "divided", sentence: "The class is divided into groups.", vietnamese: "chia ra", options: ["chia ra", "gộp lại", "giữ nguyên", "thay đổi", "bỏ"] },
+            { word: "argument", sentence: "They had an argument about money.", vietnamese: "tranh cãi", options: ["tranh cãi", "thảo luận", "đồng ý", "kế hoạch", "hỗ trợ"] },
+            { word: "exploits", sentence: "The company exploits its workers.", vietnamese: "bóc lột", options: ["bóc lột", "giúp đỡ", "tôn trọng", "thay đổi", "bảo vệ"] },
+            { word: "long-term", sentence: "Smoking has long-term health effects.", vietnamese: "lâu dài", options: ["lâu dài", "ngắn hạn", "tạm thời", "nhanh chóng", "mới"] },
+            { word: "effects", sentence: "The medicine has side effects.", vietnamese: "tác động", options: ["tác động", "kết quả", "nguyên nhân", "giải pháp", "vấn đề"] },
             { word: "negative", sentence: "He has a negative attitude.", vietnamese: "tiêu cực", options: ["tiêu cực", "tích cực", "bình thường", "vui vẻ", "buồn"] },
-            { word: "headline", sentence: "The headline was about a storm.", vietnamese: "tiêu đề", options: ["tiêu đề", "bài báo", "hình ảnh", "câu chuyện", "kết thúc"] },
-            { word: "symbol", sentence: "The heart is a symbol of love.", vietnamese: "biểu tượng", options: ["biểu tượng", "hình ảnh", "màu sắc", "âm thanh", "câu nói"] },
-            { word: "plight", sentence: "The plight of animals is sad.", vietnamese: "hoàn cảnh", options: ["hoàn cảnh", "vui vẻ", "sức khỏe", "tương lai", "cơ hội"] }
+            { word: "spiritual", sentence: "The temple has spiritual importance.", vietnamese: "tâm linh", options: ["tâm linh", "vật chất", "thể thao", "giáo dục", "kinh tế"] },
+            { word: "statue", sentence: "There’s a statue in the park.", vietnamese: "tượng", options: ["tượng", "cây", "nhà", "biển", "đường"] },
+            { word: "indoors", sentence: "We stayed indoors during the storm.", vietnamese: "trong nhà", options: ["trong nhà", "ngoài trời", "trên núi", "dưới biển", "trong rừng"] },
+            { word: "carry", sentence: "I carry my bag to school.", vietnamese: "mang", options: ["mang", "ném", "giữ", "mua", "bán"] },
+            { word: "photographs", sentence: "She takes photographs of flowers.", vietnamese: "ảnh", options: ["ảnh", "sách", "bài hát", "bức tranh", "câu chuyện"] },
+            { word: "exotic", sentence: "I tried exotic fruit yesterday.", vietnamese: "lạ", options: ["lạ", "bình thường", "quen thuộc", "đắt", "rẻ"] },
+            { word: "harming", sentence: "Pollution is harming the environment.", vietnamese: "gây hại", options: ["gây hại", "bảo vệ", "cải thiện", "thay đổi", "giữ"] },
+            { word: "maximize", sentence: "We maximize our time by planning.", vietnamese: "tối đa hóa", options: ["tối đa hóa", "giảm bớt", "giữ nguyên", "bỏ qua", "thay đổi"] },
+            { word: "minimize", sentence: "I minimize waste by recycling.", vietnamese: "giảm thiểu", options: ["giảm thiểu", "tăng", "giữ", "thêm", "bỏ"] },
+            { word: "impacts", sentence: "Cars have big impacts on air.", vietnamese: "tác động", options: ["tác động", "lợi ích", "kế hoạch", "nguyên nhân", "giải pháp"] },
+            { word: "invest", sentence: "They invest money in new projects.", vietnamese: "đầu tư", options: ["đầu tư", "tiêu", "cho", "giữ", "mượn"] },
+            { word: "community", sentence: "Our community helps each other.", vietnamese: "cộng đồng", options: ["cộng đồng", "gia đình", "trường học", "công ty", "bệnh viện"] },
+            { word: "respect", sentence: "I respect my teachers’ advice.", vietnamese: "tôn trọng", options: ["tôn trọng", "bỏ qua", "phản đối", "thay đổi", "giúp"] },
+            { word: "customs", sentence: "We follow old family customs.", vietnamese: "phong tục", options: ["phong tục", "luật", "kế hoạch", "thói quen", "trò chơi"] },
+            { word: "traditions", sentence: "Lighting candles is a tradition.", vietnamese: "truyền thống", options: ["truyền thống", "mới", "thay đổi", "kế hoạch", "sáng tạo"] },
+            { word: "guest", sentence: "Be kind to every guest.", vietnamese: "khách", options: ["khách", "chủ nhà", "nhân viên", "giáo viên", "bạn"] },
+            { word: "specializing", sentence: "This shop is specializing in books.", vietnamese: "chuyên", options: ["chuyên", "bán", "mua", "cho", "tặng"] },
+            { word: "unsuitable", sentence: "This shirt is unsuitable for winter.", vietnamese: "không phù hợp", options: ["không phù hợp", "thích hợp", "đẹp", "mới", "cũ"] },
+            { word: "recommendations", sentence: "She gave me book recommendations.", vietnamese: "gợi ý", options: ["gợi ý", "lệnh", "kế hoạch", "báo cáo", "kết quả"] },
+            { word: "priceless", sentence: "This memory is priceless to me.", vietnamese: "vô giá", options: ["vô giá", "đắt", "rẻ", "bình thường", "mới"] },
+            { word: "basic", sentence: "We stayed in a basic room.", vietnamese: "cơ bản", options: ["cơ bản", "hiện đại", "đắt", "rộng", "nhỏ"] },
+            { word: "ethical", sentence: "Buying fair-trade is ethical.", vietnamese: "đạo đức", options: ["đạo đức", "sai", "bình thường", "vui", "buồn"] },
+            { word: "resources", sentence: "Water is a precious resource.", vietnamese: "tài nguyên", options: ["tài nguyên", "tiền", "thời gian", "kế hoạch", "sản phẩm"] },
+            { word: "environment", sentence: "We must protect the environment.", vietnamese: "môi trường", options: ["môi trường", "nhà", "trường", "công ty", "bệnh viện"] }
         ];
 
         let currentIndex = 0;
+
+        // Function to shuffle array (Fisher-Yates shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         function displayQuestion() {
             if (currentIndex >= vocab.length) {
@@ -137,7 +146,10 @@
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
 
-            item.options.forEach(option => {
+            // Create a copy of options and shuffle it
+            const shuffledOptions = shuffleArray([...item.options]);
+
+            shuffledOptions.forEach(option => {
                 const button = document.createElement('button');
                 button.className = 'option';
                 button.textContent = option;
