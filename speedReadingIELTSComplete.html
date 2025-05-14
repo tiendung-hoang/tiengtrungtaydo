@@ -14,157 +14,148 @@
             margin: 0;
             background-color: #f0f0f0;
         }
-        .quiz-container {
-            background-color: white;
+        #quiz-container {
+            background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
-> 
-            max-width: 400px;
+            max-width: 500px;
+            width: 100%;
         }
-        .word {
+        #word {
             font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #sentence {
+            font-size: 18px;
             margin-bottom: 20px;
+            color: #555;
         }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        button {
+        .option {
+            display: block;
             padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border: 1px solid #ccc;
+            margin: 10px auto;
+            width: 80%;
+            background: #e0e0e0;
+            border: none;
             border-radius: 5px;
-            background-color: #fff;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            font-size: 16px;
         }
-        button:hover {
-            background-color: #e0e0e0;
+        .option:hover {
+            background: #d0d0d0;
         }
-        button.correct {
-            background-color: #4caf50;
-            color: white;
+        #progress {
+            margin-top: 20px;
+            font-size: 16px;
         }
-        button.incorrect {
-            background-color: #f44336;
-            color: white;
-        }
-        .congratulations {
-            font-size: 20px;
-            color: #4caf50;
+        #congrats {
+            display: none;
+            font-size: 24px;
+            color: #28a745;
         }
     </style>
 </head>
 <body>
-    <div class="quiz-container" id="quiz">
-        <div class="word" id="word"></div>
-        <div class="options" id="options"></div>
+    <div id="quiz-container">
+        <div id="progress"></div>
+        <div id="word"></div>
+        <div id="sentence"></div>
+        <div id="options"></div>
+        <div id="congrats">Congratulations! You completed the quiz!</div>
     </div>
 
     <script>
-        const vocabulary = [
-            { english: "Competitors", vietnamese: "Những người tham gia thi đấu" },
-            { english: "Average", vietnamese: "Trung bình" },
-            { english: "Qualify", vietnamese: "Đủ điều kiện" },
-            { english: "Essential", vietnamese: "Thiết yếu" },
-            { english: "Environment", vietnamese: "Môi trường" },
-            { english: "Master", vietnamese: "Làm chủ" },
-            { english: "Volume", vietnamese: "Khối lượng" },
-            { english: "Professional", vietnamese: "Chuyên nghiệp" },
-            { english: "Assignments", vietnamese: "Bài tập" },
-            { english: "Various", vietnamese: "Đa dạng" },
-            { english: "Methods", vietnamese: "Phương pháp" },
-            { english: "Outline", vietnamese: "Phác thảo" },
-            { english: "Issue", vietnamese: "Vấn đề" },
-            { english: "Skim", vietnamese: "Đọc lướt" },
-            { english: "Extract", vietnamese: "Trích xuất" },
-            { english: "Detail", vietnamese: "Chi tiết" },
-            { english: "Irrelevant", vietnamese: "Không liên quan" },
-            { english: "Improvements", vietnamese: "Sự cải thiện" },
-            { english: "Silently", vietnamese: "Im lặng" },
-            { english: "Pronounced", vietnamese: "Phát âm" },
-            { english: "Researchers", vietnamese: "Nhà nghiên cứu" },
-            { english: "Logically", vietnamese: "Hợp lý" },
-            { english: "Arrangement", vietnamese: "Sự sắp xếp" },
-            { english: "Chunking", vietnamese: "Phân đoạn" },
-            { english: "Individual", vietnamese: "Cá nhân" },
-            { english: "Fixing", vietnamese: "Tập trung" },
-            { english: "Block", vietnamese: "Khối" },
-            { english: "Instant", vietnamese: "Ngay lập tức" },
-            { english: "Rarely", vietnamese: "Hiếm khi" },
-            { english: "Skip", vietnamese: "Nhảy qua" },
-            { english: "Reduces", vietnamese: "Giảm" },
-            { english: "Period", vietnamese: "Khoảng thời gian" },
-            { english: "Flow", vietnamese: "Dòng chảy" },
-            { english: "Structure", vietnamese: "Cấu trúc" },
-            { english: "Muddling", vietnamese: "Làm rối" },
-            { english: "Overall", vietnamese: "Tổng thể" },
-            { english: "Irregular", vietnamese: "Không đều" },
-            { english: "Concentrate", vietnamese: "Tập trung" },
-            { english: "Comprehend", vietnamese: "Hiểu" },
-            { english: "Engaged", vietnamese: "Tham gia" },
-            { english: "Constantly", vietnamese: "Liên tục" },
-            { english: "Paragraph", vietnamese: "Đoạn văn" },
-            { english: "Progress", vietnamese: "Tiến bộ" }
+        const vocab = [
+            { word: "tourism", sentence: "Tourism is popular in my city.", vietnamese: "du lịch", options: ["du lịch", "kinh tế", "tàu biển", "môi trường", "hành khách"] },
+            { word: "expensive", sentence: "This hotel is too expensive for me.", vietnamese: "đắt tiền", options: ["đắt tiền", "rẻ", "hữu ích", "đẹp", "an toàn"] },
+            { word: "leisure", sentence: "I read books in my leisure time.", vietnamese: "giải trí", options: ["giải trí", "công việc", "học tập", "thể thao", "nghỉ ngơi"] },
+            { word: "inhospitable", sentence: "The desert is an inhospitable place.", vietnamese: "khó sống", options: ["khó sống", "thân thiện", "ấm áp", "xanh tươi", "an toàn"] },
+            { word: "increasing", sentence: "The price of food is increasing.", vietnamese: "tăng", options: ["tăng", "giảm", "giữ nguyên", "biến đổi", "mất"] },
+            { word: "visitors", sentence: "Many visitors come to the museum.", vietnamese: "khách thăm", options: ["khách thăm", "nhân viên", "học sinh", "người dân", "bạn bè"] },
+            { word: "annual", sentence: "We have an annual school party.", vietnamese: "hàng năm", options: ["hàng năm", "hàng tháng", "hàng tuần", "một lần", "thường xuyên"] },
+            { word: "cruise", sentence: "They went on a cruise last summer.", vietnamese: "du thuyền", options: ["du thuyền", "máy bay", "xe buýt", "tàu hỏa", "xe đạp"] },
+            { word: "passengers", sentence: "The bus has 20 passengers today.", vietnamese: "hành khách", options: ["hành khách", "tài xế", "nhân viên", "khách hàng", "người đi bộ"] },
+            { word: "growth", sentence: "The city has seen rapid growth.", vietnamese: "tăng trưởng", options: ["tăng trưởng", "suy giảm", "thay đổi", "ổn định", "mất mát"] },
+            { word: "climate", sentence: "The climate here is very hot.", vietnamese: "khí hậu", options: ["khí hậu", "thời tiết", "mùa", "nhiệt độ", "mưa"] },
+            { word: "marine", sentence: "I love watching marine animals.", vietnamese: "biển", options: ["biển", "rừng", "núi", "sông", "đất"] },
+            { word: "economic", sentence: "The economic situation is improving.", vietnamese: "kinh tế", options: ["kinh tế", "xã hội", "văn hóa", "giáo dục", "chính trị"] },
+            { word: "downturn", sentence: "The downturn affected many jobs.", vietnamese: "suy thoái", options: ["suy thoái", "phát triển", "ổn định", "tăng trưởng", "thay đổi"] },
+            { word: "land-based", sentence: "We stayed at a land-based camp.", vietnamese: "trên đất liền", options: ["trên đất liền", "dưới biển", "trên không", "trong rừng", "trên núi"] },
+            { word: "fragile", sentence: "This glass is very fragile.", vietnamese: "dễ vỡ", options: ["dễ vỡ", "cứng", "mềm", "nặng", "nhẹ"] },
+            { word: "aircraft", sentence: "The aircraft landed safely.", vietnamese: "máy bay", options: ["máy bay", "tàu", "xe", "thuyền", "máy móc"] },
+            { word: "helicopters", sentence: "Helicopters flew over the city.", vietnamese: "trực thăng", options: ["trực thăng", "máy bay", "tàu", "xe tăng", "thuyền"] },
+            { word: "terrain", sentence: "The terrain was rocky and hard.", vietnamese: "địa hình", options: ["địa hình", "thời tiết", "cây cối", "động vật", "nước"] },
+            { word: "operations", sentence: "The factory started new operations.", vietnamese: "hoạt động", options: ["hoạt động", "kế hoạch", "nghiên cứu", "sản xuất", "dừng lại"] },
+            { word: "deliver", sentence: "They deliver food to my house.", vietnamese: "giao hàng", options: ["giao hàng", "nấu ăn", "mua sắm", "lưu trữ", "sửa chữa"] },
+            { word: "capable", sentence: "She is capable of doing this task.", vietnamese: "có khả năng", options: ["có khả năng", "không thể", "mệt mỏi", "bận rộn", "sợ hãi"] },
+            { word: "uncommon", sentence: "Snow is uncommon in my town.", vietnamese: "hiếm", options: ["hiếm", "phổ biến", "thường xuyên", "nhiều", "luôn luôn"] },
+            { word: "return", sentence: "I will return to school tomorrow.", vietnamese: "trở lại", options: ["trở lại", "rời đi", "ở lại", "đi xa", "nghỉ ngơi"] },
+            { word: "roughly", sentence: "It takes roughly 10 minutes to walk.", vietnamese: "khoảng", options: ["khoảng", "chính xác", "luôn luôn", "hiếm khi", "nhanh chóng"] },
+            { word: "data", sentence: "The data shows we need more time.", vietnamese: "dữ liệu", options: ["dữ liệu", "ý kiến", "câu chuyện", "bài báo", "hình ảnh"] },
+            { word: "deteriorated", sentence: "The old house has deteriorated.", vietnamese: "xuống cấp", options: ["xuống cấp", "cải thiện", "mới", "sạch sẽ", "đẹp"] },
+            { word: "related", sentence: "This book is related to history.", vietnamese: "liên quan", options: ["liên quan", "khác biệt", "mới", "cũ", "khó"] },
+            { word: "widely", sentence: "English is widely spoken here.", vietnamese: "phổ biến", options: ["phổ biến", "hiếm", "ít", "chỉ", "không"] },
+            { word: "accepted", sentence: "Her idea was accepted by all.", vietnamese: "chấp nhận", options: ["chấp nhận", "từ chối", "thay đổi", "bỏ qua", "trì hoãn"] },
+            { word: "regulations", sentence: "New regulations protect the park.", vietnamese: "quy định", options: ["quy định", "luật", "kế hoạch", "ý tưởng", "lời khuyên"] },
+            { word: "proposals", sentence: "They discussed new proposals.", vietnamese: "đề xuất", options: ["đề xuất", "quyết định", "lệnh", "báo cáo", "kết quả"] },
+            { word: "limit", sentence: "There is a limit on phone use.", vietnamese: "giới hạn", options: ["giới hạn", "tăng", "mở rộng", "cho phép", "bỏ qua"] },
+            { word: "vessels", sentence: "Many vessels sail on the river.", vietnamese: "tàu", options: ["tàu", "xe", "máy bay", "thuyền nhỏ", "xe đạp"] },
+            { word: "environmental", sentence: "We need environmental protection.", vietnamese: "môi trường", options: ["môi trường", "kinh tế", "xã hội", "văn hóa", "giáo dục"] },
+            { word: "protection", sentence: "Helmets provide protection.", vietnamese: "bảo vệ", options: ["bảo vệ", "phá hủy", "thay đổi", "tăng", "giảm"] },
+            { word: "continent", sentence: "Africa is a large continent.", vietnamese: "lục địa", options: ["lục địa", "đảo", "biển", "sông", "núi"] },
+            { word: "ashore", sentence: "We went ashore from the boat.", vietnamese: "lên bờ", options: ["lên bờ", "xuống nước", "trên tàu", "trong rừng", "trên núi"] },
+            { word: "guide", sentence: "The guide showed us the city.", vietnamese: "hướng dẫn viên", options: ["hướng dẫn viên", "khách", "tài xế", "giáo viên", "bạn"] },
+            { word: "risks", sentence: "Climbing mountains has risks.", vietnamese: "rủi ro", options: ["rủi ro", "an toàn", "vui vẻ", "dễ dàng", "cơ hội"] },
+            { word: "coastguard", sentence: "The coastguard rescued the boat.", vietnamese: "cảnh sát biển", options: ["cảnh sát biển", "cứu hỏa", "cảnh sát", "bác sĩ", "thuyền viên"] },
+            { word: "surveys", sentence: "Surveys show people like parks.", vietnamese: "khảo sát", options: ["khảo sát", "báo cáo", "tin tức", "kế hoạch", "ý kiến"] },
+            { word: "confirm", sentence: "Please confirm your appointment.", vietnamese: "xác nhận", options: ["xác nhận", "hủy", "thay đổi", "trì hoãn", "bỏ qua"] },
+            { word: "media", sentence: "The media reported the news.", vietnamese: "truyền thông", options: ["truyền thông", "sách", "trường học", "công ty", "bệnh viện"] },
+            { word: "coverage", sentence: "The event had a lot of coverage.", vietnamese: "phản ánh", options: ["phản ánh", "bỏ qua", "im lặng", "thay đổi", "kết thúc"] },
+            { word: "influence", sentence: "Friends can influence your choices.", vietnamese: "ảnh hưởng", options: ["ảnh hưởng", "ngăn cản", "bỏ qua", "giúp đỡ", "thay đổi"] },
+            { word: "negative", sentence: "He has a negative attitude.", vietnamese: "tiêu cực", options: ["tiêu cực", "tích cực", "bình thường", "vui vẻ", "buồn"] },
+            { word: "headline", sentence: "The headline was about a storm.", vietnamese: "tiêu đề", options: ["tiêu đề", "bài báo", "hình ảnh", "câu chuyện", "kết thúc"] },
+            { word: "symbol", sentence: "The heart is a symbol of love.", vietnamese: "biểu tượng", options: ["biểu tượng", "hình ảnh", "màu sắc", "âm thanh", "câu nói"] },
+            { word: "plight", sentence: "The plight of animals is sad.", vietnamese: "hoàn cảnh", options: ["hoàn cảnh", "vui vẻ", "sức khỏe", "tương lai", "cơ hội"] }
         ];
 
-        let currentWordIndex = 0;
+        let currentIndex = 0;
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function loadWord() {
-            if (currentWordIndex >= vocabulary.length) {
-                document.getElementById('quiz').innerHTML = '<div class="congratulations">Congratulations! You have completed the quiz!</div>';
+        function displayQuestion() {
+            if (currentIndex >= vocab.length) {
+                document.getElementById('quiz-container').style.display = 'none';
+                document.getElementById('congrats').style.display = 'block';
                 return;
             }
 
-            const word = vocabulary[currentWordIndex];
-            document.getElementById('word').textContent = `${currentWordIndex + 1}. ${word.english}`;
+            const item = vocab[currentIndex];
+            document.getElementById('progress').textContent = `Question ${currentIndex + 1} of ${vocab.length}`;
+            document.getElementById('word').textContent = item.word;
+            document.getElementById('sentence').textContent = item.sentence;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
 
-            const options = [word.vietnamese];
-            while (options.length < 5) {
-                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)].vietnamese;
-                if (!options.includes(randomWord)) {
-                    options.push(randomWord);
-                }
-            }
-            shuffle(options);
-
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-            options.forEach(option => {
+            item.options.forEach(option => {
                 const button = document.createElement('button');
+                button.className = 'option';
                 button.textContent = option;
-                button.onclick = () => checkAnswer(option, word.vietnamese, button);
-                optionsContainer.appendChild(button);
+                button.onclick = () => checkAnswer(option, item.vietnamese);
+                optionsDiv.appendChild(button);
             });
         }
 
-        function checkAnswer(selected, correct, button) {
+        function checkAnswer(selected, correct) {
             if (selected === correct) {
-                button.classList.add('correct');
-                setTimeout(() => {
-                    currentWordIndex++;
-                    loadWord();
-                }, 500);
+                currentIndex++;
+                displayQuestion();
             } else {
-                button.classList.add('incorrect');
-                setTimeout(() => {
-                    button.classList.remove('incorrect');
-                }, 500);
+                alert('Try again!');
             }
         }
 
-        loadWord();
+        displayQuestion();
     </script>
 </body>
 </html>
