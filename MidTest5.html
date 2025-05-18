@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Nghe Tiếng Trung - Lesson 5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden-text { display: none; }
+        .visible-text { display: block; }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Bài Kiểm Tra Nghe Tiếng Trung - Lesson 5</h1>
+        <div id="quiz">
+            <!-- Question 1 -->
+            <div class="mb-6" id="q1">
+                <p class="font-semibold">Câu 1:</p>
+                <button onclick="speak('你的錢包在哪裡？', 'nǐ de qiánbāo zài nǎlǐ?')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text1')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text1" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 你的錢包在哪裡？</p>
+                    <p><strong>Pinyin:</strong> nǐ de qiánbāo zài nǎlǐ?</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q1" value="A"> A. Ví của bạn đắt không?</label><br>
+                    <label><input type="radio" name="q1" value="B"> B. Ví của bạn ở đâu?</label><br>
+                    <label><input type="radio" name="q1" value="C"> C. Ví của bạn của ai?</label><br>
+                    <label><input type="radio" name="q1" value="D"> D. Ví của bạn màu gì?</label>
+                </div>
+                <p id="result1" class="hidden-text"></p>
+            </div>
+            <!-- Question 2 -->
+            <div class="mb-6" id="q2">
+                <p class="font-semibold">Câu 2:</p>
+                <button onclick="speak('我在咖啡廳看書。', 'wǒ zài kāfēitīng kànshū.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text2')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text2" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 我在咖啡廳看書。</p>
+                    <p><strong>Pinyin:</strong> wǒ zài kāfēitīng kànshū.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q2" value="A"> A. Tôi chơi ở quán cà phê.</label><br>
+                    <label><input type="radio" name="q2" value="B"> B. Tôi đọc sách ở quán cà phê.</label><br>
+                    <label><input type="radio" name="q2" value="C"> C. Tôi mua sách ở quán cà phê.</label><br>
+                    <label><input type="radio" name="q2" value="D"> D. Tôi uống cà phê ở quán.</label>
+                </div>
+                <p id="result2" class="hidden-text"></p>
+            </div>
+            <!-- Question 3 -->
+            <div class="mb-6" id="q3">
+                <p class="font-semibold">Câu 3:</p>
+                <button onclick="speak('那家飲料店在那裡。', 'nà jiā yǐnliào diàn zài nàlǐ.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text3')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text3" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 那家飲料店在那裡。</p>
+                    <p><strong>Pinyin:</strong> nà jiā yǐnliào diàn zài nàlǐ.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q3" value="A"> A. Tiệm đồ uống đó đắt không?</label><br>
+                    <label><input type="radio" name="q3" value="B"> B. Tiệm đồ uống đó ở kia.</label><br>
+                    <label><input type="radio" name="q3" value="C"> C. Tiệm đồ uống đó của ai?</label><br>
+                    <label><input type="radio" name="q3" value="D"> D. Tiệm đồ uống đó rất ngon.</label>
+                </div>
+                <p id="result3" class="hidden-text"></p>
+            </div>
+            <!-- Question 4 -->
+            <div class="mb-6" id="q4">
+                <p class="font-semibold">Câu 4:</p>
+                <button onclick="speak('你下午有空嗎？', 'nǐ xiàwǔ yǒukòng ma?')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text4')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text4" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 你下午有空嗎？</p>
+                    <p><strong>Pinyin:</strong> nǐ xiàwǔ yǒukòng ma?</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q4" value="A"> A. Chiều nay bạn có học không?</label><br>
+                    <label><input type="radio" name="q4" value="B"> B. Chiều nay bạn rảnh không?</label><br>
+                    <label><input type="radio" name="q4" value="C"> C. Chiều nay bạn làm gì?</label><br>
+                    <label><input type="radio" name="q4" value="D"> D. Chiều nay bạn đi đâu?</label>
+                </div>
+                <p id="result4" class="hidden-text"></p>
+            </div>
+            <!-- Question 5 -->
+            <div class="mb-6" id="q5">
+                <p class="font-semibold">Câu 5:</p>
+                <button onclick="speak('書在桌子上面。', 'shū zài zhuōzi shàngmiàn.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text5')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text5" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 書在桌子上面。</p>
+                    <p><strong>Pinyin:</strong> shū zài zhuōzi shàngmiàn.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q5" value="A"> A. Sách ở bên cạnh bàn.</label><br>
+                    <label><input type="radio" name="q5" value="B"> B. Sách ở trên bàn.</label><br>
+                    <label><input type="radio" name="q5" value="C"> C. Sách ở trong phòng.</label><br>
+                    <label><input type="radio" name="q5" value="D"> D. Sách ở dưới bàn.</label>
+                </div>
+                <p id="result5" class="hidden-text"></p>
+            </div>
+            <!-- Question 6 -->
+            <div class="mb-6" id="q6">
+                <p class="font-semibold">Câu 6:</p>
+                <button onclick="speak('爸爸在客廳喝咖啡。', 'bàba zài kètīng hē kāfēi.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text6')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text6" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 爸爸在客廳喝咖啡。</p>
+                    <p><strong>Pinyin:</strong> bàba zài kètīng hē kāfēi.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q6" value="A"> A. Bố chơi ở phòng khách.</label><br>
+                    <label><input type="radio" name="q6" value="B"> B. Bố uống cà phê ở phòng khách.</label><br>
+                    <label><input type="radio" name="q6" value="C"> C. Bố đọc sách ở phòng khách.</label><br>
+                    <label><input type="radio" name="q6" value="D"> D. Bố uống trà ở phòng khách.</label>
+                </div>
+                <p id="result6" class="hidden-text"></p>
+            </div>
+            <!-- Question 7 -->
+            <div class="mb-6" id="q7">
+                <p class="font-semibold">Câu 7:</p>
+                <button onclick="speak('我家有三間房間。', 'wǒ jiā yǒu sān jiān fángjiān.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text7')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text7" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 我家有三間房間。</p>
+                    <p><strong>Pinyin:</strong> wǒ jiā yǒu sān jiān fángjiān.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q7" value="A"> A. Nhà tôi có ba ghế.</label><br>
+                    <label><input type="radio" name="q7" value="B"> B. Nhà tôi có ba phòng.</label><br>
+                    <label><input type="radio" name="q7" value="C"> C. Nhà tôi có ba bàn.</label><br>
+                    <label><input type="radio" name="q7" value="D"> D. Nhà tôi có ba sofa.</label>
+                </div>
+                <p id="result7" class="hidden-text"></p>
+            </div>
+            <!-- Question 8 -->
+            <div class="mb-6" id="q8">
+                <p class="font-semibold">Câu 8:</p>
+                <button onclick="speak('你要買便宜的吧？', 'nǐ yào mǎi piányí de ba?')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text8')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text8" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 你要買便宜的吧？</p>
+                    <p><strong>Pinyin:</strong> nǐ yào mǎi piányí de ba?</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q8" value="A"> A. Bạn mua cái đẹp hơn nhé?</label><br>
+                    <label><input type="radio" name="q8" value="B"> B. Bạn mua cái rẻ hơn nhé?</label><br>
+                    <label><input type="radio" name="q8" value="C"> C. Bạn mua cái lớn hơn nhé?</label><br>
+                    <label><input type="radio" name="q8" value="D"> D. Bạn mua cái đắt hơn nhé?</label>
+                </div>
+                <p id="result8" class="hidden-text"></p>
+            </div>
+            <!-- Question 9 -->
+            <div class="mb-6" id="q9">
+                <p class="font-semibold">Câu 9:</p>
+                <button onclick="speak('弟弟在廚房裡做什麼？', 'dìdi zài chúfáng lǐ zuò shénme?')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text9')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text9" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 弟弟在廚房裡做什麼？</p>
+                    <p><strong>Pinyin:</strong> dìdi zài chúfáng lǐ zuò shénme?</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q9" value="A"> A. Em trai uống gì trong bếp?</label><br>
+                    <label><input type="radio" name="q9" value="B"> B. Em trai làm gì trong bếp?</label><br>
+                    <label><input type="radio" name="q9" value="C"> C. Em trai ăn gì trong bếp?</label><br>
+                    <label><input type="radio" name="q9" value="D"> D. Em trai chơi gì trong bếp?</label>
+                </div>
+                <p id="result9" class="hidden-text"></p>
+            </div>
+            <!-- Question 10 -->
+            <div class="mb-6" id="q10">
+                <p class="font-semibold">Câu 10:</p>
+                <button onclick="speak('我喜歡吃冰淇淋。', 'wǒ xǐhuān chī bīngqílín.')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Nghe</button>
+                <button onclick="toggleText('text10')" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Hiện chữ</button>
+                <div id="text10" class="hidden-text mt-2">
+                    <p><strong>Chữ:</strong> 我喜歡吃冰淇淋。</p>
+                    <p><strong>Pinyin:</strong> wǒ xǐhuān chī bīngqílín.</p>
+                </div>
+                <div class="mt-2">
+                    <label><input type="radio" name="q10" value="A"> A. Tôi thích ăn mì.</label><br>
+                    <label><input type="radio" name="q10" value="B"> B. Tôi thích ăn kem.</label><br>
+                    <label><input type="radio" name="q10" value="C"> C. Tôi thích ăn bánh.</label><br>
+                    <label><input type="radio" name="q10" value="D"> D. Tôi thích ăn sô-cô-la.</label>
+                </div>
+                <p id="result10" class="hidden-text"></p>
+            </div>
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button onclick="submitQuiz()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Nộp bài</button>
+            </div>
+            <!-- Results -->
+            <div id="results" class="mt-4 hidden-text text-center">
+                <p id="score" class="text-lg font-semibold"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function speak(text, pinyin) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "zh-CN";
+            speechSynthesis.speak(utterance);
+        }
+
+        function toggleText(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('hidden-text');
+            element.classList.toggle('visible-text');
+        }
+
+        function submitQuiz() {
+            const answers = {
+                q1: 'B', // Ví của bạn ở đâu?
+                q2: 'B', // Tôi đọc sách ở quán cà phê.
+                q3: 'B', // Tiệm đồ uống đó ở kia.
+                q4: 'B', // Chiều nay bạn rảnh không?
+                q5: 'B', // Sách ở trên bàn.
+                q6: 'B', // Bố uống cà phê ở phòng khách.
+                q7: 'B', // Nhà tôi có ba phòng.
+                q8: 'B', // Bạn mua cái rẻ hơn nhé?
+                q9: 'B', // Em trai làm gì trong bếp?
+                q10: 'B' // Tôi thích ăn kem.
+            };
+            let score = 0;
+            let allAnswered = true;
+
+            for (let i = 1; i <= 10; i++) {
+                const selected = document.querySelector(`input[name=q${i}]:checked`);
+                const resultElement = document.getElementById(`result${i}`);
+                if (!selected) {
+                    allAnswered = false;
+                    resultElement.textContent = 'Vui lòng chọn đáp án!';
+                    resultElement.classList.remove('hidden-text', 'correct', 'incorrect');
+                    resultElement.classList.add('visible-text', 'incorrect');
+                    continue;
+                }
+                const isCorrect = selected.value === answers[`q${i}`];
+                if (isCorrect) {
+                    score++;
+                    resultElement.textContent = 'Đúng!';
+                    resultElement.classList.remove('hidden-text', 'incorrect');
+                    resultElement.classList.add('visible-text', 'correct');
+                } else {
+                    resultElement.textContent = `Sai! Đáp án đúng là: ${answers[`q${i}`]}`;
+                    resultElement.classList.remove('hidden-text', 'correct');
+                    resultElement.classList.add('visible-text', 'incorrect');
+                }
+            }
+
+            if (!allAnswered) {
+                document.getElementById('score').textContent = 'Vui lòng trả lời tất cả câu hỏi!';
+            } else {
+                document.getElementById('score').textContent = `Bạn được ${score}/10 điểm!`;
+            }
+            document.getElementById('results').classList.remove('hidden-text');
+            document.getElementById('results').classList.add('visible-text');
+        }
+    </script>
+</body>
+</html>
