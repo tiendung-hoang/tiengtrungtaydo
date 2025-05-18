@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện tập Ngữ pháp Tiếng Trung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden-text { display: none; }
+        .show-text { display: inline; }
+        .section { display: none; }
+        .section.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-6">Luyện tập Ngữ pháp Tiếng Trung</h1>
+        <ul class="list-disc list-inside bg-white p-6 rounded-lg shadow-lg mb-6">
+            <li class="cursor-pointer text-blue-600 hover:underline" onclick="showSection('section1')">Chủ ngữ + 從/到 + Địa điểm + 來/去</li>
+            <li class="cursor-pointer text-blue-600 hover:underline" onclick="showSection('section2')">你怎麼去？-> 我坐公車去</li>
+            <li class="cursor-pointer text-blue-600 hover:underline" onclick="showSection('section3')">Chủ ngữ + Tính từ/Động từ + 了</li>
+            <li class="cursor-pointer text-blue-600 hover:underline" onclick="showSection('section4')">Động từ (Tân ngữ) + Tính chất</li>
+            <li class="cursor-pointer text-blue-600 hover:underline" onclick="showSection('section5')">Câu với trạng từ 又…又…</li>
+        </ul>
+
+        <!-- Section 1: Chủ ngữ + 從/到 + Địa điểm + 來/去 -->
+        <div id="section1" class="section bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Chủ ngữ + 從/到 + Địa điểm + 來/去</h2>
+            <div class="mb-4">
+                <span id="location1_s1" class="text-3xl"></span>
+                <button id="showLocation1_s1" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="location1Text_s1" class="hidden-text ml-2"></span>
+                <span id="direction_s1" class="text-3xl ml-4"></span>
+                <button id="showDirection_s1" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="directionText_s1" class="hidden-text ml-2"></span>
+                <span id="location2_s1" class="text-3xl ml-4"></span>
+                <button id="showLocation2_s1" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="location2Text_s1" class="hidden-text ml-2"></span>
+            </div>
+            <button id="newButton_s1" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New</button>
+            <p class="mt-4 text-lg">Ví dụ: 我從學校來 (Wǒ cóng xuéxiào lái) hoặc 我到他家去 (Wǒ dào tā jiā qù)</p>
+        </div>
+
+        <!-- Section 2: 你怎麼去？-> 我坐公車去 -->
+        <div id="section2" class="section bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">你怎麼去？-> 我坐公車去</h2>
+            <div class="mb-4">
+                <span id="transport_s2" class="text-3xl"></span>
+                <button id="showTransport_s2" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="transportText_s2" class="hidden-text ml-2"></span>
+                <span id="location_s2" class="text-3xl ml-4"></span>
+                <button id="showLocation_s2" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="locationText_s2" class="hidden-text ml-2"></span>
+            </div>
+            <button id="newButton_s2" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New</button>
+            <p class="mt-4 text-lg">Ví dụ: 你怎麼去學校？-> 我坐公車去 (Nǐ zěnme qù xuéxiào? -> Wǒ zuò gōngchē qù)</p>
+        </div>
+
+        <!-- Section 3: Chủ ngữ + Tính từ/Động từ + 了 -->
+        <div id="section3" class="section bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Chủ ngữ + Tính từ/Động từ + 了</h2>
+            <div class="mb-4">
+                <span id="state_s3" class="text-3xl"></span>
+                <button id="showState_s3" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="stateText_s3" class="hidden-text ml-2"></span>
+                <span id="action_s3" class="text-3xl ml-4"></span>
+                <button id="showAction_s3" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="actionText_s3" class="hidden-text ml-2"></span>
+            </div>
+            <button id="newButton_s3" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New</button>
+            <p class="mt-4 text-lg">Ví dụ: 我餓了，想吃一點東西 (Wǒ è le, xiǎng chī yìdiǎn dōngxi) hoặc 公車來了，我們可以上車了 (Gōngchē lái le, wǒmen kěyǐ shàngchē le)</p>
+        </div>
+
+        <!-- Section 4: Động từ (Tân ngữ) + Tính chất -->
+        <div id="section4" class="section bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Động từ (Tân ngữ) + Tính chất</h2>
+            <div class="mb-4">
+                <span id="action_s4" class="text-3xl"></span>
+                <button id="showAction_s4" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="actionText_s4" class="hidden-text ml-2"></span>
+                <span id="quality_s4" class="text-3xl ml-4"></span>
+                <button id="showQuality_s4" class="ml-2 bg-blue-500 мл-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="qualityText_s4" class="hidden-text ml-2"></span>
+            </div>
+            <button id="newButton_s4" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New</button>
+            <p class="mt-4 text-lg">Ví dụ: 坐捷運很方便 (Zuò jiéyùn hěn fāngbiàn) hoặc 踢足球很好玩 (Tī zúqiú hěn hǎowán)</p>
+        </div>
+
+        <!-- Section 5: Câu với trạng từ 又…又… -->
+        <div id="section5" class="section bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Câu với trạng từ 又…又…</h2>
+            <div class="mb-4">
+                <span id="object_s5" class="text-3xl"></span>
+                <button id="showObject_s5" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="objectText_s5" class="hidden-text ml-2"></span>
+                <span id="adjective1_s5" class="text-3xl ml-4"></span>
+                <button id="showAdjective1_s5" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="adjective1Text_s5" class="hidden-text ml-2"></span>
+                <span id="adjective2_s5" class="text-3xl ml-4"></span>
+                <button id="showAdjective2_s5" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Show</button>
+                <span id="adjective2Text_s5" class="hidden-text ml-2"></span>
+            </div>
+            <button id="newButton_s5" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New</button>
+            <p class="mt-4 text-lg">Ví dụ: 台北的捷運又快又方便 (Táiběi de jiéyùn yòu kuài yòu fāngbiàn) hoặc 這冰淇淋又好吃又便宜 (Zhè bīngqílín yòu hǎochī yòu piányí)</p>
+        </div>
+    </div>
+
+    <script>
+        // Data for Section 1
+        const locations_s1 = [
+            { emoji: '🏡', hanzi: '旅館', pinyin: 'lǚguǎn' },
+            { emoji: '🏨', hanzi: '飯店', pinyin: 'fàndiàn' },
+            { emoji: '🏫', hanzi: '學校', pinyin: 'xuéxiào' },
+            { emoji: '📮', hanzi: '郵局', pinyin: 'yóujú' },
+            { emoji: '✈️', hanzi: '機場', pinyin: 'jīchǎng' }
+        ];
+        const directions_s1 = [
+            { emoji: '🚶‍♂️', hanzi: '到', pinyin: 'dào' },
+            { emoji: '🏃‍♂️', hanzi: '從', pinyin: 'cóng' }
+        ];
+
+        // Data for Section 2
+        const transports_s2 = [
+            { emoji: '🚌', hanzi: '公車', pinyin: 'gōngchē' },
+            { emoji: '🚇', hanzi: '捷運', pinyin: 'jiéyùn' },
+            { emoji: '🚖', hanzi: '計程車', pinyin: 'jìchéngchē' },
+            { emoji: '🚆', hanzi: '火車', pinyin: 'huǒchē' },
+            { emoji: '🚶‍♂️', hanzi: '走路', pinyin: 'zǒulù' }
+        ];
+        const locations_s2 = [
+            { emoji: '🏡', hanzi: '旅館', pinyin: 'lǚguǎn' },
+            { emoji: '🛒', hanzi: '超市', pinyin: 'chāoshì' },
+            { emoji: '✈️', hanzi: '機場', pinyin: 'jīchǎng' },
+            { emoji: '🏫', hanzi: '學校', pinyin: 'xuéxiào' }
+        ];
+
+        // Data for Section 3
+        const states_s3 = [
+            { emoji: '🍽️', hanzi: '餓', pinyin: 'è' },
+            { emoji: '😴', hanzi: '累', pinyin: 'lèi' },
+            { emoji: '🚶‍♂️', hanzi: '到', pinyin: 'dào' },
+            { emoji: '🚌', hanzi: '公車來', pinyin: 'gōngchē lái' }
+        ];
+        const actions_s3 = [
+            { emoji: '🍜', hanzi: '吃', pinyin: 'chī' },
+            { emoji: '🛋️', hanzi: '休息', pinyin: 'xiūxí' },
+            { emoji: '🚍', hanzi: '上車', pinyin: 'shàngchē' }
+        ];
+
+        // Data for Section 4
+        const actions_s4 = [
+            { emoji: '🚇', hanzi: '坐捷運', pinyin: 'zuò jiéyùn' },
+            { emoji: '⚽', hanzi: '踢足球', pinyin: 'tī zúqiú' },
+            { emoji: '🛍️', hanzi: '買東西', pinyin: 'mǎi dōngxi' },
+            { emoji: '🏊‍♂️', hanzi: '游泳', pinyin: 'yóuyǒng' }
+        ];
+        const qualities_s4 = [
+            { emoji: '👍', hanzi: '方便', pinyin: 'fāngbiàn' },
+            { emoji: '😄', hanzi: '好玩', pinyin: 'hǎowán' },
+            { emoji: '⚡', hanzi: '快', pinyin: 'kuài' }
+        ];
+
+        // Data for Section 5
+        const objects_s5 = [
+            { emoji: '🚇', hanzi: '捷運', pinyin: 'jiéyùn' },
+            { emoji: '🍦', hanzi: '冰淇淋', pinyin: 'bīngqílín' },
+            { emoji: '🏊‍♂️', hanzi: '游泳', pinyin: 'yóuyǒng' },
+            { emoji: '🌤️', hanzi: '天氣', pinyin: 'tiānqì' }
+        ];
+        const adjectives_s5 = [
+            { emoji: '⚡', hanzi: '快', pinyin: 'kuài' },
+            { emoji: '👍', hanzi: '方便', pinyin: 'fāngbiàn' },
+            { emoji: '😋', hanzi: '好吃', pinyin: 'hǎochī' },
+            { emoji: '💰', hanzi: '便宜', pinyin: 'piányí' },
+            { emoji: '😊', hanzi: '舒服', pinyin: 'shūfu' }
+        ];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getTwoDifferentAdjectives() {
+            const adj1 = getRandomItem(adjectives_s5);
+            let adj2 = getRandomItem(adjectives_s5);
+            while (adj2 === adj1) {
+                adj2 = getRandomItem(adjectives_s5);
+            }
+            return [adj1, adj2];
+        }
+
+        // Update functions for each section
+        function updateContent_s1() {
+            const loc1 = getRandomItem(locations_s1);
+            const loc2 = getRandomItem(locations_s1);
+            const dir = getRandomItem(directions_s1);
+
+            document.getElementById('location1_s1').textContent = loc1.emoji;
+            document.getElementById('location1Text_s1').textContent = `${loc1.hanzi}/${loc1.pinyin}`;
+            document.getElementById('direction_s1').textContent = dir.emoji;
+            document.getElementById('directionText_s1').textContent = `${dir.hanzi}/${dir.pinyin}`;
+            document.getElementById('location2_s1').textContent = loc2.emoji;
+            document.getElementById('location2Text_s1').textContent = `${loc2.hanzi}/${loc2.pinyin}`;
+
+            document.getElementById('location1Text_s1').classList.add('hidden-text');
+            document.getElementById('directionText_s1').classList.add('hidden-text');
+            document.getElementById('location2Text_s1').classList.add('hidden-text');
+        }
+
+        function updateContent_s2() {
+            const transport = getRandomItem(transports_s2);
+            const location = getRandomItem(locations_s2);
+
+            document.getElementById('transport_s2').textContent = transport.emoji;
+            document.getElementById('transportText_s2').textContent = `${transport.hanzi}/${transport.pinyin}`;
+            document.getElementById('location_s2').textContent = location.emoji;
+            document.getElementById('locationText_s2').textContent = `${location.hanzi}/${location.pinyin}`;
+
+            document.getElementById('transportText_s2').classList.add('hidden-text');
+            document.getElementById('locationText_s2').classList.add('hidden-text');
+        }
+
+        function updateContent_s3() {
+            const state = getRandomItem(states_s3);
+            const action = getRandomItem(actions_s3);
+
+            document.getElementById('state_s3').textContent = state.emoji;
+            document.getElementById('stateText_s3').textContent = `${state.hanzi}/${state.pinyin}`;
+            document.getElementById('action_s3').textContent = action.emoji;
+            document.getElementById('actionText_s3').textContent = `${action.hanzi}/${action.pinyin}`;
+
+            document.getElementById('stateText_s3').classList.add('hidden-text');
+            document.getElementById('actionText_s3').classList.add('hidden-text');
+        }
+
+        function updateContent_s4() {
+            const action = getRandomItem(actions_s4);
+            const quality = getRandomItem(qualities_s4);
+
+            document.getElementById('action_s4').textContent = action.emoji;
+            document.getElementById('actionText_s4').textContent = `${action.hanzi}/${action.pinyin}`;
+            document.getElementById('quality_s4').textContent = quality.emoji;
+            document.getElementById('qualityText_s4').textContent = `${quality.hanzi}/${quality.pinyin}`;
+
+            document.getElementById('actionText_s4').classList.add('hidden-text');
+            document.getElementById('qualityText_s4').classList.add('hidden-text');
+        }
+
+        function updateContent_s5() {
+            const object = getRandomItem(objects_s5);
+            const [adj1, adj2] = getTwoDifferentAdjectives();
+
+            document.getElementById('object_s5').textContent = object.emoji;
+            document.getElementById('objectText_s5').textContent = `${object.hanzi}/${object.pinyin}`;
+            document.getElementById('adjective1_s5').textContent = adj1.emoji;
+            document.getElementById('adjective1Text_s5').textContent = `${adj1.hanzi}/${adj1.pinyin}`;
+            document.getElementById('adjective2_s5').textContent = adj2.emoji;
+            document.getElementById('adjective2Text_s5').textContent = `${adj2.hanzi}/${adj2.pinyin}`;
+
+            document.getElementById('objectText_s5').classList.add('hidden-text');
+            document.getElementById('adjective1Text_s5').classList.add('hidden-text');
+            document.getElementById('adjective2Text_s5').classList.add('hidden-text');
+        }
+
+        // Event listeners for buttons
+        document.getElementById('newButton_s1').addEventListener('click', updateContent_s1);
+        document.getElementById('showLocation1_s1').addEventListener('click', () => {
+            const text = document.getElementById('location1Text_s1');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showDirection_s1').addEventListener('click', () => {
+            const text = document.getElementById('directionText_s1');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showLocation2_s1').addEventListener('click', () => {
+            const text = document.getElementById('location2Text_s1');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+
+        document.getElementById('newButton_s2').addEventListener('click', updateContent_s2);
+        document.getElementById('showTransport_s2').addEventListener('click', () => {
+            const text = document.getElementById('transportText_s2');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showLocation_s2').addEventListener('click', () => {
+            const text = document.getElementById('locationText_s2');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+
+        document.getElementById('newButton_s3').addEventListener('click', updateContent_s3);
+        document.getElementById('showState_s3').addEventListener('click', () => {
+            const text = document.getElementById('stateText_s3');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showAction_s3').addEventListener('click', () => {
+            const text = document.getElementById('actionText_s3');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+
+        document.getElementById('newButton_s4').addEventListener('click', updateContent_s4);
+        document.getElementById('showAction_s4').addEventListener('click', () => {
+            const text = document.getElementById('actionText_s4');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showQuality_s4').addEventListener('click', () => {
+            const text = document.getElementById('qualityText_s4');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+
+        document.getElementById('newButton_s5').addEventListener('click', updateContent_s5);
+        document.getElementById('showObject_s5').addEventListener('click', () => {
+            const text = document.getElementById('objectText_s5');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showAdjective1_s5').addEventListener('click', () => {
+            const text = document.getElementById('adjective1Text_s5');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+        document.getElementById('showAdjective2_s5').addEventListener('click', () => {
+            const text = document.getElementById('adjective2Text_s5');
+            text.classList.toggle('hidden-text');
+            text.classList.toggle('show-text');
+        });
+
+        // Function to show selected section
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Initialize content for all sections
+        updateContent_s1();
+        updateContent_s2();
+        updateContent_s3();
+        updateContent_s4();
+        updateContent_s5();
+
+        // Show first section by default
+        showSection('section1');
+    </script>
+</body>
+</html>
