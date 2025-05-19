@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        #quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #start-button {
+            background-color: #28a745;
+            width: 200px;
+            font-size: 18px;
+            padding: 15px;
+        }
+        #start-button:hover {
+            background-color: #218838;
+        }
+        #feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #lives, #score {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        #welcome-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="welcome-message">
+            <h1>Welcome to the Vocabulary Quiz!</h1>
+            <p>Test your knowledge of 50 English words with Vietnamese meanings.</p>
+            <p>You have 4 lives. After 4 wrong answers, the quiz will restart.</p>
+            <button id="start-button">Start Quiz</button>
+        </div>
+        <div id="quiz-content" class="hidden">
+            <h1>Vocabulary Quiz</h1>
+            <div id="lives">Lives: 4</div>
+            <div id="score">Score: 0/50</div>
+            <div id="question"></div>
+            <div id="options"></div>
+            <div id="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { word: "museum", correct: "bảo tàng", options: ["bảo tàng", "rạp chiếu phim", "nhà hàng", "ngọn núi"], example: "I visited a museum to see old paintings." },
+            { word: "film", correct: "bộ phim", options: ["bộ phim", "vé", "động vật", "khoa học"], example: "We watched a funny film at the cinema." },
+            { word: "ticket", correct: "vé", options: ["vé", "bộ phim", "hành trình", "ảnh"], example: "I bought a ticket to enter the zoo." },
+            { word: "cinema", correct: "rạp chiếu phim", options: ["rạp chiếu phim", "bảo tàng", "sa mạc", "biển"], example: "The cinema shows new films every week." },
+            { word: "secure", correct: "an toàn", options: ["an toàn", "khẩn cấp", "chuyên nghiệp", "lịch trình"], example: "Keep your bag secure in the museum." },
+            { word: "staff", correct: "nhân viên", options: ["nhân viên", "khách", "vé", "hướng dẫn"], example: "The staff at the hotel were very kind." },
+            { word: "restaurant", correct: "nhà hàng", options: ["nhà hàng", "rạp chiếu phim", "bảo tàng", "sông"], example: "We ate lunch at a nice restaurant." },
+            { word: "emergency", correct: "khẩn cấp", options: ["khẩn cấp", "an toàn", "ảnh", "kho báu"], example: "Call 911 in an emergency." },
+            { word: "photograph", correct: "ảnh", options: ["ảnh", "vé", "phép", "máy tính"], example: "She took a photograph of the flowers." },
+            { word: "permit", correct: "giấy phép", options: ["giấy phép", "ảnh", "vé", "hành trình"], example: "You need a permit to take photos here." },
+            { word: "entrance", correct: "lối vào", options: ["lối vào", "lối ra", "nhà hàng", "sa mạc"], example: "The entrance to the park is free." },
+            { word: "professional", correct: "chuyên nghiệp", options: ["chuyên nghiệp", "nghiệp dư", "khoa học", "đặc biệt"], example: "A professional photographer took our picture." },
+            { word: "wallet", correct: "ví tiền", options: ["ví tiền", "điện thoại", "vé", "ảnh"], example: "I lost my wallet at the market." },
+            { word: "mobile", correct: "điện thoại di động", options: ["điện thoại di động", "máy tính", "ví tiền", "lịch trình"], example: "My mobile phone is in my bag." },
+            { word: "schedule", correct: "lịch trình", options: ["lịch trình", "kế hoạch", "bộ phim", "hành trình"], example: "Check the schedule for the film times." },
+            { word: "amazing", correct: "tuyệt vời", options: ["tuyệt vời", "bình thường", "đặc biệt", "khó khăn"], example: "The view from the mountain is amazing." },
+            { word: "journey", correct: "hành trình", options: ["hành trình", "bộ phim", "địa điểm", "kho báu"], example: "Our journey to the beach was fun." },
+            { word: "river", correct: "sông", options: ["sông", "biển", "núi", "sa mạc"], example: "The river flows through the city." },
+            { word: "mountain", correct: "ngọn núi", options: ["ngọn núi", "sông", "biển", "thành phố"], example: "We climbed a tall mountain last summer." },
+            { word: "sea", correct: "biển", options: ["biển", "sông", "đại dương", "sa mạc"], example: "I swam in the sea during私の holiday." },
+            { word: "explore", correct: "khám phá", options: ["khám phá", "tìm kiếm", "đi bộ", "chiến đấu"], example: "Let’s explore the forest together." },
+            { word: "landscape", correct: "phong cảnh", options: ["phong cảnh", "động vật", "thành phố", "bộ phim"], example: "The landscape in the countryside is beautiful." },
+            { word: "ocean", correct: "đại dương", options: ["đại dương", "biển", "sông", "sa mạc"], example: "The ocean is full of colorful fish." },
+            { word: "animal", correct: "động vật", options: ["động vật", "cây cối", "khoa học", "máy tính"], example: "I saw a big animal in the zoo." },
+            { word: "bottom", correct: "đáy", options: ["đáy", "đỉnh", "bên", "giữa"], example: "The treasure is at the bottom of the sea." },
+            { word: "search", correct: "tìm kiếm", options: ["tìm kiếm", "khám phá", "chiến đấu", "di chuyển"], example: "We search for shells on the beach." },
+            { word: "migrate", correct: "di cư", options: ["di cư", "tìm kiếm", "sống", "chiến đấu"], example: "Birds migrate to warm places in winter." },
+            { word: "fight", correct: "chiến đấu", options: ["chiến đấu", "chạy", "tìm kiếm", "khám phá"], example: "The animals fight for food." },
+            { word: "survival", correct: "sự sống sót", options: ["sự sống sót", "hành trình", "kho báu", "khoa học"], example: "Survival in the jungle is difficult." },
+            { word: "dinosaur", correct: "khủng long", options: ["khủng long", "động vật", "cây cối", "máy tính"], example: "Dinosaurs lived millions of years ago." },
+            { word: "special", correct: "đặc biệt", options: ["đặc biệt", "bình thường", "tuyệt vời", "khó khăn"], example: "This is a special day for me." },
+            { word: "effects", correct: "hiệu ứng", options: ["hiệu ứng", "khoa học", "ảnh", "máy tính"], example: "The film has great special effects." },
+            { word: "scientist", correct: "nhà khoa học", options: ["nhà khoa học", "nhân viên", "hướng dẫn", "khách"], example: "A scientist studies animals and plants." },
+            { word: "evidence", correct: "bằng chứng", options: ["bằng chứng", "khoa học", "ảnh", "kho báu"], example: "They found evidence of an old city." },
+            { word: "species", correct: "loài", options: ["loài", "động vật", "cây cối", "máy tính"], example: "This species of fish is rare." },
+            { word: "recreate", correct: "tái tạo", options: ["tái tạo", "tìm kiếm", "khám phá", "chiến đấu"], example: "They recreate dinosaurs in the film." },
+            { word: "computer", correct: "máy tính", options: ["máy tính", "điện thoại", "ảnh", "vé"], example: "I use a computer to do my homework." },
+            { word: "desert", correct: "sa mạc", options: ["sa mạc", "rừng", "biển", "núi"], example: "The desert is very hot and dry." },
+            { word: "camel", correct: "lạc đà", options: ["lạc đà", "ngựa", "động vật", "xe"], example: "A camel can walk in the desert." },
+            { word: "dive", correct: "lặn", options: ["lặn", "bơi", "chạy", "leo"], example: "I want to dive in the sea." },
+            { word: "treasure", correct: "kho báu", options: ["kho báu", "ảnh", "vé", "bằng chứng"], example: "Pirates hide treasure in caves." },
+            { word: "ruin", correct: "tàn tích", options: ["tàn tích", "thành phố", "nhà", "sa mạc"], example: "We visited the ruin of an old castle." },
+            { word: "city", correct: "thành phố", options: ["thành phố", "làng", "sa mạc", "biển"], example: "Hanoi is a big city in Vietnam." },
+            { word: "magical", correct: "kỳ diệu", options: ["kỳ diệu", "bình thường", "đặc biệt", "khó khăn"], example: "The film was a magical experience." },
+            { word: "experience", correct: "trải nghiệm", options: ["trải nghiệm", "hành trình", "bộ phim", "kho báu"], example: "Traveling is a great experience." },
+            { word: "decide", correct: "quyết định", options: ["quyết định", "tìm kiếm", "khám phá", "hỏi"], example: "I can’t decide which film to watch." },
+            { word: "question", correct: "câu hỏi", options: ["câu hỏi", "câu trả lời", "bộ phim", "hành trình"], example: "Do you have any questions about the museum?" },
+            { word: "guide", correct: "hướng dẫn", options: ["hướng dẫn", "nhân viên", "khách", "khoa học"], example: "The guide showed us the museum." },
+            { word: "early", correct: "sớm", options: ["sớm", "muộn", "nhanh", "chậm"], example: "Arrive early to get a good seat." },
+            { word: "minute", correct: "phút", options: ["phút", "giờ", "ngày", "tháng"], example: "The film starts in five minutes." }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let lives = 4;
+        let incorrectCount = 0;
+
+        const welcomeMessage = document.getElementById("welcome-message");
+        const quizContent = document.getElementById("quiz-content");
+        const startButton = document.getElementById("start-button");
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const feedbackEl = document.getElementById("feedback");
+        const livesEl = document.getElementById("lives");
+        const scoreEl = document.getElementById("score");
+
+        startButton.onclick = () => {
+            welcomeMessage.classList.add("hidden");
+            quizContent.classList.remove("hidden");
+            loadQuestion();
+        };
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionEl.innerHTML = `What is the meaning of "<strong>${q.word}</strong>"?<br><small>Example: ${q.example}</small>`;
+            optionsEl.innerHTML = "";
+
+            // Shuffle options
+            const shuffledOptions = q.options.sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, q.correct);
+                optionsEl.appendChild(button);
+            });
+
+            feedbackEl.textContent = "";
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                feedbackEl.textContent = "Correct!";
+                feedbackEl.style.color = "green";
+                score++;
+                currentQuestion++;
+                scoreEl.textContent = `Score: ${score}/${quizData.length}`;
+                if (currentQuestion < quizData.length) {
+                    setTimeout(loadQuestion, 1000);
+                } else {
+                    questionEl.textContent = "Quiz Completed!";
+                    optionsEl.innerHTML = "";
+                    feedbackEl.textContent = `Final Score: ${score}/${quizData.length}`;
+                }
+            } else {
+                feedbackEl.textContent = `Incorrect! The correct answer is "${correct}".`;
+                feedbackEl.style.color = "red";
+                incorrectCount++;
+                lives--;
+                livesEl.textContent = `Lives: ${lives}`;
+                if (incorrectCount >= 4) {
+                    alert("Game Over! You've lost all lives. Restarting...");
+                    currentQuestion = 0;
+                    score = 0;
+                    lives = 4;
+                    incorrectCount = 0;
+                    scoreEl.textContent = `Score: ${score}/${quizData.length}`;
+                    livesEl.textContent = `Lives: ${lives}`;
+                    quizContent.classList.add("hidden");
+                    welcomeMessage.classList.remove("hidden");
+                } else {
+                    setTimeout(() => {
+                        feedbackEl.textContent = "";
+                        if (currentQuestion < quizData.length) {
+                            loadQuestion();
+                        }
+                    }, 2000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
