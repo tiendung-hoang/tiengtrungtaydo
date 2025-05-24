@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Grammar Practice - Lesson 8</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.10/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const grammarData = {
+      "好/難 + Động từ": [
+        { hanzi: "這家餐廳的牛肉麵很好吃", pinyin: "Zhè jiā cāntīng de niúròu miàn hěn hǎochī", emoji: "🍜" },
+        { hanzi: "這杯茶有點兒難喝", pinyin: "Zhè bēi chá yǒudiǎnr nánhē", emoji: "☕" },
+        { hanzi: "這首中文歌很好唱", pinyin: "Zhè shǒu Zhōngwén gē hěn hǎochàng", emoji: "🎤" },
+        { hanzi: "這裡的百貨公司很好找", pinyin: "Zhèlǐ de bǎihuò gōngsī hěn hǎozhǎo", emoji: "🏬" },
+        { hanzi: "這件衣服的顏色很好看", pinyin: "Zhè jiàn yīfu de yánsè hěn hǎokàn", emoji: "👗" },
+        { hanzi: "這首歌有點兒難聽", pinyin: "Zhè shǒu gē yǒudiǎnr nántīng", emoji: "🎵" },
+        { hanzi: "說中文很容易", pinyin: "Shuō Zhōngwén hěn róngyì", emoji: "📚" },
+        { hanzi: "這輛腳踏車很難騎", pinyin: "Zhè liàng jiǎotàchē hěn nánqí", emoji: "🚴" },
+        { hanzi: "這家店的蛋糕很好吃", pinyin: "Zhè jiā diàn de dàngāo hěn hǎochī", emoji: "🍰" },
+        { hanzi: "那個牌子的褲子不好看", pinyin: "Nà ge páizi de kùzi bù hǎokàn", emoji: "👖" },
+        { hanzi: "這本書很難學", pinyin: "Zhè běn shū hěn nánxué", emoji: "📚" },
+        { hanzi: "這雙鞋子很好看", pinyin: "Zhè shuāng xiézi hěn hǎokàn", emoji: "👟" },
+        { hanzi: "這家餐廳的咖啡有點兒難喝", pinyin: "Zhè jiā cāntīng de kāfēi yǒudiǎnr nánhē", emoji: "☕" },
+        { hanzi: "去樓上的電梯很好找", pinyin: "Qù lóushàng de diàntī hěn hǎozhǎo", emoji: "🛗" },
+        { hanzi: "這首歌很好聽", pinyin: "Zhè shǒu gē hěn hǎotīng", emoji: "🎵" }
+      ],
+      "因為…所以…": [
+        { hanzi: "因為天氣很冷，所以我穿了很多衣服", pinyin: "Yīnwèi tiānqì hěn lěng, suǒyǐ wǒ chuān le hěn duō yīfu", emoji: "❄️👗" },
+        { hanzi: "因為這個牌子很有名，所以很多人喜歡買", pinyin: "Yīnwèi zhè ge páizi hěn yǒumíng, suǒyǐ hěn duō rén xǐhuān mǎi", emoji: "🌟🛒" },
+        { hanzi: "因為我很忙，所以沒有時間看電影", pinyin: "Yīnwèi wǒ hěn máng, suǒyǐ méi yǒu shíjiān kàn diànyǐng", emoji: "💼⏰" },
+        { hanzi: "因為他每天跑步，所以瘦了三公斤", pinyin: "Yīnwèi tā měi tiān pǎobù, suǒyǐ shòu le sān gōngjīn", emoji: "🏃⚖️" },
+        { hanzi: "因為爸爸喜歡吃蛋糕，所以胖了", pinyin: "Yīnwèi bàba xǐhuān chī dàngāo, suǒyǐ pàng le", emoji: "🍰⚖️" },
+        { hanzi: "因為這家餐廳的牛肉麵很好吃，所以我常常來", pinyin: "Yīnwèi zhè jiā cāntīng de niúròu miàn hěn hǎochī, suǒyǐ wǒ chángcháng lái", emoji: "🍜🏠" },
+        { hanzi: "因為學校很遠，所以我坐電梯去", pinyin: "Yīnwèi xuéxiào hěn yuǎn, suǒyǐ wǒ zuò diàntī qù", emoji: "📚🛗" },
+        { hanzi: "因為我喜歡聽音樂，所以買了這首歌", pinyin: "Yīnwèi wǒ xǐhuān tīng yīnyuè, suǒyǐ mǎi le zhè shǒu gē", emoji: "🎉🎵" },
+        { hanzi: "因為這件衣服很流行，所以我買了", pinyin: "Yīnwèi zhè jiàn yīfu hěn liúxíng, suǒyǐ wǒ mǎi le", emoji: "👗🛒" },
+        { hanzi: "因為天氣冷，所以我不想去百貨公司", pinyin: "Yīnwèi tiānqì lěng, suǒyǐ wǒ bù xiǎng qù bǎihuò gōngsī", emoji: "❄️🏬" },
+        { hanzi: "因為我沒有時間，所以不去跑步", pinyin: "Yīnwèi wǒ méi yǒu shíjiān, suǒyǐ bù qù pǎobù", emoji: "⏰🏃" },
+        { hanzi: "因為這個牌子很有名，所以衣服不便宜", pinyin: "Yīnwèi zhè ge páizi hěn yǒumíng, suǒyǐ yīfu bù piányí", emoji: "🌟👖" },
+        { hanzi: "因為我喜歡這家店的咖啡，所以常來這裡", pinyin: "Yīnwèi wǒ xǐhuān zhè jiā diàn de kāfēi, suǒyǐ cháng lái zhèlǐ", emoji: "☕🏠" },
+        { hanzi: "因為學校很遠，所以我每天很累", pinyin: "Yīnwèi xuéxiào hěn yuǎn, suǒyǐ wǒ měi tiān hěn lèi", emoji: "📚😓" },
+        { hanzi: "因為我喜歡黃色，所以買了黃色的裙子", pinyin: "Yīnwèi wǒ xǐhuān huángsè, suǒyǐ mǎi le huángsè de qúnzi", emoji: "🎉👗" }
+      ],
+      "Câu + 吧": [
+        { hanzi: "這家店的蛋糕很好吃吧？", pinyin: "Zhè jiā diàn de dàngāo hěn hǎochī ba?", emoji: "🍰" },
+        { hanzi: "你會唱中文歌吧？", pinyin: "Nǐ huì chàng Zhōngwén gē ba?", emoji: "🎤" },
+        { hanzi: "白色是今年流行的顏色吧？", pinyin: "Báisè shì jīnnián liúxíng de yánsè ba?", emoji: "🎉" },
+        { hanzi: "這件衣服很好看吧？", pinyin: "Zhè jiàn yīfu hěn hǎokàn ba?", emoji: "👗" },
+        { hanzi: "這首歌很好聽吧？", pinyin: "Zhè shǒu gē hěn hǎotīng ba?", emoji: "🎵" },
+        { hanzi: "你現在有空吧？", pinyin: "Nǐ xiànzài yǒukòng ba?", emoji: "⏰" },
+        { hanzi: "你喜歡去百貨公司吧？", pinyin: "Nǐ xǐhuān qù bǎihuò gōngsī ba?", emoji: "🏬" },
+        { hanzi: "年輕人都喜歡這家餐廳吧？", pinyin: "Niánqīng rén dōu xǐhuān zhè jiā cāntīng ba?", emoji: "👶🍜" },
+        { hanzi: "這雙鞋子很流行吧？", pinyin: "Zhè shuāng xiézi hěn liúxíng ba?", emoji: "👟🎉" },
+        { hanzi: "這杯咖啡好喝吧？", pinyin: "Zhè bēi kāfēi hǎohē ba?", emoji: "☕" },
+        { hanzi: "你會去樓下的商店買東西吧？", pinyin: "Nǐ huì qù lóuxià de shāngdiàn mǎi dōngxī ba?", emoji: "🛒" },
+        { hanzi: "這本雜誌很好看吧？", pinyin: "Zhè běn zázhì hěn hǎokàn ba?", emoji: "📖" },
+        { hanzi: "這家店的牛肉麵很好吃吧？", pinyin: "Zhè jiā diàn de niúròu miàn hěn hǎochī ba?", emoji: "🍜" },
+        { hanzi: "你喜歡穿黃色的衣服吧？", pinyin: "Nǐ xǐhuān chuān huángsè de yīfu ba?", emoji: "👗🎉" },
+        { hanzi: "年輕人都愛聽這首歌吧？", pinyin: "Niánqīng rén dōu ài tīng zhè shǒu gē ba?", emoji: "👶🎵" }
+      ],
+      "VV看": [
+        { hanzi: "你可以先吃吃看", pinyin: "Nǐ kěyǐ xiān chīchī kàn", emoji: "🍜" },
+        { hanzi: "我喝喝看這杯茶", pinyin: "Wǒ hēhē kàn zhè bēi chá", emoji: "☕" },
+        { hanzi: "你去百貨公司找找看", pinyin: "Nǐ qù bǎihuò gōngsī zhǎozhǎo kàn", emoji: "🏬" },
+        { hanzi: "我穿穿看這件衣服", pinyin: "Wǒ chuānchuān kàn zhè jiàn yīfu", emoji: "👗" },
+        { hanzi: "你唱唱看這首歌", pinyin: "Nǐ chàngchàng kàn zhè shǒu gē", emoji: "🎤" },
+        { hanzi: "我學學看這本書", pinyin: "Wǒ xuéxué kàn zhè běn shū", emoji: "📚" },
+        { hanzi: "他騎騎看這輛腳踏車", pinyin: "Tā qíqí kàn zhè liàng jiǎotàchē", emoji: "🚴" },
+        { hanzi: "你買買看這雙鞋子", pinyin: "Nǐ mǎimǎi kàn zhè shuāng xiézi", emoji: "🛒👟" },
+        { hanzi: "我吃吃看這塊蛋糕", pinyin: "Wǒ chīchī kàn zhè kuài dàngāo", emoji: "🍰" },
+        { hanzi: "你喝喝看這杯咖啡", pinyin: "Nǐ hēhē kàn zhè bēi kāfēi", emoji: "☕" },
+        { hanzi: "他找找看樓下的商店", pinyin: "Tā zhǎozhǎo kàn lóuxià de shāngdiàn", emoji: "🏬" },
+        { hanzi: "我穿穿看這條褲子", pinyin: "Wǒ chuānchuān kàn zhè tiáo kùzi", emoji: "👖" },
+        { hanzi: "你學學看中文", pinyin: "Nǐ xuéxué kàn Zhōngwén", emoji: "📚" },
+        { hanzi: "他唱唱看這首中文歌", pinyin: "Tā chàngchàng kàn zhè shǒu Zhōngwén gē", emoji: "🎤" },
+        { hanzi: "我騎騎看這輛新腳踏車", pinyin: "Wǒ qíqí kàn zhè liàng xīn jiǎotàchē", emoji: "🚴" }
+      ],
+      "快(要)/要…了": [
+        { hanzi: "火車快要來了", pinyin: "Huǒchē kuàiyào lái le", emoji: "✈️" },
+        { hanzi: "圖書館快開了", pinyin: "Túshūguǎn kuài kāi le", emoji: "🏫" },
+        { hanzi: "我要穿這件衣服了", pinyin: "Wǒ yào chuān zhè jiàn yīfu le", emoji: "👗" },
+        { hanzi: "我們快要去百貨公司了", pinyin: "Wǒmen kuài yào qù bǎihuò gōngsī le", emoji: "🏬" },
+        { hanzi: "飛機快要起飛了", pinyin: "Fēijī kuàiyào qǐfēi le", emoji: "✈️" },
+        { hanzi: "學校要關了", pinyin: "Xuéxiào yào guān le", emoji: "🏫" },
+        { hanzi: "我要吃這碗牛肉麵了", pinyin: "Wǒ yào chī zhè wǎn niúròu miàn le", emoji: "🍜" },
+        { hanzi: "我們快要坐電梯了", pinyin: "Wǒmen kuài yào zuò diàntī le", emoji: "🛗" },
+        { hanzi: "我要去買鞋子了", pinyin: "Wǒ yào qù mǎi xiézi le", emoji: "🛒👟" },
+        { hanzi: "冬天快要到了", pinyin: "Dōngtiān kuàiyào dào le", emoji: "❄️⏰" },
+        { hanzi: "我要穿這條褲子了", pinyin: "Wǒ yào chuān zhè tiáo kùzi le", emoji: "👖" },
+        { hanzi: "圖書館快要關了", pinyin: "Túshūguǎn kuàiyào guān le", emoji: "🏫" },
+        { hanzi: "我要吃這塊蛋糕了", pinyin: "Wǒ yào chī zhè kuài dàngāo le", emoji: "🍰" },
+        { hanzi: "我們快要去樓下買東西了", pinyin: "Wǒmen kuài yào qù lóuxià mǎi dōngxī le", emoji: "🛒" },
+        { hanzi: "十點了，課要開始了", pinyin: "Shí diǎn le, kè yào kāishǐ le", emoji: "📚⏰" }
+      ]
+    };
+
+    const App = () => {
+      const [selectedGrammar, setSelectedGrammar] = useState(null);
+      const [currentSentence, setCurrentSentence] = useState(null);
+      const [showPinyin, setShowPinyin] = useState(false);
+
+      const getRandomSentence = () => {
+        const sentences = grammarData[selectedGrammar];
+        const randomIndex = Math.floor(Math.random() * sentences.length);
+        setCurrentSentence(sentences[randomIndex]);
+        setShowPinyin(false);
+      };
+
+      const togglePinyin = () => {
+        setShowPinyin(!showPinyin);
+      };
+
+      const goBack = () => {
+        setSelectedGrammar(null);
+        setCurrentSentence(null);
+        setShowPinyin(false);
+      };
+
+      return (
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full text-center">
+          {!selectedGrammar ? (
+            <div>
+              <h1 className="text-2xl font-bold mb-4">Chinese Grammar Practice - Lesson 8</h1>
+              <p className="text-lg text-gray-600 mb-4">Select a grammar point to practice:</p>
+              <div className="flex flex-col gap-2">
+                {Object.keys(grammarData).map((grammar) => (
+                  <button
+                    key={grammar}
+                    onClick={() => setSelectedGrammar(grammar)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  >
+                    {grammar}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h1 className="text-2xl font-bold mb-4">Practice {selectedGrammar}</h1>
+              {currentSentence ? (
+                <div className="mb-4">
+                  <p className="text-xl">{currentSentence.hanzi} {currentSentence.emoji}</p>
+                  {showPinyin && (
+                    <p className="text-lg text-gray-600 mt-2">{currentSentence.pinyin}</p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-lg text-gray-500">Click "New" to start!</p>
+              )}
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={goBack}
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={getRandomSentence}
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  New
+                </button>
+                <button
+                  onClick={togglePinyin}
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  disabled={!currentSentence}
+                >
+                  Show
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
