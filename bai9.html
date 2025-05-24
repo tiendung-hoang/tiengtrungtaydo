@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Chinese Grammar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div id="selectionScreen">
+      <h1 class="text-2xl font-bold text-center mb-4">Practice Chinese Grammar</h1>
+      <p class="text-center mb-4">Select a grammar structure to practice:</p>
+      <select id="grammarSelect" class="w-full p-2 border rounded mb-4">
+        <option value="" disabled selected>Choose a grammar structure</option>
+        <option value="zaiV">在 V (Ongoing Action)</option>
+        <option value="fromTo">從…到… (Time Period)</option>
+        <option value="firstThen">先…再… (First…Then…)</option>
+        <option value="neng">能 (Ability/Permission)</option>
+        <option value="bijiao">比較 (Implicit Comparison)</option>
+      </select>
+      <div class="flex justify-center">
+        <button id="startBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start</button>
+      </div>
+    </div>
+
+    <div id="practiceScreen" class="hidden">
+      <h1 id="grammarTitle" class="text-2xl font-bold text-center mb-4"></h1>
+      <p class="text-center mb-4">Click "New" to get a random sentence, then "Show" to see the Chinese and Pinyin.</p>
+      <div class="flex justify-center space-x-4 mb-4">
+        <button id="newBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">New</button>
+        <button id="showBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Show</button>
+        <button id="backBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Back</button>
+      </div>
+      <div id="sentenceDisplay" class="text-center text-lg mb-4"></div>
+      <div id="fullSentence" class="text-center text-lg hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    const grammarData = {
+      zaiV: {
+        title: "Practice 在 V (Ongoing Action)",
+        sentences: [
+          { emoji: "🍽️", chinese: "我在吃饭", pinyin: "Wǒ zài chīfàn" },
+          { emoji: "📖", chinese: "我在看书", pinyin: "Wǒ zài kàn shū" },
+          { emoji: "✍️", chinese: "我在写字", pinyin: "Wǒ zài xiě zì" },
+          { emoji: "🚶", chinese: "我在走路", pinyin: "Wǒ zài zǒulù" },
+          { emoji: "🎶", chinese: "我在听音乐", pinyin: "Wǒ zài tīng yīnyuè" },
+          { emoji: "📚", chinese: "我在学习", pinyin: "Wǒ zài xuéxí" },
+          { emoji: "😴", chinese: "我在睡觉", pinyin: "Wǒ zài shuìjiào" },
+          { emoji: "💬", chinese: "我在说话", pinyin: "Wǒ zài shuōhuà" },
+          { emoji: "📺", chinese: "我在看电视", pinyin: "Wǒ zài kàn diànshì" },
+          { emoji: "⚽", chinese: "我在踢足球", pinyin: "Wǒ zài tī zúqiú" }
+        ]
+      },
+      fromTo: {
+        title: "Practice 從…到… (Time Period)",
+        sentences: [
+          { emoji: "📚", chinese: "我从早上到晚上学习", pinyin: "Wǒ cóng zǎoshàng dào wǎnshàng xuéxí" },
+          { emoji: "💼", chinese: "我从星期一到星期五工作", pinyin: "Wǒ cóng xīngqī yī dào xīngqī wǔ gōngzuò" },
+          { emoji: "😴", chinese: "我从晚上十点到早上六点睡觉", pinyin: "Wǒ cóng wǎnshàng shí diǎn dào zǎoshàng liù diǎn shuìjiào" },
+          { emoji: "✈️", chinese: "我从星期六到星期日去旅行", pinyin: "Wǒ cóng xīngqī liù dào xīngqī rì qù lǚxíng" },
+          { emoji: "🛒", chinese: "我从下午两点到四点买东西", pinyin: "Wǒ cóng xiàwǔ liǎng diǎn dào sì diǎn mǎi dōngxi" },
+          { emoji: "🎬", chinese: "我从八点到十点看电影", pinyin: "Wǒ cóng bā diǎn dào shí diǎn kàn diànyǐng" },
+          { emoji: "🍽️", chinese: "我从中午十二点到一点吃饭", pinyin: "Wǒ cóng zhōngwǔ shí’èr diǎn dào yī diǎn chīfàn" },
+          { emoji: "🤝", chinese: "我从早上九点到十点开会", pinyin: "Wǒ cóng zǎoshàng jiǔ diǎn dào shí diǎn kāihuì" },
+          { emoji: "🏃", chinese: "我从傍晚五点到六点跑步", pinyin: "Wǒ cóng bàngwǎn wǔ diǎn dào liù diǎn pǎobù" }
+        ]
+      },
+      firstThen: {
+        title: "Practice 先…再… (First…Then…)",
+        sentences: [
+          { emoji: "🍽️📺", chinese: "我先吃饭，再看电视", pinyin: "Wǒ xiān chīfàn, zài kàn diànshì" },
+          { emoji: "🛒🏠", chinese: "我先买东西，再回家", pinyin: "Wǒ xiān mǎi dōngxi, zài huí jiā" },
+          { emoji: "📚😴", chinese: "我先学习，再睡觉", pinyin: "Wǒ xiān xuéxí, zài shuìjiào" },
+          { emoji: "🚶🛒", chinese: "我先走路，再买东西", pinyin: "Wǒ xiān zǒulù, zài mǎi dōngxi" },
+          { emoji: "☎️🍵", chinese: "我先打电话，再喝茶", pinyin: "Wǒ xiān dǎ diànhuà, zài hē chá" },
+          { emoji: "🛁📺", chinese: "我先洗澡，再看电视", pinyin: "Wǒ xiān xǐzǎo, zài kàn diànshì" },
+          { emoji: "📚🏠", chinese: "我先学习，再回家", pinyin: "Wǒ xiān xuéxí, zài huí jiā" },
+          { emoji: "🍽️☎️", chinese: "我先吃饭，再打电话", pinyin: "Wǒ xiān chīfàn, zài dǎ diànhuà" },
+          { emoji: "🛒😴", chinese: "我先买东西，再睡觉", pinyin: "Wǒ xiān mǎi dōngxi, zài shuìjiào" },
+          { emoji: "🚶🍵", chinese: "我先走路，再喝茶", pinyin: "Wǒ xiān zǒulù, zài hē chá" }
+        ]
+      },
+      neng: {
+        title: "Practice 能 (Ability/Permission)",
+        sentences: [
+          { emoji: "🏃", chinese: "我能跑步", pinyin: "Wǒ néng pǎobù" },
+          { emoji: "📖💬", chinese: "我不能在图书馆说话", pinyin: "Wǒ bù néng zài túshūguǎn shuōhuà" },
+          { emoji: "📚🎬", chinese: "今天我有课，不能去看电影", pinyin: "Jīntiān wǒ yǒu kè, bù néng qù kàn diànyǐng" },
+          { emoji: "🍽️", chinese: "我能吃很多东西", pinyin: "Wǒ néng chī hěn duō dōngxi" },
+          { emoji: "🎤", chinese: "我能唱中文歌", pinyin: "Wǒ néng chàng Zhōngwén gē" },
+          { emoji: "🚶🚌", chinese: "我不能走路去学校，太远了", pinyin: "Wǒ bù néng zǒulù qù xuéxiào, tài yuǎn le" },
+          { emoji: "🍵🏠", chinese: "我能在家喝茶", pinyin: "Wǒ néng zài jiā hē chá" },
+          { emoji: "✍️📚", chinese: "我能在教室里写字", pinyin: "Wǒ néng zài jiàoshì lǐ xiě zì" },
+          { emoji: "⚽", chinese: "我现在不能踢足球，因为很累", pinyin: "Wǒ xiànzài bù néng tī zúqiú, yīnwèi hěn lèi" },
+          { emoji: "📺🏠", chinese: "我能在家看电视", pinyin: "Wǒ néng zài jiā kàn diànshì" }
+        ]
+      },
+      bijiao: {
+        title: "Practice 比較 (Implicit Comparison)",
+        sentences: [
+          { emoji: "🚀", chinese: "她跑得比较快", pinyin: "Tā pǎo de bǐjiào kuài" },
+          { emoji: "💰", chinese: "这件衣服比较贵", pinyin: "Zhè jiàn yīfu bǐjiào guì" },
+          { emoji: "❄️", chinese: "今天比较冷", pinyin: "Jīntiān bǐjiào lěng" },
+          { emoji: "😊", chinese: "她长得比较漂亮", pinyin: "Tā zhǎng de bǐjiào piàoliàng" },
+          { emoji: "🐢", chinese: "他走得比较慢", pinyin: "Tā zǒu de bǐjiào màn" },
+          { emoji: "🤑", chinese: "这个包比较便宜", pinyin: "Zhè ge bāo bǐjiào piányí" },
+          { emoji: "🌞", chinese: "今天比较热", pinyin: "Jīntiān bǐjiào rè" },
+          { emoji: "👍", chinese: "这本书比较好", pinyin: "Zhè běn shū bǐjiào hǎo" },
+          { emoji: "🎤", chinese: "他唱得比较好听", pinyin: "Tā chàng de bǐjiào hǎotīng" },
+          { emoji: "💃", chinese: "她跳舞跳得比较好", pinyin: "Tā tiàowǔ tiào de bǐjiào hǎo" },
+          { emoji: "📚", chinese: "他学习学得比较快", pinyin: "Tā xuéxí xué de bǐjiào kuài" }
+        ]
+      }
+    };
+
+    const selectionScreen = document.getElementById('selectionScreen');
+    const practiceScreen = document.getElementById('practiceScreen');
+    const grammarSelect = document.getElementById('grammarSelect');
+    const startBtn = document.getElementById('startBtn');
+    const newBtn = document.getElementById('newBtn');
+    const showBtn = document.getElementById('showBtn');
+    const backBtn = document.getElementById('backBtn');
+    const grammarTitle = document.getElementById('grammarTitle');
+    const sentenceDisplay = document.getElementById('sentenceDisplay');
+    const fullSentence = document.getElementById('fullSentence');
+
+    let currentGrammar = null;
+    let currentSentence = null;
+
+    startBtn.addEventListener('click', () => {
+      const selectedGrammar = grammarSelect.value;
+      if (selectedGrammar) {
+        currentGrammar = grammarData[selectedGrammar];
+        grammarTitle.textContent = currentGrammar.title;
+        selectionScreen.classList.add('hidden');
+        practiceScreen.classList.remove('hidden');
+        newBtn.click(); // Trigger a new sentence
+      }
+    });
+
+    newBtn.addEventListener('click', () => {
+      if (currentGrammar) {
+        currentSentence = currentGrammar.sentences[Math.floor(Math.random() * currentGrammar.sentences.length)];
+        sentenceDisplay.textContent = currentSentence.emoji;
+        fullSentence.textContent = '';
+        fullSentence.classList.add('hidden');
+      }
+    });
+
+    showBtn.addEventListener('click', () => {
+      if (currentSentence) {
+        fullSentence.textContent = `${currentSentence.chinese} / ${currentSentence.pinyin}`;
+        fullSentence.classList.remove('hidden');
+      }
+    });
+
+    backBtn.addEventListener('click', () => {
+      practiceScreen.classList.add('hidden');
+      selectionScreen.classList.remove('hidden');
+      grammarSelect.value = '';
+      currentGrammar = null;
+      currentSentence = null;
+    });
+  </script>
+</body>
+</html>
