@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Vocabulary Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .option:hover {
+            background-color: #e0f7fa;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: #c8e6c9;
+        }
+        .incorrect {
+            background-color: #ffcdd2;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="start-screen" class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Tennis Vocabulary Quiz</h1>
+        <p class="mb-4">Test your knowledge of English tennis words with their Vietnamese meanings!</p>
+        <button id="start-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start Quiz</button>
+    </div>
+
+    <div id="quiz-container" class="hidden bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4">Tennis Vocabulary Quiz</h1>
+        <div id="question" class="mb-4">
+            <p id="word" class="text-lg font-semibold"></p>
+            <p id="example" class="text-gray-600 italic mb-2"></p>
+        </div>
+        <div id="options" class="space-y-2"></div>
+        <p id="feedback" class="mt-4 font-semibold"></p>
+        <p id="progress" class="mt-2 text-gray-500"></p>
+    </div>
+
+    <script>
+        const quizData = [
+            { word: "professional", example: "She is a professional tennis player.", meaning: "chuyên nghiệp", distractors: ["nghiệp dư", "nổi tiếng", "tài năng"] },
+            { word: "ranked", example: "He is ranked number one in our class.", meaning: "xếp hạng", distractors: ["thăng hạng", "ghi danh", "đo lường"] },
+            { word: "incredible", example: "The view from the mountain is incredible.", meaning: "tuyệt vời", distractors: ["bình thường", "đẹp", "lạ lùng"] },
+            { word: "achievement", example: "Winning the game was a big achievement.", meaning: "thành tựu", distractors: ["thất bại", "kế hoạch", "mục tiêu"] },
+            { word: "remarkable", example: "Her singing is remarkable.", meaning: "đáng chú ý", distractors: ["bình thường", "thú vị", "hài hước"] },
+            { word: "competing", example: "They are competing in a race.", meaning: "thi đấu", distractors: ["chơi", "học", "làm việc"] },
+            { word: "talented", example: "He is a talented artist.", meaning: "tài năng", distractors: ["thông minh", "chăm chỉ", "vui vẻ"] },
+            { word: "outsider", example: "She felt like an outsider at the party.", meaning: "người ngoài", distractors: ["bạn bè", "khách mời", "người quen"] },
+            { word: "tournament", example: "We watched a football tournament.", meaning: "giải đấu", distractors: ["trò chơi", "cuộc họp", "lễ hội"] },
+            { word: "transformation", example: "The new park is a transformation.", meaning: "sự thay đổi", distractors: ["kế hoạch", "cải tiến", "sáng tạo"] },
+            { word: "visible", example: "The stars are visible at night.", meaning: "nhìn thấy được", distractors: ["ẩn", "xa", "mờ"] },
+            { word: "publicised", example: "The event was publicised on TV.", meaning: "quảng bá", distractors: ["che giấu", "tổ chức", "hủy bỏ"] },
+            { word: "invited", example: "I invited my friend to dinner.", meaning: "mời", distractors: ["từ chối", "chào", "gặp"] },
+            { word: "coaching", example: "He is coaching the soccer team.", meaning: "huấn luyện", distractors: ["dạy học", "chơi", "thi đấu"] },
+            { word: "valuable", example: "This book is valuable for learning.", meaning: "giá trị", distractors: ["rẻ", "bình thường", "vô dụng"] },
+            { word: "impact", example: "The rain had an impact on the game.", meaning: "tác động", distractors: ["kết quả", "nguyên nhân", "thay đổi"] },
+            { word: "subtle", example: "She made a subtle change to her hair.", meaning: "tinh tế", distractors: ["rõ ràng", "lớn", "đơn giản"] },
+            { word: "preferred", example: "I preferred the blue shirt.", meaning: "thích hơn", distractors: ["chọn", "ghét", "mua"] },
+            { word: "racket", example: "I bought a new tennis racket.", meaning: "vợt", distractors: ["bóng", "gậy", "lưới"] },
+            { word: "string", example: "The racket string broke during the game.", meaning: "dây", distractors: ["tay cầm", "khung", "bóng"] },
+            { word: "mains", example: "The mains in my racket are tight.", meaning: "dây dọc", distractors: ["dây ngang", "tay cầm", "khung"] },
+            { word: "crosses", example: "The crosses need to be replaced.", meaning: "dây ngang", distractors: ["dây dọc", "tay cầm", "khung"] },
+            { word: "natural", example: "I like natural fruit juice.", meaning: "tự nhiên", distractors: ["nhân tạo", "ngon", "tươi"] },
+            { word: "synthetic", example: "The shirt is made of synthetic fabric.", meaning: "nhân tạo", distractors: ["tự nhiên", "mềm", "đắt"] },
+            { word: "switched", example: "She switched to a new phone.", meaning: "chuyển đổi", distractors: ["mua", "sửa", "giữ"] },
+            { word: "modification", example: "The car needs a modification.", meaning: "sự điều chỉnh", distractors: ["sự phá hủy", "kế hoạch", "sáng tạo"] },
+            { word: "underestimated", example: "Don’t underestimate her skills.", meaning: "đánh giá thấp", distractors: ["khen ngợi", "đánh giá cao", "bỏ qua"] },
+            { word: "tweak", example: "I tweak my drawing to make it better.", meaning: "chỉnh sửa", distractors: ["tạo ra", "xóa", "thay đổi lớn"] },
+            { word: "customised", example: "The bike was customised for me.", meaning: "tùy chỉnh", distractors: ["sản xuất", "phá hủy", "sửa chữa"] },
+            { word: "specific", example: "I have a specific plan for the day.", meaning: "cụ thể", distractors: ["chung chung", "mới", "đơn giản"] },
+            { word: "performance", example: "His performance in the game was great.", meaning: "hiệu suất", distractors: ["kỹ năng", "trò chơi", "kết quả"] },
+            { word: "maximisation", example: "We work for the maximisation of fun.", meaning: "tối đa hóa", distractors: ["giảm thiểu", "tăng tốc", "cải thiện"] },
+            { word: "elite", example: "The elite team won the match.", meaning: "ưu tú", distractors: ["bình thường", "yếu", "mới"] },
+            { word: "readily", example: "Food is readily available at the shop.", meaning: "dễ dàng", distractors: ["khó khăn", "nhanh chóng", "hiếm"] },
+            { word: "individually", example: "She helped us individually.", meaning: "riêng lẻ", distractors: ["cùng nhau", "nhanh chóng", "toàn bộ"] },
+            { word: "manufacturer", example: "The manufacturer makes cars.", meaning: "nhà sản xuất", distractors: ["người bán", "người dùng", "kỹ sư"] },
+            { word: "thorough", example: "I did a thorough check of my work.", meaning: "kỹ lưỡng", distractors: ["nhanh", "hời hợt", "đơn giản"] },
+            { word: "process", example: "Baking a cake is a fun process.", meaning: "quy trình", distractors: ["kết quả", "kế hoạch", "hoạt động"] },
+            { word: "adjusted", example: "I adjusted the chair to be taller.", meaning: "điều chỉnh", distractors: ["phá hủy", "tạo ra", "giữ nguyên"] },
+            { word: "length", example: "The length of the table is two meters.", meaning: "chiều dài", distractors: ["chiều rộng", "chiều cao", "kích thước"] },
+            { word: "experimented", example: "We experimented with new colors.", meaning: "thử nghiệm", distractors: ["tạo ra", "chọn", "sửa"] },
+            { word: "paint", example: "I used red paint for the wall.", meaning: "sơn", distractors: ["mực", "keo", "nước"] },
+            { word: "weigh", example: "I weigh my bag before traveling.", meaning: "cân", distractors: ["đo", "đếm", "xem"] },
+            { word: "average", example: "The average score was 80 points.", meaning: "trung bình", distractors: ["cao nhất", "thấp nhất", "tổng"] },
+            { word: "denser", example: "This forest is denser than that one.", meaning: "dày đặc hơn", distractors: ["mỏng hơn", "rộng hơn", "cao hơn"] },
+            { word: "pattern", example: "The shirt has a nice pattern.", meaning: "mẫu", distractors: ["màu", "hình", "kích thước"] },
+            { word: "primary", example: "My primary goal is to learn English.", meaning: "chính", distractors: ["phụ", "mới", "cuối cùng"] },
+            { word: "reason", example: "The reason for the party is her birthday.", meaning: "lý do", distractors: ["kết quả", "mục tiêu", "kế hoạch"] },
+            { word: "competitive", example: "She is very competitive in sports.", meaning: "cạnh tranh", distractors: ["hợp tác", "vui vẻ", "thân thiện"] },
+            { word: "advantage", example: "His height is an advantage in basketball.", meaning: "lợi thế", distractors: ["bất lợi", "kỹ năng", "mục tiêu"] },
+            { word: "creative", example: "She is a creative writer.", meaning: "sáng tạo", distractors: ["thông minh", "cẩn thận", "vui vẻ"] },
+            { word: "mainly", example: "I mainly eat vegetables.", meaning: "chủ yếu", distractors: ["thỉnh thoảng", "luôn luôn", "hiếm khi"] },
+            { word: "amateur", example: "He is an amateur painter.", meaning: "nghiệp dư", distractors: ["chuyên nghiệp", "tài năng", "mới"] },
+            { word: "generated", example: "The machine generated a loud noise.", meaning: "tạo ra", distractors: ["phá hủy", "giảm", "sửa"] },
+            { word: "topspin", example: "She hit the ball with topspin.", meaning: "xoáy lên", distractors: ["xoáy xuống", "đánh thẳng", "ném"] },
+            { word: "banned", example: "Phones are banned in class.", meaning: "bị cấm", distractors: ["được phép", "khuyến khích", "bắt buộc"] },
+            { word: "federation", example: "The sports federation makes rules.", meaning: "liên đoàn", distractors: ["câu lạc bộ", "trường học", "công ty"] },
+            { word: "regularity", example: "Exercise is a regularity for her.", meaning: "sự thường xuyên", distractors: ["sự hiếm hoi", "kế hoạch", "mục tiêu"] },
+            { word: "significance", example: "The prize has great significance.", meaning: "tầm quan trọng", distractors: ["kích thước", "giá trị", "màu sắc"] },
+            { word: "nutrition", example: "Good nutrition helps you stay strong.", meaning: "dinh dưỡng", distractors: ["tập luyện", "sức khỏe", "nghỉ ngơi"] },
+            { word: "training", example: "I do training for running.", meaning: "tập luyện", distractors: ["học", "chơi", "ăn"] },
+            { word: "categories", example: "Books are in different categories.", meaning: "danh mục", distractors: ["mẫu", "kế hoạch", "mục tiêu"] },
+            { word: "former", example: "I liked the former teacher better.", meaning: "trước đây", distractors: ["hiện tại", "sau này", "mới"] },
+            { word: "common", example: "Rain is common in spring.", meaning: "phổ biến", distractors: ["hiếm", "đặc biệt", "mới"] },
+            { word: "tension", example: "The rope has strong tension.", meaning: "độ căng", distractors: ["độ dài", "độ mềm", "độ nặng"] },
+            { word: "installed", example: "They installed a new light.", meaning: "lắp đặt", distractors: ["tháo", "sửa", "tạo"] },
+            { word: "various", example: "I have various books to read.", meaning: "nhiều loại", distractors: ["một loại", "ít", "cũ"] },
+            { word: "surface", example: "The table surface is smooth.", meaning: "bề mặt", distractors: ["bên trong", "kích thước", "màu sắc"] },
+            { word: "climatic", example: "Climatic changes affect plants.", meaning: "khí hậu", distractors: ["môi trường", "địa lý", "thời tiết"] },
+            { word: "conditions", example: "The road conditions are bad.", meaning: "điều kiện", distractors: ["kết quả", "kế hoạch", "mục tiêu"] },
+            { word: "gut", example: "The racket uses gut strings.", meaning: "ruột động vật", distractors: ["dây nhân tạo", "sợi cotton", "dây nylon"] },
+            { word: "intestines", example: "The strings were made from intestines.", meaning: "ruột", distractors: ["da", "xương", "lông"] },
+            { word: "development", example: "The city’s development is fast.", meaning: "sự phát triển", distractors: ["sự giảm sút", "kế hoạch", "thay đổi"] },
+            { word: "durable", example: "This bag is very durable.", meaning: "bền", distractors: ["mỏng", "dễ vỡ", "mềm"] },
+            { word: "nylon", example: "My jacket is made of nylon.", meaning: "nylon", distractors: ["cotton", "lụa", "len"] },
+            { word: "Kevlar", example: "Kevlar is used in bulletproof vests.", meaning: "Kevlar", distractors: ["nylon", "polyester", "cotton"] },
+            { word: "polyester", example: "The shirt is made of polyester.", meaning: "polyester", distractors: ["nylon", "cotton", "lụa"] },
+            { word: "additives", example: "The food has no additives.", meaning: "chất phụ gia", distractors: ["chất ngọt", "màu sắc", "hương vị"] },
+            { word: "enhance", example: "Music can enhance your mood.", meaning: "cải thiện", distractors: ["làm tệ", "giữ nguyên", "tạo ra"] },
+            { word: "hybrid", example: "My car is a hybrid vehicle.", meaning: "lai", distractors: ["đơn", "mới", "cũ"] },
+            { word: "battle", example: "The teams battle for the prize.", meaning: "chiến đấu", distractors: ["hợp tác", "chơi", "học"] },
+            { word: "spin", example: "The ball has a lot of spin.", meaning: "xoáy", distractors: ["ném", "đánh", "lăn"] },
+            { word: "revolutionised", example: "Computers revolutionised work.", meaning: "cách mạng hóa", distractors: ["thay đổi nhỏ", "giữ nguyên", "cải thiện"] },
+            { word: "basic", example: "I know basic English words.", meaning: "cơ bản", distractors: ["nâng cao", "phức tạp", "mới"] },
+            { word: "adjustments", example: "I made adjustments to my chair.", meaning: "điều chỉnh", distractors: ["phá hủy", "tạo ra", "giữ nguyên"] },
+            { word: "serving", example: "Her serving is very strong.", meaning: "phát bóng", distractors: ["đánh bóng", "chạy", "ném"] },
+            { word: "attributed", example: "His success was attributed to hard work.", meaning: "quy cho", distractors: ["phớt lờ", "khen ngợi", "tạo ra"] },
+            { word: "weights", example: "I lift weights at the gym.", meaning: "tạ", distractors: ["bóng", "dây", "gậy"] },
+            { word: "manufacturing", example: "The factory is busy with manufacturing.", meaning: "sản xuất", distractors: ["bán", "sửa chữa", "thiết kế"] },
+            { word: "handle", example: "The racket handle is comfortable.", meaning: "tay cầm", distractors: ["dây", "khung", "bề mặt"] },
+            { word: "preferences", example: "I have preferences for spicy food.", meaning: "sở thích", distractors: ["ghét", "kế hoạch", "mục tiêu"] },
+            { word: "moulded", example: "The clay was moulded into a cup.", meaning: "đúc", distractors: ["cắt", "vẽ", "tạo"] },
+            { word: "grips", example: "The grips on my bike are soft.", meaning: "tay nắm", distractors: ["dây", "khung", "bề mặt"] },
+            { word: "uncomfortable", example: "The chair is uncomfortable.", meaning: "không thoải mái", distractors: ["thoải mái", "đẹp", "mới"] },
+            { word: "pushed", example: "She pushed the door to open it.", meaning: "đẩy", distractors: ["kéo", "mở", "đóng"] },
+            { word: "standards", example: "This school has high standards.", meaning: "tiêu chuẩn", distractors: ["kế hoạch", "mục tiêu", "kết quả"] },
+            { word: "anticipated", example: "I anticipated rain this afternoon.", meaning: "dự đoán", distractors: ["bỏ qua", "thấy", "làm"] },
+            { word: "wooden", example: "The table is wooden.", meaning: "bằng gỗ", distractors: ["bằng nhựa", "bằng kim loại", "bằng vải"] },
+            { word: "frames", example: "The racket frames are strong.", meaning: "khung", distractors: ["dây", "tay cầm", "bề mặt"] },
+            { word: "exciting", example: "The game was very exciting.", meaning: "hấp dẫn", distractors: ["nhàm chán", "bình thường", "khó khăn"] }
+        ];
+
+        let currentQuestion = 0;
+        let shuffledQuestions = [];
+
+        const startScreen = document.getElementById('start-screen');
+        const quizContainer = document.getElementById('quiz-container');
+        const wordEl = document.getElementById('word');
+        const exampleEl = document.getElementById('example');
+        const optionsEl = document.getElementById('options');
+        const feedbackEl = document.getElementById('feedback');
+        const progressEl = document.getElementById('progress');
+        const startBtn = document.getElementById('start-btn');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            shuffledQuestions = shuffle([...quizData]);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= shuffledQuestions.length) {
+                quizContainer.innerHTML = '<h1 class="text-2xl font-bold">Quiz Completed!</h1><p class="mt-4">You have finished all questions!</p>';
+                return;
+            }
+
+            const q = shuffledQuestions[currentQuestion];
+            wordEl.textContent = q.word;
+            exampleEl.textContent = q.example;
+            optionsEl.innerHTML = '';
+            feedbackEl.textContent = '';
+            progressEl.textContent = `Question ${currentQuestion + 1} of ${shuffledQuestions.length}`;
+
+            const options = shuffle([q.meaning, ...q.distractors]);
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'option w-full p-2 border rounded text-left';
+                button.addEventListener('click', () => checkAnswer(option, q.meaning));
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const buttons = optionsEl.getElementsByClassName('option');
+            for (let button of buttons) {
+                button.disabled = true;
+                if (button.textContent === correct) {
+                    button.classList.add('correct');
+                }
+                if (button.textContent === selected && selected !== correct) {
+                    button.classList.add('incorrect');
+                    feedbackEl.textContent = `Incorrect! The correct answer is "${correct}".`;
+                    setTimeout(loadQuestion, 1000);
+                    return;
+                }
+            }
+            if (selected === correct) {
+                feedbackEl.textContent = 'Correct!';
+                currentQuestion++;
+                setTimeout(loadQuestion, 500);
+            }
+        }
+
+        startBtn.addEventListener('click', startQuiz);
+    </script>
+</body>
+</html>
