@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .option:hover {
+            background-color: #e0f7fa;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: #c8e6c9;
+        }
+        .incorrect {
+            background-color: #ffcdd2;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="start-screen" class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">English Vocabulary Quiz</h1>
+        <p class="mb-4">Test your knowledge of English words with their Vietnamese meanings!</p>
+        <button id="start-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start Quiz</button>
+    </div>
+
+    <div id="quiz-container" class="hidden bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4">Vocabulary Quiz</h1>
+        <div id="question" class="mb-4">
+            <p id="word" class="text-lg font-semibold"></p>
+            <p id="example" class="text-gray-600 italic mb-2"></p>
+        </div>
+        <div id="options" class="space-y-2"></div>
+        <p id="feedback" class="mt-4 font-semibold"></p>
+        <p id="progress" class="mt-2 text-gray-500"></p>
+    </div>
+
+    <script>
+        const quizData = [
+            { word: "arrange", example: "I will arrange a meeting with my friends tomorrow.", meaning: "sắp xếp", distractors: ["khám phá", "thu thập", "điều hướng"] },
+            { word: "visit", example: "We visit our grandparents every Sunday.", meaning: "thăm", distractors: ["tổ chức", "khám phá", "phát triển"] },
+            { word: "ranger", example: "The ranger showed us the animals in the park.", meaning: "nhân viên kiểm lâm", distractors: ["giáo viên", "khách truy cập", "người dẫn đường"] },
+            { word: "local", example: "I buy vegetables from the local market.", meaning: "địa phương", distractors: ["quốc tế", "xa xôi", "cổ xưa"] },
+            { word: "primary", example: "She teaches at a primary school for young children.", meaning: "tiểu học", distractors: ["trung học", "đại học", "chính thức"] },
+            { word: "area", example: "This area is famous for its beautiful beaches.", meaning: "khu vực", distractors: ["con sông", "cái hồ", "ngọn núi"] },
+            { word: "cover", example: "The blanket covers the entire bed.", meaning: "che phủ", distractors: ["mở ra", "làm sạch", "thu thập"] },
+            { word: "acre", example: "The farm is ten acres big.", meaning: "mẫu Anh", distractors: ["hecta", "kilomet", "lít"] },
+            { word: "hectare", example: "The park is 69 hectares large.", meaning: "hecta", distractors: ["mẫu Anh", "kilomet", "lít"] },
+            { word: "habitat", example: "The forest is a habitat for many birds.", meaning: "môi trường sống", distractors: ["vùng đất", "con vật", "cây cối"] },
+            { word: "wetland", example: "Frogs live in the wetland near the river.", meaning: "đất ngập nước", distractors: ["đồng cỏ", "rừng cây", "sa mạc"] },
+            { word: "grassland", example: "Cows graze on the grassland.", meaning: "đồng cỏ", distractors: ["đất ngập nước", "rừng cây", "sa mạc"] },
+            { word: "woodland", example: "We walked through the woodland yesterday.", meaning: "rừng cây", distractors: ["đất ngập nước", "đồng cỏ", "sa mạc"] },
+            { word: "oak", example: "The oak tree in our garden is very old.", meaning: "cây sồi", distractors: ["cây thông", "cây táo", "cây dừa"] },
+            { word: "plantation", example: "The coffee plantation is huge.", meaning: "đồn điền", distractors: ["vườn cây", "công viên", "nông trại"] },
+            { word: "mixed", example: "I ate a mixed salad with vegetables.", meaning: "hỗn hợp", distractors: ["đơn giản", "riêng lẻ", "tách biệt"] },
+            { word: "species", example: "This zoo has many species of birds.", meaning: "loài", distractors: ["cây", "sông", "đồi"] },
+            { word: "gravel", example: "The path is made of gravel.", meaning: "sỏi", distractors: ["cát", "đá", "đất"] },
+            { word: "pit", example: "They dug a pit to collect water.", meaning: "hố", distractors: ["đồi", "hồ", "sông"] },
+            { word: "lake", example: "We swam in the lake last summer.", meaning: "hồ", distractors: ["sông", "ao", "biển"] },
+            { word: "pond", example: "There are fish in the pond.", meaning: "ao", distractors: ["hồ", "sông", "biển"] },
+            { word: "stream", example: "A stream runs through the park.", meaning: "dòng suối", distractors: ["hồ", "sông", "ao"] },
+            { word: "wildlife", example: "The park is full of wildlife.", meaning: "động vật hoang dã", distractors: ["cây cối", "côn trùng", "chim chóc"] },
+            { word: "deer", example: "I saw a deer in the forest.", meaning: "con nai", distractors: ["con thỏ", "con cáo", "con chim"] },
+            { word: "rabbit", example: "The rabbit ate the carrots.", meaning: "con thỏ", distractors: ["con nai", "con cáo", "con chim"] },
+            { word: "organise", example: "She will organise the party next week.", meaning: "tổ chức", distractors: ["khám phá", "thu thập", "sắp xếp"] },
+            { word: "activity", example: "Painting is my favorite activity.", meaning: "hoạt động", distractors: ["môn học", "kỹ năng", "trò chơi"] },
+            { word: "adapt", example: "I adapt my lessons for young students.", meaning: "thích nghi", distractors: ["tạo ra", "khám phá", "phát triển"] },
+            { word: "science", example: "We learn about plants in science class.", meaning: "khoa học", distractors: ["lịch sử", "địa lý", "âm nhạc"] },
+            { word: "discover", example: "I discover new books in the library.", meaning: "khám phá", distractors: ["tạo ra", "thu thập", "phân tích"] },
+            { word: "study", example: "I study English every evening.", meaning: "học", distractors: ["chơi", "làm", "nghe"] },
+            { word: "collect", example: "She collects coins from different countries.", meaning: "thu thập", distractors: ["khám phá", "tạo ra", "phân tích"] },
+            { word: "analyse", example: "We analyse the water to check if it’s clean.", meaning: "phân tích", distractors: ["khám phá", "thu thập", "tạo ra"] },
+            { word: "data", example: "The data shows it rains a lot here.", meaning: "dữ liệu", distractors: ["thông tin", "bản đồ", "kế hoạch"] },
+            { word: "geography", example: "In geography, we learn about maps.", meaning: "địa lý", distractors: ["khoa học", "lịch sử", "âm nhạc"] },
+            { word: "map", example: "I use a map to find the park.", meaning: "bản đồ", distractors: ["la bàn", "sách", "hồ"] },
+            { word: "compass", example: "The compass shows us north.", meaning: "la bàn", distractors: ["bản đồ", "đồng hồ", "kính lúp"] },
+            { word: "navigate", example: "We navigate the city with a map.", meaning: "điều hướng", distractors: ["khám phá", "sắp xếp", "tạo ra"] },
+            { word: "history", example: "I love learning about history.", meaning: "lịch sử", distractors: ["khoa học", "địa lý", "âm nhạc"] },
+            { word: "explore", example: "We explore the forest on weekends.", meaning: "khám phá", distractors: ["tạo ra", "thu thập", "phân tích"] },
+            { word: "land", example: "The farmer works on the land.", meaning: "đất đai", distractors: ["biển", "sông", "hồ"] },
+            { word: "leisure", example: "I read books in my leisure time.", meaning: "thời gian rảnh", distractors: ["công việc", "học tập", "nghỉ ngơi"] },
+            { word: "tourism", example: "Tourism brings many visitors to our town.", meaning: "du lịch", distractors: ["nông nghiệp", "giáo dục", "khoa học"] },
+            { word: "visitor", example: "The museum has many visitors.", meaning: "khách truy cập", distractors: ["giáo viên", "nhân viên", "người dẫn đường"] },
+            { word: "requirement", example: "Water is a requirement for plants.", meaning: "yêu cầu", distractors: ["lựa chọn", "kế hoạch", "mục tiêu"] },
+            { word: "manage", example: "She manages the shop well.", meaning: "quản lý", distractors: ["tạo ra", "khám phá", "sắp xếp"] },
+            { word: "subject", example: "Math is my favorite subject.", meaning: "môn học", distractors: ["hoạt động", "kỹ năng", "trò chơi"] },
+            { word: "music", example: "I listen to music every day.", meaning: "âm nhạc", distractors: ["khoa học", "lịch sử", "địa lý"] },
+            { word: "experiment", example: "We experiment with colors in art class.", meaning: "thử nghiệm", distractors: ["khám phá", "tạo ra", "phân tích"] },
+            { word: "material", example: "Wood is a material for building.", meaning: "vật liệu", distractors: ["công cụ", "máy móc", "sản phẩm"] },
+            { word: "create", example: "I create a drawing for my friend.", meaning: "tạo ra", distractors: ["khám phá", "thu thập", "phân tích"] },
+            { word: "sound", example: "The sound of birds is beautiful.", meaning: "âm thanh", distractors: ["ánh sáng", "màu sắc", "hình ảnh"] },
+            { word: "rhythm", example: "The song has a fast rhythm.", meaning: "nhịp điệu", distractors: ["giai điệu", "tốc độ", "âm lượng"] },
+            { word: "tempo", example: "The tempo of this music is slow.", meaning: "tốc độ", distractors: ["nhịp điệu", "giai điệu", "âm lượng"] },
+            { word: "educational", example: "The trip was very educational.", meaning: "giáo dục", distractors: ["giải trí", "thể thao", "nghệ thuật"] },
+            { word: "encourage", example: "My teacher encourages me to try hard.", meaning: "khuyến khích", distractors: ["ngăn cản", "giúp đỡ", "hướng dẫn"] },
+            { word: "creative", example: "She is a very creative artist.", meaning: "sáng tạo", distractors: ["thông minh", "cẩn thận", "năng động"] },
+            { word: "freedom", example: "I feel freedom when I run outside.", meaning: "tự do", distractors: ["an toàn", "trách nhiệm", "hạnh phúc"] },
+            { word: "develop", example: "I want to develop my English skills.", meaning: "phát triển", distractors: ["tạo ra", "khám phá", "sắp xếp"] },
+            { word: "skill", example: "She has a skill for painting.", meaning: "kỹ năng", distractors: ["môn học", "hoạt động", "trò chơi"] },
+            { word: "confidence", example: "I have confidence to speak in class.", meaning: "tự tin", distractors: ["sợ hãi", "kiên nhẫn", "thông minh"] },
+            { word: "practical", example: "This bag is very practical for school.", meaning: "thực tế", distractors: ["đẹp đẽ", "đắt tiền", "hiện đại"] },
+            { word: "cost", example: "The book costs ten dollars.", meaning: "chi phí", distractors: ["lợi nhuận", "giá trị", "thu nhập"] },
+            { word: "invoice", example: "The shop sent me an invoice.", meaning: "hóa đơn", distractors: ["vé", "thư", "bản đồ"] },
+            { word: "charge", example: "There is no charge for parking here.", meaning: "phí", distractors: ["lợi nhuận", "chi phí", "thu nhập"] },
+            { word: "twinning", example: "Our town has a twinning with a French city.", meaning: "kết nghĩa", distractors: ["du lịch", "hợp tác", "giao lưu"] },
+            { word: "relationship", example: "I have a good relationship with my sister.", meaning: "mối quan hệ", distractors: ["công việc", "kế hoạch", "mục tiêu"] },
+            { word: "host", example: "She is the host of the party.", meaning: "chủ nhà", distractors: ["khách", "người dẫn", "bạn bè"] },
+            { word: "programme", example: "The programme includes a concert.", meaning: "chương trình", distractors: ["kế hoạch", "bản đồ", "dự án"] },
+            { word: "produce", example: "The farm produces apples.", meaning: "sản xuất", distractors: ["thu thập", "khám phá", "tạo ra"] },
+            { word: "taste", example: "I taste the soup to check if it’s good.", meaning: "nếm", distractors: ["nghe", "nhìn", "ngửi"] },
+            { word: "theme", example: "The theme of the party is animals.", meaning: "chủ đề", distractors: ["kế hoạch", "mục tiêu", "trò chơi"] },
+            { word: "highlight", example: "The boat trip was the highlight of the day.", meaning: "điểm nổi bật", distractors: ["kế hoạch", "hoạt động", "mục tiêu"] },
+            { word: "celebrate", example: "We celebrate birthdays with cake.", meaning: "ăn mừng", distractors: ["tổ chức", "khám phá", "học"] },
+            { word: "footbridge", example: "The footbridge crosses the river.", meaning: "cầu đi bộ", distractors: ["cầu xe", "đường hầm", "cầu tàu"] },
+            { word: "municipal", example: "The municipal park is open to everyone.", meaning: "thành phố", distractors: ["tư nhân", "quốc gia", "địa phương"] },
+            { word: "poplar", example: "We planted a poplar in the garden.", meaning: "cây dương", distractors: ["cây sồi", "cây thông", "cây táo"] },
+            { word: "museum", example: "I visited the museum to see old art.", meaning: "bảo tàng", distractors: ["thư viện", "công viên", "nhà hát"] },
+            { word: "fundraising", example: "The school held a fundraising event.", meaning: "gây quỹ", distractors: ["du lịch", "giáo dục", "bán hàng"] },
+            { word: "pancake", example: "I ate a pancake for breakfast.", meaning: "bánh kếp", distractors: ["bánh mì", "bánh ngọt", "bánh quy"] },
+            { word: "profit", example: "The shop made a big profit.", meaning: "lợi nhuận", distractors: ["chi phí", "thu nhập", "giá trị"] },
+            { word: "demonstration", example: "The chef gave a cooking demonstration.", meaning: "sự thể hiện", distractors: ["bài học", "trò chơi", "kế hoạch"] },
+            { word: "venue", example: "The concert is at a big venue.", meaning: "địa điểm", distractors: ["chương trình", "kế hoạch", "hoạt động"] },
+            { word: "coach", example: "The coach took us to the city.", meaning: "xe buýt", distractors: ["tàu hỏa", "máy bay", "xe đạp"] },
+            { word: "barbecue", example: "We had a barbecue in the garden.", meaning: "tiệc nướng", distractors: ["bữa tiệc", "chuyến đi", "lễ hội"] },
+            { word: "market", example: "I buy fruit at the market.", meaning: "chợ", distractors: ["cửa hàng", "siêu thị", "bảo tàng"] },
+            { word: "stroll", example: "We stroll in the park every evening.", meaning: "đi dạo", distractors: ["chạy bộ", "lái xe", "bơi lội"] },
+            { word: "perform", example: "The band will perform tonight.", meaning: "biểu diễn", distractors: ["học", "tạo ra", "khám phá"] },
+            { word: "quiz", example: "We played a quiz at school.", meaning: "trò chơi đố", distractors: ["bài kiểm tra", "trò chơi", "bài học"] },
+            { word: "familiar", example: "This song is familiar to me.", meaning: "quen thuộc", distractors: ["lạ lẫm", "mới mẻ", "thú vị"] },
+            { word: "stable", example: "The horses live in the stable.", meaning: "chuồng ngựa", distractors: ["nhà kho", "vườn", "nhà"] },
+            { word: "courtyard", example: "We sat in the courtyard to eat.", meaning: "sân trong", distractors: ["vườn", "phòng", "ban công"] },
+            { word: "café", example: "I drink coffee at the café.", meaning: "quán cà phê", distractors: ["nhà hàng", "cửa hàng", "thư viện"] },
+            { word: "disabled", example: "The disabled entrance has no steps.", meaning: "khuyết tật", distractors: ["bình thường", "đặc biệt", "hiện đại"] },
+            { word: "playground", example: "The playground has swings and slides.", meaning: "sân chơi", distractors: ["công viên", "vườn", "bãi biển"] },
+            { word: "path", example: "The path leads to the lake.", meaning: "con đường", distractors: ["cầu", "sông", "hồ"] },
+            { word: "kitchen", example: "I cook dinner in the kitchen.", meaning: "nhà bếp", distractors: ["phòng khách", "phòng ngủ", "vườn"] },
+            { word: "temple", example: "The temple is very old and beautiful.", meaning: "đền thờ", distractors: ["nhà", "bảo tàng", "công viên"] },
+            { word: "view", example: "The view from the hill is amazing.", meaning: "tầm nhìn", distractors: ["âm thanh", "mùi hương", "cảm giác"] },
+            { word: "surround", example: "Trees surround the house.", meaning: "bao quanh", distractors: ["che phủ", "mở ra", "làm sạch"] }
+        ];
+
+        let currentQuestion = 0;
+        let shuffledQuestions = [];
+
+        const startScreen = document.getElementById('start-screen');
+        const quizContainer = document.getElementById('quiz-container');
+        const wordEl = document.getElementById('word');
+        const exampleEl = document.getElementById('example');
+        const optionsEl = document.getElementById('options');
+        const feedbackEl = document.getElementById('feedback');
+        const progressEl = document.getElementById('progress');
+        const startBtn = document.getElementById('start-btn');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            shuffledQuestions = shuffle([...quizData]);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= shuffledQuestions.length) {
+                quizContainer.innerHTML = '<h1 class="text-2xl font-bold">Quiz Completed!</h1><p class="mt-4">You have finished all questions!</p>';
+                return;
+            }
+
+            const q = shuffledQuestions[currentQuestion];
+            wordEl.textContent = q.word;
+            exampleEl.textContent = q.example;
+            optionsEl.innerHTML = '';
+            feedbackEl.textContent = '';
+            progressEl.textContent = `Question ${currentQuestion + 1} of ${shuffledQuestions.length}`;
+
+            const options = shuffle([q.meaning, ...q.distractors]);
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'option w-full p-2 border rounded text-left';
+                button.addEventListener('click', () => checkAnswer(option, q.meaning));
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const buttons = optionsEl.getElementsByClassName('option');
+            for (let button of buttons) {
+                button.disabled = true;
+                if (button.textContent === correct) {
+                    button.classList.add('correct');
+                }
+                if (button.textContent === selected && selected !== correct) {
+                    button.classList.add('incorrect');
+                    feedbackEl.textContent = `Incorrect! The correct answer is "${correct}".`;
+                    setTimeout(loadQuestion, 1000);
+                    return;
+                }
+            }
+            if (selected === correct) {
+                feedbackEl.textContent = 'Correct!';
+                currentQuestion++;
+                setTimeout(loadQuestion, 500);
+            }
+        }
+
+        startBtn.addEventListener('click', startQuiz);
+    </script>
+</body>
+</html>
