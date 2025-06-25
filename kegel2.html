@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kegel Exercise Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input {
+            margin: 10px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kegel Exercise Timer</h1>
+
+    <div>
+        <label>Số hiệp: </label>
+        <input type="number" id="sets" value="10" min="1">
+    </div>
+
+    <div>
+        <label>Thời gian siết cơ (giây): </label>
+        <input type="number" id="contractTime" value="5" min="1">
+    </div>
+
+    <div>
+        <label>Thời gian thả cơ (giây): </label>
+        <input type="number" id="relaxTime" value="5" min="1">
+    </div>
+
+    <button onclick="startTimer()">Start</button>
+    <p id="status">Chưa bắt đầu</p>
+    <p id="currentSet">Hiệp: 0 / 0</p>
+
+    <audio id="startSound" preload="auto">
+        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="endSound" preload="auto">
+        <source src="https://www.soundjay.com/buttons/beep-02.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let isRunning = false;
+        let currentSet = 0;
+        let totalSets = 0;
+        let contractTime = 0;
+        let relaxTime = 0;
+        let interval;
+
+        // Unlock audio context for iOS
+        function unlockAudioContext() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext && !window.audioContext) {
+                window.audioContext = new AudioContext();
+                const buffer = window.audioContext.createBuffer(1, 1, 22050);
+                const source = window.audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(window.audioContext.destination);
+                source.start(0);
+            }
+        }
+
+        // Play sound
+        function playSound(audioId) {
+            const audio = document.getElementById(audioId);
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        // Timer function
+        function startTimer() {
+            if (isRunning) return;
+
+            unlockAudioContext(); // Unlock audio context on first interaction
+
+            totalSets = parseInt(document.getElementById('sets').value);
+            contractTime = parseInt(document.getElementById('contractTime').value);
+            relaxTime = parseInt(document.getElementById('relaxTime').value);
+            currentSet = 0;
+
+            if (isNaN(totalSets) || isNaN(contractTime) || isNaN(relaxTime)) {
+                alert("Vui lòng nhập số hợp lệ!");
+                return;
+            }
+
+            isRunning = true;
+            document.getElementById('status').textContent = "Đang thực hiện...";
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            runSet();
+        }
+
+        function runSet() {
+            if (currentSet >= totalSets) {
+                stopTimer();
+                return;
+            }
+
+            currentSet++;
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            document.getElementById('status').textContent = "Siết cơ!";
+            playSound('startSound');
+
+            setTimeout(() => {
+                document.getElementById('status').textContent = "Thả cơ!";
+                playSound('endSound');
+
+                setTimeout(runSet, relaxTime * 1000);
+            }, contractTime * 1000);
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(interval);
+            document.getElementById('status').textContent = "Hoàn thành!";
+        }
+
+        // Unlock audio on first user interaction
+        document.addEventListener('touchstart', unlockAudioContext, { once: true });
+        document.addEventListener('click', unlockAudioContext, { once: true });
+    </script>
+</body>
+</html>
