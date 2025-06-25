@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +7,60 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-        input {
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
             margin: 10px;
-            padding: 5px;
+            padding: 8px;
+            font-size: 16px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            font-size: 24px;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <h1>Kegel Exercise Timer</h1>
-
-    <div>
-        <label>Số hiệp: </label>
-        <input type="number" id="sets" value="10" min="1">
+    <div class="container">
+        <h1>Kegel Exercise Timer</h1>
+        <div>
+            <label>Số hiệp: </label>
+            <input type="number" id="sets" min="1" value="5">
+        </div>
+        <div>
+            <label>Thời gian siết cơ (giây): </label>
+            <input type="number" id="contract" min="1" value="5">
+        </div>
+        <div>
+            <label>Thời gian thả cơ (giây): </label>
+            <input type="number" id="relax" min="1" value="5">
+        </div>
+        <button onclick="startExercise()">Start</button>
+        <div id="status">Chưa bắt đầu</div>
+        <div id="currentSet">Hiệp: 0 / 0</div>
     </div>
-
-    <div>
-        <label>Thời gian siết cơ (giây): </label>
-        <input type="number" id="contractTime" value="5" min="1">
-    </div>
-
-    <div>
-        <label>Thời gian thả cơ (giây): </label>
-        <input type="number" id="relaxTime" value="5" min="1">
-    </div>
-
-    <button onclick="startTimer()">Start</button>
-    <p id="status">Chưa bắt đầu</p>
-    <p id="currentSet">Hiệp: 0 / 0</p>
-
-    <audio id="startSound" preload="auto">
-        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="endSound" preload="auto">
-        <source src="https://www.soundjay.com/buttons/beep-02.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
         let isRunning = false;
@@ -57,76 +70,77 @@
         let relaxTime = 0;
         let interval;
 
-        // Unlock audio context for iOS
-        function unlockAudioContext() {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (AudioContext && !window.audioContext) {
-                window.audioContext = new AudioContext();
-                const buffer = window.audioContext.createBuffer(1, 1, 22050);
-                const source = window.audioContext.createBufferSource();
-                source.buffer = buffer;
-                source.connect(window.audioContext.destination);
-                source.start(0);
-            }
-        }
+        // Tạo hai âm thanh bip khác nhau
+        const contractBeep = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const relaxBeep = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
 
-        // Play sound
-        function playSound(audioId) {
-            const audio = document.getElementById(audioId);
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log('Audio play failed:', e));
-        }
-
-        // Timer function
-        function startTimer() {
+        function startExercise() {
             if (isRunning) return;
 
-            unlockAudioContext(); // Unlock audio context on first interaction
-
+            // Lấy giá trị từ input
             totalSets = parseInt(document.getElementById('sets').value);
-            contractTime = parseInt(document.getElementById('contractTime').value);
-            relaxTime = parseInt(document.getElementById('relaxTime').value);
-            currentSet = 0;
+            contractTime = parseInt(document.getElementById('contract').value);
+            relaxTime = parseInt(document.getElementById('relax').value);
 
-            if (isNaN(totalSets) || isNaN(contractTime) || isNaN(relaxTime)) {
-                alert("Vui lòng nhập số hợp lệ!");
+            if (totalSets < 1 || contractTime < 1 || relaxTime < 1) {
+                alert('Vui lòng nhập giá trị hợp lệ!');
                 return;
             }
 
             isRunning = true;
-            document.getElementById('status').textContent = "Đang thực hiện...";
+            currentSet = 0;
+            document.getElementById('status').textContent = 'Chuẩn bị...';
             document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
-            runSet();
+            
+            // Bắt đầu hiệp đầu tiên sau 2 giây
+            setTimeout(startSet, 2000);
         }
 
-        function runSet() {
+        function startSet() {
             if (currentSet >= totalSets) {
-                stopTimer();
+                endExercise();
                 return;
             }
 
             currentSet++;
             document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
-            document.getElementById('status').textContent = "Siết cơ!";
-            playSound('startSound');
-
-            setTimeout(() => {
-                document.getElementById('status').textContent = "Thả cơ!";
-                playSound('endSound');
-
-                setTimeout(runSet, relaxTime * 1000);
-            }, contractTime * 1000);
+            
+            // Siết cơ
+            document.getElementById('status').textContent = 'Siết cơ!';
+            contractBeep.play();
+            
+            let contractSeconds = contractTime;
+            interval = setInterval(() => {
+                document.getElementById('status').textContent = `Siết cơ! (${contractSeconds}s)`;
+                contractSeconds--;
+                
+                if (contractSeconds < 0) {
+                    clearInterval(interval);
+                    // Thả cơ
+                    document.getElementById('status').textContent = 'Thả cơ!';
+                    relaxBeep.play();
+                    
+                    let relaxSeconds = relaxTime;
+                    interval = setInterval(() => {
+                        document.getElementById('status').textContent = `Thả cơ! (${relaxSeconds}s)`;
+                        relaxSeconds--;
+                        
+                        if (relaxSeconds < 0) {
+                            clearInterval(interval);
+                            startSet(); // Bắt đầu hiệp tiếp theo
+                        }
+                    }, 1000);
+                }
+            }, 1000);
         }
 
-        function stopTimer() {
+        function endExercise() {
             isRunning = false;
             clearInterval(interval);
-            document.getElementById('status').textContent = "Hoàn thành!";
+            document.getElementById('status').textContent = 'Hoàn thành!';
+            contractBeep.play();
+            relaxBeep.play();
         }
-
-        // Unlock audio on first user interaction
-        document.addEventListener('touchstart', unlockAudioContext, { once: true });
-        document.addEventListener('click', unlockAudioContext, { once: true });
     </script>
 </body>
 </html>
