@@ -3,64 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kegel Exercise Timer</title>
+    <title>Kegel Exercise Machine</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
         .container {
             text-align: center;
-            background: white;
             padding: 20px;
+            background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        input, button {
+        input {
+            width: 60px;
             margin: 10px;
-            padding: 8px;
-            font-size: 16px;
+            padding: 5px;
         }
         button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
             background-color: #4CAF50;
             color: white;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
         }
-        button:hover {
-            background-color: #45a049;
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
         #status {
             font-size: 24px;
             margin: 20px 0;
         }
+        #timer {
+            font-size: 48px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Kegel Exercise Timer</h1>
+        <h1>Kegel Exercise Machine</h1>
         <div>
-            <label>Số hiệp: </label>
-            <input type="number" id="sets" min="1" value="5">
+            <label>Sets: <input type="number" id="sets" value="5" min="1"></label>
         </div>
         <div>
-            <label>Thời gian siết cơ (giây): </label>
-            <input type="number" id="contract" min="1" value="5">
+            <label>Contract (s): <input type="number" id="contractTime" value="5" min="1"></label>
         </div>
         <div>
-            <label>Thời gian thả cơ (giây): </label>
-            <input type="number" id="relax" min="1" value="5">
+            <label>Relax (s): <input type="number" id="relaxTime" value="5" min="1"></label>
         </div>
-        <button onclick="startExercise()">Start</button>
-        <div id="status">Chưa bắt đầu</div>
-        <div id="currentSet">Hiệp: 0 / 0</div>
+        <button id="startBtn" onclick="startExercise()">Start</button>
+        <div id="status">Ready</div>
+        <div id="timer">0</div>
+        <div id="setCounter">Set: 0 / 0</div>
     </div>
+
+    <audio id="contractBeep" preload="auto">
+        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="relaxBeep" preload="auto">
+        <source src="https://www.soundjay.com/buttons/beep-02.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         let isRunning = false;
@@ -68,95 +82,85 @@
         let totalSets = 0;
         let contractTime = 0;
         let relaxTime = 0;
-        let interval;
+        let isContracting = true;
+        let timeLeft = 0;
+        let intervalId = null;
 
-        // Sử dụng tệp âm thanh cục bộ hoặc URL hợp lệ
-        const contractBeep = new Audio('beep-01a.mp3'); // Thay bằng tệp cục bộ hoặc URL hợp lệ
-        const relaxBeep = new Audio('beep-02.mp3'); // Thay bằng tệp cục bộ hoặc URL hợp lệ
+        const contractBeep = document.getElementById('contractBeep');
+        const relaxBeep = document.getElementById('relaxBeep');
+        const startBtn = document.getElementById('startBtn');
+        const statusDiv = document.getElementById('status');
+        const timerDiv = document.getElementById('timer');
+        const setCounterDiv = document.getElementById('setCounter');
 
         function startExercise() {
             if (isRunning) return;
-
-            // Lấy giá trị từ input
-            totalSets = parseInt(document.getElementById('sets').value);
-            contractTime = parseInt(document.getElementById('contract').value);
-            relaxTime = parseInt(document.getElementById('relax').value);
-
-            if (totalSets < 1 || contractTime < 1 || relaxTime < 1) {
-                alert('Vui lòng nhập giá trị hợp lệ!');
-                return;
-            }
-
             isRunning = true;
-            currentSet = 0;
-            document.getElementById('status').textContent = 'Chuẩn bị...';
-            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
-            
-            // Mở khóa âm thanh
-            contractBeep.play().then(() => {
-                contractBeep.pause();
-                contractBeep.currentTime = 0;
-            }).catch(err => console.error('Lỗi mở khóa âm thanh siết cơ:', err));
-            
-            relaxBeep.play().then(() => {
-                relaxBeep.pause();
-                relaxBeep.currentTime = 0;
-            }).catch(err => console.error('Lỗi mở khóa âm thanh thả cơ:', err));
+            startBtn.disabled = true;
+            startBtn.textContent = 'Running...';
 
-            // Bắt đầu hiệp đầu tiên sau 2 giây
-            setTimeout(startSet, 2000);
+            totalSets = parseInt(document.getElementById('sets').value) || 5;
+            contractTime = parseInt(document.getElementById('contractTime').value) || 5;
+            relaxTime = parseInt(document.getElementById('relaxTime').value) || 5;
+            currentSet = 0;
+            isContracting = true;
+            timeLeft = contractTime;
+
+            updateSetCounter();
+            startSet();
         }
 
         function startSet() {
             if (currentSet >= totalSets) {
-                endExercise();
+                stopExercise();
                 return;
             }
 
-            currentSet++;
-            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
-            
-            // Siết cơ
-            document.getElementById('status').textContent = 'Siết cơ!';
-            contractBeep.play().catch(err => {
-                console.error('Lỗi phát âm thanh siết cơ:', err);
-                document.getElementById('status').textContent = 'Lỗi âm thanh siết cơ!';
-            });
-            
-            let contractSeconds = contractTime;
-            interval = setInterval(() => {
-                document.getElementById('status').textContent = `Siết cơ! (${contractSeconds}s)`;
-                contractSeconds--;
-                
-                if (contractSeconds < 0) {
-                    clearInterval(interval);
-                    // Thả cơ
-                    document.getElementById('status').textContent = 'Thả cơ!';
-                    relaxBeep.play().catch(err => {
-                        console.error('Lỗi phát âm thanh thả cơ:', err);
-                        document.getElementById('status').textContent = 'Lỗi âm thanh thả cơ!';
-                    });
-                    
-                    let relaxSeconds = relaxTime;
-                    interval = setInterval(() => {
-                        document.getElementById('status').textContent = `Thả cơ! (${relaxSeconds}s)`;
-                        relaxSeconds--;
-                        
-                        if (relaxSeconds < 0) {
-                            clearInterval(interval);
-                            startSet(); // Bắt đầu hiệp tiếp theo
-                        }
-                    }, 1000);
+            statusDiv.textContent = isContracting ? 'Contract' : 'Relax';
+            timerDiv.textContent = timeLeft;
+            playBeep(isContracting ? contractBeep : relaxBeep);
+
+            intervalId = setInterval(() => {
+                timeLeft--;
+                timerDiv.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    isContracting = !isContracting;
+                    timeLeft = isContracting ? contractTime : relaxTime;
+
+                    if (!isContracting && timeLeft === relaxTime) {
+                        currentSet++;
+                        updateSetCounter();
+                    }
+
+                    if (currentSet >= totalSets && !isContracting) {
+                        stopExercise();
+                        return;
+                    }
+
+                    statusDiv.textContent = isContracting ? 'Contract' : 'Relax';
+                    playBeep(isContracting ? contractBeep : relaxBeep);
+                    timerDiv.textContent = timeLeft;
                 }
             }, 1000);
         }
 
-        function endExercise() {
+        function stopExercise() {
+            clearInterval(intervalId);
             isRunning = false;
-            clearInterval(interval);
-            document.getElementById('status').textContent = 'Hoàn thành!';
-            contractBeep.play().catch(err => console.error('Lỗi phát âm thanh hoàn thành:', err));
-            relaxBeep.play().catch(err => console.error('Lỗi phát âm thanh hoàn thành:', err));
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start';
+            statusDiv.textContent = 'Finished';
+            timerDiv.textContent = '0';
+        }
+
+        function updateSetCounter() {
+            setCounterDiv.textContent = `Set: ${currentSet + 1} / ${totalSets}`;
+        }
+
+        function playBeep(beep) {
+            beep.currentTime = 0;
+            beep.play().catch(error => console.log('Beep error:', error));
         }
     </script>
 </body>
