@@ -70,9 +70,9 @@
         let relaxTime = 0;
         let interval;
 
-        // Tạo hai âm thanh bip khác nhau
-        const contractBeep = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
-        const relaxBeep = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+        // Sử dụng tệp âm thanh cục bộ hoặc URL hợp lệ
+        const contractBeep = new Audio('beep-01a.mp3'); // Thay bằng tệp cục bộ hoặc URL hợp lệ
+        const relaxBeep = new Audio('beep-02.mp3'); // Thay bằng tệp cục bộ hoặc URL hợp lệ
 
         function startExercise() {
             if (isRunning) return;
@@ -92,6 +92,17 @@
             document.getElementById('status').textContent = 'Chuẩn bị...';
             document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
             
+            // Mở khóa âm thanh
+            contractBeep.play().then(() => {
+                contractBeep.pause();
+                contractBeep.currentTime = 0;
+            }).catch(err => console.error('Lỗi mở khóa âm thanh siết cơ:', err));
+            
+            relaxBeep.play().then(() => {
+                relaxBeep.pause();
+                relaxBeep.currentTime = 0;
+            }).catch(err => console.error('Lỗi mở khóa âm thanh thả cơ:', err));
+
             // Bắt đầu hiệp đầu tiên sau 2 giây
             setTimeout(startSet, 2000);
         }
@@ -107,7 +118,10 @@
             
             // Siết cơ
             document.getElementById('status').textContent = 'Siết cơ!';
-            contractBeep.play();
+            contractBeep.play().catch(err => {
+                console.error('Lỗi phát âm thanh siết cơ:', err);
+                document.getElementById('status').textContent = 'Lỗi âm thanh siết cơ!';
+            });
             
             let contractSeconds = contractTime;
             interval = setInterval(() => {
@@ -118,7 +132,10 @@
                     clearInterval(interval);
                     // Thả cơ
                     document.getElementById('status').textContent = 'Thả cơ!';
-                    relaxBeep.play();
+                    relaxBeep.play().catch(err => {
+                        console.error('Lỗi phát âm thanh thả cơ:', err);
+                        document.getElementById('status').textContent = 'Lỗi âm thanh thả cơ!';
+                    });
                     
                     let relaxSeconds = relaxTime;
                     interval = setInterval(() => {
@@ -138,8 +155,8 @@
             isRunning = false;
             clearInterval(interval);
             document.getElementById('status').textContent = 'Hoàn thành!';
-            contractBeep.play();
-            relaxBeep.play();
+            contractBeep.play().catch(err => console.error('Lỗi phát âm thanh hoàn thành:', err));
+            relaxBeep.play().catch(err => console.error('Lỗi phát âm thanh hoàn thành:', err));
         }
     </script>
 </body>
