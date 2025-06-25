@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kegel Exercise Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kegel Exercise Timer</h1>
+        <div>
+            <label>Số hiệp: </label>
+            <input type="number" id="sets" min="1" value="5">
+        </div>
+        <div>
+            <label>Thời gian siết cơ (giây): </label>
+            <input type="number" id="contract" min="1" value="5">
+        </div>
+        <div>
+            <label>Thời gian thả cơ (giây): </label>
+            <input type="number" id="relax" min="1" value="5">
+        </div>
+        <button onclick="startExercise()">Start</button>
+        <div id="status">Chưa bắt đầu</div>
+        <div id="currentSet">Hiệp: 0 / 0</div>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let currentSet = 0;
+        let totalSets = 0;
+        let contractTime = 0;
+        let relaxTime = 0;
+        let interval;
+
+        // Tạo hai âm thanh bip khác nhau
+        const contractBeep = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const relaxBeep = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function startExercise() {
+            if (isRunning) return;
+
+            // Lấy giá trị từ input
+            totalSets = parseInt(document.getElementById('sets').value);
+            contractTime = parseInt(document.getElementById('contract').value);
+            relaxTime = parseInt(document.getElementById('relax').value);
+
+            if (totalSets < 1 || contractTime < 1 || relaxTime < 1) {
+                alert('Vui lòng nhập giá trị hợp lệ!');
+                return;
+            }
+
+            isRunning = true;
+            currentSet = 0;
+            document.getElementById('status').textContent = 'Chuẩn bị...';
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            
+            // Bắt đầu hiệp đầu tiên sau 2 giây
+            setTimeout(startSet, 2000);
+        }
+
+        function startSet() {
+            if (currentSet >= totalSets) {
+                endExercise();
+                return;
+            }
+
+            currentSet++;
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            
+            // Siết cơ
+            document.getElementById('status').textContent = 'Siết cơ!';
+            contractBeep.play();
+            
+            let contractSeconds = contractTime;
+            interval = setInterval(() => {
+                document.getElementById('status').textContent = `Siết cơ! (${contractSeconds}s)`;
+                contractSeconds--;
+                
+                if (contractSeconds < 0) {
+                    clearInterval(interval);
+                    // Thả cơ
+                    document.getElementById('status').textContent = 'Thả cơ!';
+                    relaxBeep.play();
+                    
+                    let relaxSeconds = relaxTime;
+                    interval = setInterval(() => {
+                        document.getElementById('status').textContent = `Thả cơ! (${relaxSeconds}s)`;
+                        relaxSeconds--;
+                        
+                        if (relaxSeconds < 0) {
+                            clearInterval(interval);
+                            startSet(); // Bắt đầu hiệp tiếp theo
+                        }
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        function endExercise() {
+            isRunning = false;
+            clearInterval(interval);
+            document.getElementById('status').textContent = 'Hoàn thành!';
+            contractBeep.play();
+            relaxBeep.play();
+        }
+    </script>
+</body>
+</html>
