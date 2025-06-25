@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .menu {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        .back-btn {
+            background-color: #f44336;
+        }
+        .back-btn:hover {
+            background-color: #da190b;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="main-menu" class="menu">
+            <h1>Essay Viewer</h1>
+            <button onclick="showContent('frame')">Frame</button>
+            <button onclick="showContent('essay1')">1</button>
+            <button onclick="showContent('essay2')">2</button>
+            <button onclick="showContent('essay3')">3</button>
+            <button onclick="showContent('essay4')">4</button>
+        </div>
+
+        <div id="frame" class="content">
+            <h2>Essay Frame</h2>
+            <p><strong>Introduction:</strong><br>Paraphrase the topic<br>Your opinion/ideas</p>
+            <p><strong>Body 1:</strong><br>Thesis statement<br>Explanation<br>Example</p>
+            <p><strong>Body 2:</strong><br>Thesis statement<br>Explanation<br>Example</p>
+            <p><strong>Conclusion:</strong><br>Restate the topic<br>Your opinion</p>
+            <button class="back-btn" onclick="showContent('main-menu')">Back</button>
+        </div>
+
+        <div id="essay1" class="content">
+            <h2>Essay 1: Should Buildings Last Long or Be Built Fast and Cheap?</h2>
+            <p><strong>Introduction</strong><br>Some people say houses and flats should be strong and last many years. Others think it is better to build homes fast and at a low cost. While building quickly helps people get homes sooner, I believe strong buildings are better because they are safer and save money over time.</p>
+            <p><strong>Body 1</strong><br>Building homes to last a long time is important for safety and quality.<br>Strong buildings can stay safe during bad weather like storms or earthquakes. They also need fewer repairs, which saves money. For example. an old stone house is still strong after 100 years. People live there safely, and it looks nice.</p>
+            <p><strong>Body 2</strong><br>On the other hand, building homes quickly and cheaply helps people who need a place to live now.<br>Fast and cheap homes can give many people a place to stay, especially in poor areas or after disasters. For example, the government built cheap flats in one year for families who had no homes. This helped them start a better life.</p>
+            <p><strong>Conclusion</strong><br>In conclusion, while fast and cheap buildings can help people quickly, I think it is better to build strong homes that last a long time. They are safer, cost less to maintain, and are better for everyone.</p>
+            <button class="back-btn" onclick="showContent('main-menu')">Back</button>
+        </div>
+
+        <div id="essay2" class="content">
+            <h2>Essay 2: Should Cities Build Big Buildings or Improve Schools and Hospitals?</h2>
+            <p><strong>Introduction</strong><br>Some people believe cities should have big, beautiful buildings to look important. Others think it is better to use money to make schools and hospitals better. While large buildings can make a city look nice, I believe improving schools and hospitals is more important because it helps people more.</p>
+            <p><strong>Body 1</strong><br>Big, impressive buildings can make a city special and attract visitors.<br>These buildings, like tall towers or museums, make a city famous and bring tourists. Tourists spend money, which helps the city grow. For example, a big new library made the city more popular, and many people visit it every year.</p>
+            <p><strong>Body 2</strong><br>On the other hand, spending money on schools and hospitals helps people’s lives more.<br>Good schools give children better education, and good hospitals keep people healthy. For example, a new hospital saved many lives because it has better doctors and machines. This is more important than a fancy building.</p>
+            <p><strong>Conclusion</strong><br>In conclusion, although big buildings can make a city look nice and bring tourists, I think spending money on schools and hospitals is better. They help people learn and stay healthy, which is more important for everyone.</p>
+            <button class="back-btn" onclick="showContent('main-menu')">Back</button>
+        </div>
+
+        <div id="essay3" class="content">
+            <h2>Essay 3: Are Modern Buildings Ugly or Interesting?</h2>
+            <p><strong>Introduction</strong><br>Some people think modern buildings are ugly and hurt the look of our towns and cities, especially when they are very different from older buildings. Others believe modern buildings make cities more exciting and special. While modern buildings can add something new, I think they sometimes look bad when they do not match the older buildings around them.</p>
+            <p><strong>Body 1</strong><br>Modern buildings can make towns and cities more interesting and attractive.<br>New buildings with different designs, like glass towers or colorful shapes, bring variety and make a city look lively. For example, a new glass museum looks very different, and many people visit it because it is unique and fun to see.</p>
+            <p><strong>Body 2</strong><br>On the other hand, modern buildings can look ugly and ruin the beauty of a town or city.<br>When new buildings are too different from old ones, they do not fit well and can make the city look messy. For example, a tall, shiny building was built next to small, old houses. Many people say it looks strange and does not belong there.</p>
+            <p><strong>Conclusion</strong><br>In conclusion, while modern buildings can make cities more exciting with new designs, I believe they can sometimes ruin the beauty of a town if they do not match the older buildings. Cities should try to mix new and old styles carefully to look nice.</p>
+            <button class="back-btn" onclick="showContent('main-menu')">Back</button>
+        </div>
+
+        <div id="essay4" class="content">
+            <h2>Essay 4: Is Living in High-Rise Apartments Lonely or Community-Friendly?</h2>
+            <p><strong>Introduction</strong><br>Some people think living in high-rise apartment blocks makes people feel lonely because there is no community spirit. Others believe high-rise apartments create a stronger sense of community than houses. While apartments can bring people together, I think living in high-rise blocks can sometimes feel lonely because it is hard to know your neighbors.</p>
+            <p><strong>Body 1</strong><br>High-rise apartments can help build a strong community.<br>In apartments, people live close to each other, so it is easier to meet neighbors and make friends. Many buildings have shared spaces like gardens or gyms where people can talk. For example, a tall apartment block has a park where families meet and children play together, which makes people feel connected.</p>
+            <p><strong>Body 2</strong><br>On the other hand, living in high-rise apartments can feel lonely for some people.<br>In big buildings, there are many people, but it is hard to know everyone. Some residents may not talk to their neighbors and feel alone. For example, some people live in a tall apartment block and say they rarely see their neighbors because everyone is busy and stays in their own apartments.</p>
+            <p><strong>Conclusion</strong><br>In conclusion, while high-rise apartments can create a sense of community with shared spaces, I believe they can also make people feel lonely if they do not meet their neighbors. It is important for residents to try to connect with others to feel part of a community.</p>
+            <button class="back-btn" onclick="showContent('main-menu')">Back</button>
+        </div>
+    </div>
+
+    <script>
+        function showContent(id) {
+            // Hide all content sections
+            document.querySelectorAll('.content').forEach(function(element) {
+                element.classList.remove('active');
+            });
+            // Hide main menu if not showing it
+            if (id !== 'main-menu') {
+                document.getElementById('main-menu').style.display = 'none';
+            } else {
+                document.getElementById('main-menu').style.display = 'block';
+            }
+            // Show the selected content
+            if (id !== 'main-menu') {
+                document.getElementById(id).classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
