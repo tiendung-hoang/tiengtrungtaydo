@@ -3,78 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kegel Exercise Machine</title>
+    <title>Kegel Exercise Timer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
         .container {
             text-align: center;
+            background: white;
             padding: 20px;
-            background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        input {
-            width: 60px;
+        input, button {
             margin: 10px;
-            padding: 5px;
+            padding: 8px;
+            font-size: 16px;
         }
         button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
             background-color: #4CAF50;
             color: white;
             border: none;
+            cursor: pointer;
             border-radius: 5px;
         }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        button:hover {
+            background-color: #45a049;
         }
         #status {
             font-size: 24px;
             margin: 20px 0;
         }
-        #timer {
-            font-size: 48px;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Kegel Exercise Machine</h1>
+        <h1>Kegel Exercise Timer</h1>
         <div>
-            <label>Sets: <input type="number" id="sets" value="5" min="1"></label>
+            <label>Số hiệp: </label>
+            <input type="number" id="sets" min="1" value="5">
         </div>
         <div>
-            <label>Contract (s): <input type="number" id="contractTime" value="5" min="1"></label>
+            <label>Thời gian siết cơ (giây): </label>
+            <input type="number" id="contract" min="1" value="5">
         </div>
         <div>
-            <label>Relax (s): <input type="number" id="relaxTime" value="5" min="1"></label>
+            <label>Thời gian thả cơ (giây): </label>
+            <input type="number" id="relax" min="1" value="5">
         </div>
-        <button id="startBtn" onclick="startExercise()">Start</button>
-        <div id="status">Ready</div>
-        <div id="timer">0</div>
-        <div id="setCounter">Set: 0 / 0</div>
+        <button onclick="startExercise()">Start</button>
+        <div id="status">Chưa bắt đầu</div>
+        <div id="currentSet">Hiệp: 0 / 0</div>
     </div>
-
-    <audio id="contractBeep" preload="auto">
-        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="relaxBeep" preload="auto">
-        <source src="https://www.soundjay.com/buttons/beep-02.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
         let isRunning = false;
@@ -82,85 +68,78 @@
         let totalSets = 0;
         let contractTime = 0;
         let relaxTime = 0;
-        let isContracting = true;
-        let timeLeft = 0;
-        let intervalId = null;
+        let interval;
 
-        const contractBeep = document.getElementById('contractBeep');
-        const relaxBeep = document.getElementById('relaxBeep');
-        const startBtn = document.getElementById('startBtn');
-        const statusDiv = document.getElementById('status');
-        const timerDiv = document.getElementById('timer');
-        const setCounterDiv = document.getElementById('setCounter');
+        // Tạo hai âm thanh bip khác nhau
+        const contractBeep = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const relaxBeep = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/pause.wav');
 
         function startExercise() {
             if (isRunning) return;
+
+            // Lấy giá trị từ input
+            totalSets = parseInt(document.getElementById('sets').value);
+            contractTime = parseInt(document.getElementById('contract').value);
+            relaxTime = parseInt(document.getElementById('relax').value);
+
+            if (totalSets < 1 || contractTime < 1 || relaxTime < 1) {
+                alert('Vui lòng nhập giá trị hợp lệ!');
+                return;
+            }
+
             isRunning = true;
-            startBtn.disabled = true;
-            startBtn.textContent = 'Running...';
-
-            totalSets = parseInt(document.getElementById('sets').value) || 5;
-            contractTime = parseInt(document.getElementById('contractTime').value) || 5;
-            relaxTime = parseInt(document.getElementById('relaxTime').value) || 5;
             currentSet = 0;
-            isContracting = true;
-            timeLeft = contractTime;
-
-            updateSetCounter();
-            startSet();
+            document.getElementById('status').textContent = 'Chuẩn bị...';
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            
+            // Bắt đầu hiệp đầu tiên sau 2 giây
+            setTimeout(startSet, 2000);
         }
 
         function startSet() {
             if (currentSet >= totalSets) {
-                stopExercise();
+                endExercise();
                 return;
             }
 
-            statusDiv.textContent = isContracting ? 'Contract' : 'Relax';
-            timerDiv.textContent = timeLeft;
-            playBeep(isContracting ? contractBeep : relaxBeep);
-
-            intervalId = setInterval(() => {
-                timeLeft--;
-                timerDiv.textContent = timeLeft;
-
-                if (timeLeft <= 0) {
-                    isContracting = !isContracting;
-                    timeLeft = isContracting ? contractTime : relaxTime;
-
-                    if (!isContracting && timeLeft === relaxTime) {
-                        currentSet++;
-                        updateSetCounter();
-                    }
-
-                    if (currentSet >= totalSets && !isContracting) {
-                        stopExercise();
-                        return;
-                    }
-
-                    statusDiv.textContent = isContracting ? 'Contract' : 'Relax';
-                    playBeep(isContracting ? contractBeep : relaxBeep);
-                    timerDiv.textContent = timeLeft;
+            currentSet++;
+            document.getElementById('currentSet').textContent = `Hiệp: ${currentSet} / ${totalSets}`;
+            
+            // Siết cơ
+            document.getElementById('status').textContent = 'Siết cơ!';
+            contractBeep.play();
+            
+            let contractSeconds = contractTime;
+            interval = setInterval(() => {
+                document.getElementById('status').textContent = `Siết cơ! (${contractSeconds}s)`;
+                contractSeconds--;
+                
+                if (contractSeconds < 0) {
+                    clearInterval(interval);
+                    // Thả cơ
+                    document.getElementById('status').textContent = 'Thả cơ!';
+                    relaxBeep.play();
+                    
+                    let relaxSeconds = relaxTime;
+                    interval = setInterval(() => {
+                        document.getElementById('status').textContent = `Thả cơ! (${relaxSeconds}s)`;
+                        relaxSeconds--;
+                        
+                        if (relaxSeconds < 0) {
+                            clearInterval(interval);
+                            startSet(); // Bắt đầu hiệp tiếp theo
+                        }
+                    }, 1000);
                 }
             }, 1000);
         }
 
-        function stopExercise() {
-            clearInterval(intervalId);
+        function endExercise() {
             isRunning = false;
-            startBtn.disabled = false;
-            startBtn.textContent = 'Start';
-            statusDiv.textContent = 'Finished';
-            timerDiv.textContent = '0';
-        }
-
-        function updateSetCounter() {
-            setCounterDiv.textContent = `Set: ${currentSet + 1} / ${totalSets}`;
-        }
-
-        function playBeep(beep) {
-            beep.currentTime = 0;
-            beep.play().catch(error => console.log('Beep error:', error));
+            clearInterval(interval);
+            document.getElementById('status').textContent = 'Hoàn thành!';
+            contractBeep.play();
+            relaxBeep.play();
         }
     </script>
 </body>
