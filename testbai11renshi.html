@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>閱讀測驗 - 第十一課 你們是怎麼認識的？</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .pinyin {
+            display: none;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>閱讀測驗 - 第十一課 你們是怎麼認識的？</h1>
+    <p>請閱讀以下短文，然後選擇正確答案。</p>
+
+    <div class="question">
+        <p>1. 友美在網路上認識了一位新朋友。他們常常聊天，聊得很開心。昨天，友美給她的新朋友留言，約他週末見面。</p>
+        <button onclick="togglePinyin('pinyin1')">顯示拼音</button>
+        <p class="pinyin" id="pinyin1">Yǒuměi zài wǎnglù shàng rènshì le yí wèi xīn péngyǒu. Tāmen chángcháng liáotiān, liáo de hěn kāixīn. Zuótiān, Yǒuměi gěi tā de xīn péngyǒu liúyán, yuē tā zhōumò jiànmiàn.</p>
+        <p>問題：友美和新朋友是怎麼認識的？</p>
+        <div class="options">
+            <label><input type="radio" name="q1" value="A"> 在咖啡廳</label>
+            <label><input type="radio" name="q1" value="B"> 在學校</label>
+            <label><input type="radio" name="q1" value="C"> 在網路上</label>
+            <label><input type="radio" name="q1" value="D"> 在圖書館</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>2. 我昨天去了一家特別的餐廳，那裡沒有菜單。服務員說他們的菜都很特別，我點了三盤菜，味道很好。</p>
+        <button onclick="togglePinyin('pinyin2')">顯示拼音</button>
+        <p class="pinyin" id="pinyin2">Wǒ zuótiān qù le yì jiā tèbié de cāntīng, nàlǐ méi yǒu càidān. Fúwùyuán shuō tāmen de cài dōu hěn tèbié, wǒ diǎn le sān pán cài, wèidào hěn hǎo.</p>
+        <p>問題：這家餐廳有什麼特別？</p>
+        <div class="options">
+            <label><input type="radio" name="q2" value="A"> 菜很難吃</label>
+            <label><input type="radio" name="q2" value="B"> 服務員不友好</label>
+            <label><input type="radio" name="q2" value="C"> 有很多菜單</label>
+            <label><input type="radio" name="q2" value="D"> 沒有菜單</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>3. 我上個禮拜在學校認識了一位中文老師。他教我很多中國字，現在我已經學了五十個了。</p>
+        <button onclick="togglePinyin('pinyin3')">顯示拼音</button>
+        <p class="pinyin" id="pinyin3">Wǒ shàng ge lǐbài zài xuéxiào rènshì le yí wèi Zhōngwén lǎoshī. Tā jiāo wǒ hěn duō Zhōngguó zì, xiànzài wǒ yǐjīng xué le wǔshí ge le.</p>
+        <p>問題：作者學了多少個中國字？</p>
+        <div class="options">
+            <label><input type="radio" name="q3" value="A"> 一百個</label>
+            <label><input type="radio" name="q3" value="B"> 五十個</label>
+            <label><input type="radio" name="q3" value="C"> 十個</label>
+            <label><input type="radio" name="q3" value="D"> 二十個</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>4. 友美昨天在咖啡廳看到一位有名的醫生。她很驚訝，因為她常常在電視上看到他。</p>
+        <button onclick="togglePinyin('pinyin4)">顯示拼音</button>
+        <p class="pinyin" id="pinyin4">Yǒuměi zuótiān zài kāfēitīng kàndào yí wèi yǒumíng de yīshēng. Tā hěn jīngyà, yīnwèi tā chángcháng zài diànshì shàng kàndào tā.</p>
+        <p>問題：友美在哪裡看到那位醫生？</p>
+        <div class="options">
+            <label><input type="radio" name="q4" value="A"> 在學校</label>
+            <label><input type="radio" name="q4" value="B"> 在咖啡廳</label>
+            <label><input type="radio" name="q4" value="C"> 在網路上</label>
+            <label><input type="radio" name="q4" value="D"> 在電視上</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>5. 我朋友送我一張生日卡片，上面寫了很多祝福的話。我很開心，決定給他回一封信。</p>
+        <button onclick="togglePinyin('pinyin5')">顯示拼音</button>
+        <p class="pinyin" id="pinyin5">Wǒ péngyǒu sòng wǒ yì zhāng shēngrì kǎpiàn, shàngmiàn xiě le hěn duō zhùfú de huà. Wǒ hěn kāixīn, juédìng gěi tā huí yì fēng xìn.</p>
+        <p>問題：作者收到什麼從朋友？</p>
+        <div class="options">
+            <label><input type="radio" name="q5" value="A"> 一篇文章</label>
+            <label><input type="radio" name="q5" value="B"> 一張生日卡片</label>
+            <label><input type="radio" name="q5" value="C"> 一張照片</label>
+            <label><input type="radio" name="q5" value="D"> 一封信</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>6. 我昨天跟朋友聊了很多，然後我們一起去吃飯。飯後，他幫我照了一張相片。</p>
+        <button onclick="togglePinyin('pinyin6')">顯示拼音</button>
+        <p class="pinyin" id="pinyin6">Wǒ zuótiān gēn péngyǒu liáo le hěn duō, ránhòu wǒmen yìqǐ qù chīfàn. Fànhòu, tā bāng wǒ zhào le yì zhāng xiàngpiàn.</p>
+        <p>問題：作者和朋友做了什麼在聊天之後？</p>
+        <div class="options">
+            <label><input type="radio" name="q6" value="A"> 去上課</label>
+            <label><input type="radio" name="q6" value="B"> 去買衣服</label>
+            <label><input type="radio" name="q6" value="C"> 去吃飯</label>
+            <label><input type="radio" name="q6" value="D"> 去圖書館</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>7. 他說話很有趣，所以每個人都喜歡跟他聊天。他昨天還沒來上課，因為他生病了。</p>
+        <button onclick="togglePinyin('pinyin7')">顯示拼音</button>
+        <p class="pinyin" id="pinyin7">Tā shuōhuà hěn yǒuqù, suǒyǐ měi ge rén dōu xǐhuān gēn tā liáotiān. Tā zuótiān háiméi lái shàngkè, yīnwèi tā shēngbìng le.</p>
+        <p>問題：為什麼他昨天沒來上課？</p>
+        <div class="options">
+            <label><input type="radio" name="q7" value="A"> 他去運動</label>
+            <label><input type="radio" name="q7" value="B"> 他生病了</label>
+            <label><input type="radio" name="q7" value="C"> 他去朋友家玩</label>
+            <label><input type="radio" name="q7" value="D"> 他寫功課</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>8. 我打算週末跟朋友見面。我們先去看電影，等人少了再去吃飯。</p>
+        <button onclick="togglePinyin('pinyin8')">顯示拼音</button>
+        <p class="pinyin" id="pinyin8">Wǒ dǎsuàn zhōumò gēn péngyǒu jiànmiàn. Wǒmen xiān qù kàn diànyǐng, děng rén shǎo le zài qù chīfàn.</p>
+        <p>問題：作者和朋友打算先做什麼在週末？</p>
+        <div class="options">
+            <label><input type="radio" name="q8" value="A"> 去買衣服</label>
+            <label><input type="radio" name="q8" value="B"> 去看電影</label>
+            <label><input type="radio" name="q8" value="C"> 去吃飯</label>
+            <label><input type="radio" name="q8" value="D"> 去游泳</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>9. 我昨天在網路上看到一篇很有趣的文章。我想留言，但還沒決定寫什麼。</p>
+        <button onclick="togglePinyin('pinyin9')">顯示拼音</button>
+        <p class="pinyin" id="pinyin9">Wǒ zuótiān zài wǎnglù shàng kàndào yì piān hěn yǒuqù de wénzhāng. Wǒ xiǎng liúyán, dàn háiméi juédìng xiě shénme.</p>
+        <p>問題：作者想做什麼在閱讀文章之後？</p>
+        <div class="options">
+            <label><input type="radio" name="q9" value="A"> 照相</label>
+            <label><input type="radio" name="q9" value="B"> 打電話</label>
+            <label><input type="radio" name="q9" value="C"> 寫文章</label>
+            <label><input type="radio" name="q9" value="D"> 留言</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>10. 友美給她的新朋友打電話，但他沒接，可能在睡覺。她決定晚一點再打。</p>
+        <button onclick="togglePinyin('pinyin10')">顯示拼音</button>
+        <p class="pinyin" id="pinyin10">Yǒuměi gěi tā de xīn péngyǒu dǎ diànhuà, dàn tā méi jiē, kěnéng zài shuìjiào. Tā juédìng wǎn yìdiǎn zài dǎ.</p>
+        <p>問題：為什麼友美的新朋友沒接電話？</p>
+        <div class="options">
+            <label><input type="radio" name="q10" value="A"> 他正在吃飯</label>
+            <label><input type="radio" name="q10" value="B"> 他去上課了</label>
+            <label><input type="radio" name="q10" value="C"> 他可能在睡覺</label>
+            <label><input type="radio" name="q10" value="D"> 他正在聊天</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>11. 我昨天買了一件新衣服，是在學校附近的商店買的。我很喜歡這件衣服的顏色。</p>
+        <button onclick="togglePinyin('pinyin11')">顯示拼音</button>
+        <p class="pinyin" id="pinyin11">Wǒ zuótiān mǎi le yí jiàn xīn yīfu, shì zài xuéxiào fùjìn de shāngdiàn mǎi de. Wǒ hěn xǐhuān zhè jiàn yīfu de yánsè.</p>
+        <p>問題：作者在哪裡買新衣服？</p>
+        <div class="options">
+            <label><input type="radio" name="q11" value="A"> 在網路上</label>
+            <label><input type="radio" name="q11" value="B"> 在咖啡廳</label>
+            <label><input type="radio" name="q11" value="C"> 在學校附近的商店</label>
+            <label><input type="radio" name="q11" value="D"> 在百貨公司</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>12. 他上個月買了一輛新車，現在還想再買一輛。他說新車開起來很舒服。</p>
+        <button onclick="togglePinyin('pinyin12')">顯示拼音</button>
+        <p class="pinyin" id="pinyin12">Tā shàng ge yuè mǎi le yí liàng xīn chē, xiànzài hái xiǎng zài mǎi yí liàng. Tā shuō xīn chē kāi qǐlái hěn shūfu.</p>
+        <p>問題：他現在想做什麼？</p>
+        <div class="options">
+            <label><input type="radio" name="q12" value="A"> 去旅行</label>
+            <label><input type="radio" name="q12" value="B"> 賣車</label>
+            <label><input type="radio" name="q12" value="C"> 修車</label>
+            <label><input type="radio" name="q12" value="D"> 再買一輛車</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>13. 我昨天晚上吃了兩個蘋果，還想再吃一個。今天早上我沒吃早飯，因為我還沒餓。</p>
+        <button onclick="togglePinyin('pinyin13')">顯示拼音</button>
+        <p class="pinyin" id="pinyin13">Wǒ zuótiān wǎnshàng chī le liǎng ge píngguǒ, hái xiǎng zài chī yí ge. Jīntiān zǎoshàng wǒ méi chī zǎofàn, yīnwèi wǒ háiméi è.</p>
+        <p>問題：為什麼作者今天早上沒吃早飯？</p>
+        <div class="options">
+            <label><input type="radio" name="q13" value="A"> 他去運動</label>
+            <label><input type="radio" name="q13" value="B"> 他還沒餓</label>
+            <label><input type="radio" name="q13" value="C"> 他生病了</label>
+            <label><input type="radio" name="q13" value="D"> 他沒時間</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>14. 友美說她的中文是在台灣學的。她在那裡住了兩年，現在說得很流利。</p>
+        <button onclick="togglePinyin('pinyin14')">顯示拼音</button>
+        <p class="pinyin" id="pinyin14">Yǒuměi shuō tā de Zhōngwén shì zài Táiwān xué de. Tā zài nàlǐ zhù le liǎng nián, xiànzài shuō de hěn liúlì.</p>
+        <p>問題：友美在哪裡學中文？</p>
+        <div class="options">
+            <label><input type="radio" name="q14" value="A"> 在日本</label>
+            <label><input type="radio" name="q14" value="B"> 在美國</label>
+            <label><input type="radio" name="q14" value="C"> 在中國</label>
+            <label><input type="radio" name="q14" value="D"> 在台灣</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>15. 我媽媽給我買了我最愛吃的冰淇淋。我很高興，決定下週幫她做飯。</p>
+        <button onclick="togglePinyin('pinyin15')">顯示拼音</button>
+        <p class="pinyin" id="pinyin15">Wǒ māma gěi wǒ mǎi le wǒ zuì ài chī de bīngqílín. Wǒ hěn gāoxìng, juédìng xià zhōu bāng tā zuò fàn.</p>
+        <p>問題：作者從媽媽收到什麼？</p>
+        <div class="options">
+            <label><input type="radio" name="q15" value="A"> 蛋糕</label>
+            <label><input type="radio" name="q15" value="B"> 衣服</label>
+            <label><input type="radio" name="q15" value="C"> 冰淇淋</label>
+            <label><input type="radio" name="q15" value="D"> 卡片</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>16. 這家咖啡廳人很多，我決定等人少了再來。我先去朋友家玩，然後再回來。</p>
+        <button onclick="togglePinyin('pinyin16')">顯示拼音</button>
+        <p class="pinyin" id="pinyin16">Zhè jiā kāfēitīng rén hěn duō, wǒ juédìng děng rén shǎo le zài lái. Wǒ xiān qù péngyǒu jiā wán, ránhòu zài huílái.</p>
+        <p>問題：作者打算做什麼在回到咖啡廳之前？</p>
+        <div class="options">
+            <label><input type="radio" name="q16" value="A"> 去買東西</label>
+            <label><input type="radio" name="q16" value="B"> 去吃飯</label>
+            <label><input type="radio" name="q16" value="C"> 去朋友家玩</label>
+            <label><input type="radio" name="q16" value="D"> 去上課</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>17. 我弟弟很喜歡幫人照相。他昨天用他的照相機幫我照了一張很漂亮的照片。</p>
+        <button onclick="togglePinyin('pinyin17')">顯示拼音</button>
+        <p class="pinyin" id="pinyin17">Wǒ dìdi hěn xǐhuān bāng rén zhàoxiàng. Tā zuótiān yòng tā de zhàoxiàngjī bāng wǒ zhào le yì zhāng hěn piàoliang de zhàopiàn.</p>
+        <p>問題：誰幫作者照相？</p>
+        <div class="options">
+            <label><input type="radio" name="q17" value="A"> 老師</label>
+            <label><input type="radio" name="q17" value="B"> 朋友</label>
+            <label><input type="radio" name="q17" value="C"> 媽媽</label>
+            <label><input type="radio" name="q17" value="D"> 弟弟</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>18. 我今天心情很好，因為我跟朋友約好一起去唱歌。我們打算晚上見面。</p>
+        <button onclick="togglePinyin('pinyin18')">顯示拼音</button>
+        <p class="pinyin" id="pinyin18">Wǒ jīntiān xīnqíng hěn hǎo, yīnwèi wǒ gēn péngyǒu yuē hǎo yìqǐ qù chànggē. Wǒmen dǎsuàn wǎnshàng jiànmiàn.</p>
+        <p>問題：作者今天心情怎麼樣？</p>
+        <div class="options">
+            <label><input type="radio" name="q18" value="A"> 很無聊</label>
+            <label><input type="radio" name="q18" value="B"> 很累</label>
+            <label><input type="radio" name="q18" value="C"> 心情很好</label>
+            <label><input type="radio" name="q18" value="D"> 很奇怪</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>19. 以前我妹妹很不喜歡穿裙子，現在她覺得穿裙子很舒服。</p>
+        <button onclick="togglePinyin('pinyin19')">顯示拼音</button>
+        <p class="pinyin" id="pinyin19">Yǐqián wǒ mèimei hěn bù xǐhuān chuān qúnzi, xiànzài tā juéde chuān qúnzi hěn shūfu.</p>
+        <p>問題：現在妹妹覺得穿裙子怎麼樣？</p>
+        <div class="options">
+            <label><input type="radio" name="q19" value="A"> 不想穿</label>
+            <label><input type="radio" name="q19" value="B"> 覺得舒服</label>
+            <label><input type="radio" name="q19" value="C"> 很不喜歡</label>
+            <label><input type="radio" name="q19" value="D"> 覺得奇怪</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <p>20. 我希望以後可以去朋友家玩。我們上次見面是在一個特別的餐廳，沒有菜單。</p>
+        <button onclick="togglePinyin('pinyin20')">顯示拼音</button>
+        <p class="pinyin" id="pinyin20">Wǒ xīwàng yǐhòu kěyǐ qù péngyǒu jiā wán. Wǒmen shàng cì jiànmiàn shì zài yí ge tèbié de cāntīng, méi yǒu càidān.</p>
+        <p>問題：上次作者和朋友在哪裡見面？</p>
+        <div class="options">
+            <label><input type="radio" name="q20" value="A"> 在學校</label>
+            <label><input type="radio" name="q20" value="B"> 在朋友家</label>
+            <label><input type="radio" name="q20" value="C"> 在網路上</label>
+            <label><input type="radio" name="q20" value="D"> 在一個特別的餐廳</label>
+        </div>
+    </div>
+
+    <script>
+        function togglePinyin(id) {
+            var pinyin = document.getElementById(id);
+            if (pinyin.style.display === "none") {
+                pinyin.style.display = "block";
+            } else {
+                pinyin.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
