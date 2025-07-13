@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Luyện tập Ngữ pháp Tiếng Trung</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .menu, .practice { display: none; }
+        .menu.active, .practice.active { display: block; }
+        .question { font-size: 24px; margin-bottom: 20px; }
+        .answer { font-size: 30px; margin: 20px 0; }
+        .hanzi-pinyin { display: none; font-size: 20px; }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; }
+        .grammar-btn { display: block; margin: 10px auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu active" id="menu">
+            <h1>Luyện tập Ngữ pháp Tiếng Trung</h1>
+            <button class="grammar-btn" onclick="showPractice('yong')">Ngữ pháp 用</button>
+            <button class="grammar-btn" onclick="showPractice('yiqian_yihou')">Ngữ pháp 以前/以後</button>
+            <button class="grammar-btn" onclick="showPractice('dui')">Ngữ pháp 對</button>
+            <button class="grammar-btn" onclick="showPractice('guo')">Ngữ pháp 過</button>
+            <button class="grammar-btn" onclick="showPractice('deshihou')">Ngữ pháp ……的時候，……</button>
+        </div>
+
+        <div class="practice" id="yong">
+            <h1>Ngữ pháp 用</h1>
+            <div class="question">你用什麼？</div>
+            <div class="answer" id="yongEmojiAnswer"></div>
+            <div class="hanzi-pinyin" id="yongHanziAnswer"></div>
+            <div class="hanzi-pinyin" id="yongPinyinAnswer"></div>
+            <button onclick="generateAnswer('yong')">New</button>
+            <button onclick="showHanziPinyin('yong')">Show</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div class="practice" id="yiqian_yihou">
+            <h1>Ngữ pháp 以前/以後</h1>
+            <div class="question" id="yiqianYihouQuestion"></div>
+            <div class="answer" id="yiqianYihouEmojiAnswer"></div>
+            <div class="hanzi-pinyin" id="yiqianYihouHanziAnswer"></div>
+            <div class="hanzi-pinyin" id="yiqianYihouPinyinAnswer"></div>
+            <button onclick="generateAnswer('yiqian_yihou')">New</button>
+            <button onclick="showHanziPinyin('yiqian_yihou')">Show</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div class="practice" id="dui">
+            <h1>Ngữ pháp 對</h1>
+            <div class="question">你對什麼好？</div>
+            <div class="answer" id="duiEmojiAnswer"></div>
+            <div class="hanzi-pinyin" id="duiHanziAnswer"></div>
+            <div class="hanzi-pinyin" id="duiPinyinAnswer"></div>
+            <button onclick="generateAnswer('dui')">New</button>
+            <button onclick="showHanziPinyin('dui')">Show</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div class="practice" id="guo">
+            <h1>Ngữ pháp 過</h1>
+            <div class="question" id="guoQuestion"></div>
+            <div class="answer" id="guoEmojiAnswer"></div>
+            <div class="hanzi-pinyin" id="guoHanziAnswer"></div>
+            <div class="hanzi-pinyin" id="guoPinyinAnswer"></div>
+            <button onclick="generateAnswer('guo')">New</button>
+            <button onclick="showHanziPinyin('guo')">Show</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div class="practice" id="deshihou">
+            <h1>Ngữ pháp ……的時候，……</h1>
+            <div class="question">你什麼時候開心？</div>
+            <div class="answer" id="deshihouEmojiAnswer"></div>
+            <div class="hanzi-pinyin" id="deshihouHanziAnswer"></div>
+            <div class="hanzi-pinyin" id="deshihouPinyinAnswer"></div>
+            <button onclick="generateAnswer('deshihou')">New</button>
+            <button onclick="showHanziPinyin('deshihou')">Show</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        const grammarData = {
+            yong: {
+                question: "你用什麼？",
+                answers: [
+                    { emoji: "✍️用🖌️", hanzi: "我用毛筆寫", pinyin: "Wǒ yòng máobǐ xiě" },
+                    { emoji: "📧用💻", hanzi: "我用電腦寄信", pinyin: "Wǒ yòng diànnǎo jì xìn" },
+                    { emoji: "📷用📱", hanzi: "我用手機拍照", pinyin: "Wǒ yòng shǒujī pāizhào" },
+                    { emoji: "🍽️用🥢", hanzi: "我用筷子吃飯", pinyin: "Wǒ yòng kuàizi chīfàn" },
+                    { emoji: "🌐用📱", hanzi: "我用手機上網", pinyin: "Wǒ yòng shǒujī shàngwǎng" }
+                ]
+            },
+            yiqian_yihou: {
+                questions: ["你以前做什麼？", "你以後想做什麼？"],
+                answers: [
+                    { emoji: "👨‍🍳以前", hanzi: "我以前當廚師", pinyin: "Wǒ yǐqián dāng chúshī" },
+                    { emoji: "🏃以後", hanzi: "我以後想跑步", pinyin: "Wǒ yǐhòu xiǎng pǎobù" },
+                    { emoji: "📚以前", hanzi: "我以前讀很多書", pinyin: "Wǒ yǐqián dú hěn duō shū" },
+                    { emoji: "✈️以後", hanzi: "我以後想旅行", pinyin: "Wǒ yǐhòu xiǎng lǚxíng" },
+                    { emoji: "🎤以前", hanzi: "我以前唱歌", pinyin: "Wǒ yǐqián chànggē" }
+                ]
+            },
+            dui: {
+                question: "你對什麼好？",
+                answers: [
+                    { emoji: "🐶對😊", hanzi: "我對狗很好", pinyin: "Wǒ duì gǒu hěn hǎo" },
+                    { emoji: "👩對👍", hanzi: "我對朋友很好", pinyin: "Wǒ duì péngyǒu hěn hǎo" },
+                    { emoji: "📚對📈", hanzi: "我對學習很好", pinyin: "Wǒ duì xuéxí hěn hǎo" },
+                    { emoji: "🌍對💚", hanzi: "我對環境很好", pinyin: "Wǒ duì huánjìng hěn hǎo" },
+                    { emoji: "👴對🙏", hanzi: "我對老人很好", pinyin: "Wǒ duì lǎorén hěn hǎo" }
+                ]
+            },
+            guo: {
+                questions: [
+                    "你有沒有吃過壽司？",
+                    "你有沒有去過日本？",
+                    "你有沒有唱過歌？",
+                    "你有沒有游過泳？",
+                    "你有沒有看過這部電影？"
+                ],
+                answers: [
+                    { emoji: "🍣過", hanzi: "我吃過壽司", pinyin: "Wǒ chī guò shòusī" },
+                    { emoji: "�△過", hanzi: "我去過日本", pinyin: "Wǒ qù guò Rìběn" },
+                    { emoji: "🎤過", hanzi: "我唱過歌", pinyin: "Wǒ chàng guò gē" },
+                    { emoji: "🏊過", hanzi: "我游過泳", pinyin: "Wǒ yóu guò yǒng" },
+                    { emoji: "📽️過", hanzi: "我看過這部電影", pinyin: "Wǒ kàn guò zhè bù diànyǐng" }
+                ]
+            },
+            deshihou: {
+                question: "你什麼時候開心？",
+                answers: [
+                    { emoji: "🏃的時候😊", hanzi: "我跑步的時候很開心", pinyin: "Wǒ pǎobù de shíhòu hěn kāixīn" },
+                    { emoji: "🍽️的時候😋", hanzi: "我吃飯的時候很開心", pinyin: "Wǒ chīfàn de shíhòu hěn kāixīn" },
+                    { emoji: "📚的時候📈", hanzi: "我讀書的時候很開心", pinyin: "Wǒ dúshū de shíhòu hěn kāixīn" },
+                    { emoji: "👩‍👧的時候😊", hanzi: "我跟家人一起的時候很開心", pinyin: "Wǒ gēn jiārén yìqǐ de shíhòu hěn kāixīn" },
+                    { emoji: "🌴的時候😎", hanzi: "我度假的時候很開心", pinyin: "Wǒ dùjià de shíhòu hěn kāixīn" }
+                ]
+            }
+        };
+
+        function showPractice(grammar) {
+            document.getElementById("menu").classList.remove("active");
+            document.getElementById(grammar).classList.add("active");
+            generateAnswer(grammar);
+        }
+
+        function goBack() {
+            document.querySelectorAll(".practice").forEach(practice => practice.classList.remove("active"));
+            document.getElementById("menu").classList.add("active");
+        }
+
+        function generateAnswer(grammar) {
+            const data = grammarData[grammar];
+            const randomIndex = Math.floor(Math.random() * data.answers.length);
+            const questionElement = document.getElementById(`${grammar}Question`) || document.querySelector(`#${grammar} .question`);
+            const question = data.questions ? data.questions[randomIndex % data.questions.length] : data.question;
+            questionElement.innerText = question;
+            document.getElementById(`${grammar}EmojiAnswer`).innerText = data.answers[randomIndex].emoji;
+            document.getElementById(`${grammar}HanziAnswer`).innerText = data.answers[randomIndex].hanzi;
+            document.getElementById(`${grammar}PinyinAnswer`).innerText = data.answers[randomIndex].pinyin;
+            document.getElementById(`${grammar}HanziAnswer`).style.display = "none";
+            document.getElementById(`${grammar}PinyinAnswer`).style.display = "none";
+        }
+
+        function showHanziPinyin(grammar) {
+            document.getElementById(`${grammar}HanziAnswer`).style.display = "block";
+            document.getElementById(`${grammar}PinyinAnswer`).style.display = "block";
+        }
+    </script>
+</body>
+</html>
