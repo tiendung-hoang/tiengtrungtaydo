@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Vocabulary Quiz (Bài 1-5)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .answer-button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+        }
+        .correct {
+            background-color: #28a745;
+        }
+        .incorrect {
+            background-color: #dc3545;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Chinese Vocabulary Quiz (Bài 1-5)</h1>
+        <p>Lives: <span id="lives">10</span></p>
+        <p>Score: <span id="score">0</span></p>
+        <h2 id="question"></h2>
+        <div id="answers"></div>
+        <div id="result"></div>
+        <button id="next-button" style="display: none;">Next Question</button>
+    </div>
+
+    <script>
+        // Vocabulary data from Bài 1 to Bài 5
+        const vocabulary = [
+            { hanzi: "新", vietnamese: "Mới" },
+            { hanzi: "同學", vietnamese: "Bạn học, bạn cùng lớp" },
+            { hanzi: "她", vietnamese: "Cô ấy, nàng" },
+            { hanzi: "誰", vietnamese: "Ai" },
+            { hanzi: "叫", vietnamese: "Gọi, được gọi là" },
+            { hanzi: "姓", vietnamese: "Họ, mang họ" },
+            { hanzi: "很", vietnamese: "Rất" },
+            { hanzi: "可愛", vietnamese: "Đáng yêu, dễ thương" },
+            { hanzi: "哪", vietnamese: "Nào" },
+            { hanzi: "國", vietnamese: "Nước, quốc gia" },
+            { hanzi: "妳", vietnamese: "Bạn (nữ)" },
+            { hanzi: "知道", vietnamese: "Biết" },
+            { hanzi: "嗎", vietnamese: "Hạt câu hỏi (câu hỏi Yes/No)" },
+            { hanzi: "日本", vietnamese: "Nhật Bản" },
+            { hanzi: "臺灣", vietnamese: "Đài Loan" },
+            { hanzi: "中國", vietnamese: "Trung Quốc" },
+            { hanzi: "美國", vietnamese: "Hoa Kỳ" },
+            { hanzi: "英國", vietnamese: "Anh Quốc" },
+            { hanzi: "漂亮", vietnamese: "Xinh đẹp, đẹp" },
+            { hanzi: "什麼", vietnamese: "Cái gì" },
+            { hanzi: "名字", vietnamese: "Tên" },
+            { hanzi: "姓名", vietnamese: "Họ và tên" },
+            { hanzi: "呢", vietnamese: "Hạt câu hỏi (hỏi ngược lại)" },
+            { hanzi: "印尼", vietnamese: "Indonesia" },
+            { hanzi: "喜歡", vietnamese: "Thích" },
+            { hanzi: "你好", vietnamese: "Chào" },
+            { hanzi: "好", vietnamese: "Tốt, hay" },
+            { hanzi: "請問", vietnamese: "Xin hỏi" },
+            { hanzi: "大家", vietnamese: "Mọi người" },
+            { hanzi: "朋友", vietnamese: "Bạn bè" },
+            { hanzi: "愛", vietnamese: "Yêu" },
+            { hanzi: "吃", vietnamese: "Ăn" },
+            { hanzi: "水果", vietnamese: "Trái cây" },
+            { hanzi: "水", vietnamese: "Nước" },
+            { hanzi: "喝", vietnamese: "Uống" },
+            { hanzi: "茶", vietnamese: "Trà" },
+            { hanzi: "謝謝", vietnamese: "Cảm ơn" },
+            { hanzi: "不客氣", vietnamese: "Không có gì" },
+            { hanzi: "珍珠奶茶", vietnamese: "Trà sữa trân châu" },
+            { hanzi: "奶茶", vietnamese: "Trà sữa" },
+            { hanzi: "自我介紹", vietnamese: "Tự giới thiệu" },
+            { hanzi: "早安", vietnamese: "Chào buổi sáng" },
+            { hanzi: "午安", vietnamese: "Chào buổi trưa" },
+            { hanzi: "晚安", vietnamese: "Chào buổi tối" },
+            { hanzi: "幾", vietnamese: "Bao nhiêu" },
+            { hanzi: "點", vietnamese: "Giờ" },
+            { hanzi: "點鐘", vietnamese: "Giờ (chính thức)" },
+            { hanzi: "現在", vietnamese: "Bây giờ" },
+            { hanzi: "去", vietnamese: "Đi" },
+            { hanzi: "學校", vietnamese: "Trường học" },
+            { hanzi: "媽媽", vietnamese: "Mẹ" },
+            { hanzi: "爸爸", vietnamese: "Bố" },
+            { hanzi: "孩子", vietnamese: "Con, trẻ con" },
+            { hanzi: "今天", vietnamese: "Hôm nay" },
+            { hanzi: "星期", vietnamese: "Tuần, ngày trong tuần" },
+            { hanzi: "月", vietnamese: "Tháng" },
+            { hanzi: "號", vietnamese: "Số (dùng cho ngày)" },
+            { hanzi: "日", vietnamese: "Ngày" },
+            { hanzi: "星期天", vietnamese: "Chủ nhật" },
+            { hanzi: "早上", vietnamese: "Buổi sáng" },
+            { hanzi: "有", vietnamese: "Có" },
+            { hanzi: "沒", vietnamese: "Không (dùng với 有)" },
+            { hanzi: "課", vietnamese: "Bài học, lớp học" },
+            { hanzi: "圖書館", vietnamese: "Thư viện" },
+            { hanzi: "中午", vietnamese: "Buổi trưa" },
+            { hanzi: "回", vietnamese: "Trở về" },
+            { hanzi: "家", vietnamese: "Nhà" },
+            { hanzi: "家人", vietnamese: "Thành viên gia đình" },
+            { hanzi: "下午", vietnamese: "Buổi chiều" },
+            { hanzi: "上午", vietnamese: "Buổi sáng (trước trưa)" },
+            { hanzi: "下課", vietnamese: "Tan lớp" },
+            { hanzi: "上課", vietnamese: "Lên lớp, đi học" },
+            { hanzi: "分", vietnamese: "Phút" },
+            { hanzi: "幾點", vietnamese: "Mấy giờ" },
+            { hanzi: "幾點鐘", vietnamese: "Mấy giờ (chính thức)" },
+            { hanzi: "明天", vietnamese: "Ngày mai" },
+            { hanzi: "昨天", vietnamese: "Hôm qua" },
+            { hanzi: "週末", vietnamese: "Cuối tuần" },
+            { hanzi: "要", vietnamese: "Muốn" },
+            { hanzi: "來", vietnamese: "Đến" },
+            { hanzi: "啊", vietnamese: "À (biểu thị sự ngạc nhiên)" },
+            { hanzi: "的", vietnamese: "Sở hữu" },
+            { hanzi: "生日", vietnamese: "Sinh nhật" },
+            { hanzi: "快樂", vietnamese: "Vui vẻ, hạnh phúc" },
+            { hanzi: "晚上", vietnamese: "Buổi tối" },
+            { hanzi: "問題", vietnamese: "Vấn đề, câu hỏi" },
+            { hanzi: "沒問題", vietnamese: "Không sao" },
+            { hanzi: "明天見", vietnamese: "Hẹn gặp ngày mai" },
+            { hanzi: "再見", vietnamese: "Tạm biệt" },
+            { hanzi: "做", vietnamese: "Làm" },
+            { hanzi: "歲", vietnamese: "Tuổi" },
+            { hanzi: "起床", vietnamese: "Thức dậy" },
+            { hanzi: "午飯", vietnamese: "Bữa trưa" },
+            { hanzi: "早飯", vietnamese: "Bữa sáng" },
+            { hanzi: "晚飯", vietnamese: "Bữa tối" },
+            { hanzi: "飯", vietnamese: "Cơm, bữa ăn" },
+            { hanzi: "做飯", vietnamese: "Nấu ăn" },
+            { hanzi: "睡覺", vietnamese: "Ngủ" },
+            { hanzi: "忙", vietnamese: "Bận" },
+            { hanzi: "累", vietnamese: "Mệt" },
+            { hanzi: "買", vietnamese: "Mua" },
+            { hanzi: "禮物", vietnamese: "Quà tặng" },
+            { hanzi: "想(要)", vietnamese: "Muốn" },
+            { hanzi: "送", vietnamese: "Tặng" },
+            { hanzi: "個", vietnamese: "Lượng từ chung" },
+            { hanzi: "看", vietnamese: "Đọc, nhìn, xem" },
+            { hanzi: "書", vietnamese: "Sách" },
+            { hanzi: "兩", vietnamese: "Hai (dùng với lượng từ)" },
+            { hanzi: "本", vietnamese: "Lượng từ cho sách" },
+            { hanzi: "中文", vietnamese: "Tiếng Trung" },
+            { hanzi: "英文", vietnamese: "Tiếng Anh" },
+            { hanzi: "一些", vietnamese: "Một vài, một số" },
+            { hanzi: "花", vietnamese: "Hoa" },
+            { hanzi: "朵", vietnamese: "Lượng từ cho hoa" },
+            { hanzi: "和", vietnamese: "Và" },
+            { hanzi: "大", vietnamese: "Lớn" },
+            { hanzi: "小", vietnamese: "Nhỏ" },
+            { hanzi: "蛋糕", vietnamese: "Bánh ngọt" },
+            { hanzi: "蛋", vietnamese: "Trứng" },
+            { hanzi: "一起", vietnamese: "Cùng nhau" },
+            { hanzi: "這", vietnamese: "Này" },
+            { hanzi: "那", vietnamese: "Kia" },
+            { hanzi: "種", vietnamese: "Loại, thứ" },
+            { hanzi: "鉛筆", vietnamese: "Bút chì" },
+            { hanzi: "筆", vietnamese: "Bút" },
+            { hanzi: "怎麼樣", vietnamese: "Thế nào" },
+            { hanzi: "東西", vietnamese: "Đồ vật, thứ" },
+            { hanzi: "枝", vietnamese: "Lượng từ cho bút" },
+            { hanzi: "塊", vietnamese: "Lượng từ cho tiền" },
+            { hanzi: "錢", vietnamese: "Tiền" },
+            { hanzi: "元", vietnamese: "Đơn vị tiền tệ" },
+            { hanzi: "便宜", vietnamese: "Rẻ" },
+            { hanzi: "貴", vietnamese: "Đắt" },
+            { hanzi: "顏色", vietnamese: "Màu sắc" },
+            { hanzi: "紅色", vietnamese: "Màu đỏ" },
+            { hanzi: "紅", vietnamese: "Đỏ" },
+            { hanzi: "白色", vietnamese: "Màu trắng" },
+            { hanzi: "白", vietnamese: "Trắng" },
+            { hanzi: "都", vietnamese: "Đều, cả" },
+            { hanzi: "好看", vietnamese: "Đẹp, dễ nhìn" },
+            { hanzi: "常(常)", vietnamese: "Thường xuyên" },
+            { hanzi: "穿", vietnamese: "Mặc" },
+            { hanzi: "衣服", vietnamese: "Quần áo" },
+            { hanzi: "件", vietnamese: "Lượng từ cho quần áo" },
+            { hanzi: "請", vietnamese: "Mời, nhờ" },
+            { hanzi: "玩", vietnamese: "Chơi" },
+            { hanzi: "這些", vietnamese: "Những cái này" },
+            { hanzi: "那些", vietnamese: "Những cái kia" },
+            { hanzi: "點心", vietnamese: "Đồ ăn nhẹ" },
+            { hanzi: "甜點", vietnamese: "Món tráng miệng" },
+            { hanzi: "甜", vietnamese: "Ngọt" },
+            { hanzi: "開心", vietnamese: "Vui vẻ" },
+            { hanzi: "咖啡", vietnamese: "Cà phê" },
+            { hanzi: "還是", vietnamese: "Hay, hoặc (dùng trong câu hỏi)" },
+            { hanzi: "天氣", vietnamese: "Thời tiết" },
+            { hanzi: "熱", vietnamese: "Nóng" },
+            { hanzi: "冷", vietnamese: "Lạnh" },
+            { hanzi: "飲料", vietnamese: "Đồ uống" },
+            { hanzi: "也", vietnamese: "Cũng" },
+            { hanzi: "餓", vietnamese: "Đói" },
+            { hanzi: "渴", vietnamese: "Khát" },
+            { hanzi: "(一)點(兒)", vietnamese: "Một chút" },
+            { hanzi: "餐廳", vietnamese: "Nhà hàng" },
+            { hanzi: "太", vietnamese: "Quá" },
+            { hanzi: "多", vietnamese: "Nhiều" },
+            { hanzi: "少", vietnamese: "Ít" },
+            { hanzi: "麵", vietnamese: "Mì" },
+            { hanzi: "好吃", vietnamese: "Ngon (đồ ăn)" },
+            { hanzi: "好喝", vietnamese: "Ngon (đồ uống)" },
+            { hanzi: "最", vietnamese: "Nhất" },
+            { hanzi: "賣", vietnamese: "Bán" },
+            { hanzi: "牛肉麵", vietnamese: "Mì bò" },
+            { hanzi: "點", vietnamese: "Gọi món" },
+            { hanzi: "碗", vietnamese: "Bát" },
+            { hanzi: "杯", vietnamese: "Cốc (lượng từ)" },
+            { hanzi: "杯子", vietnamese: "Cái cốc" },
+            { hanzi: "瓶子", vietnamese: "Cái chai" },
+            { hanzi: "瓶", vietnamese: "Chai (lượng từ)" },
+            { hanzi: "女", vietnamese: "Nữ" },
+            { hanzi: "男", vietnamese: "Nam" },
+            { hanzi: "位", vietnamese: "Lượng từ kính ngữ cho người" },
+            { hanzi: "紅茶", vietnamese: "Trà đen" },
+            { hanzi: "綠茶", vietnamese: "Trà xanh" },
+            { hanzi: "綠色", vietnamese: "Màu xanh lá" },
+            { hanzi: "綠", vietnamese: "Xanh lá" },
+            { hanzi: "請", vietnamese: "Xin, mời" },
+            { hanzi: "給", vietnamese: "Đưa, cho" },
+            { hanzi: "一共", vietnamese: "Tổng cộng" },
+            { hanzi: "多少", vietnamese: "Bao nhiêu" },
+            { hanzi: "百", vietnamese: "Trăm" },
+            { hanzi: "千", vietnamese: "Nghìn" },
+            { hanzi: "萬", vietnamese: "Mười nghìn" },
+            { hanzi: "零", vietnamese: "Số không" },
+            { hanzi: "找錢", vietnamese: "Trả tiền thừa" },
+            { hanzi: "您", vietnamese: "Ngài (kính ngữ)" },
+            { hanzi: "夏天", vietnamese: "Mùa hè" },
+            { hanzi: "春天", vietnamese: "Mùa xuân" },
+            { hanzi: "秋天", vietnamese: "Mùa thu" },
+            { hanzi: "冬天", vietnamese: "Mùa đông" },
+            { hanzi: "店", vietnamese: "Cửa hàng" },
+            { hanzi: "果汁", vietnamese: "Nước ép trái cây" },
+            { hanzi: "牛奶", vietnamese: "Sữa bò" },
+            { hanzi: "有的", vietnamese: "Một số, vài" },
+            { hanzi: "每", vietnamese: "Mỗi, từng" },
+            { hanzi: "天", vietnamese: "Ngày" },
+            { hanzi: "錢包", vietnamese: "Ví tiền, túi tiền" },
+            { hanzi: "在", vietnamese: "Ở tại, ở" },
+            { hanzi: "哪裡", vietnamese: "Ở đâu" },
+            { hanzi: "聽", vietnamese: "Nghe" },
+            { hanzi: "音樂", vietnamese: "Âm nhạc" },
+            { hanzi: "下午茶", vietnamese: "Trà chiều" },
+            { hanzi: "不錯", vietnamese: "Không tệ, tốt" },
+            { hanzi: "咖啡廳", vietnamese: "Quán cà phê" },
+            { hanzi: "那裡", vietnamese: "Ở đó" },
+            { hanzi: "這裡", vietnamese: "Ở đây" },
+            { hanzi: "冰淇淋", vietnamese: "Kem" },
+            { hanzi: "巧克力", vietnamese: "Sô-cô-la" },
+            { hanzi: "半", vietnamese: "Nửa" },
+            { hanzi: "吧", vietnamese: "Hạt câu gợi ý" },
+            { hanzi: "有空", vietnamese: "Rảnh rỗi" },
+            { hanzi: "沒(有)空", vietnamese: "Không rảnh" },
+            { hanzi: "跟", vietnamese: "Và, với" },
+            { hanzi: "可是", vietnamese: "Nhưng" },
+            { hanzi: "房間", vietnamese: "Phòng" },
+            { hanzi: "間", vietnamese: "Lượng từ cho phòng" },
+            { hanzi: "房子", vietnamese: "Nhà, tòa nhà" },
+            { hanzi: "棟", vietnamese: "Lượng từ cho tòa nhà" },
+            { hanzi: "裡(面)", vietnamese: "Bên trong" },
+            { hanzi: "外(面)", vietnamese: "Bên ngoài" },
+            { hanzi: "客廳", vietnamese: "Phòng khách" },
+            { hanzi: "桌子", vietnamese: "Cái bàn" },
+            { hanzi: "椅子", vietnamese: "Cái ghế" },
+            { hanzi: "張", vietnamese: "Lượng từ cho bàn, ghế" },
+            { hanzi: "哥哥", vietnamese: "Anh trai" },
+            { hanzi: "姐姐", vietnamese: "Chị gái" },
+            { hanzi: "弟弟", vietnamese: "Em trai" },
+            { hanzi: "妹妹", vietnamese: "Em gái" },
+            { hanzi: "沙發", vietnamese: "Ghế sofa" },
+            { hanzi: "下(面)", vietnamese: "Phía dưới" },
+            { hanzi: "旁邊", vietnamese: "Bên cạnh" },
+            { hanzi: "前(面)", vietnamese: "Phía trước" },
+            { hanzi: "後(面)", vietnamese: "Phía sau" },
+            { hanzi: "幫", vietnamese: "Giúp" },
+            { hanzi: "找", vietnamese: "Tìm" },
+            { hanzi: "廚房", vietnamese: "Nhà bếp" },
+            { hanzi: "再", vietnamese: "Lại, thêm lần nữa" },
+            { hanzi: "床", vietnamese: "Giường" },
+            { hanzi: "家具", vietnamese: "Đồ nội thất" },
+            { hanzi: "電視", vietnamese: "Tivi" },
+            { hanzi: "窗戶", vietnamese: "Cửa sổ" },
+            { hanzi: "門", vietnamese: "Cửa ra vào" },
+            { hanzi: "貓", vietnamese: "Mèo" },
+            { hanzi: "狗", vietnamese: "Chó" },
+            { hanzi: "鳥", vietnamese: "Chim" },
+            { hanzi: "隻", vietnamese: "Lượng từ cho động vật" },
+            { hanzi: "太陽", vietnamese: "Mặt trời" }
+        ];
+
+        let lives = 10;
+        let score = 0;
+        let questionCount = 0;
+        const maxQuestions = 10;
+        let usedWords = [];
+
+        const questionElement = document.getElementById('question');
+        const answersElement = document.getElementById('answers');
+        const resultElement = document.getElementById('result');
+        const livesElement = document.getElementById('lives');
+        const scoreElement = document.getElementById('score');
+        const nextButton = document.getElementById('next-button');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomWord() {
+            let availableWords = vocabulary.filter(word => !usedWords.includes(word.hanzi));
+            if (availableWords.length === 0) {
+                usedWords = [];
+                availableWords = vocabulary;
+            }
+            const index = Math.floor(Math.random() * availableWords.length);
+            const word = availableWords[index];
+            usedWords.push(word.hanzi);
+            return word;
+        }
+
+        function getIncorrectAnswers(correctWord) {
+            let incorrect = [];
+            let availableWords = vocabulary.filter(word => word.hanzi !== correctWord.hanzi);
+            while (incorrect.length < 2) {
+                const index = Math.floor(Math.random() * availableWords.length);
+                const word = availableWords[index];
+                if (!incorrect.includes(word.vietnamese)) {
+                    incorrect.push(word.vietnamese);
+                    availableWords.splice(index, 1);
+                }
+            }
+            return incorrect;
+        }
+
+        function generateQuestion() {
+            if (questionCount >= maxQuestions || lives <= 0) {
+                endGame();
+                return;
+            }
+
+            const word = getRandomWord();
+            const incorrectAnswers = getIncorrectAnswers(word);
+            const answers = shuffle([word.vietnamese, ...incorrectAnswers]);
+
+            questionElement.textContent = `Từ "${word.hanzi}" có nghĩa là gì?`;
+            answersElement.innerHTML = '';
+            resultElement.textContent = '';
+
+            answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.textContent = answer;
+                button.classList.add('answer-button');
+                button.addEventListener('click', () => checkAnswer(answer, word.vietnamese));
+                answersElement.appendChild(button);
+            });
+
+            nextButton.style.display = 'none';
+            questionCount++;
+        }
+
+        function checkAnswer(selected, correct) {
+            const buttons = answersElement.getElementsByTagName('button');
+            for (let button of buttons) {
+                button.disabled = true;
+                if (button.textContent === correct) {
+                    button.classList.add('correct');
+                }
+                if (button.textContent === selected && selected !== correct) {
+                    button.classList.add('incorrect');
+                    lives--;
+                    livesElement.textContent = lives;
+                    resultElement.textContent = `Sai! Đáp án đúng là: ${correct}`;
+                } else if (button.textContent === selected && selected === correct) {
+                    score += 10;
+                    scoreElement.textContent = score;
+                    resultElement.textContent = 'Đúng!';
+                }
+            }
+
+            if (lives <= 0) {
+                endGame();
+            } else {
+                nextButton.style.display = 'block';
+            }
+        }
+
+        function endGame() {
+            questionElement.textContent = 'Kết thúc trò chơi!';
+            answersElement.innerHTML = '';
+            resultElement.textContent = `Điểm của bạn: ${score}. Nhấn "Bắt đầu lại" để chơi lại.`;
+            nextButton.textContent = 'Bắt đầu lại';
+            nextButton.style.display = 'block';
+            nextButton.onclick = () => {
+                lives = 10;
+                score = 0;
+                questionCount = 0;
+                usedWords = [];
+                livesElement.textContent = lives;
+                scoreElement.textContent = score;
+                generateQuestion();
+                nextButton.textContent = 'Next Question';
+            };
+        }
+
+        nextButton.addEventListener('click', generateQuestion);
+
+        // Start the quiz
+        generateQuestion();
+    </script>
+</body>
+</html>
