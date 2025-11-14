@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 12 - Trắc nghiệm (Thứ tự cố định)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f4f6f9; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #1890ff;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 12 – 你做什麼工作？</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 47 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const vocab = [
+  {han: "工作", viet: "công việc / làm việc"},
+  {han: "怎麼", viet: "tại sao"},
+  {han: "參加", viet: "tham gia"},
+  {han: "當", viet: "làm (nghề)"},
+  {han: "護士", viet: "y tá"},
+  {han: "用", viet: "dùng"},
+  {han: "記者", viet: "phóng viên"},
+  {han: "銀行", viet: "ngân hàng"},
+  {han: "畢業", viet: "tốt nghiệp"},
+  {han: "以後", viet: "sau này"},
+  {han: "以前", viet: "trước đây"},
+  {han: "公司", viet: "công ty"},
+  {han: "老闆", viet: "ông chủ"},
+  {han: "事情", viet: "việc"},
+  {han: "準時", viet: "đúng giờ"},
+  {han: "上班", viet: "đi làm"},
+  {han: "下班", viet: "tan làm"},
+  {han: "麵包", viet: "bánh mì"},
+  {han: "辛苦", viet: "vất vả"},
+  {han: "而且", viet: "hơn nữa"},
+  {han: "同事", viet: "đồng nghiệp"},
+  {han: "對", viet: "đối với"},
+  {han: "成績", viet: "thành tích"},
+  {han: "過", viet: "đã từng"},
+  {han: "夠", viet: "đủ"},
+  {han: "遲到", viet: "đến muộn"},
+  {han: "準備", viet: "chuẩn bị"},
+  {han: "小時", viet: "giờ"},
+  {han: "分鐘", viet: "phút"},
+  {han: "節目", viet: "chương trình"},
+  {han: "父母", viet: "cha mẹ"},
+  {han: "父親", viet: "cha"},
+  {han: "母親", viet: "mẹ"},
+  {han: "兒子", viet: "con trai"},
+  {han: "女兒", viet: "con gái"},
+  {han: "談", viet: "nói chuyện"},
+  {han: "談話", viet: "cuộc trò chuyện"},
+  {han: "自己", viet: "bản thân"},
+  {han: "結婚", viet: "kết hôn"},
+  {han: "重要", viet: "quan trọng"},
+  {han: "冷氣", viet: "máy lạnh"},
+  {han: "辦公室", viet: "văn phòng"},
+  {han: "還", viet: "còn"},
+  {han: "工廠", viet: "nhà máy"},
+  {han: "工人", viet: "công nhân"},
+  {han: "鐘頭", viet: "giờ (khẩu ngữ)"},
+  {han: "老板", viet: "ông chủ (phồn thể)"}
+];
+
+let current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha!");
+      current = 0; score = 0; loadQuestion();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+startQuiz();
+</script>
+</body>
+</html>
