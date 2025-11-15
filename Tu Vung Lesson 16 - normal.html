@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 16 - Trắc nghiệm (Thứ tự cố định)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0f8ff; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #007bff;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 16 – 在台灣旅行</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 67 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const vocab = [
+  {han: "旅行", viet: "du lịch"},
+  {han: "放假", viet: "nghỉ lễ; nghỉ phép"},
+  {han: "計畫", viet: "kế hoạch"},
+  {han: "這次", viet: "lần này"},
+  {han: "上次", viet: "lần trước"},
+  {han: "下次", viet: "lần sau"},
+  {han: "離", viet: "cách; xa"},
+  {han: "東", viet: "đông"},
+  {han: "西", viet: "tây"},
+  {han: "南", viet: "nam"},
+  {han: "北", viet: "bắc"},
+  {han: "部", viet: "bộ phận; khu vực"},
+  {han: "中部", viet: "miền trung"},
+  {han: "小學", viet: "trường tiểu học"},
+  {han: "中學", viet: "trường trung học"},
+  {han: "大學", viet: "trường đại học"},
+  {han: "年級", viet: "lớp; cấp học"},
+  {han: "報紙", viet: "báo"},
+  {han: "份", viet: "lượng từ cho báo, tài liệu"},
+  {han: "下雪", viet: "trời tuyết"},
+  {han: "雪", viet: "tuyết"},
+  {han: "下雨", viet: "trời mưa"},
+  {han: "雨", viet: "mưa"},
+  {han: "夜", viet: "đêm"},
+  {han: "太魯閣", viet: "Vườn quốc gia Taroko"},
+  {han: "花蓮", viet: "Hoa Liên"},
+  {han: "合歡山", viet: "Núi Hợp Hoan"},
+  {han: "日月潭", viet: "Hồ Nhật Nguyệt"},
+  {han: "本來", viet: "ban đầu"},
+  {han: "原來", viet: "hóa ra"},
+  {han: "後來", viet: "sau đó"},
+  {han: "搭", viet: "đi (phương tiện); đón"},
+  {han: "更", viet: "hơn; càng"},
+  {han: "浴室", viet: "phòng tắm"},
+  {han: "廁所", viet: "nhà vệ sinh"},
+  {han: "洗手間", viet: "phòng vệ sinh"},
+  {han: "洗澡", viet: "tắm"},
+  {han: "換", viet: "thay đổi; đổi"},
+  {han: "付", viet: "trả tiền"},
+  {han: "一半", viet: "một nửa"},
+  {han: "風", viet: "gió"},
+  {han: "笑", viet: "cười; mỉm cười"},
+  {han: "高雄", viet: "Cao Hùng"},
+  {han: "西子灣", viet: "Vịnh Tây Tử"},
+  {han: "高鐵", viet: "tàu cao tốc"},
+  {han: "台灣高鐵", viet: "Tàu cao tốc Đài Loan"},
+  {han: "邊", viet: "bên; phía"},
+  {han: "中國大陸", viet: "Trung Quốc đại lục"},
+  {han: "菲律賓", viet: "Philippines"},
+  {han: "荷蘭", viet: "Hà Lan"},
+  {han: "公里", viet: "kilomet"},
+  {han: "公尺", viet: "mét"},
+  {han: "公分", viet: "centimet"},
+  {han: "外國", viet: "nước ngoài"},
+  {han: "上學", viet: "đi học"},
+  {han: "夜市", viet: "chợ đêm"},
+  {han: "食物", viet: "thức ăn"},
+  {han: "遊戲", viet: "trò chơi"},
+  {han: "小籠包", viet: "bánh bao nhỏ (súp)"},
+  {han: "東部", viet: "miền đông"},
+  {han: "西部", viet: "miền tây"},
+  {han: "南部", viet: "miền nam"},
+  {han: "北部", viet: "miền bắc"},
+  {han: "一半兒", viet: "một nửa (khẩu ngữ)"},
+  {han: "邊兒", viet: "bên (khẩu ngữ)"}
+];
+
+let current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha!");
+      current = 0; score = 0; loadQuestion();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+startQuiz();
+</script>
+</body>
+</html>

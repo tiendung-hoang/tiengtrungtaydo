@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 15 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0fff0; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #28a745;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 15 – 十二生肖 (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 53 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "生肖", viet: "mười hai con giáp"},
+  {han: "課", viet: "lượng từ cho bài học"},
+  {han: "剛才", viet: "vừa mới; vừa nãy"},
+  {han: "動物", viet: "động vật"},
+  {han: "打開", viet: "mở ra; bật lên"},
+  {han: "課本", viet: "sách giáo khoa"},
+  {han: "課文", viet: "bài khóa (trong sách)"},
+  {han: "原來", viet: "hóa ra"},
+  {han: "華人", viet: "người gốc Hoa"},
+  {han: "一樣", viet: "giống nhau"},
+  {han: "代表", viet: "đại diện"},
+  {han: "越南", viet: "Việt Nam"},
+  {han: "出生", viet: "sinh ra"},
+  {han: "屬", viet: "thuộc về (con giáp)"},
+  {han: "啊", viet: "hạt ngữ hỏi (giả định)"},
+  {han: "簡單", viet: "đơn giản"},
+  {han: "查", viet: "tra cứu; kiểm tra"},
+  {han: "羊", viet: "dê; cừu"},
+  {han: "馬", viet: "ngựa"},
+  {han: "兔", viet: "thỏ"},
+  {han: "兔子", viet: "con thỏ"},
+  {han: "龍", viet: "rồng"},
+  {han: "著", viet: "hạt ngữ chỉ sự tiếp diễn"},
+  {han: "燈籠", viet: "lồng đèn"},
+  {han: "講", viet: "nói; giải thích"},
+  {han: "講話", viet: "nói chuyện"},
+  {han: "好玩", viet: "vui; thú vị"},
+  {han: "大人", viet: "người lớn"},
+  {han: "小孩", viet: "trẻ con"},
+  {han: "元宵節", viet: "Tết Nguyên Tiêu"},
+  {han: "燈會", viet: "hội đèn lồng"},
+  {han: "虎", viet: "hổ"},
+  {han: "老虎", viet: "con hổ"},
+  {han: "放", viet: "đặt; để"},
+  {han: "紙", viet: "giấy"},
+  {han: "黑板", viet: "bảng đen"},
+  {han: "河", viet: "sông"},
+  {han: "湖", viet: "hồ"},
+  {han: "比賽", viet: "thi đấu"},
+  {han: "贏", viet: "thắng"},
+  {han: "輸", viet: "thua"},
+  {han: "排", viet: "sắp xếp; xếp hàng"},
+  {han: "其他", viet: "khác; còn lại"},
+  {han: "鼠", viet: "chuột"},
+  {han: "老鼠", viet: "con chuột"},
+  {han: "蛇", viet: "rắn"},
+  {han: "猴", viet: "khỉ"},
+  {han: "猴子", viet: "con khỉ"},
+  {han: "雞", viet: "gà"},
+  {han: "豬", viet: "lợn"},
+  {han: "受歡迎", viet: "được yêu thích; phổ biến"},
+  {han: "十二生肖", viet: "mười hai con giáp"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! 🐉");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>
