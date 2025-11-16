@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 10 - Trắc nghiệm (Thứ tự cố định)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #fff5ee; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #ff6347;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 10 – 你感冒了嗎？</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 70 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const vocab = [
+  {han: "感冒", viet: "cảm lạnh"},
+  {han: "請假", viet: "xin nghỉ"},
+  {han: "發燒", viet: "phát sốt"},
+  {han: "醫生", viet: "bác sĩ"},
+  {han: "跟", viet: "với (nói chuyện)"},
+  {han: "醫院", viet: "bệnh viện"},
+  {han: "戴", viet: "đeo (mũ, kính, phụ kiện)"},
+  {han: "口罩", viet: "khẩu trang"},
+  {han: "洗", viet: "rửa"},
+  {han: "手", viet: "tay"},
+  {han: "手指", viet: "ngón tay"},
+  {han: "健康", viet: "sức khỏe, lành mạnh"},
+  {han: "生病", viet: "ốm"},
+  {han: "注意", viet: "chú ý"},
+  {han: "對", viet: "đúng"},
+  {han: "多", viet: "làm nhiều hơn"},
+  {han: "少", viet: "làm ít hơn"},
+  {han: "身體", viet: "cơ thể"},
+  {han: "帶", viet: "mang theo"},
+  {han: "蘋果", viet: "táo"},
+  {han: "香蕉", viet: "chuối"},
+  {han: "咳嗽", viet: "ho"},
+  {han: "咳", viet: "ho (ngắn)"},
+  {han: "頭", viet: "đầu"},
+  {han: "頭髮", viet: "tóc"},
+  {han: "痛", viet: "đau"},
+  {han: "鼻子", viet: "mũi"},
+  {han: "嘴", viet: "miệng"},
+  {han: "嘴巴", viet: "miệng (khẩu ngữ)"},
+  {han: "臉", viet: "mặt"},
+  {han: "耳朵", viet: "tai"},
+  {han: "眼睛", viet: "mắt"},
+  {han: "眼鏡", viet: "kính mắt"},
+  {han: "肚子", viet: "bụng"},
+  {han: "乾淨", viet: "sạch sẽ"},
+  {han: "需要", viet: "cần"},
+  {han: "藥", viet: "thuốc"},
+  {han: "會", viet: "sẽ"},
+  {han: "記得", viet: "nhớ"},
+  {han: "若是", viet: "nếu"},
+  {han: "如果", viet: "nếu"},
+  {han: "就", viet: "thì"},
+  {han: "不舒服", viet: "ốm, không khỏe"},
+  {han: "打電話", viet: "gọi điện thoại"},
+  {han: "接電話", viet: "nghe điện thoại"},
+  {han: "電話", viet: "điện thoại"},
+  {han: "號碼", viet: "số"},
+  {han: "擔心", viet: "lo lắng"},
+  {han: "告訴", viet: "bảo"},
+  {han: "忘記", viet: "quên"},
+  {han: "好了", viet: "đã khỏi"},
+  {han: "看病", viet: "khám bệnh"},
+  {han: "量體溫", viet: "đo thân nhiệt"},
+  {han: "吃藥", viet: "uống thuốc"},
+  {han: "休息", viet: "nghỉ ngơi"},
+  {han: "喝水", viet: "uống nước"},
+  {han: "多喝水", viet: "uống nhiều nước"},
+  {han: "保重", viet: "giữ gìn sức khỏe"},
+  {han: "快點好", viet: "mau khỏe"},
+  {han: "打針", viet: "tiêm"},
+  {han: "開藥", viet: "kê đơn"},
+  {han: "體溫計", viet: "nhiệt kế"},
+  {han: "喉嚨", viet: "cổ họng"},
+  {han: "流鼻涕", viet: "chảy nước mũi"},
+  {han: "發炎", viet: "viêm"},
+  {han: "過敏", viet: "dị ứng"},
+  {han: "感冒藥", viet: "thuốc cảm"},
+  {han: "止痛藥", viet: "thuốc giảm đau"},
+  {han: "藥局", viet: "nhà thuốc"}
+];
+
+let current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha!");
+      current = 0; score = 0; loadQuestion();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+startQuiz();
+</script>
+</body>
+</html>

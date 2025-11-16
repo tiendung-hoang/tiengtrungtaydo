@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 5 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #e6f7ff; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #007bff;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 5 – 我的錢包在哪裡？ (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 68 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "錢包", viet: "ví tiền"},
+  {han: "在", viet: "ở tại, ở"},
+  {han: "哪裡", viet: "ở đâu"},
+  {han: "哪兒", viet: "ở đâu (khẩu ngữ)"},
+  {han: "聽", viet: "nghe"},
+  {han: "音樂", viet: "âm nhạc"},
+  {han: "下午茶", viet: "trà chiều"},
+  {han: "不錯", viet: "không tệ, tốt"},
+  {han: "咖啡廳", viet: "quán cà phê"},
+  {han: "那裡", viet: "ở đó"},
+  {han: "那兒", viet: "ở đó (khẩu ngữ)"},
+  {han: "這裡", viet: "ở đây"},
+  {han: "這兒", viet: "ở đây (khẩu ngữ)"},
+  {han: "冰淇淋", viet: "kem"},
+  {han: "巧克力", viet: "sô-cô-la"},
+  {han: "半", viet: "nửa"},
+  {han: "吧", viet: "hạt câu gợi ý"},
+  {han: "有空", viet: "rảnh rỗi"},
+  {han: "沒空", viet: "không rảnh"},
+  {han: "沒有空", viet: "không rảnh (đầy đủ)"},
+  {han: "跟", viet: "và, với"},
+  {han: "可是", viet: "nhưng"},
+  {han: "房間", viet: "phòng"},
+  {han: "間", viet: "lượng từ cho phòng"},
+  {han: "房子", viet: "nhà, tòa nhà"},
+  {han: "棟", viet: "lượng từ cho tòa nhà"},
+  {han: "裡", viet: "bên trong"},
+  {han: "裡面", viet: "bên trong"},
+  {han: "外", viet: "bên ngoài"},
+  {han: "外面", viet: "bên ngoài"},
+  {han: "客廳", viet: "phòng khách"},
+  {han: "桌子", viet: "cái bàn"},
+  {han: "椅子", viet: "cái ghế"},
+  {han: "張", viet: "lượng từ cho bàn, ghế"},
+  {han: "上", viet: "phía trên"},
+  {han: "上面", viet: "phía trên"},
+  {han: "有", viet: "có, tồn tại"},
+  {han: "哥哥", viet: "anh trai"},
+  {han: "姐姐", viet: "chị gái"},
+  {han: "姊姊", viet: "chị gái (phồn thể)"},
+  {han: "弟弟", viet: "em trai"},
+  {han: "妹妹", viet: "em gái"},
+  {han: "沙發", viet: "ghế sofa"},
+  {han: "下", viet: "phía dưới"},
+  {han: "下面", viet: "phía dưới"},
+  {han: "旁邊", viet: "bên cạnh"},
+  {han: "前", viet: "phía trước"},
+  {han: "前面", viet: "phía trước"},
+  {han: "後", viet: "phía sau"},
+  {han: "後面", viet: "phía sau"},
+  {han: "幫", viet: "giúp"},
+  {han: "找", viet: "tìm"},
+  {han: "廚房", viet: "nhà bếp"},
+  {han: "再", viet: "lại, thêm lần nữa"},
+  {han: "床", viet: "giường"},
+  {han: "家具", viet: "đồ nội thất"},
+  {han: "電視", viet: "tivi"},
+  {han: "電視機", viet: "máy truyền hình"},
+  {han: "窗戶", viet: "cửa sổ"},
+  {han: "門", viet: "cửa ra vào"},
+  {han: "貓", viet: "mèo"},
+  {han: "狗", viet: "chó"},
+  {han: "鳥", viet: "chim"},
+  {han: "隻", viet: "lượng từ cho động vật"},
+  {han: "曬太陽", viet: "phơi nắng"},
+  {han: "晒太陽", viet: "phơi nắng (phồn thể)"},
+  {han: "太陽", viet: "mặt trời"},
+  {han: "左邊", viet: "bên trái"},
+  {han: "右邊", viet: "bên phải"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha!");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>

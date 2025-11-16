@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 4 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f5f5dc; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #ff9800;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 4 – 你要咖啡還是茶？ (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 72 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "咖啡", viet: "cà phê"},
+  {han: "還是", viet: "hay, hoặc (dùng trong câu hỏi)"},
+  {han: "天氣", viet: "thời tiết"},
+  {han: "好", viet: "rất"},
+  {han: "熱", viet: "nóng"},
+  {han: "冷", viet: "lạnh"},
+  {han: "飲料", viet: "đồ uống"},
+  {han: "也", viet: "cũng"},
+  {han: "餓", viet: "đói"},
+  {han: "渴", viet: "khát"},
+  {han: "一點", viet: "một chút"},
+  {han: "一點兒", viet: "một chút (khẩu ngữ)"},
+  {han: "餐廳", viet: "nhà hàng"},
+  {han: "飯館", viet: "quán ăn"},
+  {han: "家", viet: "lượng từ cho nhà hàng"},
+  {han: "太", viet: "quá"},
+  {han: "多", viet: "nhiều"},
+  {han: "少", viet: "ít"},
+  {han: "麵", viet: "mì"},
+  {han: "好吃", viet: "ngon (đồ ăn)"},
+  {han: "好喝", viet: "ngon (đồ uống)"},
+  {han: "了", viet: "hạt câu (dùng sau 太)"},
+  {han: "最", viet: "nhất"},
+  {han: "賣", viet: "bán"},
+  {han: "牛肉麵", viet: "mì bò"},
+  {han: "點", viet: "gọi món"},
+  {han: "碗", viet: "bát"},
+  {han: "杯", viet: "cốc (lượng từ)"},
+  {han: "杯子", viet: "cái cốc"},
+  {han: "瓶子", viet: "cái chai"},
+  {han: "瓶", viet: "chai (lượng từ)"},
+  {han: "女", viet: "nữ"},
+  {han: "男", viet: "nam"},
+  {han: "位", viet: "lượng từ kính ngữ cho người"},
+  {han: "紅茶", viet: "trà đen"},
+  {han: "綠茶", viet: "trà xanh"},
+  {han: "綠色", viet: "màu xanh lá"},
+  {han: "綠", viet: "xanh lá"},
+  {han: "請", viet: "xin, mời"},
+  {han: "給", viet: "đưa, cho"},
+  {han: "一共", viet: "tổng cộng"},
+  {han: "多少", viet: "bao nhiêu"},
+  {han: "百", viet: "trăm"},
+  {han: "千", viet: "nghìn"},
+  {han: "萬", viet: "mười nghìn"},
+  {han: "零", viet: "số không"},
+  {han: "找錢", viet: "trả tiền thừa"},
+  {han: "您", viet: "ngài (kính ngữ)"},
+  {han: "多", viet: "hơn"},
+  {han: "夏天", viet: "mùa hè"},
+  {han: "春天", viet: "mùa xuân"},
+  {han: "秋天", viet: "mùa thu"},
+  {han: "冬天", viet: "mùa đông"},
+  {han: "店", viet: "cửa hàng"},
+  {han: "商店", viet: "cửa hàng (chính thức)"},
+  {han: "果汁", viet: "nước ép trái cây"},
+  {han: "牛奶", viet: "sữa bò"},
+  {han: "有的", viet: "một số, vài"},
+  {han: "每", viet: "mỗi, từng"},
+  {han: "天", viet: "ngày"},
+  {han: "可樂", viet: "coca-cola"},
+  {han: "汽水", viet: "nước ngọt có ga"},
+  {han: "冰", viet: "đá"},
+  {han: "熱的", viet: "nóng (đồ uống)"},
+  {han: "冰的", viet: "lạnh (đồ uống)"},
+  {han: "服務員", viet: "nhân viên phục vụ"},
+  {han: "要", viet: "muốn"},
+  {han: "還是", viet: "hay (câu hỏi lựa chọn)"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! ☕");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>

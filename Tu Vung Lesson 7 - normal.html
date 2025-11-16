@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 7 - Trắc nghiệm (Thứ tự cố định)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0f8ff; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #007acc;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 7 – 怎麼到飯店去？</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 78 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const vocab = [
+  {han: "怎麼", viet: "làm sao, như thế nào"},
+  {han: "到", viet: "đến"},
+  {han: "飯店", viet: "khách sạn"},
+  {han: "旅館", viet: "nhà trọ, khách sạn"},
+  {han: "找", viet: "thăm, tìm (người)"},
+  {han: "韓國", viet: "Hàn Quốc"},
+  {han: "等", viet: "chờ"},
+  {han: "坐", viet: "ngồi, đi (phương tiện)"},
+  {han: "捷運", viet: "tàu điện ngầm, MRT"},
+  {han: "地鐵", viet: "tàu điện ngầm"},
+  {han: "公共汽車", viet: "xe buýt"},
+  {han: "公車", viet: "xe buýt (Đài Loan)"},
+  {han: "車", viet: "xe"},
+  {han: "汽車", viet: "ô tô, xe hơi"},
+  {han: "計程車", viet: "taxi"},
+  {han: "火車", viet: "tàu hỏa"},
+  {han: "上車", viet: "lên xe"},
+  {han: "下車", viet: "xuống xe"},
+  {han: "遠", viet: "xa"},
+  {han: "近", viet: "gần"},
+  {han: "想", viet: "nghĩ, muốn"},
+  {han: "從", viet: "từ"},
+  {han: "走路", viet: "đi bộ"},
+  {han: "走", viet: "đi, bước"},
+  {han: "先", viet: "trước, đầu tiên"},
+  {han: "地圖", viet: "bản đồ"},
+  {han: "錶", viet: "đồng hồ"},
+  {han: "手錶", viet: "đồng hồ đeo tay"},
+  {han: "了", viet: "hạt câu (thay đổi tình huống)"},
+  {han: "路", viet: "con đường"},
+  {han: "馬路", viet: "đường lớn"},
+  {han: "條", viet: "lượng từ cho đường, cá, sông"},
+  {han: "街", viet: "phố"},
+  {han: "地方", viet: "nơi, địa điểm"},
+  {han: "附近", viet: "gần, lân cận"},
+  {han: "郵局", viet: "bưu điện"},
+  {han: "寄", viet: "gửi (thư)"},
+  {han: "信", viet: "thư"},
+  {han: "封", viet: "lượng từ cho thư"},
+  {han: "信封", viet: "phong bì"},
+  {han: "超級市場", viet: "siêu thị"},
+  {han: "超市", viet: "siêu thị (giản thể)"},
+  {han: "市場", viet: "chợ"},
+  {han: "一定", viet: "chắc chắn"},
+  {han: "又", viet: "lại, vừa… vừa…"},
+  {han: "方便", viet: "tiện lợi"},
+  {han: "舒服", viet: "thoải mái"},
+  {han: "線", viet: "tuyến, đường dây"},
+  {han: "藍", viet: "xanh lam"},
+  {han: "藍色", viet: "màu xanh lam"},
+  {han: "機場", viet: "sân bay"},
+  {han: "飛機場", viet: "sân bay (đầy đủ)"},
+  {han: "開車", viet: "lái xe"},
+  {han: "司機", viet: "tài xế"},
+  {han: "車站", viet: "nhà ga, bến xe"},
+  {han: "站", viet: "trạm, ga"},
+  {han: "飛機", viet: "máy bay"},
+  {han: "架", viet: "lượng từ cho máy bay"},
+  {han: "飛", viet: "bay"},
+  {han: "起飛", viet: "cất cánh"},
+  {han: "轉", viet: "chuyển, rẽ"},
+  {han: "直走", viet: "đi thẳng"},
+  {han: "左轉", viet: "rẽ trái"},
+  {han: "右轉", viet: "rẽ phải"},
+  {han: "紅綠燈", viet: "đèn giao thông"},
+  {han: "過馬路", viet: "qua đường"},
+  {han: "橋", viet: "cầu"},
+  {han: "隧道", viet: "hầm chui"},
+  {han: "停車", viet: "dừng xe"},
+  {han: "停車場", viet: "bãi đỗ xe"},
+  {han: "票", viet: "vé"},
+  {han: "買票", viet: "mua vé"},
+  {han: "月台", viet: "sân ga"},
+  {han: "問路", viet: "hỏi đường"}
+];
+
+let current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha!");
+      current = 0; score = 0; loadQuestion();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+startQuiz();
+</script>
+</body>
+</html>

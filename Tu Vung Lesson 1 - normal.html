@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 1 - Trắc nghiệm (Thứ tự cố định)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #fff5e6; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #ff8c00;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 1 – 新同學</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 50 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const vocab = [
+  {han: "新", viet: "mới"},
+  {han: "同學", viet: "bạn học, bạn cùng lớp"},
+  {han: "她", viet: "cô ấy"},
+  {han: "誰", viet: "ai"},
+  {han: "叫", viet: "gọi, được gọi là"},
+  {han: "姓", viet: "họ, mang họ"},
+  {han: "很", viet: "rất"},
+  {han: "可愛", viet: "đáng yêu, dễ thương"},
+  {han: "哪", viet: "nào"},
+  {han: "國", viet: "nước, quốc gia"},
+  {han: "妳", viet: "bạn (nữ)"},
+  {han: "知道", viet: "biết"},
+  {han: "嗎", viet: "hạt câu hỏi (Yes/No)"},
+  {han: "日本", viet: "Nhật Bản"},
+  {han: "臺灣", viet: "Đài Loan"},
+  {han: "台灣", viet: "Đài Loan (giản thể)"},
+  {han: "中國", viet: "Trung Quốc"},
+  {han: "美國", viet: "Hoa Kỳ"},
+  {han: "英國", viet: "Anh Quốc"},
+  {han: "漂亮", viet: "xinh đẹp, đẹp"},
+  {han: "什麼", viet: "cái gì"},
+  {han: "名字", viet: "tên"},
+  {han: "姓名", viet: "họ và tên"},
+  {han: "呢", viet: "hạt câu hỏi (hỏi ngược lại)"},
+  {han: "印尼", viet: "Indonesia"},
+  {han: "喜歡", viet: "thích"},
+  {han: "你好", viet: "chào"},
+  {han: "妳好", viet: "chào (nữ)"},
+  {han: "好", viet: "tốt, hay"},
+  {han: "請問", viet: "xin hỏi"},
+  {han: "大家", viet: "mọi người"},
+  {han: "朋友", viet: "bạn bè"},
+  {han: "愛", viet: "yêu"},
+  {han: "吃", viet: "ăn"},
+  {han: "水果", viet: "trái cây"},
+  {han: "水", viet: "nước"},
+  {han: "喝", viet: "uống"},
+  {han: "茶", viet: "trà"},
+  {han: "謝謝", viet: "cảm ơn"},
+  {han: "不客氣", viet: "không có gì"},
+  {han: "珍珠奶茶", viet: "trà sữa trân châu"},
+  {han: "奶茶", viet: "trà sữa"},
+  {han: "自我介紹", viet: "tự giới thiệu"},
+  {han: "早安", viet: "chào buổi sáng"},
+  {han: "午安", viet: "chào buổi trưa"},
+  {han: "晚安", viet: "chào buổi tối"},
+  {han: "你", viet: "bạn (nam/nữ chung)"},
+  {han: "我", viet: "tôi"},
+  {han: "他", viet: "anh ấy"},
+  {han: "我們", viet: "chúng tôi"}
+];
+
+let current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! 🌟");
+      current = 0; score = 0; loadQuestion();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+startQuiz();
+</script>
+</body>
+</html>

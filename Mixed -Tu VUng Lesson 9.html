@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 9 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0fff0; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #32cd32;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 9 – 你會不會說中文？ (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 52 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "句子", viet: "câu"},
+  {han: "意思", viet: "ý nghĩa"},
+usty  {han: "懂", viet: "hiểu"},
+  {han: "教", viet: "dạy"},
+  {han: "真的", viet: "thật sự"},
+  {han: "問", viet: "hỏi"},
+  {han: "非常", viet: "rất"},
+  {han: "聰明", viet: "thông minh"},
+  {han: "那", viet: "thì"},
+  {han: "那麼", viet: "thì, vậy thì"},
+  {han: "在", viet: "đang (trong quá trình làm gì)"},
+  {han: "書法", viet: "thư pháp"},
+  {han: "毛筆", viet: "bút lông"},
+  {han: "宿舍", viet: "ký túc xá"},
+  {han: "功課", viet: "bài tập"},
+  {han: "作業", viet: "bài tập (viết)"},
+  {han: "再", viet: "sau đó (đầu tiên... sau đó...)"},
+  {han: "語言", viet: "ngôn ngữ"},
+  {han: "別的", viet: "khác"},
+  {han: "別人", viet: "người khác"},
+  {han: "比較", viet: "tương đối"},
+  {han: "也許", viet: "có lẽ"},
+  {han: "希望", viet: "hy vọng"},
+  {han: "期中考", viet: "thi giữa kỳ"},
+  {han: "語言交換", viet: "trao đổi ngôn ngữ"},
+  {han: "學期", viet: "học kỳ"},
+  {han: "開始", viet: "bắt đầu"},
+  {han: "華語", viet: "tiếng Hoa"},
+  {han: "寫", viet: "viết"},
+  {han: "練習", viet: "luyện tập"},
+  {han: "日文", viet: "tiếng Nhật"},
+  {han: "讀書", viet: "học tập"},
+  {han: "讀", viet: "đọc"},
+  {han: "進步", viet: "tiến bộ"},
+  {han: "下", viet: "kế tiếp"},
+  {han: "上", viet: "trước đó"},
+  {han: "緊張", viet: "căng thẳng"},
+  {han: "字", viet: "chữ"},
+  {han: "考試", viet: "thi cử"},
+  {han: "考", viet: "thi"},
+  {han: "會", viet: "biết (kỹ năng)"},
+  {han: "不會", viet: "không biết (kỹ năng)"},
+  {han: "說中文", viet: "nói tiếng Trung"},
+  {han: "聽懂", viet: "nghe hiểu"},
+  {han: "說得懂", viet: "nói cho người khác hiểu"},
+  {han: "說話", viet: "nói chuyện"},
+  {han: "外語", viet: "ngoại ngữ"},
+  {han: "母語", viet: "tiếng mẹ đẻ"},
+  {han: "翻譯", viet: "dịch"},
+  {han: "字典", viet: "từ điển"},
+  {han: "生字", viet: "chữ mới"},
+  {han: "複習", viet: "ôn tập"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! 📚");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>

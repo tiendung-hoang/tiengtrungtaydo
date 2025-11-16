@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 6 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #fffacd; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #ffcc00;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 6 – 週末去打網球吧！ (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 76 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "打", viet: "đánh, chơi (môn bóng)"},
+  {han: "網球", viet: "quần vợt, tennis"},
+  {han: "球", viet: "quả bóng"},
+  {han: "籃球", viet: "bóng rổ"},
+  {han: "棒球", viet: "bóng chày"},
+  {han: "足球", viet: "bóng đá"},
+  {han: "踢", viet: "đá"},
+  {han: "海邊", viet: "bãi biển"},
+  {han: "海", viet: "biển"},
+  {han: "山", viet: "núi"},
+  {han: "風景", viet: "phong cảnh"},
+  {han: "游泳", viet: "bơi lội"},
+  {han: "會", viet: "biết, có thể (kỹ năng)"},
+  {han: "得", viet: "hạt bổ ngữ"},
+  {han: "跑步", viet: "chạy bộ"},
+  {han: "跑", viet: "chạy"},
+  {han: "慢", viet: "chậm"},
+  {han: "快", viet: "nhanh"},
+  {han: "說", viet: "nói"},
+  {han: "說話", viet: "nói chuyện"},
+  {han: "電影", viet: "phim"},
+  {han: "部", viet: "lượng từ cho phim"},
+  {han: "電影院", viet: "rạp chiếu phim"},
+  {han: "有趣", viet: "thú vị"},
+  {han: "覺得", viet: "cảm thấy, nghĩ"},
+  {han: "有一點", viet: "hơi, một chút"},
+  {han: "有點兒", viet: "hơi, một chút (khẩu ngữ)"},
+  {han: "休息", viet: "nghỉ ngơi"},
+  {han: "上網", viet: "lên mạng, truy cập internet"},
+  {han: "電腦", viet: "máy tính"},
+  {han: "手機", viet: "điện thoại di động"},
+  {han: "支", viet: "lượng từ cho điện thoại"},
+  {han: "應該", viet: "nên, phải"},
+  {han: "運動", viet: "thể thao, vận động"},
+  {han: "可以", viet: "có thể (gợi ý)"},
+  {han: "騎", viet: "cưỡi, đạp (xe)"},
+  {han: "腳踏車", viet: "xe đạp"},
+  {han: "自行車", viet: "xe đạp (giản thể)"},
+  {han: "輛", viet: "lượng từ cho phương tiện"},
+  {han: "只", viet: "chỉ, chỉ có"},
+  {han: "後天", viet: "ngày kia"},
+  {han: "前天", viet: "hôm kia"},
+  {han: "聽說", viet: "nghe nói"},
+  {han: "不要", viet: "đừng"},
+  {han: "興趣", viet: "sở thích"},
+  {han: "幾", viet: "vài, mấy"},
+  {han: "學", viet: "học"},
+  {han: "學習", viet: "học tập"},
+  {han: "唱歌", viet: "hát"},
+  {han: "歌", viet: "bài hát"},
+  {han: "首", viet: "lượng từ cho bài hát"},
+  {han: "跳舞", viet: "nhảy múa"},
+  {han: "畫畫", viet: "vẽ tranh"},
+  {han: "畫", viet: "bức tranh"},
+  {han: "平常", viet: "bình thường, thường ngày"},
+  {han: "有的時候", viet: "thỉnh thoảng"},
+  {han: "比賽", viet: "cuộc thi, trận đấu"},
+  {han: "真", viet: "thật, rất"},
+  {han: "高興", viet: "vui mừng"},
+  {han: "羽毛球", viet: "cầu lông"},
+  {han: "乒乓球", viet: "bóng bàn"},
+  {han: "排球", viet: "bóng chuyền"},
+  {han: "滑雪", viet: "trượt tuyết"},
+  {han: "爬山", viet: "leo núi"},
+  {han: "拍照", viet: "chụp ảnh"},
+  {han: "瑜伽", viet: "yoga"},
+  {han: "健身", viet: "tập gym"},
+  {han: "看書", viet: "đọc sách"},
+  {han: "聽音樂", viet: "nghe nhạc"},
+  {han: "玩遊戲", viet: "chơi game"},
+  {han: "旅行", viet: "du lịch"},
+  {han: "週末", viet: "cuối tuần"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! 🎾");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Từ vựng Bài 8 - Trắc nghiệm (Ngẫu nhiên)</title>
+<style>
+  body {font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #fff8f8; text-align: center;}
+  #question {font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a;}
+  .options {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px;}
+  button {padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s;}
+  button:hover {border-color: #ff69b4;}
+  .correct {background: #d4edda !important; border-color: #28a745 !important; color: #155724;}
+  .wrong {background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s;}
+  @keyframes shake {0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}}
+  #score {font-size: 24px; margin: 20px;}
+  #restart {margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none;}
+</style>
+</head>
+<body>
+
+<h1>Từ vựng Bài 8 – 這條裙子真好看 (Ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 88 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "裙子", viet: "váy"},
+  {han: "去年", viet: "năm ngoái"},
+  {han: "年", viet: "năm"},
+  {han: "今年", viet: "năm nay"},
+  {han: "明年", viet: "năm sau"},
+  {han: "牌子", viet: "nhãn hiệu"},
+  {han: "因為", viet: "vì, bởi vì"},
+  {han: "有名", viet: "nổi tiếng"},
+  {han: "褲子", viet: "quần dài"},
+  {han: "所以", viet: "vì vậy, nên"},
+  {han: "為什麼", viet: "tại sao"},
+  {han: "百貨公司", viet: "cửa hàng bách hóa"},
+  {han: "難", viet: "khó"},
+  {han: "容易", viet: "dễ"},
+  {han: "最近", viet: "gần đây"},
+  {han: "胖", viet: "béo"},
+  {han: "瘦", viet: "gầy"},
+  {han: "高", viet: "cao"},
+  {han: "矮", viet: "thấp, lùn"},
+  {han: "公斤", viet: "kilogram"},
+  {han: "斤", viet: "cân (0.6kg ở Đài Loan)"},
+  {han: "怕", viet: "sợ"},
+  {han: "跟", viet: "với"},
+  {han: "時間", viet: "thời gian"},
+  {han: "好吃", viet: "ngon (đồ ăn)"},
+  {han: "難吃", viet: "dở (đồ ăn)"},
+  {han: "好喝", viet: "ngon (đồ uống)"},
+  {han: "難喝", viet: "dở (đồ uống)"},
+  {han: "好看", viet: "đẹp, dễ nhìn"},
+  {han: "難看", viet: "xấu, khó nhìn"},
+  {han: "好聽", viet: "hay (âm thanh)"},
+  {han: "難聽", viet: "khó nghe (âm thanh)"},
+  {han: "好唱", viet: "dễ hát"},
+  {han: "難唱", viet: "khó hát"},
+  {han: "好學", viet: "dễ học"},
+  {han: "難學", viet: "khó học"},
+  {han: "好找", viet: "dễ tìm"},
+  {han: "難找", viet: "khó tìm"},
+  {han: "好騎", viet: "dễ đạp (xe)"},
+  {han: "難騎", viet: "khó đạp (xe)"},
+  {han: "黃色", viet: "màu vàng"},
+  {han: "黃", viet: "vàng"},
+  {han: "吧", viet: "hạt câu hỏi, giả định"},
+  {han: "流行", viet: "thịnh hành, thời thượng"},
+  {han: "短", viet: "ngắn"},
+  {han: "長", viet: "dài"},
+  {han: "鞋子", viet: "giày"},
+  {han: "襪子", viet: "tất"},
+  {han: "雙", viet: "lượng từ cho giày, tất"},
+  {han: "黑色", viet: "màu đen"},
+  {han: "黑", viet: "đen"},
+  {han: "樓", viet: "tầng"},
+  {han: "樓下", viet: "tầng dưới"},
+  {han: "樓上", viet: "tầng trên"},
+  {han: "快要", viet: "sắp, gần"},
+  {han: "快", viet: "sắp, gần"},
+  {han: "關", viet: "đóng"},
+  {han: "開", viet: "mở"},
+  {han: "電梯", viet: "thang máy"},
+  {han: "樓梯", viet: "cầu thang"},
+  {han: "沒關係", viet: "không sao"},
+  {han: "對不起", viet: "xin lỗi"},
+  {han: "對了", viet: "nhân tiện"},
+  {han: "年輕", viet: "trẻ"},
+  {han: "老", viet: "già"},
+  {han: "皮包", viet: "túi xách, ví"},
+  {han: "女生", viet: "nữ sinh, con gái"},
+  {han: "男生", viet: "nam sinh, con trai"},
+  {han: "雜誌", viet: "tạp chí"},
+  {han: "舊", viet: "cũ"},
+  {han: "新", viet: "mới"},
+  {han: "漂亮", viet: "xinh đẹp"},
+  {han: "可愛", viet: "dễ thương"},
+  {han: "衣服", viet: "quần áo"},
+  {han: "試穿", viet: "thử mặc"},
+  {han: "合身", viet: "vừa người"},
+  {han: "便宜", viet: "rẻ"},
+  {han: "貴", viet: "đắt"},
+  {han: "打折", viet: "giảm giá"},
+  {han: "試衣間", viet: "phòng thử đồ"},
+  {han: "收銀台", viet: "quầy thu ngân"},
+  {han: "售貨員", viet: "nhân viên bán hàng"},
+  {han: "時裝", viet: "thời trang"},
+  {han: "流行色", viet: "màu thời thượng"},
+  {han: "這條", viet: "chiếc này (váy/quần)"},
+  {han: "那條", viet: "chiếc kia (váy/quần)"}
+];
+
+let vocab = [], current = 0, score = 0;
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0; score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) { endQuiz(); return; }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(x => x.viet !== q.viet).map(x => x.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const div = document.getElementById("options"); div.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    div.appendChild(btn);
+  });
+}
+
+function checkAnswer(correct, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add("correct"); score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha! 💃");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng! Điểm: ${score}/${vocab.length}</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>
