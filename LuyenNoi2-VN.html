@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Câu Hỏi Luyện Nói (Dành cho học sinh chưa đến Đài Loan)</title>
+    <style>
+        body{font-family:"Segoe UI",sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#333;text-align:center;padding:30px;min-height:100vh}
+        .container{max-width:1000px;margin:0 auto;background:white;border-radius:20px;padding:40px;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+        h1{color:#2c3e50;margin-bottom:10px}
+        .mode-selector{margin:20px 0}
+        .mode-btn{padding:10px 24px;margin:0 10px;font-size:16px;border:2px solid #3498db;background:white;color:#3498db;border-radius:30px;cursor:pointer}
+        .mode-btn.active{background:#3498db;color:white}
+        #question{font-size:30px;margin:50px auto;padding:40px;background:#f8f9fa;border-radius:15px;min-height:140px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 6px 15px rgba(0,0,0,.1)}
+        #speaker{position:absolute;right:25px;top:25px;font-size:40px;cursor:pointer;transition:.3s}
+        #speaker:hover{transform:scale(1.2)}
+        #newBtn{padding:15px 40px;font-size:22px;background:#e74c3c;color:white;border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 15px rgba(231,76,60,.4);margin:10px}
+        #newBtn:hover{background:#c0392b;transform:translateY(-2px)}
+        #counter{margin-top:20px;font-size:20px;color:#7f8c8d;font-weight:bold}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>50 Câu Hỏi Luyện Nói Tiếng Trung<br><small>(Dành cho học sinh chưa đến Đài Loan)</small></h1>
+    <div class="mode-selector">
+        <button class="mode-btn active" data-mode="random">Trộn lẫn (Random)</button>
+        <button class="mode-btn" data-mode="sequential">Theo thứ tự (1→50)</button>
+    </div>
+
+    <div id="question">
+        Chọn chế độ rồi bấm “New” để bắt đầu nào! 🎤
+        <div id="speaker">🔊</div>
+    </div>
+
+    <button id="newBtn">New</button>
+    <div id="counter">Câu 0 / 50</div>
+</div>
+
+<script>
+    const questions = [
+        "你叫什麼名字？姓什麼？",
+        "你是哪國人？為什麼學中文？",
+        "你家裡有幾口人？有沒有兄弟姐妹？",
+        "你喜歡什麼顏色？為什麼？",
+        "你平常喜歡喝什麼飲料？咖啡還是茶？",
+        "你每天幾點起床？幾點睡覺？",
+        "你今天幾點吃早飯？吃什麼？",
+        "你喜歡吃甜的還是鹹的東西？",
+        "你會不會做飯？最會做什麼菜？",
+        "你有沒有寵物？牠叫什麼名字？",
+        "你喜歡什麼運動？會不會游泳？",
+        "你平常週末都做什麼？",
+        "你喜歡山還是海？為什麼？",
+        "你覺得中文難不難？哪一部分最難？",
+        "你喜歡哪一個季節？為什麼？",
+        "你的房間裡有什麼家具？",
+        "你的錢包在哪裡？裡面有多少錢？",
+        "你平常怎麼去學校？騎腳踏車還是坐公車？",
+        "你每天用手機做什麼？一天用幾個小時？",
+        "你屬什麼生肖？個性跟書上說的一樣嗎？",
+        "你有幾個好朋友？他們都叫什麼名字？",
+        "你想送媽媽什麼生日禮物？",
+        "你喜歡什麼樣的衣服？貴的還是便宜的？",
+        "你覺得紅色好看還是白色好看？",
+        "你平常幾點吃晚飯？跟誰一起吃？",
+        "你喜歡看書還是看電影？",
+        "你會不會打籃球或網球？",
+        "你以前去過哪一個國家旅行？",
+        "你最喜歡哪一門課？為什麼？",
+        "你覺得當學生累還是當老師累？",
+        "你每天學中文學幾個小時？",
+        "你有沒有用過電子郵件？常用嗎？",
+        "你喜歡早上運動還是晚上運動？",
+        "你覺得現在的天氣熱還是冷？",
+        "你想在哪裡工作？想做什麼工作？",
+        "你覺得學中文對你有什麼幫助？",
+        "你平常幾點洗澡？早上還是晚上？",
+        "你有沒有養過魚或烏龜？",
+        "你喜歡聽什麼樣的音樂？",
+        "你覺得中文名字好聽還是越南名字好聽？",
+        "如果你可以選，你想住大房子還是小房子？",
+        "你喜歡吃水果還是吃點心？",
+        "你會不會說英文？說得怎麼樣？",
+        "你平常幾點回宿舍或回家？",
+        "你有沒有看過十二生肖的書或電影？",
+        "你覺得越南的食物好吃還是中國的食物好吃？",
+        "你以後想結婚還是單身？為什麼？",
+        "你覺得家人重要還是朋友重要？",
+        "五年以後你想做什麼？在哪裡生活？",
+        "學了這本書之後，你覺得自己進步最多的是哪一部分？"
+    ];
+
+    let mode = 'random';
+    let usedIndices = [];
+    let sequentialIndex = 0;
+
+    const questionDiv = document.getElementById("question");
+    const counter = document.getElementById("counter");
+
+    function speak(text) {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "zh-CN";
+        utterance.rate = 0.9;
+        speechSynthesis.speak(utterance);
+    }
+
+    function showQuestion() {
+        let idx;
+        if (mode === 'random') {
+            if (usedIndices.length === questions.length) usedIndices = [];
+            do {
+                idx = Math.floor(Math.random() * questions.length);
+            } while (usedIndices.includes(idx));
+            usedIndices.push(idx);
+        } else {
+            idx = sequentialIndex;
+            sequentialIndex = (sequentialIndex + 1) % questions.length;
+        }
+
+        const q = questions[idx];
+        questionDiv.innerHTML = q + `<div id="speaker" title="Nghe lại">🔊</div>`;
+        counter.textContent = `Câu ${idx + 1} / 50`;
+        document.getElementById("speaker").onclick = () => speak(q);
+        speak(q);
+    }
+
+    document.getElementById("newBtn").onclick = showQuestion;
+
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+        btn.onclick = function() {
+            document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            mode = this.getAttribute("data-mode");
+            usedIndices = [];
+            sequentialIndex = 0;
+            questionDiv.innerHTML = "Đã chuyển sang chế độ <strong>" + 
+                (mode==='random'?"Trộn lẫn":"Theo thứ tự") + 
+                "</strong><br>Bấm New để bắt đầu!";
+            counter.textContent = "Câu 0 / 50";
+        };
+    });
+</script>
+</body>
+</html>
