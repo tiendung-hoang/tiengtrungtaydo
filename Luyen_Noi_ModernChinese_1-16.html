@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Câu Hỏi Luyện Nói Tiếng Trung</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f0f7fa;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        #question {
+            font-size: 28px;
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 900px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        #speaker {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 36px;
+            cursor: pointer;
+            color: #e74c3c;
+        }
+        button#newBtn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        button#newBtn:hover {
+            background: #2980b9;
+        }
+        #counter {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>50 Câu Hỏi Luyện Nói Tiếng Trung</h1>
+    <div id="question">
+        Nhấn nút “New” để bắt đầu nhé!
+        <div id="speaker" title="Nghe lại">🔈</div>
+    </div>
+
+    <button id="newBtn">New</button>
+    <div id="counter">Câu 0 / 50</div>
+
+    <script>
+        const questions = [
+            "你叫什麼名字？姓什麼？",
+            "你是哪國人？為什麼來台灣學中文？",
+            "你有幾個好朋友？他們都叫什麼名字？.say",
+            "你喜歡喝什麼飲料？為什麼？",
+            "你今天幾點起床？幾點去學校？",
+            "你昨天晚上做了什麼？幾點睡覺？",
+            "你平常週末都做什麼？喜歡去哪裡玩？",
+            "你會不會打網球？還會什麼運動？",
+            "你覺得台灣的天氣怎麼樣？哪一個季節你最喜歡？",
+            "你喜歡什麼顏色的衣服？為什麼？",
+            "你想送媽媽什麼生日禮物？為什麼？",
+            "你覺得哪一種茶最好喝？紅茶、綠茶還是奶茶？",
+            "你今天吃什麼早飯？好不好吃？",
+            "你的錢包現在在哪裡？裡面有多少錢？",
+            "你家裡有幾口人？你有沒有兄弟姐妹？",
+            "你的房間裡有什麼家具？電視在哪裡？",
+            "你平常怎麼去學校？坐公車還是騎腳踏車？",
+            "從你家到學校要多久？遠不遠？",
+            "你覺得中文難不難？哪一部分最難？",
+            "你以前去過哪些國家旅行？最喜歡哪一個？",
+            "你喜歡吃什麼台灣小吃？最喜歡哪一家店？",
+            "你平常用手機做什麼？一天用幾個小時？",
+            "你有沒有養寵物？牠叫什麼名字？屬什麼生肖？",
+            "你屬什麼生肖？個性跟書上說的一樣嗎？",
+            "你覺得台灣的夜市怎麼樣？常不常去？",
+            "你今年跨年怎麼過？跟誰一起過？",
+            "你覺得台北101漂亮嗎？有沒有去看過煙火？",
+            "你喜歡山還是海邊？為什麼？",
+            "你會不會游泳？在哪裡學的？",
+            "你覺得台灣的高鐵方不方便？坐過幾次？",
+            "你本來計畫去哪裡旅行？後來為什麼改變？",
+            "你覺得日月潭跟太魯閣哪一個比較漂亮？",
+            "你家離學校近還是遠？大概幾公里？",
+            "你每天學中文學幾個小時？覺得累不累？",
+            "你有沒有看過台灣的燈會？跟跨年晚會比哪一個比較熱鬧？",
+            "你覺得台灣人對外國人親不親切？",
+            "你在台灣最想念家鄉的什麼東西？",
+            "你以後想在哪裡工作？想做什麼工作？",
+            "你覺得當老師辛苦還是當學生辛苦？",
+            "你有沒有用過台灣的Uber Eats？好不好用？",
+            "你平常幾點吃晚飯？都跟誰一起吃？",
+            "你覺得台灣的交通怎麼樣？會不會塞車？",
+            "你喜歡台灣的冬天嗎？有沒有看過合歡山下雪？",
+            "你覺得學中文以後對你有什麼幫助？",
+            "如果你可以選，你想住在台灣的哪一個城市？為什麼？",
+            "你有沒有去過花蓮或台東？那裡的風景怎麼樣？",
+            "你覺得台灣人說話快不快？聽得懂嗎？",
+            "你在台灣最喜歡的節日是什麼？為什麼？",
+            "五年以後你想做什麼？在哪裡生活？",
+            "學了這本書之後，你覺得自己進步最多的是哪一部分？（發音、詞彙、語法還是聽說能力？）"
+        ];
+
+        let currentIndex = -1;
+
+        const questionDiv = document.getElementById("question");
+        const speaker = document.getElementById("speaker");
+        const counter = document.getElementById("counter");
+
+        function speak(text) {
+            // Dừng giọng cũ nếu đang phát
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "zh-CN";
+            // Tốc độ nói tự nhiên
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+        }
+
+        function showRandomQuestion() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * questions.length);
+            } while (newIndex === currentIndex && questions.length > 1);
+
+            currentIndex = newIndex;
+            const q = questions[currentIndex];
+            questionDiv.innerHTML = q + `<div id="speaker" title="Nghe lại">🔈</div>`;
+            counter.textContent = `Câu ${currentIndex + 1} / 50`;
+
+            // Gắn lại sự kiện cho loa mới
+            document.getElementById("speaker").onclick = () => speak(q);
+            // Tự động đọc khi hiện câu mới (tuỳ chọn)
+            speak(q);
+        }
+
+        document.getElementById("newBtn").onclick = showRandomQuestion;
+
+        // Bấm vào loa ở câu đầu tiên (khi chưa có câu)
+        speaker.onclick = () => {
+            if (currentIndex >= 0) speak(questions[currentIndex]);
+        };
+    </script>
+</body>
+</html>
