@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài 1 Từ vựng Bài mới - Trắc nghiệm (Ngẫu nhiên hoàn toàn)</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0f2f5; text-align: center; }
+  #question { font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px; }
+  button { padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+  button:hover { border-color: #1890ff; }
+  .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+  .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+  #score { font-size: 24px; margin: 20px; }
+  #restart { margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none; }
+</style>
+</head>
+<body>
+
+<h1>Bài 1 - Từ vựng mới – Trắc nghiệm (Thứ tự ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 44 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "起來", viet: "đứng dậy"},
+  {han: "背", viet: "lưng (của cơ thể)"},
+  {han: "疼", viet: "đau"},
+  {han: "一下", viet: "một chút, một lúc ngắn"},
+  {han: "還是", viet: "vẫn còn"},
+  {han: "最好", viet: "tốt nhất là, nên"},
+  {han: "或是", viet: "hoặc là"},
+  {han: "藥房", viet: "hiệu thuốc"},
+  {han: "藥局", viet: "hiệu thuốc"},
+  {han: "不但", viet: "không chỉ"},
+  {han: "溫柔", viet: "dịu dàng, mềm mại"},
+  {han: "客氣", viet: "lịch sự, tử tế"},
+  {han: "愉快", viet: "vui vẻ, thú vị"},
+  {han: "安全", viet: "an toàn"},
+  {han: "舞會", viet: "buổi tiệc khiêu vũ"},
+  {han: "當然", viet: "đương nhiên, tất nhiên"},
+  {han: "約會", viet: "hẹn hò / cuộc hẹn"},
+  {han: "害怕", viet: "sợ hãi"},
+  {han: "敢", viet: "dám"},
+  {han: "剛好", viet: "vừa khéo, tình cờ"},
+  {han: "動物園", viet: "vườn thú"},
+  {han: "開玩笑", viet: "đùa giỡn"},
+  {han: "完", viet: "hoàn thành, kết thúc"},
+  {han: "摸", viet: "sờ, chạm"},
+  {han: "好像", viet: "dường như"},
+  {han: "怎麼了", viet: "có chuyện gì vậy?"},
+  {han: "一個人", viet: "một mình"},
+  {han: "怎麼辦", viet: "phải làm sao?"},
+  {han: "害羞", viet: "ngại ngùng"},
+  {han: "大學生", viet: "sinh viên đại học"},
+  {han: "小學生", viet: "học sinh tiểu học"},
+  {han: "熟", viet: "quen thuộc"},
+  {han: "危險", viet: "nguy hiểm"},
+  {han: "一直", viet: "luôn luôn"},
+  {han: "不久", viet: "chẳng bao lâu"},
+  {han: "心", viet: "tim"},
+  {han: "跳", viet: "nhảy (đập cho tim)"},
+  {han: "個性", viet: "tính cách"},
+  {han: "趕快", viet: "nhanh chóng"},
+  {han: "結束", viet: "kết thúc"},
+  {han: "散步", viet: "dạo bộ"},
+  {han: "拉", viet: "kéo, cầm"},
+  {han: "幸運", viet: "may mắn"},
+  {han: "雖然", viet: "mặc dù"},
+  {han: "腳", viet: "chân"}
+];
+
+let vocab = [];
+let current = 0;
+let score = 0;
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0;
+  score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) {
+    endQuiz();
+    return;
+  }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(item => item.viet !== q.viet).map(item => item.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(isCorrect, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.classList.add("correct");
+    score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha 🔥");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng bạn được ${score}/${vocab.length} điểm!</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>

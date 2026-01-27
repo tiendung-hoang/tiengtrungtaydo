@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài 6 - Từ vựng Karaoke & Cuộc sống - Trắc nghiệm (Ngẫu nhiên hoàn toàn)</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; background: #f0f2f5; text-align: center; }
+  #question { font-size: 48px; margin: 40px; font-weight: bold; color: #1a1a1a; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px auto; max-width: 600px; }
+  button { padding: 18px; font-size: 20px; background: white; border: 2px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+  button:hover { border-color: #1890ff; }
+  .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+  .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; animation: shake 0.4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+  #score { font-size: 24px; margin: 20px; }
+  #restart { margin-top: 30px; padding: 12px 30px; font-size: 18px; display: none; }
+</style>
+</head>
+<body>
+
+<h1>Bài 6 - Từ vựng Karaoke & Cuộc sống – Trắc nghiệm (Thứ tự ngẫu nhiên)</h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+<div id="score">Câu 1 / 60 – Điểm: 0</div>
+<button id="restart" onclick="startQuiz()">Chơi lại từ đầu</button>
+
+<script>
+const originalVocab = [
+  {han: "不同", viet: "khác biệt"},
+  {han: "差不多", viet: "tương tự, gần giống"},
+  {han: "不過", viet: "nhưng"},
+  {han: "目的", viet: "mục đích"},
+  {han: "合唱", viet: "hát hợp xướng"},
+  {han: "錯", viet: "sai"},
+  {han: "隔壁", viet: "hàng xóm bên cạnh"},
+  {han: "跳", viet: "nhảy, khiêu vũ"},
+  {han: "地板", viet: "sàn nhà"},
+  {han: "動", viet: "di chuyển, rung"},
+  {han: "學會", viet: "học được"},
+  {han: "歌曲", viet: "bài hát"},
+  {han: "拿手", viet: "giỏi"},
+  {han: "歌星", viet: "ca sĩ"},
+  {han: "想像", viet: "tưởng tượng"},
+  {han: "機器", viet: "máy móc"},
+  {han: "分數", viet: "điểm số"},
+  {han: "可怕", viet: "đáng sợ"},
+  {han: "弄錯", viet: "nhầm lẫn"},
+  {han: "差", viet: "kém, tồi"},
+  {han: "低", viet: "thấp"},
+  {han: "方法", viet: "phương pháp"},
+  {han: "興奮", viet: "hào hứng"},
+  {han: "地", viet: "(dấu trạng từ)"},
+  {han: "棒", viet: "tuyệt vời"},
+  {han: "好好/好好兒", viet: "tốt đẹp, hết sức"},
+  {han: "想到", viet: "nghĩ ra"},
+  {han: "香水", viet: "nước hoa"},
+  {han: "束", viet: "bó (hoa)"},
+  {han: "玫瑰", viet: "hoa hồng"},
+  {han: "別", viet: "đừng"},
+  {han: "罐", viet: "lon"},
+  {han: "啤酒", viet: "bia"},
+  {han: "喔", viet: "(hạt ngữ khí nhắc nhở)"},
+  {han: "消息", viet: "tin tức"},
+  {han: "KTV", viet: "quán karaoke"},
+  {han: "吃到飽", viet: "ăn no bụng (buffet)"},
+  {han: "打分數", viet: "chấm điểm"},
+  {han: "不少", viet: "không ít, nhiều"},
+  {han: "隨時", viet: "bất cứ lúc nào"},
+  {han: "前", viet: "trước"},
+  {han: "後", viet: "sau"},
+  {han: "才", viet: "chỉ (ít hơn mong đợi)"},
+  {han: "假日", viet: "ngày lễ"},
+  {han: "平日", viet: "ngày thường"},
+  {han: "客滿", viet: "đầy khách"},
+  {han: "利用", viet: "sử dụng"},
+  {han: "時", viet: "khi"},
+  {han: "省錢", viet: "tiết kiệm tiền"},
+  {han: "特色", viet: "đặc trưng"},
+  {han: "各式各樣", viet: "đa dạng"},
+  {han: "不必", viet: "không cần"},
+  {han: "樂器", viet: "nhạc cụ"},
+  {han: "讓", viet: "khiến (ai đó)"},
+  {han: "生氣", viet: "giận dữ"},
+  {han: "傷心", viet: "buồn"},
+  {han: "哭", viet: "khóc"},
+  {han: "選擇", viet: "lựa chọn"},
+  {han: "卡拉OK", viet: "karaoke"}
+];
+
+let vocab = [];
+let current = 0;
+let score = 0;
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function startQuiz() {
+  vocab = shuffle([...originalVocab]);
+  current = 0;
+  score = 0;
+  document.getElementById("restart").style.display = "none";
+  document.getElementById("score").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (current >= vocab.length) {
+    endQuiz();
+    return;
+  }
+  const q = vocab[current];
+  document.getElementById("question").textContent = q.han;
+  document.getElementById("score").textContent = `Câu ${current + 1} / ${vocab.length} – Điểm: ${score}`;
+
+  let wrong = vocab.filter(item => item.viet !== q.viet).map(item => item.viet);
+  wrong = shuffle(wrong).slice(0, 3);
+  const options = shuffle([q.viet, ...wrong]);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt === q.viet, btn);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(isCorrect, btn) {
+  document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.classList.add("correct");
+    score++;
+    setTimeout(() => { current++; loadQuestion(); }, 600);
+  } else {
+    btn.classList.add("wrong");
+    setTimeout(() => {
+      alert("Sai rồi! Làm lại từ đầu nha 🔥");
+      startQuiz();
+    }, 800);
+  }
+}
+
+function endQuiz() {
+  document.getElementById("question").textContent = "HOÀN THÀNH!";
+  document.getElementById("options").innerHTML = `<h2>Chúc mừng bạn được ${score}/${vocab.length} điểm!</h2>`;
+  document.getElementById("score").style.display = "none";
+  document.getElementById("restart").style.display = "inline-block";
+}
+
+startQuiz();
+</script>
+</body>
+</html>
