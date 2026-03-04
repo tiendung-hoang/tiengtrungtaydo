@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Timer 25</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        #timer {
+            font-size: 5rem;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            font-weight: 600;
+        }
+        button:active { transform: scale(0.95); }
+        #startBtn { background-color: #22c55e; color: white; }
+        #stopBtn { background-color: #ef4444; color: white; }
+        #status { margin-top: 1rem; color: #94a3b8; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div id="timer">00:00</div>
+    
+    <div class="controls">
+        <button id="startBtn">Bắt đầu</button>
+        <button id="stopBtn">Dừng / Reset</button>
+    </div>
+
+    <div id="status">Sẵn sàng</div>
+
+    <script>
+        let seconds = 0;
+        let timerInterval = null;
+        const timerDisplay = document.getElementById('timer');
+        const statusDisplay = document.getElementById('status');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        // Hàm đọc âm thanh
+        function speak(text) {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = 'en-US'; // Đọc tiếng Anh theo yêu cầu của bạn
+            msg.rate = 1;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function formatTime(s) {
+            const mins = Math.floor(s / 60).toString().padStart(2, '0');
+            const secs = (s % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        function checkTriggers(s) {
+            // Mốc phút chẵn (0, 5, 10, 15, 20)
+            if (s === 0) speak("two");
+            if (s === 5 * 60) speak("four");
+            if (s === 10 * 60) speak("six");
+            if (s === 15 * 60) speak("eight");
+            if (s === 20 * 60) speak("ten");
+
+            // Mốc nghỉ (3:30, 8:30, 13:30, 18:30)
+            const restTimes = [210, 510, 810, 1110]; // giây
+            if (restTimes.includes(s)) speak("rest");
+
+            // Mốc kết thúc (25:00)
+            if (s >= 25 * 60) {
+                speak("stop");
+                stopTimer();
+                statusDisplay.innerText = "Hoàn thành!";
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            
+            // Fix lỗi iOS cần tương tác người dùng để phát tiếng
+            speak(""); 
+            
+            statusDisplay.innerText = "Đang chạy...";
+            checkTriggers(seconds); // Kiểm tra ngay lúc bắt đầu (mốc 0)
+
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerDisplay.innerText = formatTime(seconds);
+                checkTriggers(seconds);
+            }, 1000);
+            
+            startBtn.disabled = true;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            seconds = 0;
+            timerDisplay.innerText = "00:00";
+            statusDisplay.innerText = "Đã dừng";
+            startBtn.disabled = false;
+            window.speechSynthesis.cancel(); // Dừng nói nếu đang nói
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        stopBtn.addEventListener('click', stopTimer);
+    </script>
+</body>
+</html>
