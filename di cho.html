@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trò Đi Chợ - 100 đồng</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      margin: 0; padding: 20px; text-align: center;
+    }
+    h1 { color: #d35400; margin-bottom: 5px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    
+    .items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      margin: 25px 0;
+    }
+    .item {
+      background: white;
+      border-radius: 20px;
+      padding: 15px 10px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .item:hover { 
+      transform: scale(1.12) rotate(3deg); 
+      background: #fff9e6; 
+    }
+    .emoji { font-size: 4.8em; margin-bottom: 8px; display: block; }
+    .item h3 { margin: 5px 0; font-size: 1.2em; color: #e67e22; }
+    .price { color: #27ae60; font-weight: bold; font-size: 1.1em; }
+
+    .quantity {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+
+    .total-area {
+      margin: 30px 0;
+      font-size: 1.8em;
+      font-weight: bold;
+      min-height: 60px;
+    }
+
+    button {
+      padding: 14px 28px;
+      margin: 10px;
+      font-size: 1.15em;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .btn-checkout { background: #27ae60; color: white; }
+    .btn-show { background: #8e44ad; color: white; }
+    .btn-reset { background: #e74c3c; color: white; }
+
+    .result {
+      font-size: 2em;
+      margin: 25px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 650px;
+      line-height: 1.4;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛒 Trò Đi Chợ - 100 đồng</h1>
+    <p>Nhấn vào món để mua • Mục tiêu: Dư ít tiền nhất (hoặc vừa khít 100)</p>
+
+    <div class="items" id="items"></div>
+
+    <div class="total-area">
+      <span id="total-display" class="hidden">Tổng tiền: <strong>0</strong> đồng</span>
+    </div>
+
+    <button class="btn-checkout" onclick="checkout()">✅ Chốt đơn</button>
+    <button class="btn-show" onclick="showTotal()">🔓 Chủ trò hiện kết quả</button>
+    <button class="btn-reset" onclick="resetGame()">🔄 Chơi ván mới</button>
+
+    <div id="result" class="result hidden"></div>
+  </div>
+
+  <script>
+    const itemsData = [
+      { id: 1, name: "Ly Trà",      emoji: "🍵", price: 15 },
+      { id: 2, name: "Ly Sữa",      emoji: "🥛", price: 20 },
+      { id: 3, name: "Ly Cà Phê",   emoji: "☕", price: 25 },
+      { id: 4, name: "Ly Nước Ép",  emoji: "🧃", price: 30 },
+      { id: 5, name: "Chén Mì Bò",  emoji: "🍜", price: 45 },
+      { id: 6, name: "Chén Cơm",    emoji: "🍚", price: 35 }
+    ];
+
+    let cart = {};
+
+    function renderItems() {
+      const container = document.getElementById('items');
+      container.innerHTML = '';
+      itemsData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+          <span class="emoji">${item.emoji}</span>
+          <h3>${item.name}</h3>
+          <p class="price">${item.price} đồng</p>
+          <div class="quantity" id="qty-${item.id}">0</div>
+        `;
+        div.onclick = () => addToCart(item.id);
+        container.appendChild(div);
+      });
+    }
+
+    function addToCart(id) {
+      if (!cart[id]) cart[id] = 0;
+      cart[id]++;
+      document.getElementById(`qty-${id}`).textContent = cart[id];
+    }
+
+    function calculateTotal() {
+      let sum = 0;
+      Object.keys(cart).forEach(id => {
+        const item = itemsData.find(i => i.id == id);
+        sum += cart[id] * item.price;
+      });
+      return sum;
+    }
+
+    function checkout() {
+      const sum = calculateTotal();
+      const totalDisplay = document.getElementById('total-display');
+      
+      totalDisplay.innerHTML = `Tổng tiền: <strong>${sum}</strong> đồng`;
+      totalDisplay.classList.remove('hidden');
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.classList.remove('hidden');
+      resultDiv.innerHTML = `Đã chốt đơn!<br>
+                             Tổng tạm tính của bạn là <strong>${sum} đồng</strong><br>
+                             <small>Chờ chủ trò bấm "Hiện kết quả" để biết ai thắng</small>`;
+    }
+
+    function showTotal() {
+      const pass = prompt("Nhập mật khẩu chủ trò (mặc định: 123):");
+      if (pass !== "123") {
+        alert("❌ Sai mật khẩu! Chỉ chủ trò mới xem được kết quả.");
+        return;
+      }
+
+      const sum = calculateTotal();
+      const resultDiv = document.getElementById('result');
+      resultDiv.classList.remove('hidden');
+
+      if (sum > 100) {
+        resultDiv.innerHTML = `TỔNG TIỀN: <strong>${sum} đồng</strong><br>
+                               💸 Vượt ${sum - 100} đồng!`;
+      } else {
+        const du = 100 - sum;
+        let html = `TỔNG TIỀN: <strong>${sum} đồng</strong><br>
+                    ✅ Dư <strong>${du} đồng</strong>`;
+        if (du === 0) html += "<br>🏆 HOÀN HẢO! Vừa khít 100 đồng!";
+        if (du > 0 && du <= 5) html += "<br>🎉 Rất gần! Xuất sắc lắm!";
+        resultDiv.innerHTML = html;
+      }
+    }
+
+    function resetGame() {
+      cart = {};
+      document.getElementById('total-display').classList.add('hidden');
+      document.getElementById('result').classList.add('hidden');
+      renderItems();
+    }
+
+    // Khởi động
+    window.onload = () => {
+      renderItems();
+    };
+  </script>
+</body>
+</html>
