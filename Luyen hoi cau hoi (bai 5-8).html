@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎯 Luyện Hỏi Đáp Tiếng Trung - Phần 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+        
+        body { font-family: 'Noto Sans SC', system-ui, sans-serif; }
+        
+        .answer-box {
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen pb-12">
+
+    <div class="max-w-xl mx-auto px-4 pt-8">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-16 h-16 bg-indigo-400 rounded-3xl flex items-center justify-center text-5xl shadow-md">🎯</div>
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900">Luyện Hỏi Đáp 2</h1>
+                <p class="text-indigo-600 text-lg -mt-1">Tiếng Trung vui vẻ 📱</p>
+            </div>
+        </div>
+
+        <!-- Chọn câu hỏi -->
+        <div class="mb-8">
+            <p class="text-center text-indigo-700 font-medium mb-4">Chọn câu hỏi 👇</p>
+            <div id="question-list" class="grid grid-cols-4 gap-3"></div>
+        </div>
+
+        <!-- Khu vực hiển thị đáp án -->
+        <div id="main-content" class="bg-white rounded-3xl shadow-xl p-8 min-h-[440px]"></div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                q: "你在哪裡？",
+                vn: "Bạn đang ở đâu?",
+                emoji: "📍",
+                template: "我在 {val}。",
+                opts: [
+                    "nhà 🏠",
+                    "quán cf ☕",
+                    "thư viện 📚",
+                    "trường học 🏫"
+                ]
+            },
+            {
+                id: 2,
+                q: "學校裡面有什麽",
+                vn: "Trong trường có gì?",
+                emoji: "🏫",
+                template: "學校裡面有 {val}。",
+                opts: [
+                    "100 học sinh 👦👧",
+                    "15 giáo viên 👩‍🏫",
+                    "12 con chó 🐶",
+                    "4 con mèo 🐱"
+                ]
+            },
+            {
+                id: 3,
+                q: "你會做什麽？",
+                vn: "Bạn biết làm gì?",
+                emoji: "🏅",
+                template: "我會 {val}。",
+                opts: [
+                    "biết bơi 🏊",
+                    "biết đánh bóng chày ⚾",
+                    "biết đá bóng ⚽"
+                ]
+            },
+            {
+                id: 4,
+                q: "在學校可以做什麽？",
+                vn: "Ở trường có thể làm gì?",
+                emoji: "📖",
+                template: "在學校可以 {val}。",
+                opts: [
+                    "có thể đọc sách 📚",
+                    "có thể nghe nhạc 🎵",
+                    "có thể chạy bộ 🏃"
+                ]
+            },
+            {
+                id: 5,
+                q: "你從你家到學校怎麽去？",
+                vn: "Từ nhà đến trường bạn đi bằng gì?",
+                emoji: "🛤️",
+                template: "我 {val} 去學校。",
+                opts: [
+                    "xe hơi 🚗",
+                    "xe đạp 🚲",
+                    "đi bộ 🚶",
+                    "xe buýt 🚌"
+                ]
+            },
+            {
+                id: 6,
+                q: "你覺得這東西怎麽樣？",
+                vn: "Bạn thấy thứ này thế nào?",
+                emoji: "👍",
+                template: "我覺得 {val}。",
+                opts: [
+                    "mì 又 rẻ又 ngon 🍜",
+                    "trà 又 rẻ又 ngon 🍵",
+                    "quần áo 又 rẻ又 đẹp 👕"
+                ]
+            },
+            {
+                id: 7,
+                q: "為什麽你買這東西？",
+                vn: "Tại sao bạn mua thứ này?",
+                emoji: "❓",
+                template: "因為 {val}。",
+                opts: [
+                    "quần áo (vì tôi thích) 👕",
+                    "hoa (vì tôi muốn tặng mẹ) 🌹",
+                    "sách (vì thích học tiếng trung) 📖"
+                ]
+            },
+            {
+                id: 8,
+                q: "這個怎麽樣？",
+                vn: "Cái này thế nào?",
+                emoji: "🤔",
+                template: "這個 {val}。",
+                opts: [
+                    "bài hát khó hát 🎤",
+                    "tiếng Trung khó học 🀄",
+                    "xe đạp khó đạp 🚲"
+                ]
+            }
+        ]
+
+        let currentQ = null
+
+        function renderList() {
+            const list = document.getElementById('question-list')
+            list.innerHTML = ''
+            questions.forEach(q => {
+                const btn = document.createElement('div')
+                btn.className = `aspect-square bg-white rounded-3xl flex flex-col items-center justify-center shadow-md border-4 border-transparent active:scale-95 transition-all cursor-pointer`
+                btn.innerHTML = `
+                    <div class="text-5xl mb-1">${q.emoji}</div>
+                    <div class="text-3xl font-bold text-indigo-600">${q.id}</div>
+                `
+                btn.onclick = () => selectQuestion(q.id)
+                list.appendChild(btn)
+            })
+        }
+
+        function selectQuestion(id) {
+            currentQ = questions.find(q => q.id === id)
+            randomizeAnswer()
+        }
+
+        function randomizeAnswer() {
+            if (!currentQ) return
+            
+            const randomIndex = Math.floor(Math.random() * currentQ.opts.length)
+            const selected = currentQ.opts[randomIndex]
+            
+            // Tách emoji và nội dung
+            const parts = selected.split(' ')
+            const val = parts.slice(0, -1).join(' ')
+            const em = parts[parts.length - 1]
+            
+            const fullAnswer = currentQ.template.replace('{val}', val)
+
+            const html = `
+                <div class="text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="text-7xl">${currentQ.emoji}</div>
+                    </div>
+                    
+                    <div class="text-3xl font-bold text-gray-800 mb-2">${currentQ.q}</div>
+                    <div class="text-lg text-indigo-600 mb-10">(${currentQ.vn})</div>
+
+                    <div class="answer-box bg-gradient-to-br from-indigo-50 to-blue-50 rounded-3xl py-10 px-6 border-4 border-indigo-200">
+                        <div class="text-indigo-500 text-xs font-medium tracking-widest mb-4">📱 ĐÁP ÁN CHO BẠN B</div>
+                        
+                        <div class="flex items-center justify-center gap-4 mb-8">
+                            <span class="text-6xl">${em}</span>
+                            <span class="text-5xl font-black text-gray-900">${val}</span>
+                        </div>
+                        
+                        <div class="bg-white mx-auto max-w-[280px] rounded-2xl py-5 px-6 shadow-inner">
+                            <div class="text-emerald-600 text-xs mb-2">💬 Câu trả lời đầy đủ:</div>
+                            <div class="text-2xl font-medium text-gray-800 leading-tight">${fullAnswer}</div>
+                        </div>
+                    </div>
+
+                    <button onclick="randomizeAnswer()" 
+                            class="mt-10 w-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold text-3xl py-7 rounded-3xl shadow-lg flex items-center justify-center gap-4 active:scale-95">
+                        🎲 Đáp án mới
+                    </button>
+                    
+                    <p class="mt-6 text-xs text-gray-400">A hỏi → B xem & trả lời → Bấm nút đổi đáp án</p>
+                </div>
+            `
+            document.getElementById('main-content').innerHTML = html
+        }
+
+        // Khởi động
+        window.onload = () => {
+            renderList()
+            setTimeout(() => selectQuestion(1), 300)   // Tự động mở câu 1
+        }
+    </script>
+</body>
+</html>
