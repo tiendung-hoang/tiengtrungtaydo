@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎯 Luyện Hỏi Đáp Tiếng Trung - Phần 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+        
+        body { font-family: 'Noto Sans SC', system-ui, sans-serif; }
+        
+        .answer-box {
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-teal-50 to-cyan-100 min-h-screen pb-12">
+
+    <div class="max-w-xl mx-auto px-4 pt-8">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-16 h-16 bg-teal-400 rounded-3xl flex items-center justify-center text-5xl shadow-md">🎯</div>
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900">Luyện Hỏi Đáp 4</h1>
+                <p class="text-teal-600 text-lg -mt-1">Tiếng Trung vui vẻ 📱</p>
+            </div>
+        </div>
+
+        <!-- Chọn câu hỏi -->
+        <div class="mb-8">
+            <p class="text-center text-teal-700 font-medium mb-4">Chọn câu hỏi 👇</p>
+            <div id="question-list" class="grid grid-cols-4 gap-3"></div>
+        </div>
+
+        <!-- Khu vực hiển thị đáp án -->
+        <div id="main-content" class="bg-white rounded-3xl shadow-xl p-8 min-h-[440px]"></div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                q: "爲什麽你開心？",
+                vn: "Tại sao bạn vui?",
+                emoji: "😄",
+                template: "因為 {val}。",
+                opts: [
+                    "7h就 thức dậy 🌅",
+                    "6h ăn cơm 🍚",
+                    "10h就 đi ngủ 😴",
+                    "11h làm bài tập 📝"
+                ]
+            },
+            {
+                id: 2,
+                q: "什麽就要發生了？",
+                vn: "Chuyện gì sắp xảy ra?",
+                emoji: "⏰",
+                template: "{val}。",
+                opts: [
+                    "tôi về nước ✈️",
+                    "xe lửa sắp đến 🚄",
+                    "mẹ sắp về nhà 🏠",
+                    "sắp thi 📚"
+                ]
+            },
+            {
+                id: 3,
+                q: "昨天你做了什麽？",
+                vn: "Hôm qua bạn làm gì?",
+                emoji: "📆",
+                template: "昨天我 {val}。",
+                opts: [
+                    "hát 2 tiếng 🎤",
+                    "ngủ 8 tiếng 😴",
+                    "ăn 1 tiếng 🍜",
+                    "xem TV 4 tiếng 📺"
+                ]
+            },
+            {
+                id: 4,
+                q: "今天比昨天怎麽樣？",
+                vn: "Hôm nay so với hôm qua thế nào?",
+                emoji: "📊",
+                template: "{val}。",
+                opts: [
+                    "hôm nay lạnh hơn hôm qua ❄️",
+                    "hôm nay nóng hơn hôm qua 🔥",
+                    "tôi hôm nay mệt hơn hôm qua 😩",
+                    "thịt bò hôm nay mắc hơn hôm qua 💰"
+                ]
+            },
+            {
+                id: 5,
+                q: "這部電影，你覺得怎麽樣？",
+                vn: "Bộ phim này bạn thấy thế nào?",
+                emoji: "🎥",
+                template: "我覺得 {val}。",
+                opts: [
+                    "xem cái là thích 👍",
+                    "xem cái là không muốn xem 👎",
+                    "xem cái là cười 😂",
+                    "xem cái là vui 😊"
+                ]
+            },
+            {
+                id: 6,
+                q: "那是什麽？",
+                vn: "Đó là gì?",
+                emoji: "👀",
+                template: "{val}。",
+                opts: [
+                    "cửa đang mở 🚪",
+                    "anh ấy đang mặc đồ đỏ 👕",
+                    "trên bàn đang để sữa 🥛",
+                    "trên xe có người ngồi 🚌"
+                ]
+            },
+            {
+                id: 7,
+                q: "你和他怎麽樣？",
+                vn: "Bạn và anh ấy so sánh thế nào?",
+                emoji: "👥",
+                template: "{val}。",
+                opts: [
+                    "tôi không nhanh như anh ấy 🏃",
+                    "tôi không chậm như anh ấy 🐢",
+                    "tôi không thông minh như anh ấy 🧠",
+                    "tôi không dễ thương như anh ấy 🥰"
+                ]
+            },
+            {
+                id: 8,
+                q: "原來怎麽樣，後來怎麽樣？",
+                vn: "Ban đầu thế nào, sau đó thế nào?",
+                emoji: "🔄",
+                template: "原來 {val}。",
+                opts: [
+                    "vốn dĩ tôi không thích mèo sau đó mua 1 con mèo 🐱",
+                    "vốn dĩ tôi thích chó sau đó tôi thích mèo 🐶",
+                    "vốn dĩ tôi định mua thịt bò sau đó mua cơm 🍖",
+                    "vốn dĩ tôi định đi Trung Quốc sau đó quyết định đi Đài Loan 🇹🇼"
+                ]
+            }
+        ]
+
+        let currentQ = null
+
+        function renderList() {
+            const list = document.getElementById('question-list')
+            list.innerHTML = ''
+            questions.forEach(q => {
+                const btn = document.createElement('div')
+                btn.className = `aspect-square bg-white rounded-3xl flex flex-col items-center justify-center shadow-md border-4 border-transparent active:scale-95 transition-all cursor-pointer`
+                btn.innerHTML = `
+                    <div class="text-5xl mb-1">${q.emoji}</div>
+                    <div class="text-3xl font-bold text-teal-600">${q.id}</div>
+                `
+                btn.onclick = () => selectQuestion(q.id)
+                list.appendChild(btn)
+            })
+        }
+
+        function selectQuestion(id) {
+            currentQ = questions.find(q => q.id === id)
+            randomizeAnswer()
+        }
+
+        function randomizeAnswer() {
+            if (!currentQ) return
+            
+            const randomIndex = Math.floor(Math.random() * currentQ.opts.length)
+            const selected = currentQ.opts[randomIndex]
+            
+            const parts = selected.split(' ')
+            const val = parts.slice(0, -1).join(' ')
+            const em = parts[parts.length - 1]
+            
+            const fullAnswer = currentQ.template.replace('{val}', val)
+
+            const html = `
+                <div class="text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="text-7xl">${currentQ.emoji}</div>
+                    </div>
+                    
+                    <div class="text-3xl font-bold text-gray-800 mb-2">${currentQ.q}</div>
+                    <div class="text-lg text-teal-600 mb-10">(${currentQ.vn})</div>
+
+                    <div class="answer-box bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl py-10 px-6 border-4 border-teal-200">
+                        <div class="text-teal-500 text-xs font-medium tracking-widest mb-4">📱 ĐÁP ÁN CHO BẠN B</div>
+                        
+                        <div class="flex items-center justify-center gap-4 mb-8">
+                            <span class="text-6xl">${em}</span>
+                            <span class="text-5xl font-black text-gray-900">${val}</span>
+                        </div>
+                        
+                        <div class="bg-white mx-auto max-w-[300px] rounded-2xl py-5 px-6 shadow-inner">
+                            <div class="text-emerald-600 text-xs mb-2">💬 Câu trả lời đầy đủ:</div>
+                            <div class="text-2xl font-medium text-gray-800 leading-tight">${fullAnswer}</div>
+                        </div>
+                    </div>
+
+                    <button onclick="randomizeAnswer()" 
+                            class="mt-10 w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold text-3xl py-7 rounded-3xl shadow-lg flex items-center justify-center gap-4 active:scale-95">
+                        🎲 Đáp án mới
+                    </button>
+                    
+                    <p class="mt-6 text-xs text-gray-400">A hỏi → B xem & trả lời → Bấm nút đổi đáp án</p>
+                </div>
+            `
+            document.getElementById('main-content').innerHTML = html
+        }
+
+        // Khởi động
+        window.onload = () => {
+            renderList()
+            setTimeout(() => selectQuestion(1), 300)
+        }
+    </script>
+</body>
+</html>
