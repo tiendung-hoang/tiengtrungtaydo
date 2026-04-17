@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎯 Luyện Hỏi Đáp Tiếng Trung - Phần 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+        
+        body { font-family: 'Noto Sans SC', system-ui, sans-serif; }
+        
+        .answer-box {
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen pb-12">
+
+    <div class="max-w-xl mx-auto px-4 pt-8">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-16 h-16 bg-purple-400 rounded-3xl flex items-center justify-center text-5xl shadow-md">🎯</div>
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900">Luyện Hỏi Đáp 3</h1>
+                <p class="text-purple-600 text-lg -mt-1">Tiếng Trung vui vẻ 📱</p>
+            </div>
+        </div>
+
+        <!-- Chọn câu hỏi -->
+        <div class="mb-8">
+            <p class="text-center text-purple-700 font-medium mb-4">Chọn câu hỏi 👇</p>
+            <div id="question-list" class="grid grid-cols-4 gap-3"></div>
+        </div>
+
+        <!-- Khu vực hiển thị đáp án -->
+        <div id="main-content" class="bg-white rounded-3xl shadow-xl p-8 min-h-[440px]"></div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                q: "你在做什麽？",
+                vn: "Bạn đang làm gì?",
+                emoji: "🤔",
+                template: "我在 {val}。",
+                opts: [
+                    "xem TV 📺",
+                    "viết tiếng Trung ✍️",
+                    "hát 🎤",
+                    "nhảy múa 💃"
+                ]
+            },
+            {
+                id: 2,
+                q: "爲什麽我們不能説話？",
+                vn: "Tại sao chúng ta không được nói chuyện?",
+                emoji: "🤫",
+                template: "因為 {val}。",
+                opts: [
+                    "đây là thư viện 📚",
+                    "họ đang ngủ 😴",
+                    "giáo viên nói không được 👩‍🏫",
+                    "đây là tàu MRT 🚄"
+                ]
+            },
+            {
+                id: 3,
+                q: "這是怎麽樣的飯",
+                vn: "Đây là cơm do ai làm?",
+                emoji: "🍚",
+                template: "這是 {val} 的飯。",
+                opts: [
+                    "bố mua 👨",
+                    "tôi làm 👩‍🍳",
+                    "mẹ làm 👩‍🍳",
+                    "bạn bè mua 👥"
+                ]
+            },
+            {
+                id: 4,
+                q: "明天你會做什麽？",
+                vn: "Ngày mai bạn sẽ làm gì?",
+                emoji: "📅",
+                template: "明天我會 {val}。",
+                opts: [
+                    "sẽ đi du lịch 🏖️",
+                    "sẽ đi bơi 🏊",
+                    "sẽ đi xem bóng ⚽",
+                    "sẽ đi khám bệnh 🩺"
+                ]
+            },
+            {
+                id: 5,
+                q: "昨天，你已經做了什麽？",
+                vn: "Hôm qua bạn đã làm gì?",
+                emoji: "📆",
+                template: "昨天我已經 {val}。",
+                opts: [
+                    "ăn mì thịt bò 🍜",
+                    "nghe nhạc 🎧",
+                    "xem sách 📖",
+                    "học tiếng trung 🀄"
+                ]
+            },
+            {
+                id: 6,
+                q: "這是怎麽樣買的？",
+                vn: "Cái này mua như thế nào?",
+                emoji: "🛍️",
+                template: "這是 {val}。",
+                opts: [
+                    "hôm qua đi trung tâm thương mại mua 🏬",
+                    "bố mua tặng 👨",
+                    "mẹ mua tặng 👩",
+                    "lên mạng mua 💻"
+                ]
+            },
+            {
+                id: 7,
+                q: "你喜歡做什麽？",
+                vn: "Bạn thích làm gì?",
+                emoji: "❤️",
+                template: "我喜歡 {val}。",
+                opts: [
+                    "dùng tiếng trung viết thư ✉️",
+                    "dùng điện thoại gọi mẹ 📱",
+                    "dùng tiền mua đồ 💰",
+                    "dùng bút chì vẽ ✏️"
+                ]
+            },
+            {
+                id: 8,
+                q: "你去過哪裡？",
+                vn: "Bạn đã đi qua đâu?",
+                emoji: "✈️",
+                template: "我去過 {val}。",
+                opts: [
+                    "đi qua Trung Quốc 🇨🇳",
+                    "đi qua Hàn Quốc 🇰🇷",
+                    "đi qua Đài Loan 🇹🇼",
+                    "đi qua Nhật Bản 🇯🇵"
+                ]
+            }
+        ]
+
+        let currentQ = null
+
+        function renderList() {
+            const list = document.getElementById('question-list')
+            list.innerHTML = ''
+            questions.forEach(q => {
+                const btn = document.createElement('div')
+                btn.className = `aspect-square bg-white rounded-3xl flex flex-col items-center justify-center shadow-md border-4 border-transparent active:scale-95 transition-all cursor-pointer`
+                btn.innerHTML = `
+                    <div class="text-5xl mb-1">${q.emoji}</div>
+                    <div class="text-3xl font-bold text-purple-600">${q.id}</div>
+                `
+                btn.onclick = () => selectQuestion(q.id)
+                list.appendChild(btn)
+            })
+        }
+
+        function selectQuestion(id) {
+            currentQ = questions.find(q => q.id === id)
+            randomizeAnswer()
+        }
+
+        function randomizeAnswer() {
+            if (!currentQ) return
+            
+            const randomIndex = Math.floor(Math.random() * currentQ.opts.length)
+            const selected = currentQ.opts[randomIndex]
+            
+            const parts = selected.split(' ')
+            const val = parts.slice(0, -1).join(' ')
+            const em = parts[parts.length - 1]
+            
+            const fullAnswer = currentQ.template.replace('{val}', val)
+
+            const html = `
+                <div class="text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="text-7xl">${currentQ.emoji}</div>
+                    </div>
+                    
+                    <div class="text-3xl font-bold text-gray-800 mb-2">${currentQ.q}</div>
+                    <div class="text-lg text-purple-600 mb-10">(${currentQ.vn})</div>
+
+                    <div class="answer-box bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl py-10 px-6 border-4 border-purple-200">
+                        <div class="text-purple-500 text-xs font-medium tracking-widest mb-4">📱 ĐÁP ÁN CHO BẠN B</div>
+                        
+                        <div class="flex items-center justify-center gap-4 mb-8">
+                            <span class="text-6xl">${em}</span>
+                            <span class="text-5xl font-black text-gray-900">${val}</span>
+                        </div>
+                        
+                        <div class="bg-white mx-auto max-w-[290px] rounded-2xl py-5 px-6 shadow-inner">
+                            <div class="text-emerald-600 text-xs mb-2">💬 Câu trả lời đầy đủ:</div>
+                            <div class="text-2xl font-medium text-gray-800 leading-tight">${fullAnswer}</div>
+                        </div>
+                    </div>
+
+                    <button onclick="randomizeAnswer()" 
+                            class="mt-10 w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-3xl py-7 rounded-3xl shadow-lg flex items-center justify-center gap-4 active:scale-95">
+                        🎲 Đáp án mới
+                    </button>
+                    
+                    <p class="mt-6 text-xs text-gray-400">A hỏi → B xem & trả lời → Bấm nút đổi đáp án</p>
+                </div>
+            `
+            document.getElementById('main-content').innerHTML = html
+        }
+
+        // Khởi động
+        window.onload = () => {
+            renderList()
+            setTimeout(() => selectQuestion(1), 300)
+        }
+    </script>
+</body>
+</html>
