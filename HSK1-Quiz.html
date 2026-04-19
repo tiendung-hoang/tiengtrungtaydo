@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK 1 - Quiz Từ Vựng Tổng Hợp</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .stage {
+            margin: 40px 0;
+        }
+        .stage h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 18px 12px;
+            font-size: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 14px;
+        }
+        .mode-btn:hover {
+            background: #22c55e;
+        }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 20px;
+        }
+        #quiz-container {
+            display: none;
+        }
+        .progress {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hanzi {
+            font-size: 110px;
+            font-weight: bold;
+            text-align: center;
+            margin: 40px 0;
+            min-height: 130px;
+            line-height: 1.2;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .result {
+            font-size: 26px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 HSK 1 - Quiz Từ Vựng</h1>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen">
+            <h2>Chọn bài học (1 - 15)</h2>
+            <div class="lessons" id="lesson-list"></div>
+        </div>
+
+        <!-- Màn hình chọn dạng (Thường / Xáo trộn) -->
+        <div id="mode-screen" style="display: none;">
+            <h2 id="selected-lesson-title"></h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="mode-btn" onclick="startQuiz('normal')">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz('shuffle')" style="margin-left: 20px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình làm quiz -->
+        <div id="quiz-container">
+            <div class="progress">Bài <span id="lesson-num"></span> - Câu <span id="current">1</span>/<span id="total"></span></div>
+            
+            <div class="hanzi" id="hanzi"></div>
+            <div class="result" id="result"></div>
+            <div class="options" id="options"></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
+                ← Thoát quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TẤT CẢ BÀI ====================
+        const allLessons = {
+            1: { 
+                normal: ["你","好","您","你们","对不起","没关系"],
+                shuffle: ["你","好","您","你们","对不起","没关系"],
+                meanings: {
+                    "你": "anh, chị, bạn (số ít)",
+                    "好": "khỏe, tốt",
+                    "您": "ông, bà, ngài (lịch sự)",
+                    "你们": "các anh, các chị, các bạn (số nhiều)",
+                    "对不起": "xin lỗi",
+                    "没关系": "không sao đâu"
+                }
+            },
+            2: { 
+                normal: ["谢谢","不","不客气","再见"],
+                shuffle: ["谢谢","不","不客气","再见"],
+                meanings: {
+                    "谢谢": "cảm ơn",
+                    "不": "không, đừng",
+                    "不客气": "đừng khách sáo",
+                    "再见": "tạm biệt"
+                }
+            },
+            3: { 
+                normal: ["叫","什么","名字","我","是","老师","吗","学生","人","李月","中国","美国"],
+                shuffle: ["叫","什么","名字","我","是","老师","吗","学生","人","李月","中国","美国"],
+                meanings: {
+                    "叫": "gọi (tên)",
+                    "什么": "gì, cái gì",
+                    "名字": "tên",
+                    "我": "tôi",
+                    "是": "là",
+                    "老师": "giáo viên",
+                    "吗": "(trợ từ nghi vấn)",
+                    "学生": "học sinh",
+                    "人": "người",
+                    "李月": "Lý Nguyệt (tên người)",
+                    "中国": "Trung Quốc",
+                    "美国": "Mỹ"
+                }
+            },
+            4: { 
+                normal: ["她","谁","的","汉语","哪","国","呢","他","同学","朋友"],
+                shuffle: ["她","谁","的","汉语","哪","国","呢","他","同学","朋友"],
+                meanings: {
+                    "她": "cô ấy",
+                    "谁": "ai",
+                    "的": "(trợ từ cấu trúc)",
+                    "汉语": "tiếng Hán / tiếng Trung",
+                    "哪": "nào",
+                    "国": "nước",
+                    "呢": "(trợ từ nghi vấn)",
+                    "他": "anh ấy",
+                    "同学": "bạn học",
+                    "朋友": "bạn"
+                }
+            },
+            5: { 
+                normal: ["家","有","口","女儿","几","岁","了","今年","多","大"],
+                shuffle: ["家","有","口","女儿","几","岁","了","今年","多","大"],
+                meanings: {
+                    "家": "nhà",
+                    "有": "có",
+                    "口": "(đơn vị đếm người trong nhà)",
+                    "女儿": "con gái",
+                    "几": "mấy",
+                    "岁": "tuổi",
+                    "了": "(trợ từ chỉ sự thay đổi)",
+                    "今年": "năm nay",
+                    "多": "bao nhiêu",
+                    "大": "lớn"
+                }
+            },
+            6: { 
+                normal: ["会","说","妈妈","菜","很","好吃","做","写","汉字","字","怎么","读"],
+                shuffle: ["会","说","妈妈","菜","很","好吃","做","写","汉字","字","怎么","读"],
+                meanings: {
+                    "会": "có thể, biết (làm)",
+                    "说": "nói",
+                    "妈妈": "mẹ",
+                    "菜": "món ăn, rau",
+                    "很": "rất",
+                    "好吃": "ngon",
+                    "做": "làm",
+                    "写": "viết",
+                    "汉字": "chữ Hán",
+                    "字": "chữ",
+                    "怎么": "như thế nào",
+                    "读": "đọc"
+                }
+            },
+            7: { 
+                normal: ["请","问","今天","号","月","星期","昨天","明天","去","学校","看","书"],
+                shuffle: ["请","问","今天","号","月","星期","昨天","明天","去","学校","看","书"],
+                meanings: {
+                    "请": "xin, mời",
+                    "问": "hỏi",
+                    "今天": "hôm nay",
+                    "号": "số (ngày trong tháng)",
+                    "月": "tháng",
+                    "星期": "thứ (trong tuần)",
+                    "昨天": "hôm qua",
+                    "明天": "ngày mai",
+                    "去": "đi",
+                    "学校": "trường học",
+                    "看": "xem",
+                    "书": "sách"
+                }
+            },
+            8: { 
+                normal: ["想","喝","茶","吃","米饭","下午","商店","买","个","杯子","这","多少","钱","块","那"],
+                shuffle: ["想","喝","茶","吃","米饭","下午","商店","买","个","杯子","这","多少","钱","块","那"],
+                meanings: {
+                    "想": "muốn",
+                    "喝": "uống",
+                    "茶": "trà",
+                    "吃": "ăn",
+                    "米饭": "cơm",
+                    "下午": "buổi chiều",
+                    "商店": "cửa hàng",
+                    "买": "mua",
+                    "个": "(đơn vị đếm) cái",
+                    "杯子": "cốc, ly",
+                    "这": "này",
+                    "多少": "bao nhiêu",
+                    "钱": "tiền",
+                    "块": "(đơn vị tiền tệ)",
+                    "那": "kia"
+                }
+            },
+            9: { 
+                normal: ["小","猫","在","那儿","狗","椅子","下面（下）","在哪儿","工作","儿子","医院","医生","爸爸"],
+                shuffle: ["小","猫","在","那儿","狗","椅子","下面（下）","在哪儿","工作","儿子","医院","医生","爸爸"],
+                meanings: {
+                    "小": "nhỏ",
+                    "猫": "mèo",
+                    "在": "ở",
+                    "那儿": "ở đó",
+                    "狗": "chó",
+                    "椅子": "ghế",
+                    "下面（下）": "dưới",
+                    "在哪儿": "ở đâu",
+                    "工作": "làm việc",
+                    "儿子": "con trai",
+                    "医院": "bệnh viện",
+                    "医生": "bác sĩ",
+                    "爸爸": "bố"
+                }
+            },
+            10: { 
+                normal: ["桌子","上","电脑","和","本","里","前面","后面","这儿","没有（没）","能","坐","王方","谢朋"],
+                shuffle: ["桌子","上","电脑","和","本","里","前面","后面","这儿","没有（没）","能","坐","王方","谢朋"],
+                meanings: {
+                    "桌子": "bàn",
+                    "上": "trên",
+                    "电脑": "máy tính",
+                    "和": "và",
+                    "本": "(đơn vị đếm sách)",
+                    "里": "trong",
+                    "前面": "phía trước",
+                    "后面": "phía sau",
+                    "这儿": "ở đây",
+                    "没有（没）": "không có",
+                    "能": "có thể",
+                    "坐": "ngồi",
+                    "王方": "Vương Phương (tên)",
+                    "谢朋": "Tạ Bằng (tên)"
+                }
+            },
+            11: { 
+                normal: ["现在","点","分","中午","吃饭","时候","回","我们","电影","住","前","北京"],
+                shuffle: ["现在","点","分","中午","吃饭","时候","回","我们","电影","住","前","北京"],
+                meanings: {
+                    "现在": "bây giờ",
+                    "点": "giờ (điểm)",
+                    "分": "phút",
+                    "中午": "trưa",
+                    "吃饭": "ăn cơm",
+                    "时候": "lúc, khi",
+                    "回": "về",
+                    "我们": "chúng tôi",
+                    "电影": "phim",
+                    "住": "ở",
+                    "前": "trước",
+                    "北京": "Bắc Kinh"
+                }
+            },
+            12: { 
+                normal: ["天气","怎么样","太（太……了）","热","冷","下雨（下、雨）","小姐","来","身体","爱","些","水果","水"],
+                shuffle: ["天气","怎么样","太（太……了）","热","冷","下雨（下、雨）","小姐","来","身体","爱","些","水果","水"],
+                meanings: {
+                    "天气": "thời tiết",
+                    "怎么样": "thế nào",
+                    "太（太……了）": "quá (quá … rồi)",
+                    "热": "nóng",
+                    "冷": "lạnh",
+                    "下雨（下、雨）": "mưa",
+                    "小姐": "cô (xưng hô lịch sự)",
+                    "来": "đến",
+                    "身体": "cơ thể",
+                    "爱": "thích",
+                    "些": "vài, một ít",
+                    "水果": "trái cây",
+                    "水": "nước"
+                }
+            },
+            13: { 
+                normal: ["喂","也","学习（学）","上午","睡觉","电视","喜欢","给","打电话","吧","大卫"],
+                shuffle: ["喂","也","学习（学）","上午","睡觉","电视","喜欢","给","打电话","吧","大卫"],
+                meanings: {
+                    "喂": "alo (khi gọi điện)",
+                    "也": "cũng",
+                    "学习（学）": "học",
+                    "上午": "buổi sáng",
+                    "睡觉": "ngủ",
+                    "电视": "ti vi",
+                    "喜欢": "thích",
+                    "给": "cho",
+                    "打电话": "gọi điện",
+                    "吧": "(trợ từ ngữ khí)",
+                    "大卫": "David (tên)"
+                }
+            },
+            14: { 
+                normal: ["东西","一点儿","苹果","看见","先生","开","车","回来","分钟","后","衣服","漂亮","啊","少（不少）","这些","都","张"],
+                shuffle: ["东西","一点儿","苹果","看见","先生","开","车","回来","分钟","后","衣服","漂亮","啊","少（不少）","这些","都","张"],
+                meanings: {
+                    "东西": "đồ đạc",
+                    "一点儿": "một chút",
+                    "苹果": "táo",
+                    "看见": "nhìn thấy",
+                    "先生": "ông (xưng hô lịch sự)",
+                    "开": "lái (xe)",
+                    "车": "xe",
+                    "回来": "quay về",
+                    "分钟": "phút",
+                    "后": "sau",
+                    "衣服": "quần áo",
+                    "漂亮": "đẹp",
+                    "啊": "(trợ từ ngữ khí)",
+                    "少（不少）": "ít (không ít = nhiều)",
+                    "这些": "những cái này",
+                    "都": "đều",
+                    "张": "(đơn vị đếm) đồ dài"
+                }
+            },
+            15: { 
+                normal: ["认识","年","大学","饭店","出租车","一起","高兴","听","飞机"],
+                shuffle: ["认识","年","大学","饭店","出租车","一起","高兴","听","飞机"],
+                meanings: {
+                    "认识": "quen biết",
+                    "年": "năm",
+                    "大学": "đại học",
+                    "饭店": "nhà hàng",
+                    "出租车": "taxi",
+                    "一起": "cùng",
+                    "高兴": "vui mừng",
+                    "听": "nghe",
+                    "飞机": "máy bay"
+                }
+            }
+        };
+
+        let currentLesson = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+
+        // Tạo danh sách bài học
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            for (let i = 1; i <= 15; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${i}`;
+                btn.onclick = () => selectLesson(i);
+                container.appendChild(btn);
+            }
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('mode-screen').style.display = 'block';
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
+        }
+
+        function backToMenu() {
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const lessonData = allLessons[currentLesson];
+            
+            vocabulary = lessonData[mode].map(hanzi => ({
+                hanzi: hanzi,
+                meaning: lessonData.meanings[hanzi]
+            }));
+
+            if (mode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+
+            currentIndex = 0;
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('total').textContent = vocabulary.length;
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('result').textContent = '';
+            document.getElementById('result').style.color = '';
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            let answers = [currentWord.meaning, ...wrongAnswers.map(w => w.meaning)];
+            answers = answers.sort(() => Math.random() - 0.5);
+
+            answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.meaning, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1500);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quiz sẽ tự động chơi lại từ đầu.";
+                resultDiv.style.color = "#f87171";
+                
+                setTimeout(() => {
+                    currentIndex = 0;
+                    loadQuestion();
+                }, 2000);
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
+                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
+            `;
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
+                    Chơi lại bài này
+                </button>
+            `;
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            if (currentMode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        // Khởi động
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+</body>
+</html>
