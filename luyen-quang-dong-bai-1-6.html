@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luyện Tập Hỏi Đáp Tiếng Quảng Đông</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5e8d3, #e8d5b8);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 25px;
+    }
+    h1 {
+      text-align: center;
+      color: #b22222;
+    }
+    .controls {
+      text-align: center;
+      margin: 20px 0;
+    }
+    button {
+      padding: 12px 20px;
+      margin: 8px 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-primary { background: #b22222; color: white; }
+    .btn-secondary { background: #555; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-info { background: #17a2b8; color: white; }
+
+    .question-area {
+      background: #fff9e6;
+      border: 2px solid #b22222;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+      min-height: 120px;
+      font-size: 1.35em;
+      line-height: 1.5;
+    }
+    .meaning {
+      margin-top: 15px;
+      padding: 15px;
+      background: #f0f8ff;
+      border-radius: 8px;
+      font-size: 1.1em;
+      display: none;
+    }
+    .info {
+      text-align: center;
+      font-size: 0.95em;
+      color: #666;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>練習廣東話問答</h1>
+    <p style="text-align:center; color:#666;">Luyện Tập Câu Hỏi Tiếng Quảng Đông</p>
+
+    <div class="controls">
+      <button class="btn-secondary" id="modeSequential">Theo thứ tự</button>
+      <button class="btn-secondary" id="modeRandom">Ngẫu nhiên</button>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" id="btnNext">Câu tiếp theo →</button>
+      <button class="btn-success" id="btnPlay">▶ Phát âm (Quảng Đông)</button>
+      <button class="btn-info" id="btnShowMeaning">Hiện nghĩa tiếng Việt</button>
+    </div>
+
+    <div class="question-area" id="question">
+      Nhấn "Câu tiếp theo" để bắt đầu...
+    </div>
+
+    <div class="meaning" id="meaning"></div>
+
+    <div class="info">
+      Câu <span id="currentNum">1</span> / <span id="total">0</span>
+    </div>
+  </div>
+
+<script>
+// ==================== DANH SÁCH CÂU HỎI ====================
+const questions = [
+  {
+    cantonese: "你叫乜嘢名？",
+    pinyin: "Néih giu mātyéh méng?",
+    viet: "Bạn tên là gì?"
+  },
+  {
+    cantonese: "你貴姓？",
+    pinyin: "Néih gwai sing?",
+    viet: "Bạn họ gì?"
+  },
+  {
+    cantonese: "你今年幾多歲？",
+    pinyin: "Néih gàm nìhn géidò seui?",
+    viet: "Năm nay bạn bao nhiêu tuổi?"
+  },
+  {
+    cantonese: "你係乜嘢人？",
+    pinyin: "Néih haih mātyéh yàhn?",
+    viet: "Bạn là người nước nào / người vùng nào?"
+  },
+  {
+    cantonese: "你係唔係華人？",
+    pinyin: "Néih haih-ṁ-haih Wà yàhn?",
+    viet: "Bạn có phải là người Hoa không?"
+  },
+  {
+    cantonese: "你做乜嘢？",
+    pinyin: "Néih jouh mātyéh?",
+    viet: "Bạn làm nghề gì?"
+  },
+  {
+    cantonese: "你喺邊度返工？",
+    pinyin: "Néih hái bīndouh faan gùng?",
+    viet: "Bạn làm việc ở đâu?"
+  },
+  {
+    cantonese: "你做邊行？",
+    pinyin: "Néih jouh bīn hòhng?",
+    viet: "Bạn làm ngành nghề nào?"
+  },
+  {
+    cantonese: "你喺邊度讀書？",
+    pinyin: "Néih hái bīndouh duhk syù?",
+    viet: "Bạn học ở đâu?"
+  },
+  {
+    cantonese: "今日你使唔使返工？",
+    pinyin: "Gàm yaht néih sái-ṁ-sái faan gùng?",
+    viet: "Hôm nay bạn có phải đi làm không?"
+  },
+  {
+    cantonese: "你有冇名片？",
+    pinyin: "Néih yáuh móuh méng pin?",
+    viet: "Bạn có danh thiếp không?"
+  },
+  {
+    cantonese: "你識唔識講廣東話？",
+    pinyin: "Néih sīk-ṁ-sīk góng Gwóng dūng wá?",
+    viet: "Bạn biết nói tiếng Quảng Đông không?"
+  },
+  {
+    cantonese: "你識唔識睇中文？",
+    pinyin: "Néih sīk-ṁ-sīk tái Jùng mán?",
+    viet: "Bạn biết đọc chữ Hán không?"
+  },
+  {
+    cantonese: "你學咗廣東話幾耐？",
+    pinyin: "Néih hohk jó Gwóng dūng wá géi noi?",
+    viet: "Bạn học tiếng Quảng được bao lâu rồi?"
+  },
+  {
+    cantonese: "你屋企有幾個人？",
+    pinyin: "Néih ūkkéi yáuh géi go yàhn?",
+    viet: "Nhà bạn có mấy người?"
+  },
+  {
+    cantonese: "你爸爸媽媽身體好嗎？",
+    pinyin: "Néih bàhbá māhmā sān tái hóu mā?",
+    viet: "Ba mẹ bạn khỏe không?"
+  },
+  {
+    cantonese: "你結婚未？",
+    pinyin: "Néih git fàn meih?",
+    viet: "Bạn kết hôn chưa?"
+  },
+  {
+    cantonese: "你有冇仔女？",
+    pinyin: "Néih yáuh móuh jái néui?",
+    viet: "Bạn có con cái chưa?"
+  },
+  {
+    cantonese: "你而家去邊度？",
+    pinyin: "Néih yìhgā heui bīndouh?",
+    viet: "Bây giờ bạn đi đâu?"
+  },
+  {
+    cantonese: "今晚你得唔得閒？",
+    pinyin: "Gàm máahn néih dāk-ṁ-dāk hàahn?",
+    viet: "Tối nay bạn có rảnh không?"
+  },
+  {
+    cantonese: "你鐘唔鐘意睇戲？",
+    pinyin: "Néih jūng-ṁ-jūng yi tái hei?",
+    viet: "Bạn có thích xem phim không?"
+  }
+];
+
+// ==================== BIẾN TOÀN CỤC ====================
+let currentIndex = 0;
+let isRandomMode = false;
+let usedIndices = [];
+
+// ==================== CÁC ELEMENT ====================
+const questionEl = document.getElementById('question');
+const meaningEl = document.getElementById('meaning');
+const currentNumEl = document.getElementById('currentNum');
+const totalEl = document.getElementById('total');
+
+const btnNext = document.getElementById('btnNext');
+const btnPlay = document.getElementById('btnPlay');
+const btnShowMeaning = document.getElementById('btnShowMeaning');
+const btnSequential = document.getElementById('modeSequential');
+const btnRandom = document.getElementById('modeRandom');
+
+// ==================== HÀM CHÍNH ====================
+function getNextIndex() {
+  if (!isRandomMode) {
+    currentIndex = (currentIndex + 1) % questions.length;
+    return currentIndex;
+  } else {
+    // Chế độ ngẫu nhiên không lặp lại đến khi hết
+    if (usedIndices.length === questions.length) {
+      usedIndices = [];
+    }
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * questions.length);
+    } while (usedIndices.includes(newIndex));
+    
+    usedIndices.push(newIndex);
+    return newIndex;
+  }
+}
+
+function showQuestion() {
+  const q = questions[currentIndex];
+  
+  questionEl.innerHTML = `
+    <strong>${q.cantonese}</strong><br>
+    <span style="font-size:0.85em; color:#555;">${q.pinyin}</span>
+  `;
+  
+  meaningEl.style.display = "none";
+  meaningEl.textContent = q.viet;
+  
+  currentNumEl.textContent = currentIndex + 1;
+  totalEl.textContent = questions.length;
+}
+
+function speak() {
+  const q = questions[currentIndex];
+  const utterance = new SpeechSynthesisUtterance(q.cantonese);
+  
+  // Cấu hình giọng đọc tiếng Trung (rất gần với Quảng Đông)
+  utterance.lang = 'zh-HK';        // Hoặc thử 'zh-HK' nếu có
+  utterance.rate = 0.95;           // Tốc độ
+  utterance.pitch = 1.05;
+  
+  // Một số trình duyệt hỗ trợ tốt hơn với giọng Trung
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+
+// ==================== SỰ KIỆN ====================
+btnNext.addEventListener('click', () => {
+  currentIndex = getNextIndex();
+  showQuestion();
+});
+
+btnPlay.addEventListener('click', speak);
+
+btnShowMeaning.addEventListener('click', () => {
+  meaningEl.style.display = meaningEl.style.display === "block" ? "none" : "block";
+});
+
+btnSequential.addEventListener('click', () => {
+  isRandomMode = false;
+  usedIndices = [];
+  btnSequential.style.background = '#b22222';
+  btnRandom.style.background = '#555';
+});
+
+btnRandom.addEventListener('click', () => {
+  isRandomMode = true;
+  usedIndices = [];
+  btnRandom.style.background = '#b22222';
+  btnSequential.style.background = '#555';
+});
+
+// Khởi tạo
+totalEl.textContent = questions.length;
+showQuestion(); // Hiện câu đầu tiên
+
+// Hỗ trợ phím tắt
+document.addEventListener('keydown', (e) => {
+  if (e.key === " " || e.key === "ArrowRight") {
+    e.preventDefault();
+    btnNext.click();
+  }
+  if (e.key === "p" || e.key === "P") {
+    btnPlay.click();
+  }
+});
+</script>
+</body>
+</html>
