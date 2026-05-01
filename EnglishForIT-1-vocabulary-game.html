@@ -55,9 +55,6 @@
       border-color: var(--primary);
       transform: translateY(-3px);
     }
-    .lesson-btn:active {
-      transform: scale(0.97);
-    }
 
     .game-container {
       padding: 30px;
@@ -109,7 +106,7 @@
 
     .controls {
       text-align: center;
-      margin: 25px 0;
+      margin: 20px 0 30px 0;
     }
     button {
       padding: 12px 24px;
@@ -119,14 +116,8 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    .btn-secondary {
-      background: #64748b;
-      color: white;
-    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: #64748b; color: white; }
 
     .progress {
       text-align: center;
@@ -159,7 +150,7 @@
   <div class="container">
     <header>
       <h1>🎮 Trò Chơi Từ Vựng IT</h1>
-      <p class="subtitle">Học từ vựng chuyên ngành Công nghệ Thông tin</p>
+      <p class="subtitle">Chọn sai = Chơi lại từ đầu</p>
     </header>
 
     <!-- Menu chọn bài -->
@@ -179,7 +170,7 @@
       <button class="back-btn" onclick="backToMenu()">← Quay lại</button>
       
       <div class="controls">
-        <button class="btn-primary" onclick="setMode(0)">Thứ tự bài học</button>
+        <button class="btn-primary" onclick="setMode(0)">Chơi theo thứ tự</button>
         <button class="btn-secondary" onclick="setMode(1)">Xáo trộn ngẫu nhiên</button>
       </div>
 
@@ -194,152 +185,27 @@
   </div>
 
   <script>
-    // Dữ liệu từ vựng
-    const vocabData = {
-      1: [
-        ["Industry", "Ngành công nghiệp"],
-        ["Introduce", "Giới thiệu"],
-        ["Colleague", "Đồng nghiệp"],
-        ["Network administrator", "Quản trị viên mạng"],
-        ["Website developer", "Người phát triển trang web"],
-        ["System analyst", "Chuyên viên phân tích hệ thống"],
-        ["Support", "Hỗ trợ"],
-        ["Maintenance", "Bảo trì"],
-        ["Team leader", "Trưởng nhóm"],
-        ["Responsibility", "Trách nhiệm / Nhiệm vụ"],
-        ["Set up", "Thiết lập / Cài đặt"],
-        ["Design", "Thiết kế"],
-        ["Properly", "Một cách đúng đắn"],
-        ["Analyse", "Phân tích"],
-        ["Solve", "Giải quyết"]
-      ],
-      2: [
-        ["Hardware", "Phần cứng"],
-        ["Software", "Phần mềm"],
-        ["Motherboard", "Bo mạch chủ"],
-        ["Main memory (RAM)", "Bộ nhớ chính"],
-        ["Storage device", "Thiết bị lưu trữ"],
-        ["Processor (CPU)", "Bộ vi xử lý"],
-        ["Reliable", "Đáng tin cậy"],
-        ["User-friendly", "Thân thiện với người dùng"],
-        ["Install", "Cài đặt"],
-        ["Configure", "Cấu hình"],
-        ["Troubleshoot", "Khắc phục sự cố"],
-        ["Connect", "Kết nối"],
-        ["Back up", "Sao lưu"],
-        ["Access", "Truy cập"],
-        ["Obligation", "Nghĩa vụ"]
-      ],
-      3: [
-        ["Commercial", "Thuộc về thương mại"],
-        ["Organisational", "Thuộc về tổ chức"],
-        ["Social networking", "Mạng xã hội"],
-        ["Educational", "Thuộc về giáo dục"],
-        ["Promote", "Quảng bá"],
-        ["Traffic", "Lưu lượng truy cập"],
-        ["Analytics", "Phân tích dữ liệu"],
-        ["Visitors", "Khách truy cập"],
-        ["Bounce Rate", "Tỷ lệ thoát"],
-        ["Requirement", "Yêu cầu"],
-        ["Target audience", "Khách hàng mục tiêu"],
-        ["Specification", "Bản mô tả kỹ thuật"],
-        ["Interactive", "Có tính tương tác"],
-        ["Optimisation", "Tối ưu hóa"],
-        ["User-friendly", "Thân thiện người dùng"]
-      ],
-      4: [
-        ["Database", "Cơ sở dữ liệu"],
-        ["Spreadsheet", "Bảng tính"],
-        ["Data processing", "Xử lý dữ liệu"],
-        ["Data collection", "Thu thập dữ liệu"],
-        ["Data validation", "Xác thực dữ liệu"],
-        ["Data tabulation", "Lập bảng dữ liệu"],
-        ["Retrieve", "Truy xuất"],
-        ["Field", "Trường dữ liệu"],
-        ["Storage", "Lưu trữ"],
-        ["Backup", "Sao lưu"],
-        ["Cloud computing", "Điện toán đám mây"],
-        ["External hard drive", "Ổ cứng ngoài"],
-        ["Encrypted", "Được mã hóa"],
-        ["User-friendly", "Thân thiện người dùng"],
-        ["Budget", "Ngân sách"]
-      ],
-      5: [
-        ["B2C", "Doanh nghiệp tới khách hàng"],
-        ["B2B", "Doanh nghiệp tới doanh nghiệp"],
-        ["C2C", "Khách hàng tới khách hàng"],
-        ["M-commerce", "Thương mại di động"],
-        ["Transaction", "Giao dịch"],
-        ["Browse", "Duyệt web"],
-        ["Checkout", "Thanh toán"],
-        ["Shopping cart", "Giỏ hàng"],
-        ["Promotions", "Chương trình quảng bá"],
-        ["Firewall", "Tường lửa"],
-        ["Encryption", "Mã hóa"],
-        ["Authentication", "Xác thực"],
-        ["Payment gateway", "Cổng thanh toán"],
-        ["Infrastructure", "Cơ sở hạ tầng"],
-        ["Convenience", "Sự tiện lợi"]
-      ],
-      6: [
-        ["LAN", "Mạng cục bộ"],
-        ["WAN", "Mạng diện rộng"],
-        ["VPN", "Mạng riêng ảo"],
-        ["Modem", "Bộ điều giải"],
-        ["Router", "Bộ định tuyến"],
-        ["Switch", "Bộ chuyển mạch"],
-        ["Hub", "Bộ tập trung"],
-        ["Repeater", "Bộ lặp"],
-        ["Gateway", "Cổng kết nối"],
-        ["Bandwidth", "Băng thông"],
-        ["Latency", "Độ trễ"],
-        ["Range", "Phạm vi"],
-        ["Compatible", "Tương thích"],
-        ["Remote access", "Truy cập từ xa"],
-        ["Protocol", "Giao thức"]
-      ],
-      7: [
-        ["Screwdriver", "Tua vít"],
-        ["Pliers", "Kìm"],
-        ["Wire cutter", "Kìm cắt dây"],
-        ["Tweezers", "Nhíp"],
-        ["Anti-static wrist strap", "Vòng đeo tay khử tĩnh điện"],
-        ["Cable tester", "Máy kiểm tra cáp"],
-        ["Multimeter", "Đồng hồ vạn năng"],
-        ["Diagnostic software", "Phần mềm chẩn đoán"],
-        ["Fault diagnosis", "Chẩn đoán lỗi"]
-      ],
-      8: [
-        ["Virus", "Vi-rút"],
-        ["Hacker", "Tin tặc"],
-        ["Worm", "Sâu máy tính"],
-        ["Spyware", "Phần mềm gián điệp"],
-        ["Trojan", "Mã độc Trojan"],
-        ["Adware", "Phần mềm quảng cáo"],
-        ["Firewall", "Tường lửa"],
-        ["Antivirus", "Phần mềm diệt vi-rút"],
-        ["Authentication", "Xác thực"],
-        ["Encryption", "Mã hóa"],
-        ["Breach", "Sự vi phạm"],
-        ["Power surge", "Sự tăng áp đột ngột"],
-        ["Back up", "Sao lưu"],
-        ["Glare", "Ánh sáng chói"]
-      ]
+    const vocabData = { /* Giữ nguyên dữ liệu như trước */ 
+      1: [["Industry","Ngành công nghiệp"],["Introduce","Giới thiệu"],["Colleague","Đồng nghiệp"],["Network administrator","Quản trị viên mạng"],["Website developer","Người phát triển trang web"],["System analyst","Chuyên viên phân tích hệ thống"],["Support","Hỗ trợ"],["Maintenance","Bảo trì"],["Team leader","Trưởng nhóm"],["Responsibility","Trách nhiệm"],["Set up","Thiết lập"],["Design","Thiết kế"],["Properly","Một cách đúng đắn"],["Analyse","Phân tích"],["Solve","Giải quyết"]],
+      2: [["Hardware","Phần cứng"],["Software","Phần mềm"],["Motherboard","Bo mạch chủ"],["Main memory (RAM)","Bộ nhớ chính"],["Storage device","Thiết bị lưu trữ"],["Processor (CPU)","Bộ vi xử lý"],["Reliable","Đáng tin cậy"],["User-friendly","Thân thiện với người dùng"],["Install","Cài đặt"],["Configure","Cấu hình"],["Troubleshoot","Khắc phục sự cố"],["Connect","Kết nối"],["Back up","Sao lưu"],["Access","Truy cập"],["Obligation","Nghĩa vụ"]],
+      3: [["Commercial","Thuộc về thương mại"],["Organisational","Thuộc về tổ chức"],["Social networking","Mạng xã hội"],["Educational","Thuộc về giáo dục"],["Promote","Quảng bá"],["Traffic","Lưu lượng truy cập"],["Analytics","Phân tích dữ liệu"],["Visitors","Khách truy cập"],["Bounce Rate","Tỷ lệ thoát"],["Requirement","Yêu cầu"],["Target audience","Khách hàng mục tiêu"],["Specification","Bản mô tả kỹ thuật"],["Interactive","Có tính tương tác"],["Optimisation","Tối ưu hóa"],["User-friendly","Thân thiện người dùng"]],
+      4: [["Database","Cơ sở dữ liệu"],["Spreadsheet","Bảng tính"],["Data processing","Xử lý dữ liệu"],["Data collection","Thu thập dữ liệu"],["Data validation","Xác thực dữ liệu"],["Data tabulation","Lập bảng dữ liệu"],["Retrieve","Truy xuất"],["Field","Trường dữ liệu"],["Storage","Lưu trữ"],["Backup","Sao lưu"],["Cloud computing","Điện toán đám mây"],["External hard drive","Ổ cứng ngoài"],["Encrypted","Được mã hóa"],["User-friendly","Thân thiện người dùng"],["Budget","Ngân sách"]],
+      5: [["B2C","Doanh nghiệp tới khách hàng"],["B2B","Doanh nghiệp tới doanh nghiệp"],["C2C","Khách hàng tới khách hàng"],["M-commerce","Thương mại di động"],["Transaction","Giao dịch"],["Browse","Duyệt web"],["Checkout","Thanh toán"],["Shopping cart","Giỏ hàng"],["Promotions","Chương trình quảng bá"],["Firewall","Tường lửa"],["Encryption","Mã hóa"],["Authentication","Xác thực"],["Payment gateway","Cổng thanh toán"],["Infrastructure","Cơ sở hạ tầng"],["Convenience","Sự tiện lợi"]],
+      6: [["LAN","Mạng cục bộ"],["WAN","Mạng diện rộng"],["VPN","Mạng riêng ảo"],["Modem","Bộ điều giải"],["Router","Bộ định tuyến"],["Switch","Bộ chuyển mạch"],["Hub","Bộ tập trung"],["Repeater","Bộ lặp"],["Gateway","Cổng kết nối"],["Bandwidth","Băng thông"],["Latency","Độ trễ"],["Range","Phạm vi"],["Compatible","Tương thích"],["Remote access","Truy cập từ xa"],["Protocol","Giao thức"]],
+      7: [["Screwdriver","Tua vít"],["Pliers","Kìm"],["Wire cutter","Kìm cắt dây"],["Tweezers","Nhíp"],["Anti-static wrist strap","Vòng đeo tay khử tĩnh điện"],["Cable tester","Máy kiểm tra cáp"],["Multimeter","Đồng hồ vạn năng"],["Diagnostic software","Phần mềm chẩn đoán"],["Fault diagnosis","Chẩn đoán lỗi"]],
+      8: [["Virus","Vi-rút"],["Hacker","Tin tặc"],["Worm","Sâu máy tính"],["Spyware","Phần mềm gián điệp"],["Trojan","Mã độc Trojan"],["Adware","Phần mềm quảng cáo"],["Firewall","Tường lửa"],["Antivirus","Phần mềm diệt vi-rút"],["Authentication","Xác thực"],["Encryption","Mã hóa"],["Breach","Sự vi phạm"],["Power surge","Sự tăng áp đột ngột"],["Back up","Sao lưu"],["Glare","Ánh sáng chói"]]
     };
 
     let currentLesson = 1;
     let isShuffled = false;
     let currentList = [];
     let currentIndex = 0;
-    let score = 0;
     let totalQuestions = 10;
 
     function startLesson(lesson) {
       currentLesson = lesson;
       document.getElementById('menu').style.display = 'none';
       document.getElementById('game').style.display = 'block';
-      
-      // Reset mode về thứ tự khi chọn bài mới
       isShuffled = false;
       prepareQuestions();
       showQuestion();
@@ -355,17 +221,11 @@
       currentList = [...vocabData[currentLesson]];
       
       if (isShuffled) {
-        // Xáo trộn thứ tự
-        for (let i = currentList.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [currentList[i], currentList[j]] = [currentList[j], currentList[i]];
-        }
+        currentList.sort(() => Math.random() - 0.5);
       }
       
-      // Giới hạn số câu hỏi (tối đa 10 hoặc bằng số từ có sẵn)
       totalQuestions = Math.min(10, currentList.length);
       currentIndex = 0;
-      score = 0;
     }
 
     function showQuestion() {
@@ -377,25 +237,22 @@
       const [english, vietnamese] = currentList[currentIndex];
       
       document.getElementById('progress').innerHTML = 
-        `Câu hỏi <span id="current">${currentIndex + 1}</span>/${totalQuestions}`;
-      
+        `Câu hỏi <span id="current">${currentIndex + 1}</span>/${totalQuestions} — Bài ${currentLesson}`;
+
       document.getElementById('question').textContent = english;
 
       const optionsDiv = document.getElementById('options');
       optionsDiv.innerHTML = '';
 
-      // Tạo 4 đáp án (1 đúng + 3 sai)
       let options = [vietnamese];
-
-      // Lấy các đáp án sai từ cùng bài
       let wrongAnswers = currentList
         .filter(item => item[1] !== vietnamese)
         .map(item => item[1])
-        .sort(() => 0.5 - Math.random())
+        .sort(() => Math.random() - 0.5)
         .slice(0, 3);
 
       options = options.concat(wrongAnswers);
-      options.sort(() => 0.5 - Math.random()); // Xáo trộn đáp án
+      options.sort(() => Math.random() - 0.5);
 
       options.forEach(opt => {
         const btn = document.createElement('div');
@@ -406,6 +263,7 @@
       });
     }
 
+    // ====================== PHẦN QUAN TRỌNG: CHỌN SAI = CHƠI LẠI TỪ ĐẦU ======================
     function checkAnswer(selected, correct, element) {
       const allOptions = document.querySelectorAll('.option');
       
@@ -413,19 +271,25 @@
         opt.style.pointerEvents = 'none';
         if (opt.textContent === correct) {
           opt.classList.add('correct');
-        } else if (opt === element) {
+        } else if (opt === element && selected !== correct) {
           opt.classList.add('wrong');
         }
       });
 
       if (selected === correct) {
-        score++;
+        // Đúng → tiếp tục
+        setTimeout(() => {
+          currentIndex++;
+          showQuestion();
+        }, 800);
+      } else {
+        // SAI → Chơi lại từ đầu
+        setTimeout(() => {
+          alert(`❌ Sai rồi!\n\nĐáp án đúng là: "${correct}"\n\nBài sẽ được chơi lại từ đầu.`);
+          prepareQuestions();   // Reset danh sách và chỉ số
+          showQuestion();
+        }, 1000);
       }
-
-      setTimeout(() => {
-        currentIndex++;
-        showQuestion();
-      }, 1200);
     }
 
     function showResult() {
@@ -433,19 +297,10 @@
       document.getElementById('options').style.display = 'none';
       
       const resultDiv = document.getElementById('result');
-      const percent = Math.round((score / totalQuestions) * 100);
-      
-      let message = '';
-      if (percent === 100) message = '🎉 Xuất sắc!';
-      else if (percent >= 80) message = '🌟 Rất tốt!';
-      else if (percent >= 60) message = '👍 Khá tốt!';
-      else message = '📚 Cố gắng lần sau nhé!';
-
       resultDiv.innerHTML = `
-        <h2>Kết quả Bài ${currentLesson}</h2>
-        <p style="font-size:48px; margin:20px 0;">${score}/${totalQuestions}</p>
-        <p style="font-size:24px;">${percent}%</p>
-        <p style="margin:20px 0;">${message}</p>
+        <h2>🎉 Hoàn thành Bài ${currentLesson}!</h2>
+        <p style="font-size:48px; margin:30px 0;">Hoàn thành ${totalQuestions}/${totalQuestions}</p>
+        <p style="font-size:24px; color:#22c55e;">Bạn đã trả lời đúng tất cả!</p>
         <button class="btn-primary" onclick="restartLesson()" style="padding:14px 32px; font-size:18px;">
           Chơi lại bài này
         </button>
@@ -471,9 +326,6 @@
       document.getElementById('options').style.display = 'grid';
       document.getElementById('result').style.display = 'none';
     }
-
-    // Khởi động
-    console.log("Trò chơi từ vựng IT đã sẵn sàng!");
   </script>
 </body>
 </html>
