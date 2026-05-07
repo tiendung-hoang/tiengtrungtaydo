@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Viết Chữ Hán - Đa Từ</title>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e74c3c; --success: #27ae60; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 450px; width: 100%; }
+        
+        .input-section { margin-bottom: 15px; }
+        input { padding: 12px; width: 85%; border: 2px solid #ddd; border-radius: 8px; font-size: 18px; text-align: center; letter-spacing: 5px; }
+        
+        #stats { font-size: 14px; color: #7f8c8d; margin-bottom: 10px; }
+        #target-area { background: #fff; border: 2px solid #34495e; margin: 10px auto; border-radius: 8px; }
+        
+        .msg-box { height: 30px; margin: 10px 0; font-weight: bold; font-size: 1.1em; }
+        
+        .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        
+        .btn-mode { background: #ecf0f1; color: var(--primary); border: 1px solid #bdc3c7; }
+        .btn-mode.active { background: var(--primary); color: white; }
+        
+        .btn-next { background: var(--success); color: white; grid-column: span 2; font-size: 16px; margin-top: 5px; }
+        .btn-next:disabled { background: #bdc3c7; cursor: not-allowed; }
+        
+        button:active { transform: scale(0.98); }
+        .hint-text { font-size: 12px; color: #95a5a6; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="input-section">
+        <input type="text" id="charInput" value="游历酒店买卖工厂公司会计公务员老细工人经理职员" placeholder="Nhập các chữ Hán...">
+        <div id="stats">Đang học chữ thứ: 1/23</div>
+    </div>
+    
+    <div id="target-area"></div>
+    <div id="msg" class="msg-box" style="color: var(--primary);">Sẵn sàng!</div>
+
+    <div class="control-grid">
+        <button id="btnPractice" class="btn-mode active" onclick="setMode('practice')">Luyện tập</button>
+        <button id="btnQuiz" class="btn-mode" onclick="setMode('quiz')">Kiểm tra</button>
+        
+        <button style="background:#3498db; color:white;" onclick="writer.animateCharacter()">Gợi ý nét vẽ</button>
+        <button style="background:#95a5a6; color:white;" onclick="refreshChar()">Viết lại</button>
+        
+        <button id="nextBtn" class="btn-next" onclick="nextChar()">Chữ tiếp theo →</button>
+    </div>
+
+    <p class="hint-text">Chế độ <b>Kiểm tra</b> sẽ ẩn nét mờ và chấm điểm thứ tự viết.</p>
+</div>
+
+<script>
+    let writer;
+    let currentIndex = 0;
+    let currentMode = 'practice'; // 'practice' hoặc 'quiz'
+    
+    const charInput = document.getElementById('charInput');
+    const msg = document.getElementById('msg');
+    const stats = document.getElementById('stats');
+
+    function initWriter(char) {
+        document.getElementById('target-area').innerHTML = '';
+        
+        writer = HanziWriter.create('target-area', char, {
+            width: 300,
+            height: 300,
+            showCharacter: (currentMode === 'practice'),
+            padding: 15,
+            strokeAnimationSpeed: 2,
+            highlightColor: '#2980b9',
+            outlineColor: '#f0f0f0'
+        });
+
+        // Tự động kích hoạt chế độ viết sau khi khởi tạo
+        startWriting();
+    }
+
+    function startWriting() {
+        writer.quiz({
+            onCorrectStroke: (data) => {
+                updateMsg("Đúng rồi!", "#27ae60");
+            },
+            onMistake: (data) => {
+                updateMsg("Sai nét/thứ tự rồi!", "#e74c3c");
+            },
+            onQuizComplete: (data) => {
+                updateMsg("Hoàn thành xuất sắc!", "#2c3e50");
+                // Hiệu ứng hoàn thành
+                writer.animateCharacter();
+            }
+        });
+    }
+
+    function updateMsg(text, color) {
+        msg.innerText = text;
+        msg.style.color = color;
+    }
+
+    function nextChar() {
+        const text = charInput.value.trim();
+        if (currentIndex < text.length - 1) {
+            currentIndex++;
+            renderState();
+        } else {
+            currentIndex = 0; // Quay lại chữ đầu nếu hết danh sách
+            renderState();
+        }
+    }
+
+    function renderState() {
+        const text = charInput.value.trim();
+        if (text.length === 0) {
+            updateMsg("Vui lòng nhập chữ!", "#e74c3c");
+            return;
+        }
+        
+        const char = text[currentIndex];
+        stats.innerText = `Đang học chữ thứ: ${currentIndex + 1}/${text.length}`;
+        initWriter(char);
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('btnPractice').classList.toggle('active', mode === 'practice');
+        document.getElementById('btnQuiz').classList.toggle('active', mode === 'quiz');
+        renderState();
+    }
+
+    function refreshChar() {
+        renderState();
+    }
+
+    // Lắng nghe khi người dùng đổi nội dung input
+    charInput.addEventListener('input', () => {
+        currentIndex = 0;
+        renderState();
+    });
+
+    // Khởi tạo lần đầu
+    renderState();
+</script>
+
+</body>
+</html>
