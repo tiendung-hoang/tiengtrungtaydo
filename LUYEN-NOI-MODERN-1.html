@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Nói Tiếng Trung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; }
+        .question-card { transition: all 0.3s ease; }
+        .question-card:hover { transform: translateY(-4px); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-indigo-700 mb-2">🇹🇼 Luyện Nói Tiếng Trung</h1>
+            <p class="text-gray-600">Học qua nghe - nói - thực hành</p>
+        </header>
+
+        <!-- Settings Bar -->
+        <div class="bg-white rounded-2xl p-4 mb-6 shadow-sm flex flex-wrap items-center gap-4 justify-center">
+            <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-600">Giọng nói:</span>
+                <select id="voice-select" 
+                    class="bg-gray-50 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                </select>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-600">Tốc độ:</span>
+                <input type="range" id="speed-slider" 
+                    min="0.5" max="2" step="0.1" value="1"
+                    class="w-32 accent-indigo-600">
+                <span id="speed-value" class="text-sm font-medium w-10">1.0x</span>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center mb-8 bg-white rounded-2xl p-1 shadow-sm">
+            <button onclick="switchTab(0)" id="tab0"
+                class="tab-btn px-8 py-3 rounded-xl font-medium transition-all active">
+                Luyện Tập
+            </button>
+            <button onclick="switchTab(1)" id="tab1"
+                class="tab-btn px-8 py-3 rounded-xl font-medium transition-all">
+                Thử Thách 20 Câu
+            </button>
+        </div>
+
+        <!-- Luyện Tập Mode -->
+        <div id="practice-mode">
+            <div class="bg-white rounded-3xl shadow-xl p-8 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <span class="text-sm text-gray-500">Câu <span id="current-num" class="font-bold text-2xl text-indigo-600">1</span>/50</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="prevQuestion()" 
+                            class="px-5 py-2 bg-gray-100 hover:bg-gray-200 rounded-2xl flex items-center gap-2">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button onclick="nextQuestion()" 
+                            class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl flex items-center gap-2">
+                            Tiếp theo <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="question-card bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-3xl p-10 text-center min-h-[260px] flex flex-col justify-center">
+                    <div id="chinese-text" class="text-4xl font-medium text-gray-800 mb-6 leading-relaxed"></div>
+                    <div id="viet-text" class="text-xl text-gray-600 italic"></div>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-8">
+                    <button onclick="speakCurrent()" 
+                        class="flex items-center gap-3 bg-white border-2 border-indigo-500 hover:border-indigo-600 text-indigo-600 font-medium px-8 py-4 rounded-3xl text-lg transition-all">
+                        <i class="fas fa-volume-up text-2xl"></i>
+                        <span>Nghe phát âm</span>
+                    </button>
+                    
+                    <button onclick="toggleTranslation()" 
+                        class="flex items-center gap-3 bg-white border-2 border-gray-400 hover:border-gray-500 font-medium px-8 py-4 rounded-3xl text-lg transition-all">
+                        <i class="fas fa-eye"></i>
+                        <span id="toggle-text">Ẩn bản dịch</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow p-6">
+                <h3 class="font-medium mb-4 text-gray-700 px-2">Danh sách câu hỏi</h3>
+                <div id="question-list" class="max-h-96 overflow-y-auto pr-2 space-y-2 text-sm"></div>
+            </div>
+        </div>
+
+        <!-- Challenge Mode -->
+        <div id="challenge-mode" class="hidden">
+            <div class="bg-white rounded-3xl shadow-xl p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-4">
+                        <span class="bg-amber-100 text-amber-700 px-4 py-1 rounded-2xl text-sm font-medium">
+                            <span id="challenge-progress">1</span>/20
+                        </span>
+                    </div>
+                    <button onclick="endChallenge()" 
+                        class="text-red-500 hover:text-red-600 text-sm font-medium flex items-center gap-1">
+                        <i class="fas fa-times"></i> Kết thúc
+                    </button>
+                </div>
+
+                <div class="question-card bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-3xl p-10 text-center min-h-[260px] flex flex-col justify-center mb-8">
+                    <div id="challenge-chinese" class="text-4xl font-medium text-gray-800 mb-6 leading-relaxed"></div>
+                    <div id="challenge-viet" class="text-xl text-gray-600 italic hidden"></div>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="speakChallenge()" 
+                        class="flex-1 flex items-center justify-center gap-3 bg-white border-2 border-indigo-500 hover:border-indigo-600 text-indigo-600 font-medium py-5 rounded-3xl text-lg">
+                        <i class="fas fa-volume-up"></i> Nghe
+                    </button>
+                    <button onclick="nextChallenge()" 
+                        class="flex-1 flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-5 rounded-3xl text-lg">
+                        Câu tiếp theo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <button onclick="toggleChallengeTranslation()" 
+                    class="mt-4 text-sm text-gray-500 hover:text-gray-700 flex items-center gap-2 mx-auto">
+                    <i class="fas fa-eye"></i>
+                    <span id="challenge-toggle-text">Hiện bản dịch</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [ /* ... giữ nguyên danh sách 50 câu như cũ ... */
+            { cn: "你叫什麼名字？", vi: "Bạn tên là gì？" },
+            { cn: "你姓什麼？", vi: "Bạn họ gì？" },
+            { cn: "你是哪國人？", vi: "Bạn là người nước nào？" },
+            { cn: "你喜歡台灣嗎？", vi: "Bạn có thích Đài Loan không？" },
+            { cn: "你是學生還是老師？", vi: "Bạn là học sinh hay giáo viên？" },
+            { cn: "現在幾點？", vi: "Bây giờ là mấy giờ？" },
+            { cn: "今天星期幾？", vi: "Hôm nay là thứ mấy？" },
+            { cn: "今天幾月幾號？", vi: "Hôm nay là ngày mấy tháng mấy？" },
+            { cn: "你每天幾點起床？", vi: "Mỗi ngày bạn thức dậy lúc mấy giờ？" },
+            { cn: "你幾點去學校？", vi: "Bạn đi học lúc mấy giờ？" },
+            { cn: "你早上有課嗎？", vi: "Buổi sáng bạn có tiết học không？" },
+            { cn: "你中午在哪裡吃飯？", vi: "Buổi trưa bạn ăn cơm ở đâu？" },
+            { cn: "你幾點下課？", vi: "Bạn tan học lúc mấy giờ？" },
+            { cn: "你的生日是幾月幾號？", vi: "Sinh nhật của bạn là ngày nào？" },
+            { cn: "明天晚上你有空嗎？", vi: "Tối mai bạn có rảnh không？" },
+            { cn: "你喜歡看書還是看電影？", vi: "Bạn thích đọc sách hay xem phim？" },
+            { cn: "你有幾本中文書？", vi: "Bạn có mấy cuốn sách tiếng Trung？" },
+            { cn: "你喜歡什麼顏色？", vi: "Bạn thích màu gì？" },
+            { cn: "你常去圖書館嗎？", vi: "Bạn có thường đi thư viện không？" },
+            { cn: "你要喝咖啡還是茶？", vi: "Bạn muốn uống cà phê hay trà？" },
+            { cn: "今天天氣怎麼樣？", vi: "Thời tiết hôm nay thế nào？" },
+            { cn: "你餓不餓？", vi: "Bạn có đói không？" },
+            { cn: "你最愛吃什麼？", vi: "Bạn thích ăn gì nhất？" },
+            { cn: "你每天喝幾杯水？", vi: "Mỗi ngày bạn uống mấy cốc nước？" },
+            { cn: "你家有幾個人？", vi: "Nhà bạn có mấy người？" },
+            { cn: "你有哥哥或姐姐嗎？", vi: "Bạn có anh trai hoặc chị gái không？" },
+            { cn: "你的房間裡有什麼？", vi: "Trong phòng bạn có gì？" },
+            { cn: "你喜歡聽音樂還是看書？", vi: "Bạn thích nghe nhạc hay đọc sách？" },
+            { cn: "你家附近有超市嗎？", vi: "Gần nhà bạn có siêu thị không？" },
+            { cn: "你會不會打網球？", vi: "Bạn có biết chơi tennis không？" },
+            { cn: "你喜歡做什麼運動？", vi: "Bạn thích chơi môn thể thao nào？" },
+            { cn: "你的興趣是什麼？", vi: "Sở thích của bạn là gì？" },
+            { cn: "你會唱中文歌嗎？", vi: "Bạn có biết hát nhạc tiếng Trung không？" },
+            { cn: "你今天累不累？", vi: "Hôm nay bạn có mệt không？" },
+            { cn: "你週末想去哪裡玩？", vi: "Cuối tuần bạn muốn đi đâu chơi？" },
+            { cn: "你怎麼去學校？", vi: "Bạn đi đến trường bằng cách nào？" },
+            { cn: "你會看地圖嗎？", vi: "Bạn có biết xem bản đồ không？" },
+            { cn: "你常坐火車嗎？", vi: "Bạn có thường đi tàu hỏa không？" },
+            { cn: "附近有郵局嗎？", vi: "Gần đây có bưu điện không？" },
+            { cn: "說中文容易嗎？", vi: "Nói tiếng Trung có dễ không？" },
+            { cn: "你最近忙不忙？", vi: "Dạo này bạn có bận không？" },
+            { cn: "你覺得學中文有趣嗎？", vi: "Bạn thấy học tiếng Trung có thú vị không？" },
+            { cn: "你學中文學了多久了？", vi: "Bạn học tiếng Trung bao lâu rồi？" },
+            { cn: "你會說英文嗎？", vi: "Bạn có biết nói tiếng Anh không？" },
+            { cn: "你每天練習中文嗎？", vi: "Mỗi ngày bạn có luyện tiếng Trung không？" },
+            { cn: "你的中文課有幾個同學？", vi: "Lớp tiếng Trung của bạn có mấy học sinh？" },
+            { cn: "你喜歡寫漢字嗎？", vi: "Bạn có thích viết chữ Hán không？" },
+            { cn: "你最近身體好不好？", vi: "Dạo này sức khỏe bạn có tốt không？" },
+            { cn: "你常運動嗎？", vi: "Bạn có thường tập thể dục không？" },
+            { cn: "你喜歡什麼動物？", vi: "Bạn thích con vật nào？" }
+        ];
+
+        let currentIndex = 0;
+        let showTranslation = true;
+        let challengeQuestions = [];
+        let challengeIndex = 0;
+
+        let voices = [];
+        let selectedVoice = null;
+        let currentSpeed = 1.0;
+
+        function populateVoices() {
+            voices = speechSynthesis.getVoices();
+            const select = document.getElementById('voice-select');
+            select.innerHTML = '';
+
+            // Ưu tiên giọng tiếng Trung
+            const chineseVoices = voices.filter(v => 
+                v.lang.includes('zh') || v.name.toLowerCase().includes('chinese')
+            );
+
+            chineseVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                select.appendChild(option);
+            });
+
+            // Nếu không có giọng Trung thì thêm tất cả
+            if (chineseVoices.length === 0) {
+                voices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.name;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    select.appendChild(option);
+                });
+            }
+
+            // Chọn giọng đầu tiên
+            if (select.options.length > 0) {
+                selectedVoice = voices.find(v => v.name === select.value);
+            }
+        }
+
+        function updateSpeed(value) {
+            currentSpeed = parseFloat(value);
+            document.getElementById('speed-value').textContent = currentSpeed.toFixed(1) + 'x';
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) {
+                alert("Trình duyệt không hỗ trợ Text-to-Speech.");
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = currentSpeed;
+            utterance.pitch = 1.05;
+
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+
+            speechSynthesis.speak(utterance);
+        }
+
+        function speakCurrent() {
+            speak(questions[currentIndex].cn);
+        }
+
+        function speakChallenge() {
+            speak(challengeQuestions[challengeIndex].cn);
+        }
+
+        // Các hàm còn lại giữ nguyên như code cũ
+        function init() {
+            renderQuestionList();
+            loadPracticeQuestion();
+
+            // Load voices
+            speechSynthesis.onvoiceschanged = populateVoices;
+            populateVoices(); // Load ngay lần đầu
+
+            // Event listener cho speed slider
+            document.getElementById('speed-slider').addEventListener('input', (e) => {
+                updateSpeed(e.target.value);
+            });
+
+            // Event listener cho voice select
+            document.getElementById('voice-select').addEventListener('change', (e) => {
+                selectedVoice = voices.find(v => v.name === e.target.value);
+            });
+        }
+
+        function renderQuestionList() {
+            const container = document.getElementById('question-list');
+            container.innerHTML = '';
+            questions.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'p-4 hover:bg-gray-50 rounded-2xl cursor-pointer flex gap-4 border border-transparent hover:border-indigo-100';
+                div.innerHTML = `
+                    <span class="font-mono text-gray-400 w-8">${(i+1).toString().padStart(2,'0')}</span>
+                    <div>
+                        <div class="font-medium">${q.cn}</div>
+                        <div class="text-gray-500 text-sm">${q.vi}</div>
+                    </div>
+                `;
+                div.onclick = () => {
+                    currentIndex = i;
+                    loadPracticeQuestion();
+                    switchTab(0);
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function loadPracticeQuestion() {
+            const q = questions[currentIndex];
+            document.getElementById('chinese-text').textContent = q.cn;
+            document.getElementById('viet-text').textContent = showTranslation ? q.vi : '';
+            document.getElementById('current-num').textContent = currentIndex + 1;
+        }
+
+        function nextQuestion() {
+            currentIndex = (currentIndex + 1) % questions.length;
+            loadPracticeQuestion();
+        }
+
+        function prevQuestion() {
+            currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+            loadPracticeQuestion();
+        }
+
+        function toggleTranslation() {
+            showTranslation = !showTranslation;
+            document.getElementById('toggle-text').textContent = showTranslation ? 'Ẩn bản dịch' : 'Hiện bản dịch';
+            loadPracticeQuestion();
+        }
+
+        function startChallenge() {
+            challengeQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 20);
+            challengeIndex = 0;
+            loadChallengeQuestion();
+        }
+
+        function loadChallengeQuestion() {
+            const q = challengeQuestions[challengeIndex];
+            document.getElementById('challenge-chinese').textContent = q.cn;
+            const vietEl = document.getElementById('challenge-viet');
+            vietEl.textContent = q.vi;
+            vietEl.classList.add('hidden');
+            document.getElementById('challenge-progress').textContent = challengeIndex + 1;
+        }
+
+        function nextChallenge() {
+            challengeIndex++;
+            if (challengeIndex >= challengeQuestions.length) {
+                alert(`🎉 Hoàn thành thử thách 20 câu!`);
+                switchTab(0);
+            } else {
+                loadChallengeQuestion();
+            }
+        }
+
+        function toggleChallengeTranslation() {
+            const vietEl = document.getElementById('challenge-viet');
+            const btnText = document.getElementById('challenge-toggle-text');
+            if (vietEl.classList.contains('hidden')) {
+                vietEl.classList.remove('hidden');
+                btnText.textContent = 'Ẩn bản dịch';
+            } else {
+                vietEl.classList.add('hidden');
+                btnText.textContent = 'Hiện bản dịch';
+            }
+        }
+
+        function endChallenge() {
+            switchTab(0);
+        }
+
+        function switchTab(tab) {
+            document.getElementById('practice-mode').classList.toggle('hidden', tab === 1);
+            document.getElementById('challenge-mode').classList.toggle('hidden', tab === 0);
+            
+            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === tab);
+                btn.classList.toggle('bg-indigo-600', i === tab);
+                btn.classList.toggle('text-white', i === tab);
+                btn.classList.toggle('shadow', i === tab);
+            });
+
+            if (tab === 1 && challengeQuestions.length === 0) {
+                startChallenge();
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
