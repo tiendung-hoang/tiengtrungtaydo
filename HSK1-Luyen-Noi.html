@@ -1,49 +1,27 @@
 <!DOCTYPE html>
-<!-- saved from url=(0068)https://tiendung-hoang.github.io/tiengtrungtaydo/HSK1-Luyen-Noi.html -->
 <html lang="vi">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời</title>
-    <script src="./Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời_files/saved_resource"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
         
-        :root {
-            --tw-color-primary: #e63939;
-        }
-        
-        body {
-            font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-        }
-        
-        .chinese-text {
-            font-family: 'Noto Sans SC', sans-serif;
-        }
-        
-        .lesson-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .lesson-card:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 20px 25px -5px rgb(230 57 57 / 0.1), 0 8px 10px -6px rgb(230 57 57 / 0.1);
-        }
-        
-        .big-emoji {
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+        :root { --tw-color-primary: #e63939; }
+        body { font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif; }
+        .chinese-text { font-family: 'Noto Sans SC', sans-serif; }
+
+        .lesson-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .lesson-card:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 20px 25px -5px rgb(230 57 57 / 0.1); }
+
+        .big-emoji { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
-    <style>/* Tailwind CSS (giữ nguyên như file cũ) */*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1}/* ... (giữ nguyên toàn bộ style Tailwind từ file cũ của bạn) */</style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen">
 
-    <!-- HEADER (giữ nguyên) -->
+    <!-- HEADER -->
     <div class="bg-white border-b shadow-sm sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -54,100 +32,70 @@
                 </div>
             </div>
             
-            <div id="header-info" class="items-center gap-2 text-sm font-medium hidden">
+            <div id="header-info" class="hidden items-center gap-2 text-sm font-medium">
                 <span class="px-3 py-1 bg-red-100 text-red-700 rounded-3xl text-xs flex items-center gap-1">
                     <span id="current-bai" class="font-bold"></span>
                 </span>
                 <button onclick="backToHome()" class="flex items-center gap-1 text-red-600 hover:text-red-700 transition-colors">
-                    <span class="text-xl">←</span>
-                    <span class="hidden sm:inline">Quay về chọn bài</span>
+                    ← Quay về chọn bài
                 </button>
-            </div>
-
-            <div class="flex items-center gap-2 text-xs bg-white px-3 py-1 rounded-3xl border shadow-inner">
-                <div class="flex -space-x-2">
-                    <span class="text-xl">👦</span>
-                    <span class="text-xl">👧</span>
-                </div>
-                <div>
-                    <span class="font-semibold text-red-600">Học sinh A</span> 
-                    <span class="text-gray-400 mx-1">•</span>
-                    <span class="font-semibold text-red-600">Học sinh B</span>
-                </div>
             </div>
         </div>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 pb-8">
 
-        <!-- HOME VIEW (giữ nguyên) -->
+        <!-- HOME VIEW -->
         <div id="home-view">
-            <!-- ... (giữ nguyên toàn bộ phần home-view như cũ) ... -->
-            <div class="pt-8 pb-6">
-                <div class="text-center">
-                    <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
-                    <p class="text-red-600 text-lg">15 bài • Mỗi bài 3 câu hỏi ngẫu nhiên • Có emoji vui nhộn</p>
-                </div>
+            <div class="pt-8 pb-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
+                <p class="text-red-600 text-lg">15 bài • Mỗi bài 3 câu hỏi</p>
             </div>
-
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="lesson-grid"></div>
         </div>
 
         <!-- PRACTICE VIEW -->
         <div id="practice-view" class="hidden">
-            
-            <!-- 3 Câu hỏi tham khảo -->
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
-                        <span>📋</span>
-                        3 câu hỏi của bài này
-                    </h3>
+                    <h3 class="text-lg font-semibold text-gray-700">3 câu hỏi của bài này</h3>
                     <div class="flex gap-2">
                         <button onclick="startAutoPractice()" 
-                                class="text-xs px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 transition-all">
+                                class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
                             🔄 Tự luyện tập
                         </button>
-                        <span onclick="randomQuestion()" class="text-xs px-4 py-2 bg-white border border-red-200 text-red-500 rounded-3xl flex items-center gap-2 cursor-pointer hover:bg-red-50 transition-colors">
-                            🎲 Lấy ngẫu nhiên ngay
-                        </span>
+                        <button onclick="randomQuestion()" 
+                                class="px-5 py-2 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50">
+                            🎲 Ngẫu nhiên
+                        </button>
                     </div>
                 </div>
-                
                 <div class="grid grid-cols-3 gap-3" id="mini-questions"></div>
             </div>
 
-            <!-- MAIN QUESTION AREA -->
-            <div class="bg-white rounded-3xl shadow-xl p-8 min-h-[420px] flex flex-col relative overflow-hidden" id="question-container">
-                <!-- Empty state và Active question giữ nguyên như cũ -->
-                <!-- ... (giữ nguyên phần empty-state và active-question) ... -->
+            <!-- Main Area -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 min-h-[420px] flex flex-col" id="question-container">
                 <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center">
                     <div class="text-8xl mb-6">🎲</div>
-                    <h3 class="text-3xl font-bold text-gray-300 mb-2">Sẵn sàng chưa?</h3>
-                    <p class="text-gray-400">Bấm "🔄 Tự luyện tập" hoặc "🎲 Lấy ngẫu nhiên ngay"</p>
+                    <h3 class="text-3xl font-bold text-gray-300">Sẵn sàng luyện chưa?</h3>
                 </div>
 
                 <div id="active-question" class="flex-1 flex flex-col hidden">
                     <div class="flex justify-center">
-                        <div id="big-emoji" class="big-emoji text-8xl mb-6">🧓</div>
+                        <div id="big-emoji" class="big-emoji text-8xl mb-6"></div>
                     </div>
-                    
                     <div class="text-center mb-8">
                         <h2 id="question-text" class="chinese-text text-4xl leading-tight font-medium text-gray-800"></h2>
                     </div>
-
                     <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
-                        <span class="font-semibold">👦 A hỏi:</span>
-                        <span class="text-2xl">📣</span>
-                        <span class="font-semibold">👧 B trả lời</span>
+                        👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
                     </div>
 
                     <div class="mt-auto">
-                        <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg flex items-center justify-center gap-3 transition-all active:scale-95">
-                            <span>👀</span>
-                            <span>Hiện đáp án mẫu cho B</span>
+                        <button onclick="toggleAnswer()" id="btn-show-answer"
+                            class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
+                            👀 Hiện đáp án mẫu
                         </button>
-                        
                         <div id="answer-box" class="hidden mt-6 bg-green-50 border border-green-200 rounded-3xl p-6">
                             <p id="answer-text-content" class="chinese-text text-3xl leading-snug font-medium text-green-800"></p>
                         </div>
@@ -155,237 +103,72 @@
                 </div>
             </div>
 
-            <!-- AUTO PRACTICE STATUS -->
-            <div id="auto-status" class="hidden mt-4 text-center">
-                <div class="inline-flex items-center gap-3 bg-white border border-green-200 rounded-3xl px-6 py-3">
-                    <div class="w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
+            <!-- Auto Status -->
+            <div id="auto-status" class="hidden mt-6 text-center">
+                <div class="inline-flex items-center gap-3 bg-white border border-green-300 rounded-3xl px-6 py-3">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
                     <span id="auto-text" class="font-medium text-green-700">Đang tự luyện tập...</span>
-                    <button onclick="stopAutoPractice()" class="ml-4 text-red-500 hover:text-red-700 font-medium">Dừng</button>
+                    <button onclick="stopAutoPractice()" class="text-red-500 hover:text-red-700 font-medium ml-4">Dừng</button>
                 </div>
             </div>
 
-            <!-- BOTTOM BAR -->
-            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 max-w-5xl w-full px-4 z-50">
-                <button onclick="randomQuestion()" class="w-full bg-red-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4 active:scale-95 transition-all">
-                    <span class="text-4xl">🎲</span>
-                    LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO
-                    <span class="text-4xl">🎲</span>
+            <!-- Bottom Bar -->
+            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
+                <button onclick="randomQuestion()" 
+                    class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4">
+                    🎲 LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO 🎲
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // ==================== LESSONS DATA (giữ nguyên) ====================
-        const lessons = [ /* ... toàn bộ mảng lessons như file cũ của bạn ... */ 
-            // (Tôi giữ nguyên để code đầy đủ)
-                        {
-                id: 1,
-                title: "Bài 1",
-                pairs: [
-                    { q: "你好！", a: "你好", emoji: "👋" },
-                    { q: "您好！", a: "你们好", emoji: "🙌" },
-                    { q: "对不起？", a: "没关系", emoji: "😌" }
-                ]
-            },
-            {
-                id: 2,
-                title: "Bài 2",
-                pairs: [
-                    { q: "谢谢？", a: "不谢", emoji: "🙏" },
-                    { q: "谢谢你？", a: "不客气", emoji: "🙏" },
-                    { q: "再见？", a: "再见", emoji: "👋" }
-                ]
-            },
-            {
-                id: 3,
-                title: "Bài 3",
-                pairs: [
-                    { q: "你叫什么名字？", a: "我叫。。。", emoji: "👤" },
-                    { q: "你是老师吗？", a: "是/不是。。。", emoji: "👨‍🏫" },
-                    { q: "你是中国人吗？", a: "对/不。。。", emoji: "🇨🇳" }
-                ]
-            },
-            {
-                id: 4,
-                title: "Bài 4",
-                pairs: [
-                    { q: "你是谁？", a: "我是。。。", emoji: "👤" },
-                    { q: "你是哪国人？", a: "我是越南人", emoji: "🇻🇳" },
-                    { q: "我是中国人，你呢？", a: "我不是中国人，我是越南人", emoji: "🇻🇳" }
-                ]
-            },
-            {
-                id: 5,
-                title: "Bài 5",
-                pairs: [
-                    { q: "你家有几口人？", a: "我家有。。。", emoji: "👪" },
-                    { q: "你女儿几岁了？", a: "我女儿。。。", emoji: "👧" },
-                    { q: "你多大了？", a: "我。。。", emoji: "🧓" }
-                ]
-            },
-            {
-                id: 6,
-                title: "Bài 6",
-                pairs: [
-                    { q: "你会说汉语吗？", a: "我会说汉语", emoji: "🗣️" },
-                    { q: "越南菜好吃吗？", a: "很好吃", emoji: "🍜" },
-                    { q: "你会做中国菜吗？", a: "我会/不会做", emoji: "🍚" }
-                ]
-            },
-            {
-                id: 7,
-                title: "Bài 7",
-                pairs: [
-                    { q: "请问今天几号，星期几？", a: "今天。。。", emoji: "📅" },
-                    { q: "明天几月几号？", a: "昨天（是）。。。", emoji: "📆" },
-                    { q: "你去学校做什么？", a: "我去学校。。。", emoji: "🏫" }
-                ]
-            },
-            {
-                id: 8,
-                title: "Bài 8",
-                pairs: [
-                    { q: "你想喝/吃什么？", a: "我想喝/吃。。。", emoji: "🥤" },
-                    { q: "你想买什么？", a: "我想买。。。", emoji: "🛍️" },
-                    { q: "这个多少钱？", a: "这个。。。", emoji: "💵" }
-                ]
-            },
-            {
-                id: 9,
-                title: "Bài 9",
-                pairs: [
-                    { q: "小猫在哪里？", a: "小猫在。。。", emoji: "🐱" },
-                    { q: "你在哪儿工作？", a: "我在。。。工作", emoji: "💼" },
-                    { q: "你爸爸在家吗？", a: "我爸爸在/不在家", emoji: "👨" }
-                ]
-            },
-            {
-                id: 10,
-                title: "Bài 10",
-                pairs: [
-                    { q: "桌子上有什么？", a: "桌子上有。。。", emoji: "🪑" },
-                    { q: "你的手机在哪儿？", a: "我的手机在。。。", emoji: "📱" },
-                    { q: "我能坐这儿吗？", a: "你能/对不起，。。。", emoji: "🪑" }
-                ]
-            },
-            {
-                id: 11,
-                title: "Bài 11",
-                pairs: [
-                    { q: "现在几点？", a: "现在。。。", emoji: "⏰" },
-                    { q: "你什么时候回家？", a: "我。。。回家", emoji: "🏠" },
-                    { q: "你想在HCM市几天？", a: "我想在HCM市。。。", emoji: "🏙️" }
-                ]
-            },
-            {
-                id: 12,
-                title: "Bài 12",
-                pairs: [
-                    { q: "昨天Cantho的天气怎么样？", a: "昨天Cantho的天气。。。", emoji: "🌤️" },
-                    { q: "明天会下雨吗？", a: "明天会/不会下雨。。。", emoji: "☔" },
-                    { q: "你身体怎么样？", a: "我身体。。。", emoji: "💪" }
-                ]
-            },
-            {
-                id: 13,
-                title: "Bài 13",
-                pairs: [
-                    { q: "现在你在做什么呢？", a: "现在我在。。。", emoji: "🤔" },
-                    { q: "昨天晚上你在做什么呢？", a: "昨天晚上我在。。。", emoji: "🌙" },
-                    { q: "你的电话是什么？", a: "我的电话号码是。。。", emoji: "📞" }
-                ]
-            },
-            {
-                id: 14,
-                title: "Bài 14",
-                pairs: [
-                    { q: "昨天你去哪儿了？", a: "昨天我去（了）。。。", emoji: "🚶" },
-                    { q: "你什么时候回家？", a: "我。。。回家", emoji: "🏠" },
-                    { q: "昨天你买什么了？", a: "昨天我买（了）。。。", emoji: "🛒" }
-                ]
-            },
-            {
-                id: 15,
-                title: "Bài 15",
-                pairs: [
-                    { q: "你和老公/老婆是什么时候认识的？", a: "我和老公/老婆是。。。认识的", emoji: "💑" },
-                    { q: "你们是在哪里认识的？", a: "我们是在。。。认识的", emoji: "📍" },
-                    { q: "你是怎么来的？", a: "我是。。。来的", emoji: "🚕" }
-                ]
-            }
+        const lessons = [
+            {id:1,title:"Bài 1",pairs:[{q:"你好！",a:"你好",emoji:"👋"},{q:"您好！",a:"你们好",emoji:"🙌"},{q:"对不起？",a:"没关系",emoji:"😌"}]},
+            {id:2,title:"Bài 2",pairs:[{q:"谢谢？",a:"不谢",emoji:"🙏"},{q:"谢谢你？",a:"不客气",emoji:"🙏"},{q:"再见？",a:"再见",emoji:"👋"}]},
+            {id:3,title:"Bài 3",pairs:[{q:"你叫什么名字？",a:"我叫……",emoji:"👤"},{q:"你是老师吗？",a:"是 / 不是",emoji:"👨‍🏫"},{q:"你是中国人吗？",a:"对 / 不",emoji:"🇨🇳"}]},
+            {id:4,title:"Bài 4",pairs:[{q:"你是谁？",a:"我是……",emoji:"👤"},{q:"你是哪国人？",a:"我是越南人",emoji:"🇻🇳"},{q:"我是中国人，你呢？",a:"我不是中国人，我是越南人",emoji:"🇻🇳"}]},
+            {id:5,title:"Bài 5",pairs:[{q:"你家有几口人？",a:"我家有……",emoji:"👪"},{q:"你女儿几岁了？",a:"我女儿……岁了",emoji:"👧"},{q:"你多大了？",a:"我……岁",emoji:"🧓"}]},
+            {id:6,title:"Bài 6",pairs:[{q:"你会说汉语吗？",a:"我会说汉语",emoji:"🗣️"},{q:"越南菜好吃吗？",a:"很好吃",emoji:"🍜"},{q:"你会做中国菜吗？",a:"我会 / 不会做",emoji:"🍚"}]},
+            {id:7,title:"Bài 7",pairs:[{q:"请问今天几号，星期几？",a:"今天……",emoji:"📅"},{q:"明天几月几号？",a:"明天……",emoji:"📆"},{q:"你去学校做什么？",a:"我去学校……",emoji:"🏫"}]},
+            {id:8,title:"Bài 8",pairs:[{q:"你想喝什么？",a:"我想喝……",emoji:"🥤"},{q:"你想买什么？",a:"我想买……",emoji:"🛍️"},{q:"这个多少钱？",a:"这个……块钱",emoji:"💵"}]},
+            {id:9,title:"Bài 9",pairs:[{q:"小猫在哪里？",a:"小猫在……",emoji:"🐱"},{q:"你在哪儿工作？",a:"我在……工作",emoji:"💼"},{q:"你爸爸在家吗？",a:"他在家 / 不在家",emoji:"👨"}]},
+            {id:10,title:"Bài 10",pairs:[{q:"桌子上有什么？",a:"桌子上有……",emoji:"🪑"},{q:"你的手机在哪儿？",a:"我的手机在……",emoji:"📱"},{q:"我能坐这儿吗？",a:"可以 / 对不起",emoji:"🪑"}]},
+            {id:11,title:"Bài 11",pairs:[{q:"现在几点？",a:"现在……点",emoji:"⏰"},{q:"你什么时候回家？",a:"我……回家",emoji:"🏠"},{q:"你想在HCM市几天？",a:"我想在HCM市……天",emoji:"🏙️"}]},
+            {id:12,title:"Bài 12",pairs:[{q:"昨天天气怎么样？",a:"昨天天气……",emoji:"🌤️"},{q:"明天会下雨吗？",a:"明天会 / 不会下雨",emoji:"☔"},{q:"你身体怎么样？",a:"我身体很好",emoji:"💪"}]},
+            {id:13,title:"Bài 13",pairs:[{q:"现在你在做什么呢？",a:"现在我在……",emoji:"🤔"},{q:"昨天晚上你在做什么呢？",a:"昨天晚上我在……",emoji:"🌙"},{q:"你的电话号码是什么？",a:"我的电话号码是……",emoji:"📞"}]},
+            {id:14,title:"Bài 14",pairs:[{q:"昨天你去哪儿了？",a:"昨天我去……了",emoji:"🚶"},{q:"昨天你买什么了？",a:"昨天我买……了",emoji:"🛒"},{q:"你什么时候回家？",a:"我……回家",emoji:"🏠"}]},
+            {id:15,title:"Bài 15",pairs:[{q:"你和老公/老婆是什么时候认识的？",a:"我们是……认识的",emoji:"💑"},{q:"你们是在哪里认识的？",a:"我们是在……认识的",emoji:"📍"},{q:"你是怎么来的？",a:"我是……来的",emoji:"🚕"}]}
         ];
 
         let currentLesson = null;
         let currentPair = null;
-        let questionCounter = 0;
-        let answerVisible = false;
-        let autoInterval = null;
         let isAutoPlaying = false;
+        let autoTimeout = null;
 
-        // ==================== SPEECH SYNTHESIS ====================
         function speak(text) {
             if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'zh-CN';
-                utterance.rate = 0.9;
-                utterance.pitch = 1.05;
-                speechSynthesis.speak(utterance);
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'zh-CN';
+                u.rate = 0.95;
+                u.pitch = 1.05;
+                speechSynthesis.speak(u);
             }
         }
 
-        // ==================== AUTO PRACTICE ====================
-        let autoQueue = [];
-
-        function startAutoPractice() {
-            if (!currentLesson || isAutoPlaying) return;
-
-            isAutoPlaying = true;
-            autoQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5); // xáo trộn
-
-            document.getElementById('auto-status').classList.remove('hidden');
-            document.getElementById('auto-text').textContent = `Đang tự luyện (${autoQueue.length} câu)...`;
-
-            playNextAuto();
-        }
-
-        function playNextAuto() {
-            if (!isAutoPlaying || autoQueue.length === 0) {
-                stopAutoPractice();
-                return;
-            }
-
-            currentPair = autoQueue.shift();
-            showActiveQuestion();
-
-            // Đọc câu hỏi
-            speak(currentPair.q);
-
-            // Sau 3 giây đọc câu tiếp theo
-            autoInterval = setTimeout(playNextAuto, 3000);
-        }
-
-        function stopAutoPractice() {
-            isAutoPlaying = false;
-            if (autoInterval) clearTimeout(autoInterval);
-            document.getElementById('auto-status').classList.add('hidden');
-            speechSynthesis.cancel();
-        }
-
-        // ==================== CÁC HÀM CŨ (đã chỉnh sửa nhẹ) ====================
         function renderLessonGrid() {
             const grid = document.getElementById('lesson-grid');
             grid.innerHTML = '';
             lessons.forEach(lesson => {
                 const card = document.createElement('div');
-                card.className = `lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer`;
+                card.className = "lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer";
                 card.innerHTML = `
-                    <div class="text-6xl mb-4 flex justify-center">${lesson.pairs[0].emoji}</div>
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
                     <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
-                    <div class="text-xs text-gray-400">3 câu hỏi • Ngẫu nhiên</div>
-                    <div class="mt-6 text-[10px] bg-red-50 text-red-500 rounded-2xl py-1 px-4 inline-flex items-center gap-1 mx-auto">
-                        Bắt đầu luyện
-                    </div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
                 `;
                 card.onclick = () => selectLesson(lesson.id);
                 grid.appendChild(card);
@@ -394,21 +177,11 @@
 
         function selectLesson(id) {
             currentLesson = lessons.find(l => l.id === id);
-            if (!currentLesson) return;
-
-            questionCounter = 0;
-            stopAutoPractice();
-
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('practice-view').classList.remove('hidden');
             document.getElementById('header-info').classList.remove('hidden');
-
-            document.getElementById('current-bai').innerHTML = `
-                ${currentLesson.title} 
-                <span class="text-red-400 mx-2">•</span> 
-                ${currentLesson.pairs.length} câu
-            `;
-
+            document.getElementById('current-bai').innerHTML = `${currentLesson.title} <span class="text-red-400 mx-2">•</span> ${currentLesson.pairs.length} câu`;
+            
             renderMiniQuestions();
             showEmptyState();
         }
@@ -417,17 +190,11 @@
             const container = document.getElementById('mini-questions');
             container.innerHTML = '';
             currentLesson.pairs.forEach(pair => {
-                const mini = document.createElement('div');
-                mini.className = `bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300 transition-colors`;
-                mini.innerHTML = `
-                    <div class="text-4xl mb-3">${pair.emoji}</div>
-                    <p class="chinese-text text-sm leading-tight line-clamp-2 font-medium">${pair.q}</p>
-                `;
-                mini.onclick = () => {
-                    currentPair = pair;
-                    showActiveQuestion();
-                };
-                container.appendChild(mini);
+                const div = document.createElement('div');
+                div.className = "bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300";
+                div.innerHTML = `<div class="text-4xl mb-3">${pair.emoji}</div><p class="chinese-text text-sm font-medium">${pair.q}</p>`;
+                div.onclick = () => { currentPair = pair; showActiveQuestion(); };
+                container.appendChild(div);
             });
         }
 
@@ -438,38 +205,48 @@
 
         function showActiveQuestion() {
             document.getElementById('empty-state').classList.add('hidden');
-            const active = document.getElementById('active-question');
-            active.classList.remove('hidden');
-
+            document.getElementById('active-question').classList.remove('hidden');
             document.getElementById('big-emoji').innerHTML = currentPair.emoji;
             document.getElementById('question-text').innerHTML = currentPair.q;
-
-            answerVisible = false;
             document.getElementById('answer-box').classList.add('hidden');
-            document.getElementById('btn-show-answer').innerHTML = `<span>👀</span><span>Hiện đáp án mẫu cho B</span>`;
         }
 
         function randomQuestion() {
             if (!currentLesson) return;
-            const randomIndex = Math.floor(Math.random() * currentLesson.pairs.length);
-            currentPair = currentLesson.pairs[randomIndex];
-            questionCounter++;
+            currentPair = currentLesson.pairs[Math.floor(Math.random() * currentLesson.pairs.length)];
             showActiveQuestion();
         }
 
         function toggleAnswer() {
-            answerVisible = !answerVisible;
             const box = document.getElementById('answer-box');
-            const btn = document.getElementById('btn-show-answer');
+            box.classList.toggle('hidden');
+        }
 
-            if (answerVisible) {
-                box.classList.remove('hidden');
-                document.getElementById('answer-text-content').innerHTML = currentPair.a;
-                btn.innerHTML = `<span>✅</span><span>Ẩn đáp án</span>`;
-            } else {
-                box.classList.add('hidden');
-                btn.innerHTML = `<span>👀</span><span>Hiện đáp án mẫu cho B</span>`;
+        function startAutoPractice() {
+            if (!currentLesson || isAutoPlaying) return;
+            isAutoPlaying = true;
+            document.getElementById('auto-status').classList.remove('hidden');
+
+            let queue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+
+            function playNext() {
+                if (!isAutoPlaying || queue.length === 0) {
+                    stopAutoPractice();
+                    return;
+                }
+                currentPair = queue.shift();
+                showActiveQuestion();
+                speak(currentPair.q);
+                autoTimeout = setTimeout(playNext, 3200);
             }
+            playNext();
+        }
+
+        function stopAutoPractice() {
+            isAutoPlaying = false;
+            if (autoTimeout) clearTimeout(autoTimeout);
+            speechSynthesis.cancel();
+            document.getElementById('auto-status').classList.add('hidden');
         }
 
         function backToHome() {
@@ -479,13 +256,10 @@
             document.getElementById('header-info').classList.add('hidden');
         }
 
-        // ==================== INIT ====================
-        function init() {
+        // Khởi động
+        window.onload = () => {
             renderLessonGrid();
-            console.log('%c✅ Webapp Luyện Hỏi Đáp Tiếng Trung + Tự luyện tập đã sẵn sàng!', 'color:#e63939; font-family:monospace; font-size:14px');
-        }
-
-        window.onload = init;
+        };
     </script>
 </body>
 </html>
