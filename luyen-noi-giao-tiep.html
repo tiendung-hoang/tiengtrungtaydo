@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luyện Nói Tiếng Trung - Tiến Dũng</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    header {
+      background: #4a6bdf;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .tabs {
+      display: flex;
+      background: #f1f1f1;
+    }
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab.active {
+      background: white;
+      color: #4a6bdf;
+      border-bottom: 3px solid #4a6bdf;
+    }
+    .content {
+      padding: 30px;
+      min-height: 450px;
+    }
+    .sentence {
+      font-size: 32px;
+      margin: 25px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+    .pinyin, .meaning {
+      font-size: 20px;
+      text-align: center;
+      margin: 12px 0;
+      transition: all 0.3s;
+    }
+    .pinyin { color: #2980b9; }
+    .meaning { color: #e74c3c; }
+    .hidden { display: none; }
+
+    .controls {
+      text-align: center;
+      margin: 25px 0;
+    }
+    button {
+      padding: 12px 20px;
+      margin: 6px;
+      font-size: 16px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .btn-primary { background: #4a6bdf; color: white; }
+    .btn-secondary { background: #27ae60; color: white; }
+    .btn-speed { background: #f39c12; color: white; font-size: 14px; padding: 8px 16px; }
+    .btn-reset { background: #e74c3c; color: white; }
+
+    .info {
+      text-align: center;
+      color: #7f8c8d;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🇨🇳 Luyện Nói Tiếng Trung</h1>
+      <p>Học sinh - Tiến Dũng</p>
+    </header>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(0)">Luyện Tập</div>
+      <div class="tab" onclick="switchTab(1)">Thử Thách</div>
+    </div>
+
+    <div class="content" id="content"></div>
+  </div>
+
+  <script>
+    const originalQuestions = [
+      { text: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzì?", meaning: "Bạn tên là gì?" },
+      { text: "请问，您贵姓？", pinyin: "Qǐngwèn, nín guìxìng?", meaning: "Xin hỏi quý danh của ông/bà là gì?" },
+      { text: "你今年几岁了？", pinyin: "Nǐ jīnnián jǐ suìle?", meaning: "Năm nay bạn mấy tuổi rồi?" },
+      { text: "你多大了？", pinyin: "Nǐ duōdàle?", meaning: "Bạn bao nhiêu tuổi rồi?" },
+      { text: "您多大年纪了？", pinyin: "Nín duōdà niánjìle?", meaning: "Ông/bà bao nhiêu tuổi rồi ạ?" },
+      { text: "你几年出生？", pinyin: "Nǐ jǐ nián chūshēng?", meaning: "Bạn sinh năm bao nhiêu?" },
+      { text: "你是哪国人？", pinyin: "Nǐ shì nǎ guórén?", meaning: "Bạn là người nước nào?" },
+      { text: "你是哪儿人？", pinyin: "Nǐ shì nǎr rén?", meaning: "Bạn là người ở đâu?" },
+      { text: "你家在哪儿？", pinyin: "Nǐ de jiā zài nǎr?", meaning: "Nhà bạn ở đâu?" },
+      { text: "你家有几口人？", pinyin: "Nǐ jiā yǒu jǐ kǒu rén?", meaning: "Nhà bạn có bao nhiêu người?" },
+      { text: "你做什么工作？", pinyin: "Nǐ zuò shénme gōngzuò?", meaning: "Bạn làm công việc gì?" },
+      { text: "你在哪儿学习？", pinyin: "Nǐ zài nǎr xuéxí?", meaning: "Bạn học ở đâu?" },
+      { text: "你学习什么？", pinyin: "Nǐ xuéxí shénme?", meaning: "Bạn học gì?" },
+      { text: "你有男朋友/女朋友了吗？", pinyin: "Nǐ yǒu nán péngyǒu/nǚ péngyǒule ma?", meaning: "Bạn có bạn trai/bạn gái chưa?" },
+      { text: "你结婚了吗？", pinyin: "Nǐ jiéhūnle ma?", meaning: "Bạn kết hôn chưa?" }
+    ];
+
+    let currentMode = 0;
+    let currentIndex = 0;
+    let speechRate = 0.9;
+    let showAnswer = true;
+    let shuffledQuestions = [];
+    let challengeIndex = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = speechRate;
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function toggleAnswer() {
+      showAnswer = !showAnswer;
+      renderSentence();
+    }
+
+    function setSpeed(rate) {
+      speechRate = rate;
+      renderSentence();
+    }
+
+    function renderSentence(autoSpeak = false) {
+      const q = currentMode === 0 
+        ? originalQuestions[currentIndex] 
+        : shuffledQuestions[challengeIndex];
+
+      document.getElementById('content').innerHTML = `
+        <h2 style="text-align:center; color:#4a6bdf;">
+          ${currentMode === 0 ? 'Luyện Tập' : 'Thử Thách'} 
+          ${currentMode === 1 ? `(${challengeIndex + 1}/${shuffledQuestions.length})` : `(${currentIndex + 1}/${originalQuestions.length})`}
+        </h2>
+        
+        <div class="sentence">${q.text}</div>
+        
+        <div class="pinyin ${showAnswer ? '' : 'hidden'}">${q.pinyin}</div>
+        <div class="meaning ${showAnswer ? '' : 'hidden'}">${q.meaning}</div>
+
+        <div class="controls">
+          <button class="btn-primary" onclick="speak('${q.text}')">🔊 Nghe Lại</button>
+          <button onclick="toggleAnswer()">👁️ ${showAnswer ? 'Ẩn' : 'Hiện'} Đáp Án</button>
+          
+          <div style="margin: 15px 0;">
+            <strong>Tốc độ nói:</strong><br>
+            <button class="btn-speed" onclick="setSpeed(0.7)">Chậm</button>
+            <button class="btn-speed" onclick="setSpeed(0.9)">Bình thường</button>
+            <button class="btn-speed" onclick="setSpeed(1.2)">Nhanh</button>
+          </div>
+
+          ${currentMode === 0 ? `
+            <button onclick="prevSentence()">← Câu trước</button>
+            <button class="btn-secondary" onclick="nextSentence()">Câu tiếp theo →</button>
+          ` : `
+            <button class="btn-secondary" onclick="nextChallenge()">🎲 Câu tiếp theo</button>
+            <button class="btn-reset" onclick="resetChallenge()">🔄 Reset Thử Thách</button>
+          `}
+        </div>
+
+        <div class="info">
+          Tốc độ: ${speechRate.toFixed(1)} • Trạng thái: ${showAnswer ? 'Hiện' : 'Ẩn'} đáp án
+        </div>
+      `;
+
+      // Tự động đọc khi chuyển câu
+      if (autoSpeak) {
+        setTimeout(() => speak(q.text), 300); // Delay nhẹ để giao diện render xong
+      }
+    }
+
+    function nextSentence() {
+      currentIndex = (currentIndex + 1) % originalQuestions.length;
+      renderSentence(true);   // true = tự động đọc
+    }
+
+    function prevSentence() {
+      currentIndex = (currentIndex - 1 + originalQuestions.length) % originalQuestions.length;
+      renderSentence(false);
+    }
+
+    function nextChallenge() {
+      challengeIndex++;
+      if (challengeIndex >= shuffledQuestions.length) {
+        alert("🎉 Bạn đã hoàn thành tất cả câu hỏi trong thử thách!");
+        challengeIndex = 0;
+      }
+      renderSentence(true);   // true = tự động đọc
+    }
+
+    function resetChallenge() {
+      shuffledQuestions = shuffle([...originalQuestions]);
+      challengeIndex = 0;
+      renderSentence(false);
+      alert("✅ Đã xáo trộn danh sách câu hỏi mới!");
+    }
+
+    function switchTab(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.tab').forEach((tab, i) => {
+        tab.classList.toggle('active', i === mode);
+      });
+
+      if (mode === 1) {
+        if (shuffledQuestions.length === 0) {
+          shuffledQuestions = shuffle([...originalQuestions]);
+        }
+        challengeIndex = 0;
+      } else {
+        currentIndex = 0;
+      }
+      renderSentence(false);
+    }
+
+    // Khởi động
+    window.onload = () => {
+      shuffledQuestions = shuffle([...originalQuestions]);
+      renderSentence(false);
+    };
+  </script>
+</body>
+</html>
