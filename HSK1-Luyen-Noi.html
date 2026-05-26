@@ -51,7 +51,38 @@
                 <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
                 <p class="text-red-600 text-lg">15 bài • Mỗi bài 3 câu hỏi</p>
             </div>
+            
+            <!-- NÚT MỚI -->
+            <div class="text-center mb-8">
+                <button onclick="enterMultiSelectMode()" 
+                        class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-3xl text-lg shadow-lg hover:brightness-110 transition">
+                    📋 Luyện tập chọn bài (nhiều bài)
+                </button>
+            </div>
+
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="lesson-grid"></div>
+        </div>
+
+        <!-- MULTI SELECT VIEW -->
+        <div id="multi-select-view" class="hidden">
+            <div class="pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Chọn các bài muốn luyện</h2>
+                    <button onclick="exitMultiSelectMode()" 
+                            class="text-red-600 hover:text-red-700 font-medium">✕ Đóng</button>
+                </div>
+                
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="multi-lesson-grid"></div>
+            </div>
+
+            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
+                <button onclick="startMultiPractice()" 
+                        id="btn-start-multi"
+                        class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50"
+                        disabled>
+                    🚀 BẮT ĐẦU TỰ LUYỆN TẬP (<span id="selected-count">0</span> bài)
+                </button>
+            </div>
         </div>
 
         <!-- PRACTICE VIEW -->
@@ -148,6 +179,10 @@
         let currentPair = null;
         let isAutoPlaying = false;
         let autoTimeout = null;
+        
+        // === CHỨC NĂNG MỚI ===
+        let selectedLessons = [];
+        let isMultiSelectMode = false;
 
         function speak(text) {
             if ('speechSynthesis' in window) {
@@ -175,11 +210,89 @@
             });
         }
 
-        function selectLesson(id) {
-            currentLesson = lessons.find(l => l.id === id);
+        // ====================== MULTI SELECT FUNCTIONS ======================
+        function enterMultiSelectMode() {
+            isMultiSelectMode = true;
+            selectedLessons = [];
             document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.remove('hidden');
+            renderMultiLessonGrid();
+        }
+
+        function exitMultiSelectMode() {
+            isMultiSelectMode = false;
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+        }
+
+        function renderMultiLessonGrid() {
+            const grid = document.getElementById('multi-lesson-grid');
+            grid.innerHTML = '';
+
+            lessons.forEach(lesson => {
+                const isSelected = selectedLessons.some(l => l.id === lesson.id);
+                
+                const card = document.createElement('div');
+                card.className = `lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-red-200'}`;
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                `;
+                card.onclick = () => toggleLessonSelection(lesson);
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleLessonSelection(lesson) {
+            const index = selectedLessons.findIndex(l => l.id === lesson.id);
+            
+            if (index === -1) {
+                selectedLessons.push(lesson);
+            } else {
+                selectedLessons.splice(index, 1);
+            }
+            
+            renderMultiLessonGrid();
+            updateStartButton();
+        }
+
+        function updateStartButton() {
+            const count = selectedLessons.length;
+            document.getElementById('selected-count').textContent = count;
+            document.getElementById('btn-start-multi').disabled = count === 0;
+        }
+
+        function startMultiPractice() {
+            if (selectedLessons.length === 0) return;
+
+            const allPairs = [];
+            selectedLessons.forEach(lesson => {
+                allPairs.push(...lesson.pairs);
+            });
+
+            currentLesson = {
+                id: 999,
+                title: `Đã chọn ${selectedLessons.length} bài`,
+                pairs: allPairs
+            };
+
+            exitMultiSelectMode();
+            selectLesson(999);
+        }
+
+        function selectLesson(id) {
+            if (id === 999) {
+                // currentLesson đã được tạo sẵn
+            } else {
+                currentLesson = lessons.find(l => l.id === id);
+            }
+            
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
             document.getElementById('practice-view').classList.remove('hidden');
             document.getElementById('header-info').classList.remove('hidden');
+            
             document.getElementById('current-bai').innerHTML = `${currentLesson.title} <span class="text-red-400 mx-2">•</span> ${currentLesson.pairs.length} câu`;
             
             renderMiniQuestions();
@@ -237,7 +350,7 @@
                 currentPair = queue.shift();
                 showActiveQuestion();
                 speak(currentPair.q);
-                autoTimeout = setTimeout(playNext, 3200);
+                autoTimeout = setTimeout(playNext, 4500);   // Delay 4.5 giây
             }
             playNext();
         }
@@ -253,6 +366,7 @@
             stopAutoPractice();
             document.getElementById('practice-view').classList.add('hidden');
             document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
             document.getElementById('header-info').classList.add('hidden');
         }
 
