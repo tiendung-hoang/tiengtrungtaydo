@@ -350,7 +350,7 @@
                 currentPair = queue.shift();
                 showActiveQuestion();
                 speak(currentPair.q);
-                autoTimeout = setTimeout(playNext, 5000);   // Delay 5 giây
+                autoTimeout = setTimeout(playNext, 10000);   // Delay 5 giây
             }
             playNext();
         }
