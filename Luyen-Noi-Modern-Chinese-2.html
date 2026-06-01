@@ -177,7 +177,12 @@
                     <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
                         👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
                     </div>
-
+                    <div class="text-center mb-6">
+                        <button onclick="repeatQuestion()"
+                            class="px-5 py-3 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50 mx-auto">
+                            🔊 Nghe lại câu hỏi
+                        </button>
+                    </div>
                     <div class="mt-auto">
                         <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
                             👀 Hiện đáp án mẫu
@@ -287,11 +292,21 @@
             if ('speechSynthesis' in window) {
                 const u = new SpeechSynthesisUtterance(text);
                 u.lang = 'zh-TW';
-                u.rate = 0.90;
+                u.rate = 0.80;
                 u.pitch = 1.05;
                 speechSynthesis.speak(u);
             }
         }
+
+        function repeatQuestion() {
+            if (!currentPair) return;
+
+            speechSynthesis.cancel();
+
+            setTimeout(() => {
+                speak(currentPair.q);
+            }, 100);
+        }                                                                                       
 
         function renderLessonGrid() {
             const grid = document.getElementById('lesson-grid');
