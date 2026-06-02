@@ -3,153 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mục Lục HSK 1 - Tiếng Trung Tây Đô</title>
+    <title>Trung Tâm Tiếng Trung Tây Đô - HSK 1</title>
     <style>
         :root {
-            --primary-color: #de2910; /* Màu đỏ cờ Trung Quốc */
-            --secondary-color: #ffde00; /* Màu vàng */
-            --bg-color: #f7f9fa;
-            --text-color: #333;
+            --primary-red: #f44336; /* Màu đỏ cam năng động */
+            --amber: #ffc107; /* Vàng hổ phách */
+            --teal: #009688; /* Xanh ngọc bích */
+            --bg-light: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #333333;
+            --text-muted: #757575;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e1e8ed 100%);
+            color: var(--text-dark);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        .main-wrapper {
+            max-width: 900px;
+            width: 100%;
         }
 
-        .header {
+        /* Phần Tiêu Đề */
+        .page-header {
             text-align: center;
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 40px;
+            position: relative;
         }
 
-        .header h1 {
+        .page-header h1 {
+            font-size: 2.5em;
+            color: var(--primary-red);
             margin: 0;
-            color: var(--primary-color);
-            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .header p {
-            margin: 5px 0 0 0;
-            color: #666;
-            font-size: 14px;
+        .page-header p {
+            font-size: 1.1em;
+            color: var(--text-muted);
+            margin: 5px 0 0;
         }
 
-        .menu-list {
+        /* Progress Bar Mock-up */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            margin: 20px 0 30px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--amber));
+            width: 33.3%; /* Chỉ số mock-up */
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-top: -25px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: right;
+        }
+
+        /* Container cho các thẻ bài học */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* Thiết kế Thẻ Bài Học (Card) */
+        .lesson-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            border: 2px solid transparent;
         }
 
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #fff;
-            border: 1px solid #e1e8ed;
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 600;
-            transition: all 0.2s ease;
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
 
-        /* Hiệu ứng khi di chuột qua danh mục */
-        .menu-item:hover {
-            background-color: #fff5f5;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(222, 41, 16, 0.1);
+        /* Phân loại màu cho từng loại bài */
+        .lesson-card.speaking { border-color: var(--primary-red); }
+        .lesson-card.reading { border-color: var(--amber); }
+        .lesson-card.listening { border-color: var(--teal); }
+
+        .card-icon {
+            font-size: 4em;
+            padding: 30px 0;
+            text-align: center;
+            background-color: rgba(0,0,0,0.02);
         }
 
-        .icon {
-            font-size: 24px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--bg-color);
-            border-radius: 10px;
-        }
+        .lesson-card.speaking .card-icon { color: var(--primary-red); }
+        .lesson-card.reading .card-icon { color: var(--amber); }
+        .lesson-card.listening .card-icon { color: var(--teal); }
 
-        .menu-item:hover .icon {
-            background-color: #ffe3e3;
-        }
-
-        .title-text {
+        .card-content {
+            padding: 20px 25px;
             flex-grow: 1;
+            text-align: center;
         }
 
-        .arrow {
-            color: #ccc;
-            font-size: 18px;
-            transition: transform 0.2s ease;
+        .card-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 0 0 10px;
         }
 
-        .menu-item:hover .arrow {
-            color: var(--primary-color);
-            transform: translateX(3px);
+        .card-desc {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
         }
+
+        .card-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .lesson-card.speaking:hover .card-btn { background-color: var(--primary-red); color: white; }
+        .lesson-card.reading:hover .card-btn { background-color: var(--amber); color: white; }
+        .lesson-card.listening:hover .card-btn { background-color: var(--teal); color: white; }
 
         .footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            color: #999;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .page-header h1 { font-size: 2em; }
+            .card-grid { gap: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1>🔴 HSK 1 - 🌟 🔴</h1>
-            <p>Tiếng Trung Tây Đô • Danh sách bài học & câu hỏi</p>
+    <div class="main-wrapper">
+        <div class="page-header">
+            <h1>HSK 1 - Tiếng Trung Tây Đô</h1>
+            <p>Chương trình lý thuyết & luyện tập</p>
         </div>
 
-        <div class="menu-list">
+        <span class="progress-text">1 / 3 BÀI ĐÃ HOÀN THÀNH (MOCK-UP)</span>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+
+        <div class="card-grid">
             
-            <!-- Link 1: Luyện Nói -->
-            <a href="./HSK1-Luyen-Noi.html" class="menu-item">
-                <span class="icon">🗣️</span>
-                <span class="title-text">HSK1 - Luyện Nói</span>
-                <span class="arrow">➔</span>
+            <!-- Link 1: Luyện Nói (Màu Đỏ) -->
+            <a href="./HSK1-Luyen-Noi.html" class="lesson-card speaking">
+                <div class="card-icon">🗣️</div>
+                <div class="card-content">
+                    <div class="card-title">HSK1 - Luyện Nói</div>
+                    <p class="card-desc">Nâng cao phản xạ và phát âm chuẩn HSK1.</p>
+                    <span class="card-btn">VÀO HỌC NGAY</span>
+                </div>
             </a>
 
-            <!-- Link 2: Quiz Từ vựng Đọc -->
-            <a href="./HSK1-Quiz-Tuvung-Doc.html" class="menu-item">
-                <span class="icon">📖</span>
-                <span class="title-text">HSK1 - Quiz Từ Vựng (Đọc)</span>
-                <span class="arrow">➔</span>
+            <!-- Link 2: Quiz Từ vựng Đọc (Màu Vàng) -->
+            <a href="./HSK1-Quiz-Tuvung-Doc.html" class="lesson-card reading">
+                <div class="card-icon">📖</div>
+                <div class="card-content">
+                    <div class="card-title">HSK1 - Quiz Từ Vựng</div>
+                    <p class="card-desc">Thử thách khả năng Đọc & Nhận biết từ.</p>
+                    <span class="card-btn">BẮT ĐẦU KIỂM TRA</span>
+                </div>
             </a>
 
-            <!-- Link 3: Quiz Từ vựng Nghe -->
-            <a href="./HSK1-Quiz-Tuvung-Nghe.html" class="menu-item">
-                <span class="icon">🎧</span>
-                <span class="title-text">HSK1 - Quiz Từ Vựng (Nghe)</span>
-                <span class="arrow">➔</span>
+            <!-- Link 3: Quiz Từ vựng Nghe (Màu Xanh Ngọc) -->
+            <a href="./HSK1-Quiz-Tuvung-Nghe.html" class="lesson-card listening">
+                <div class="card-icon">🎧</div>
+                <div class="card-content">
+                    <div class="card-title">HSK1 - Quiz Từ Vựng</div>
+                    <p class="card-desc">Kiểm tra khả năng Nghe & Hiểu từ.</p>
+                    <span class="card-btn">NGHE & TRẢ LỜI</span>
+                </div>
             </a>
 
         </div>
 
         <div class="footer">
-            © Tiếng Trung Tây Đô - Chúc bạn học tốt!
+            © Tiếng Trung Tây Đô - Chúc bạn học tốt! 🌸
         </div>
     </div>
 
