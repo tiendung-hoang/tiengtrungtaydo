@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mục Lục HSK 1 - Tiếng Trung Tây Đô</title>
+    <style>
+        :root {
+            --primary-color: #de2910; /* Màu đỏ cờ Trung Quốc */
+            --secondary-color: #ffde00; /* Màu vàng */
+            --bg-color: #f7f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        /* Hiệu ứng khi di chuột qua danh mục */
+        .menu-item:hover {
+            background-color: #fff5f5;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(222, 41, 16, 0.1);
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+        }
+
+        .menu-item:hover .icon {
+            background-color: #ffe3e3;
+        }
+
+        .title-text {
+            flex-grow: 1;
+        }
+
+        .arrow {
+            color: #ccc;
+            font-size: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .menu-item:hover .arrow {
+            color: var(--primary-color);
+            transform: translateX(3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔴 HSK 1 - 🌟 🔴</h1>
+            <p>Tiếng Trung Tây Đô • Danh sách bài học & câu hỏi</p>
+        </div>
+
+        <div class="menu-list">
+            
+            <!-- Link 1: Luyện Nói -->
+            <a href="./HSK1-Luyen-Noi.html" class="menu-item">
+                <span class="icon">🗣️</span>
+                <span class="title-text">HSK1 - Luyện Nói</span>
+                <span class="arrow">➔</span>
+            </a>
+
+            <!-- Link 2: Quiz Từ vựng Đọc -->
+            <a href="./HSK1-Quiz-Tuvung-Doc.html" class="menu-item">
+                <span class="icon">📖</span>
+                <span class="title-text">HSK1 - Quiz Từ Vựng (Đọc)</span>
+                <span class="arrow">➔</span>
+            </a>
+
+            <!-- Link 3: Quiz Từ vựng Nghe -->
+            <a href="./HSK1-Quiz-Tuvung-Nghe.html" class="menu-item">
+                <span class="icon">🎧</span>
+                <span class="title-text">HSK1 - Quiz Từ Vựng (Nghe)</span>
+                <span class="arrow">➔</span>
+            </a>
+
+        </div>
+
+        <div class="footer">
+            © Tiếng Trung Tây Đô - Chúc bạn học tốt!
+        </div>
+    </div>
+
+</body>
+</html>
