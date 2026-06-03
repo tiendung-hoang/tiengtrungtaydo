@@ -133,7 +133,7 @@
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="multi-lesson-grid"></div>
             </div>
 
-            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
+            <div class="mt-6 w-full">
                 <button onclick="startMultiPractice()" id="btn-start-multi" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50" disabled="">
                     🚀 BẮT ĐẦU TỰ LUYỆN TẬP (<span id="selected-count">0</span> bài)
                 </button>
@@ -149,9 +149,9 @@
                         <button onclick="startAutoPractice()" class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
                             🔄 Tự luyện tập
                         </button>
-                        <button onclick="startManualPractice()" class="px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
-    👆 Tự luyện tập thủ công
-</button>
+                        <button onclick="startManualPractice()" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            👆 Tự luyện tập thủ công
+                        </button>
                         <button onclick="randomQuestion()" class="px-5 py-2 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50">
                             🎲 Ngẫu nhiên
                         </button>
@@ -177,6 +177,12 @@
                     <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
                         👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
                     </div>
+                    <div class="text-center mb-6">
+                        <button onclick="repeatQuestion()"
+                            class="px-5 py-3 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50 mx-auto">
+                            🔊 Nghe lại câu hỏi
+                        </button>
+                    </div>
 
                     <div class="mt-auto">
                         <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
@@ -191,29 +197,6 @@
 
             <!-- Auto Status -->
             <div id="auto-status" class="hidden mt-6 text-center">
-            <div id="manual-status" class="hidden mt-6 text-center">
-<div id="manual-status"
-     class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
-
-    <div class="bg-blue-600 text-white rounded-3xl shadow-2xl p-4 flex items-center justify-center gap-4">
-
-        <span class="font-bold">
-            👆 Chế độ tự luyện tập thủ công
-        </span>
-
-        <button onclick="manualNextQuestion()"
-                class="bg-white text-blue-600 px-5 py-2 rounded-full font-bold">
-            ➜ Câu tiếp theo
-        </button>
-
-        <button onclick="stopManualPractice()"
-                class="bg-red-500 text-white px-5 py-2 rounded-full font-bold">
-            ✕ Dừng
-        </button>
-
-    </div>
-</div>
-</div>
                 <div class="inline-flex items-center gap-3 bg-white border border-green-300 rounded-3xl px-6 py-3">
                     <span class="relative flex h-3 w-3">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -224,8 +207,18 @@
                 </div>
             </div>
 
+            
+            <div id="manual-status" class="hidden mt-6 text-center">
+                <div class="inline-flex items-center gap-3 bg-white border rounded-3xl px-6 py-3">
+                    <span class="font-medium text-blue-700">👆 Chế độ tự luyện tập thủ công</span>
+                    <button onclick="nextManualQuestion()" class="px-4 py-2 bg-blue-600 text-white rounded-full">➡️ Tiếp theo</button>
+                    <button onclick="stopManualPractice()" class="text-red-500 font-medium">Dừng</button>
+                </div>
+            </div>
+
             <!-- Bottom Bar -->
-            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
+
+            <div class="mt-6 w-full">
                 <button onclick="randomQuestion()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4">
                     🎲 LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO 🎲
                 </button>
@@ -252,13 +245,12 @@
             {id:15,title:"Bài 15",pairs:[{q:"你和老公/老婆是什么时候认识的？",a:"我们是……认识的",emoji:"💑"},{q:"你们是在哪里认识的？",a:"我们是在……认识的",emoji:"📍"},{q:"你是怎么来的？",a:"我是……来的",emoji:"🚕"}]}
         ];
 
-let currentLesson = null;
-let currentPair = null;
-let isAutoPlaying = false;
-let autoTimeout = null;
-
-let isManualPractice = false;
-let manualQueue = [];
+        let currentLesson = null;
+        let currentPair = null;
+        let isAutoPlaying = false;
+        let autoTimeout = null;
+        let isManualPractice = false;
+        let manualQueue = [];
         
         // === CHỨC NĂNG MỚI ===
         let selectedLessons = [];
@@ -272,6 +264,16 @@ let manualQueue = [];
                 u.pitch = 1.05;
                 speechSynthesis.speak(u);
             }
+        }
+
+        function repeatQuestion() {
+            if (!currentPair) return;
+
+            speechSynthesis.cancel();
+
+            setTimeout(() => {
+                speak(currentPair.q);
+            }, 100);
         }
 
         function renderLessonGrid() {
@@ -397,9 +399,6 @@ let manualQueue = [];
         }
 
         function showActiveQuestion() {
-            document.getElementById('answer-box').classList.add('hidden');
-            document.getElementById('btn-show-answer').innerHTML =
-    '👀 Hiện đáp án mẫu';
             document.getElementById('empty-state').classList.add('hidden');
             document.getElementById('active-question').classList.remove('hidden');
             document.getElementById('big-emoji').innerHTML = currentPair.emoji;
@@ -428,6 +427,7 @@ let manualQueue = [];
             function playNext() {
                 if (!isAutoPlaying || queue.length === 0) {
                     stopAutoPractice();
+            stopManualPractice();
                     return;
                 }
                 currentPair = queue.shift();
@@ -444,56 +444,42 @@ let manualQueue = [];
             speechSynthesis.cancel();
             document.getElementById('auto-status').classList.add('hidden');
         }
-function startManualPractice() {
-    if (!currentLesson) return;
 
-    stopAutoPractice();
+        
+        function startManualPractice() {
+            if (!currentLesson) return;
 
-    isManualPractice = true;
+            stopAutoPractice();
+            stopManualPractice();
+            isManualPractice = true;
+            manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
 
-    manualQueue = [...currentLesson.pairs]
-        .sort(() => Math.random() - 0.5);
+            document.getElementById('manual-status').classList.remove('hidden');
+            nextManualQuestion();
+        }
 
-    document.getElementById('manual-status')
-        .classList.remove('hidden');
+        function nextManualQuestion() {
+            if (!isManualPractice) return;
 
-    manualNextQuestion();
-}
+            if (manualQueue.length === 0) {
+                manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            }
 
-function manualNextQuestion() {
+            currentPair = manualQueue.shift();
+            showActiveQuestion();
+            speak(currentPair.q);
+        }
 
-    if (!isManualPractice) return;
+        function stopManualPractice() {
+            isManualPractice = false;
+            manualQueue = [];
+            document.getElementById('manual-status').classList.add('hidden');
+        }
 
-    if (manualQueue.length === 0) {
 
-        manualQueue = [...currentLesson.pairs]
-            .sort(() => Math.random() - 0.5);
-    }
-
-    currentPair = manualQueue.shift();
-
-    showActiveQuestion();
-    window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-});
-
-    speak(currentPair.q);
-}
-
-function stopManualPractice() {
-
-    isManualPractice = false;
-
-    manualQueue = [];
-
-    document.getElementById('manual-status')
-        .classList.add('hidden');
-}
-function backToHome() {
-    stopManualPractice();
-    stopAutoPractice();
-    stopManualPractice();
+        function backToHome() {
+            stopAutoPractice();
+            stopManualPractice();
             document.getElementById('practice-view').classList.add('hidden');
             document.getElementById('home-view').classList.remove('hidden');
             document.getElementById('multi-select-view').classList.add('hidden');
