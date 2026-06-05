@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0099)https://tiendung-hoang.github.io/tiengtrungtaydo/TiengTrungGiaoTiep/GiaoTiep1-Quiz-Tuvung-Nghe.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HSK 1 - Quiz Nghe Từ Vựng (Có Pinyin)</title>
+    <title>Giao Tiếp 1 - Quiz Nghe Từ Vựng (Có Pinyin)</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -85,37 +85,37 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎧 HSK 1 - Quiz Nghe Từ Vựng (Pinyin)</h1>
+        <h1>🎧 Giao Tiếp 1 - Quiz Nghe Từ Vựng (Pinyin)</h1>
 
         <!-- Màn hình chọn bài -->
-        <div id="menu-screen">
+        <div id="menu-screen" style="display: block;">
             <h2>Chọn bài học</h2>
-            <div class="lessons" id="lesson-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;"></div>
+            <div class="lessons" id="lesson-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;"><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button></div>
         </div>
 
         <!-- Màn hình chọn chế độ -->
         <div id="mode-screen" style="display: none;">
-            <h2 id="selected-lesson-title"></h2>
+            <h2 id="selected-lesson-title">Bài 3 - Chọn dạng quiz</h2>
             <div style="text-align: center; margin: 30px 0;">
-                <button class="mode-btn" onclick="startQuiz('normal')">📋 Theo thứ tự</button>
-                <button class="mode-btn" onclick="startQuiz('shuffle')">🔀 Xáo trộn</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)">🔀 Xáo trộn</button>
             </div>
             <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
         </div>
 
         <!-- Màn hình quiz -->
-        <div id="quiz-container">
-            <div class="progress">Bài <span id="lesson-num"></span> - Câu <span id="current">1</span>/<span id="total"></span></div>
+        <div id="quiz-container" style="display: none;">
+            <div class="progress">Bài <span id="lesson-num">3</span> - Câu <span id="current">1</span>/<span id="total">56</span></div>
             
             <div class="question-area">
                 <button class="audio-btn" onclick="speakCurrent()">🔊 Nghe từ này</button>
                 <button onclick="toggleHanzi()" style="background:#eab308; color:black;">👁 Hiện chữ Hán + Pinyin</button>
-                <div class="hanzi" id="hanzi"></div>
-                <div class="pinyin" id="pinyin"></div>
+                <div class="hanzi show" id="hanzi">大家</div>
+                <div class="pinyin" id="pinyin" style="display: block;">dàjiā</div>
             </div>
 
             <div class="result" id="result"></div>
-            <div class="options" id="options"></div>
+            <div class="options" id="options"><button>Quảng Bình</button><button>mọi người</button><button>Nha Trang</button><button>Thanh Hóa</button></div>
 
             <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
                 ← Thoát quiz
@@ -559,6 +559,8 @@ const allLessons = {
 };
 
 
+
+
         // === PASTE TOÀN BỘ allLessons Ở ĐÂY ===
         // Tôi sẽ paste đầy đủ ngay dưới đây:
 
@@ -575,16 +577,20 @@ const allLessons = {
         let currentHanzi = "";
         let currentPinyin = "";
 
-        function createLessonButtons() {
-            const container = document.getElementById('lesson-list');
-            container.innerHTML = '';
-            [3,4,5,6,7,8,9,10].forEach(i => {
-                const btn = document.createElement('button');
-                btn.textContent = `Bài ${i}`;
-                btn.onclick = () => selectLesson(i);
-                container.appendChild(btn);
-            });
-        }
+            function createLessonButtons() {
+                const container = document.getElementById('lesson-list');
+                container.innerHTML = '';
+                
+                // Tự động quét toàn bộ các số bài đang có trong dữ liệu allLessons
+                const lessonNumbers = Object.keys(allLessons).map(Number).sort((a, b) => a - b);
+                
+                lessonNumbers.forEach(i => {
+                    const btn = document.createElement('button');
+                    btn.textContent = `Bài ${i}`;
+                    btn.onclick = () => selectLesson(i);
+                    container.appendChild(btn);
+                });
+            }
 
         function selectLesson(lessonNum) {
             currentLesson = lessonNum;
@@ -725,5 +731,6 @@ const allLessons = {
             createLessonButtons();
         };
     </script>
-</body>
-</html>
+
+
+</body></html>
