@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
+
+<!-- saved from url=(0160)file:///D:/LAM%20ONE%20MROE%20TIME/M%E1%BA%ABu/thuxem%20-%20THUONG%20MAI%20-%20Quiz%20T%E1%BB%AB%20V%E1%BB%B1ng%20(V%E1%BB%9Bi%20Pinyin)%20-%20Copy_phonthe.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiếng Trung giao tiếp 1 - Quiz Từ Vựng (Với Pinyin)</title>
+    <title>Giao Tiếp 1 - Quiz Từ Vựng (Với Pinyin)</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -108,34 +108,34 @@
 </head>
 <body>
     <div class="container">
-        <h1>📚 Tiếng Trung Giao tiếp 1 - Quiz Từ Vựng (Pinyin)</h1>
+        <h1>📚 Giao Tiếp 1 - Quiz Từ Vựng (Pinyin)</h1>
 
         <!-- Màn hình chọn bài -->
-        <div id="menu-screen">
+        <div id="menu-screen" style="display: block;">
             <h2>Chọn bài học</h2>
-            <div class="lessons" id="lesson-list"></div>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button></div>
         </div>
 
         <!-- Màn hình chọn dạng -->
         <div id="mode-screen" style="display: none;">
-            <h2 id="selected-lesson-title"></h2>
+            <h2 id="selected-lesson-title">Bài 1 - Chọn dạng quiz</h2>
             <div style="text-align: center; margin: 30px 0;">
-                <button class="mode-btn" onclick="startQuiz('normal')">📋 Theo thứ tự</button>
-                <button class="mode-btn" onclick="startQuiz('shuffle')" style="margin-left: 20px;">🔀 Xáo trộn</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)" style="margin-left: 20px;">🔀 Xáo trộn</button>
             </div>
             <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
         </div>
 
         <!-- Màn hình quiz -->
-        <div id="quiz-container">
-            <div class="progress">Bài <span id="lesson-num"></span> - Câu <span id="current">1</span>/<span id="total"></span></div>
+        <div id="quiz-container" style="display: none;">
+            <div class="progress">Bài <span id="lesson-num">1</span> - Câu <span id="current">1</span>/<span id="total">48</span></div>
             
-            <div class="hanzi" id="hanzi"></div>
-            <div class="pinyin" id="pinyin" style="display: none;"></div>
-            <button class="toggle-pinyin" onclick="togglePinyin()">👁️ Hiện Pinyin</button>
+            <div class="hanzi" id="hanzi">到達</div>
+            <div class="pinyin" id="pinyin" style="display: none;">dàodá</div>
+            <button class="toggle-pinyin" onclick="togglePinyin()">🙈 Ẩn Pinyin</button>
             
             <div class="result" id="result"></div>
-            <div class="options" id="options"></div>
+            <div class="options" id="options"><button>Thương mại</button><button>Giải quyết công việc</button><button>Đến</button><button>Khai báo</button></div>
 
             <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
                 ← Thoát quiz
@@ -145,6 +145,8 @@
 
     <script>
         // ==================== DỮ LIỆU TỪ EXCEL ====================
+
+
 const allLessons = {
     3: {
         normal: ["大家","来","介绍","一下儿","自己","姓","叫","今年","岁","出生","哪国","哪儿","越南","人","家","在","河內","有","个","大学生","老师","朋友","汉语","大学","做","工作","学习","和","男朋友","女朋友","结婚","已经","这","的","当","中国","韩国","日本","美国","泰国","台湾","法国","英语","法语","越南语","岘港","胡志明市","顺化","青化","广平","广南","广义","广治","艺安","何静","芽庄"],
@@ -577,6 +579,8 @@ const allLessons = {
         }
     }
 };
+
+
         let currentLesson = null;
         let currentMode = null;
         let vocabulary = [];
@@ -738,5 +742,5 @@ const allLessons = {
             createLessonButtons();
         };
     </script>
-</body>
-</html>
+
+</body></html>
