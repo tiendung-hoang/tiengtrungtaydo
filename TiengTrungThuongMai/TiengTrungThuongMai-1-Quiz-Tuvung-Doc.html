@@ -1,0 +1,805 @@
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiếng Trung Thương Mại 1 - Quiz Từ Vựng (Với Pinyin)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 18px 12px;
+            font-size: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 14px;
+        }
+        .mode-btn:hover {
+            background: #22c55e;
+        }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 20px;
+        }
+        #quiz-container {
+            display: none;
+        }
+        .progress {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hanzi {
+            font-size: 90px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 110px;
+            line-height: 1.2;
+        }
+        .pinyin {
+            font-size: 28px;
+            text-align: center;
+            margin: 10px 0;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .result {
+            font-size: 26px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+        .toggle-pinyin {
+            background: #60a5fa;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Tiếng Trung Thương Mại 1 - Quiz Từ Vựng (Pinyin)</h1>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" style="display: none;">
+            <h2>Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button></div>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" style="display: none;">
+            <h2 id="selected-lesson-title">Bài 6 - Chọn dạng quiz</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="mode-btn" onclick="startQuiz('normal')">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz('shuffle')" style="margin-left: 20px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" style="display: block;">
+            <div class="progress">Bài <span id="lesson-num">6</span> - Câu <span id="current">1</span>/<span id="total">31</span></div>
+            
+            <div class="hanzi" id="hanzi">會議</div>
+            <div class="pinyin" id="pinyin" style="display: block;">huìyì</div>
+            <button class="toggle-pinyin" onclick="togglePinyin()">🙈 Ẩn Pinyin</button>
+            
+            <div class="result" id="result"></div>
+            <div class="options" id="options"><button>hội nghị, cuộc họp</button><button>bệnh, ốm</button><button>thang máy</button><button>hỏng</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
+                ← Thoát quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TỪ EXCEL ====================
+
+
+const allLessons = {
+    1: {  // B1
+        normal: ["到達","國際","貿易","公司","代表","生意","進出口","進口","出口","出入境","海關","官員","護照","登記","行李","箱子","產品","廣告","樣品","交稅","商業價值","免稅","超過","填","申報","申報單","招手","副總經理","副","總經理","老闆","總算","手續","辦手續","順利","酒店","使","變得","嚴肅","微笑","緊張","談判","輕鬆","擔心","願意","交朋友","辦事情","越來越"],
+        shuffle: ["到達","國際","貿易","公司","代表","生意","進出口","進口","出口","出入境","海關","官員","護照","登記","行李","箱子","產品","廣告","樣品","交稅","商業價值","免稅","超過","填","申報","申報單","招手","副總經理","副","總經理","老闆","總算","手續","辦手續","順利","酒店","使","變得","嚴肅","微笑","緊張","談判","輕鬆","擔心","願意","交朋友","辦事情","越來越"],
+        items: {
+            "到達": { pinyin: "dàodá", meaning: "Đến" },
+            "國際": { pinyin: "guójì", meaning: "Quốc tế" },
+            "貿易": { pinyin: "màoyì", meaning: "Thương mại" },
+            "公司": { pinyin: "gōngsī", meaning: "Công ty" },
+            "代表": { pinyin: "dàibiǎo", meaning: "Đại diện" },
+            "生意": { pinyin: "shēngyi", meaning: "Việc kinh doanh, buôn bán" },
+            "進出口": { pinyin: "jìnchūkǒu", meaning: "Xuất nhập khẩu" },
+            "進口": { pinyin: "jìnkǒu", meaning: "Nhập khẩu" },
+            "出口": { pinyin: "chūkǒu", meaning: "Xuất khẩu" },
+            "出入境": { pinyin: "chūrùjìng", meaning: "Nhập cảnh" },
+            "海關": { pinyin: "hǎiguān", meaning: "Hải quan" },
+            "官員": { pinyin: "guānyuán", meaning: "Viên chức" },
+            "護照": { pinyin: "hùzhào", meaning: "Hộ chiếu" },
+            "登記": { pinyin: "dēngjì", meaning: "Thẻ đăng ký" },
+            "行李": { pinyin: "xíngli", meaning: "Hành lý" },
+            "箱子": { pinyin: "xiāngzi", meaning: "Va ly, hộp, thùng" },
+            "產品": { pinyin: "chǎnpǐn", meaning: "Sản phẩm" },
+            "廣告": { pinyin: "guǎnggào", meaning: "Quảng cáo" },
+            "樣品": { pinyin: "yàngpǐn", meaning: "Hàng mẫu" },
+            "交稅": { pinyin: "jiāoshuì", meaning: "Đóng thuế" },
+            "商業價值": { pinyin: "shāngyè jiàzhí", meaning: "Giá trị thương mại" },
+            "免稅": { pinyin: "miǎnshuì", meaning: "Miễn thuế" },
+            "超過": { pinyin: "chāoguò", meaning: "Vượt qua" },
+            "填": { pinyin: "tián", meaning: "Điền" },
+            "申報": { pinyin: "shēnbào", meaning: "Khai báo" },
+            "申報單": { pinyin: "shēnbàodān", meaning: "Tờ khai / Đơn" },
+            "招手": { pinyin: "zhāoshǒu", meaning: "Vẫy tay" },
+            "副總經理": { pinyin: "fù zǒngjīnglǐ", meaning: "Phó giám đốc" },
+            "副": { pinyin: "fù", meaning: "Phó" },
+            "總經理": { pinyin: "zǒngjīnglǐ", meaning: "Giám đốc" },
+            "老闆": { pinyin: "lǎobǎn", meaning: "Ông chủ" },
+            "總算": { pinyin: "zǒngsuàn", meaning: "Cuối cùng" },
+            "手續": { pinyin: "shǒuxù", meaning: "Thủ tục" },
+            "辦手續": { pinyin: "bàn shǒuxù", meaning: "Làm thủ tục" },
+            "順利": { pinyin: "shùnlì", meaning: "Thuận lợi" },
+            "酒店": { pinyin: "jiǔdiàn", meaning: "Khách sạn" },
+            "使": { pinyin: "shǐ", meaning: "Khiến cho, làm cho" },
+            "變得": { pinyin: "biàn de", meaning: "Trở thành, biến thành" },
+            "嚴肅": { pinyin: "yánsù", meaning: "Nghiêm túc" },
+            "微笑": { pinyin: "wēixiào", meaning: "Nụ cười" },
+            "緊張": { pinyin: "jǐnzhāng", meaning: "Căng thẳng" },
+            "談判": { pinyin: "tánpàn", meaning: "Đàm phán" },
+            "輕鬆": { pinyin: "qīngsōng", meaning: "Nhẹ nhõm, ung dung, thoải mái" },
+            "擔心": { pinyin: "dānxīn", meaning: "Lo âu, lo lắng" },
+            "願意": { pinyin: "yuànyì", meaning: "Vui lòng, vừa ý, sẵn lòng" },
+            "交朋友": { pinyin: "jiāo péngyou", meaning: "Kết bạn" },
+            "辦事情": { pinyin: "bàn shìqing", meaning: "Giải quyết công việc" },
+            "越來越": { pinyin: "yuè lái yuè", meaning: "Ngày càng" }
+        }
+    },
+    2: {  // B2
+        normal: ["預訂","星級","五星級","良好","設施","完","齊全","地點","旅客","客人","標準間","套房","哇","不好意思","付","押金","現金","刷卡","信用卡","房卡","電梯","洗衣房","自助","洗衣袋","叫醒","服務檯","互聯網","郵件","商務中心","上網","免費","密碼","健身房","頂樓","人民幣","外幣兌換","大廳","旅館","賓館","最好","等","一般來說","通常","設有","禮品部","尤其是","使用","打印機","複印機","提供","訂票","租車","當地","遊覽","旅行社","幫忙"],
+        shuffle: ["預訂","星級","五星級","良好","設施","完","齊全","地點","旅客","客人","標準間","套房","哇","不好意思","付","押金","現金","刷卡","信用卡","房卡","電梯","洗衣房","自助","洗衣袋","叫醒","服務檯","互聯網","郵件","商務中心","上網","免費","密碼","健身房","頂樓","人民幣","外幣兌換","大廳","旅館","賓館","最好","等","一般來說","通常","設有","禮品部","尤其是","使用","打印機","複印機","提供","訂票","租車","當地","遊覽","旅行社","幫忙"],
+        items: {
+            "預訂": { pinyin: "yùdìng", meaning: "đặt (phòng)" },
+            "星級": { pinyin: "xīngjí", meaning: "năm sao, cấp năm sao" },
+            "五星級": { pinyin: "wǔ xīngjí", meaning: "năm sao, cấp năm sao" },
+            "良好": { pinyin: "liánghǎo", meaning: "Tốt" },
+            "設施": { pinyin: "shèshī", meaning: "tiện nghi, cơ sở vật chất" },
+            "完": { pinyin: "wán", meaning: "đầy đủ (tiện nghi)" },
+            "齊全": { pinyin: "qíquán", meaning: "đầy đủ (tiện nghi)" },
+            "地點": { pinyin: "dìdiǎn", meaning: "Địa điểm" },
+            "旅客": { pinyin: "lǚkè", meaning: "khách du lịch, khách ở khách sạn" },
+            "客人": { pinyin: "kèrén", meaning: "khách" },
+            "標準間": { pinyin: "biāozhǔnjiān", meaning: "phòng tiêu chuẩn" },
+            "套房": { pinyin: "tàofáng", meaning: "phòng cao cấp" },
+            "哇": { pinyin: "wā", meaning: "Ôi chao (biểu lộ sự ngạc nhiên)" },
+            "不好意思": { pinyin: "bù hǎo yìsi", meaning: "cảm thấy xấu hổ, ngại ngùng, xin lỗi" },
+            "付": { pinyin: "fù", meaning: "trả (tiền)" },
+            "押金": { pinyin: "yājīn", meaning: "tiền đặt cọc" },
+            "現金": { pinyin: "xiànjīn", meaning: "Tiền mặt" },
+            "刷卡": { pinyin: "shuākǎ", meaning: "quẹt thẻ" },
+            "信用卡": { pinyin: "xìnyòngkǎ", meaning: "thẻ tín dụng" },
+            "房卡": { pinyin: "fángkǎ", meaning: "thẻ chìa khóa phòng" },
+            "電梯": { pinyin: "diàntī", meaning: "thang máy" },
+            "洗衣房": { pinyin: "xǐyīfáng", meaning: "Phòng giặt" },
+            "自助": { pinyin: "zìzhù", meaning: "Tự phục vụ" },
+            "洗衣袋": { pinyin: "xǐyīdài", meaning: "Túi giặt" },
+            "叫醒": { pinyin: "jiàoxǐng", meaning: "Đánh thức" },
+            "服務檯": { pinyin: "fúwùtái", meaning: "Quầy tiếp tân" },
+            "互聯網": { pinyin: "hùliánwǎng", meaning: "Mạng internet" },
+            "郵件": { pinyin: "yóujiàn", meaning: "Bưu kiện" },
+            "商務中心": { pinyin: "shāngwù zhōngxīn", meaning: "Trung tâm thương mại" },
+            "上網": { pinyin: "shàngwǎng", meaning: "Lên mạng" },
+            "免費": { pinyin: "miǎnfèi", meaning: "Miễn phí" },
+            "密碼": { pinyin: "mìmǎ", meaning: "Mật khẩu" },
+            "健身房": { pinyin: "jiànshēnfáng", meaning: "Phòng tập thể dục" },
+            "頂樓": { pinyin: "dǐnglóu", meaning: "Tầng thượng" },
+            "人民幣": { pinyin: "rénmínbì", meaning: "nhân dân tệ" },
+            "外幣兌換": { pinyin: "wàibì duìhuàn", meaning: "Đổi ngoại tệ" },
+            "大廳": { pinyin: "dàtīng", meaning: "Phòng khách" },
+            "旅館": { pinyin: "lǚguǎn", meaning: "Khách sạn" },
+            "賓館": { pinyin: "bīnguǎn", meaning: "Khách sạn, nhà khách" },
+            "最好": { pinyin: "zuìhǎo", meaning: "Tốt nhất" },
+            "等": { pinyin: "děng", meaning: "Vân vân" },
+            "一般來說": { pinyin: "yìbān lái shuō", meaning: "Nói chung" },
+            "通常": { pinyin: "tōngcháng", meaning: "Thông thường" },
+            "設有": { pinyin: "shèyǒu", meaning: "Có bao gồm" },
+            "禮品部": { pinyin: "lǐpǐn bù", meaning: "Cửa hàng quà tặng" },
+            "尤其是": { pinyin: "yóuqí shì", meaning: "Đặc biệt là" },
+            "使用": { pinyin: "shǐyòng", meaning: "Sử dụng" },
+            "打印機": { pinyin: "dǎyìnjī", meaning: "Máy in" },
+            "複印機": { pinyin: "fùyìnjī", meaning: "Máy phô tô" },
+            "提供": { pinyin: "tígōng", meaning: "Cung cấp" },
+            "訂票": { pinyin: "dìngpiào", meaning: "Đặt vé" },
+            "租車": { pinyin: "zūchē", meaning: "Thuê xe" },
+            "當地": { pinyin: "dāngdì", meaning: "Địa phương" },
+            "遊覽": { pinyin: "yóulǎn", meaning: "Đi tham quan" },
+            "旅行社": { pinyin: "lǚxíngshè", meaning: "Công ty du lịch" },
+            "幫忙": { pinyin: "bāngmáng", meaning: "Giúp đỡ" }
+        }
+    },
+    // Tiếp tục B3 đến B8 (để tránh quá dài, tôi gửi tiếp ngay dưới đây)
+    
+        3: {  // B3
+        normal: ["正式","雙方","目的","問候","光臨","地區","總裁","助理","主任","女士","幸會","名片","指教","不敢當","倒","周到","期間","隨時","合作","洽談","秋季","訂單","簽訂","代理","合同","會談","主管","稍後","具體","考察","投資環境","日程","確定","賓主","禮儀","首先","擁抱","即使","包括","久仰","客套","初次","交換","禮貌","對方","姓名","便","方便","今後","順便說一句","列","頭銜"],
+        shuffle: ["正式","雙方","目的","問候","光臨","地區","總裁","助理","主任","女士","幸會","名片","指教","不敢當","倒","周到","期間","隨時","合作","洽談","秋季","訂單","簽訂","代理","合同","會談","主管","稍後","具體","考察","投資環境","日程","確定","賓主","禮儀","首先","擁抱","即使","包括","久仰","客套","初次","交換","禮貌","對方","姓名","便","方便","今後","順便說一句","列","頭銜"],
+        items: {
+            "正式": { pinyin: "zhèngshì", meaning: "Chính thức" },
+            "雙方": { pinyin: "shuāngfāng", meaning: "Song phương, hai bên" },
+            "目的": { pinyin: "mùdì", meaning: "Mục đích" },
+            "問候": { pinyin: "wènhòu", meaning: "Chào hỏi" },
+            "光臨": { pinyin: "guānglín", meaning: "Có mặt, sự hiện diện" },
+            "地區": { pinyin: "dìqū", meaning: "Vùng, khu vực" },
+            "總裁": { pinyin: "zǒngcái", meaning: "Giám đốc điều hành" },
+            "助理": { pinyin: "zhùlǐ", meaning: "Trợ lý" },
+            "主任": { pinyin: "zhǔrèn", meaning: "Chủ nhiệm, giám đốc" },
+            "女士": { pinyin: "nǚshì", meaning: "Bà, cô" },
+            "幸會": { pinyin: "xìnghuì", meaning: "Hân hạnh được gặp lại" },
+            "名片": { pinyin: "míngpiàn", meaning: "Danh thiếp" },
+            "指教": { pinyin: "zhǐjiào", meaning: "Chỉ giáo, chỉ tấc" },
+            "不敢當": { pinyin: "bù gǎndāng", meaning: "Không dám" },
+            "倒": { pinyin: "dào", meaning: "Rót trà" },
+            "周到": { pinyin: "zhōudào", meaning: "Chu đáo" },
+            "期間": { pinyin: "qījiān", meaning: "Khoảng thời gian" },
+            "隨時": { pinyin: "suíshí", meaning: "Bất cứ lúc nào" },
+            "合作": { pinyin: "hézuò", meaning: "Hợp tác" },
+            "洽談": { pinyin: "qiàtán", meaning: "Bàn bạc, thảo luận, thương lượng" },
+            "秋季": { pinyin: "qiūjì", meaning: "Mùa thu" },
+            "訂單": { pinyin: "dìngdān", meaning: "Đơn đặt hàng" },
+            "簽訂": { pinyin: "qiāndìng", meaning: "Ký kết" },
+            "代理": { pinyin: "dàilǐ", meaning: "Đại lý" },
+            "合同": { pinyin: "hétong", meaning: "Hợp đồng" },
+            "會談": { pinyin: "huìtán", meaning: "Hội đàm" },
+            "主管": { pinyin: "zhǔguǎn", meaning: "Trưởng bộ phận" },
+            "稍後": { pinyin: "shāohòu", meaning: "Một chút, hơi" },
+            "具體": { pinyin: "jùtǐ", meaning: "Cụ thể" },
+            "考察": { pinyin: "kǎochá", meaning: "Khảo sát" },
+            "投資環境": { pinyin: "tóuzī huánjìng", meaning: "Môi trường đầu tư" },
+            "日程": { pinyin: "rìchéng", meaning: "Lịch trình" },
+            "確定": { pinyin: "quèdìng", meaning: "Xác định, rõ" },
+            "賓主": { pinyin: "bīnzhǔ", meaning: "Khách và chủ" },
+            "禮儀": { pinyin: "lǐyí", meaning: "Lễ nghi, phép xã giao" },
+            "首先": { pinyin: "shǒuxiān", meaning: "Đầu tiên" },
+            "擁抱": { pinyin: "yōngbào", meaning: "Ôm" },
+            "即使": { pinyin: "jíshǐ", meaning: "Cho dù" },
+            "包括": { pinyin: "bāokuò", meaning: "Bao gồm" },
+            "久仰": { pinyin: "jiǔyǎng", meaning: "Nghe danh đã lâu" },
+            "客套": { pinyin: "kètào", meaning: "Khách sáo" },
+            "初次": { pinyin: "chūcì", meaning: "Lần đầu tiên" },
+            "交換": { pinyin: "jiāohuàn", meaning: "Trao đổi" },
+            "禮貌": { pinyin: "lǐmào", meaning: "Lễ phép" },
+            "對方": { pinyin: "duìfāng", meaning: "Đối phương" },
+            "姓名": { pinyin: "xìngmíng", meaning: "Tên" },
+            "便": { pinyin: "biàn", meaning: "Thuận tiện" },
+            "方便": { pinyin: "fāngbiàn", meaning: "Thuận tiện" },
+            "今後": { pinyin: "jīnhòu", meaning: "Từ nay về sau" },
+            "順便說一句": { pinyin: "shùnbiàn shuō yí jù", meaning: "Nhân đây nói thêm vài câu" },
+            "列": { pinyin: "liè", meaning: "Liệt kê" },
+            "頭銜": { pinyin: "tóuxián", meaning: "Chức vụ" }
+        }
+    },
+    4: {  // B4
+        normal: ["逗留","左右","業務","商品","交易會","工業區","創業公司","好好兒","待","聽起來","合理","專門","反正","吹","修改","發展","迅速","高新技術","產業","親眼","服裝廠","玩具","費心","沒什麼","另外","廠長","邀請","後天","品嚐","著名","磅","交通","繁忙","想不到","出差","接待單位","日程表","事先","無論","私人定製","赴宴","少不了","頻繁","請客","甚至","成為","負擔","有助於","建立","豐盛","主人"],
+        shuffle: ["逗留","左右","業務","商品","交易會","工業區","創業公司","好好兒","待","聽起來","合理","專門","反正","吹","修改","發展","迅速","高新技術","產業","親眼","服裝廠","玩具","費心","沒什麼","另外","廠長","邀請","後天","品嚐","著名","磅","交通","繁忙","想不到","出差","接待單位","日程表","事先","無論","私人定製","赴宴","少不了","頻繁","請客","甚至","成為","負擔","有助於","建立","豐盛","主人"],
+        items: {
+            "逗留": { pinyin: "dòuliú", meaning: "Dừng lại, ở lại" },
+            "左右": { pinyin: "zuǒyòu", meaning: "Khoảng" },
+            "業務": { pinyin: "yèwù", meaning: "Nghiệp vụ" },
+            "商品": { pinyin: "shāngpǐn", meaning: "Thương phẩm, hàng hóa" },
+            "交易會": { pinyin: "jiāoyìhuì", meaning: "Hội chợ thương mại" },
+            "工業區": { pinyin: "gōngyèqū", meaning: "Khu công nghiệp" },
+            "創業公司": { pinyin: "chuàngyè gōngsī", meaning: "Công ty khởi nghiệp" },
+            "好好兒": { pinyin: "hǎohǎor", meaning: "Cẩn thận, kỹ lưỡng" },
+            "待": { pinyin: "dài", meaning: "Ở lại" },
+            "聽起來": { pinyin: "tīng qǐlái", meaning: "Nghe ra" },
+            "合理": { pinyin: "hélǐ", meaning: "Hợp lý" },
+            "專門": { pinyin: "zhuānmén", meaning: "Đặc biệt, chỉ" },
+            "反正": { pinyin: "fǎnzhèng", meaning: "Dù sao" },
+            "吹": { pinyin: "chuī", meaning: "Thổi" },
+            "修改": { pinyin: "xiūgǎi", meaning: "Sửa chữa" },
+            "發展": { pinyin: "fāzhǎn", meaning: "Phát triển" },
+            "迅速": { pinyin: "xùnsù", meaning: "Cấp tốc, nhanh" },
+            "高新技術": { pinyin: "gāoxīn jìshù", meaning: "Khoa học kỹ thuật (Công nghệ cao)" },
+            "產業": { pinyin: "chǎnyè", meaning: "Ngành công nghiệp" },
+            "親眼": { pinyin: "qīnyǎn", meaning: "Tận mắt" },
+            "服裝廠": { pinyin: "fúzhuāngchǎng", meaning: "Nhà máy may trang phục" },
+            "玩具": { pinyin: "wánjù", meaning: "Đồ chơi" },
+            "費心": { pinyin: "fèixīn", meaning: "Làm phiền, tốn công sức" },
+            "沒什麼": { pinyin: "méi shénme", meaning: "Không sao, không việc gì" },
+            "另外": { pinyin: "lìngwài", meaning: "Ngoài ra" },
+            "廠長": { pinyin: "chǎngzhǎng", meaning: "Quản đốc (Giám đốc nhà máy)" },
+            "邀請": { pinyin: "yāoqǐng", meaning: "Mời" },
+            "後天": { pinyin: "hòutiān", meaning: "Hôm sau (Ngày kia)" },
+            "品嚐": { pinyin: "pǐncháng", meaning: "Nếm, thử" },
+            "著名": { pinyin: "zhùmíng", meaning: "Nổi tiếng" },
+            "磅": { pinyin: "bàng", meaning: "Bảng (Đơn vị đo trọng lượng)" },
+            "交通": { pinyin: "jiāotōng", meaning: "Giao thông" },
+            "繁忙": { pinyin: "fánmáng", meaning: "Bận rộn" },
+            "想不到": { pinyin: "xiǎngbudào", meaning: "Không ngờ" },
+            "出差": { pinyin: "chūchāi", meaning: "Công tác" },
+            "接待單位": { pinyin: "jiēdài dānwèi", meaning: "Đơn vị tiếp đón" },
+            "日程表": { pinyin: "rìchéngbiǎo", meaning: "Bảng ghi lịch làm việc" },
+            "事先": { pinyin: "shìxiān", meaning: "Trước đó" },
+            "無論": { pinyin: "wúlùn", meaning: "Bất kể, bất luận" },
+            "私人定製": { pinyin: "sīrén dìngzhì", meaning: "Tư nhân, cá nhân (Thiết kế riêng)" },
+            "赴宴": { pinyin: "fùyàn", meaning: "Đi dự tiệc" },
+            "少不了": { pinyin: "shǎobuliǎo", meaning: "Không thể thiếu" },
+            "頻繁": { pinyin: "pínfán", meaning: "Nhiều lần" },
+            "請客": { pinyin: "qǐngkè", meaning: "Mời khách" },
+            "甚至": { pinyin: "shènzhì", meaning: "Thậm chí" },
+            "成為": { pinyin: "chéngwéi", meaning: "Trở thành, biến thành" },
+            "負擔": { pinyin: "fùdān", meaning: "Gánh nặng" },
+            "有助於": { pinyin: "yǒuzhù yú", meaning: "Có lợi cho" },
+            "建立": { pinyin: "jiànlì", meaning: "Thiết lập, xây dựng" },
+            "豐盛": { pinyin: "fēngshèng", meaning: "Thịnh soạn" },
+            "主人": { pinyin: "zhǔrén", meaning: "Chủ nhân, chủ nhà" }
+        }
+    },
+    5: {  // B5
+        normal: ["出席","舉行","局長","佈置","之一","時差","入席","上座","陪","領導","貴賓","隨便","乾杯","接風","葡萄酒","有朋自遠方來，不亦樂乎","冷盤","大菜","嘗","公筷","夾菜","上菜","特色菜","嗯","敬酒","招待","預祝","圓滿","成功","聞名","自然","據說","道","通常","面對","入口","座位","醉","一口氣","次序","熱炒","甜點","老一輩","真誠","好客","選擇"],
+        shuffle: ["出席","舉行","局長","佈置","之一","時差","入席","上座","陪","領導","貴賓","隨便","乾杯","接風","葡萄酒","有朋自遠方來，不亦樂乎","冷盤","大菜","嘗","公筷","夾菜","上菜","特色菜","嗯","敬酒","招待","預祝","圓滿","成功","聞名","自然","據說","道","通常","面對","入口","座位","醉","一口氣","次序","熱炒","甜點","老一輩","真誠","好客","選擇"],
+        items: {
+            "出席": { pinyin: "chūxí", meaning: "Tham dự, có mặt" },
+            "舉行": { pinyin: "jǔxíng", meaning: "Tổ chức" },
+            "局長": { pinyin: "júzhǎng", meaning: "Cục trưởng" },
+            "佈置": { pinyin: "bùzhì", meaning: "Bố trí, sắp xếp" },
+            "之一": { pinyin: "zhī yī", meaning: "Một trong.." },
+            "時差": { pinyin: "shíchā", meaning: "Sự chênh lệch múi giờ" },
+            "入席": { pinyin: "rùxí", meaning: "Vào chỗ ngồi" },
+            "上座": { pinyin: "shàngzuò", meaning: "Chỗ ngồi danh dự" },
+            "陪": { pinyin: "péi", meaning: "Cùng, đi theo" },
+            "領導": { pinyin: "lǐngdǎo", meaning: "Lãnh đạo" },
+            "貴賓": { pinyin: "guìbīn", meaning: "Khách quý" },
+            "隨便": { pinyin: "suíbiàn", meaning: "Tùy ý, tự nhiên" },
+            "乾杯": { pinyin: "gānbēi", meaning: "Cạn ly" },
+            "接風": { pinyin: "jiēfēng", meaning: "Mở tiệc, chiêu đãi khách từ phương xa tới" },
+            "葡萄酒": { pinyin: "pútaojiǔ", meaning: "Rượu nho" },
+            "有朋自遠方來，不亦樂乎": { pinyin: "yǒu péng zì yuǎnfāng lái, bù yì lè hū", meaning: "Có bạn từ phương xa đến, chẳng phải rất vui sao" },
+            "冷盤": { pinyin: "lěngpán", meaning: "Món nguội, món khai vị" },
+            "大菜": { pinyin: "dàcài", meaning: "Món chính" },
+            "嘗": { pinyin: "cháng", meaning: "Nếm" },
+            "公筷": { pinyin: "gōngkuài", meaning: "Đũa dùng chung" },
+            "夾菜": { pinyin: "jiācài", meaning: "Gắp thức ăn" },
+            "上菜": { pinyin: "shàngcài", meaning: "Lên món" },
+            "特色菜": { pinyin: "tèsècài", meaning: "Món đặc biệt" },
+            "嗯": { pinyin: "ńg", meaning: "Ừm" },
+            "敬酒": { pinyin: "jìngjiǔ", meaning: "Mời rượu" },
+            "招待": { pinyin: "zhāodài", meaning: "Chiêu đãi" },
+            "預祝": { pinyin: "yùzhù", meaning: "Chúc, mong sao" },
+            "圓滿": { pinyin: "yuánmǎn", meaning: "Viên mãn" },
+            "成功": { pinyin: "chénggōng", meaning: "Thành công" },
+            "聞名": { pinyin: "wénmíng", meaning: "Nổi tiếng" },
+            "自然": { pinyin: "zìrán", meaning: "Tất nhiên, đương nhiên" },
+            "據說": { pinyin: "jùshuō", meaning: "Nghe nói" },
+            "道": { pinyin: "dào", meaning: "Món (Lượng từ)" },
+            "通常": { pinyin: "tōngcháng", meaning: "Phổ thông, thông thường" },
+            "面對": { pinyin: "miànduì", meaning: "Đối mặt" },
+            "入口": { pinyin: "rùkǒu", meaning: "Lối vào" },
+            "座位": { pinyin: "zuòwèi", meaning: "Chỗ ngồi" },
+            "醉": { pinyin: "zuì", meaning: "Say" },
+            "一口氣": { pinyin: "yīkǒuqì", meaning: "Một hơi, một mạch" },
+            "次序": { pinyin: "cìxù", meaning: "Thứ tự" },
+            "熱炒": { pinyin: "rèchǎo", meaning: "Món chiên, món xào nóng" },
+            "甜點": { pinyin: "tiándiǎn", meaning: "Điểm tâm, món tráng miệng" },
+            "老一輩": { pinyin: "lǎoyībèi", meaning: "Thế hệ cao tuổi" },
+            "真誠": { pinyin: "zhēnchéng", meaning: "Chân thành" },
+            "好客": { pinyin: "hàokè", meaning: "Hiếu khách" },
+            "選擇": { pinyin: "xuǎnzé", meaning: "Lựa chọn" }
+        }
+    },
+    6: {  // B6
+        normal: ["初步","視頻","展示","款","設計","興趣","由","價格","目錄","過目","百分之","保留","傳統","式樣","建議","詢問","推出","吸引力","零售價","批發價","促銷價","試銷品","牛仔褲","廠家","試生產","參照","同類","市場價","另議","按照","西裝","質量","品牌","客戶","資料","仔細","貨","吃虧","買主","賣主","老話","價錢","只有","上當","自從","實行","改革","開放","政策","市場經濟","品種","顧客","選擇","競爭","一方面","挑戰","行情","充分","有關","信息","知己知彼"],
+        shuffle: ["初步","視頻","展示","款","設計","興趣","由","價格","目錄","過目","百分之","保留","傳統","式樣","建議","詢問","推出","吸引力","零售價","批發價","促銷價","試銷品","牛仔褲","廠家","試生產","參照","同類","市場價","另議","按照","西裝","質量","品牌","客戶","資料","仔細","貨","吃虧","買主","賣主","老話","價錢","只有","上當","自從","實行","改革","開放","政策","市場經濟","品種","顧客","選擇","競爭","一方面","挑戰","行情","充分","有關","信息","知己知彼"],
+        items: {
+            "初步": { pinyin: "chūbù", meaning: "Sơ bộ" },
+            "視頻": { pinyin: "shìpín", meaning: "Video clip" },
+            "展示": { pinyin: "zhǎnshì", meaning: "Đưa ra, trưng bày" },
+            "款": { pinyin: "kuǎn", meaning: "Kiểu, loại (Lượng từ)" },
+            "設計": { pinyin: "shèjì", meaning: "Thiết kế" },
+            "興趣": { pinyin: "xìngqù", meaning: "Hứng thú" },
+            "由": { pinyin: "yóu", meaning: "Do" },
+            "價格": { pinyin: "jiàgé", meaning: "Giá cả" },
+            "目錄": { pinyin: "mùlù", meaning: "Mục lục" },
+            "過目": { pinyin: "guòmù", meaning: "Xem qua" },
+            "百分之": { pinyin: "bǎi fēn zhī", meaning: "Phần trăm" },
+            "保留": { pinyin: "bǎoliú", meaning: "Lưu giữ" },
+            "傳統": { pinyin: "chuántǒng", meaning: "Truyền thống" },
+            "式樣": { pinyin: "shìyàng", meaning: "Kiểu dáng" },
+            "建議": { pinyin: "jiànyì", meaning: "Kiến nghị" },
+            "詢問": { pinyin: "xúnwèn", meaning: "Hỏi thăm, hỏi dò" },
+            "推出": { pinyin: "tuīchū", meaning: "Đưa ra" },
+            "吸引力": { pinyin: "xīyǐnlì", meaning: "Sức hấp dẫn" },
+            "零售價": { pinyin: "língshòujià", meaning: "Giá bán lẻ" },
+            "批發價": { pinyin: "pīfājià", meaning: "Giá bán sỉ" },
+            "促銷價": { pinyin: "cùxiāojià", meaning: "Giá khuyến mại" },
+            "試銷品": { pinyin: "shìxiāopǐn", meaning: "Sản phẩm bán thử" },
+            "牛仔褲": { pinyin: "niúzǎikù", meaning: "Quần jean" },
+            "廠家": { pinyin: "chǎngjiā", meaning: "Nhà sản xuất" },
+            "試生產": { pinyin: "shìshēngchǎn", meaning: "Sản xuất thử nghiệm" },
+            "參照": { pinyin: "cānzhào", meaning: "Làm theo, tham khảo" },
+            "同類": { pinyin: "tónglèi", meaning: "Cùng loại" },
+            "市場價": { pinyin: "shìchǎngjià", meaning: "Giá thị trường" },
+            "另議": { pinyin: "lìngyì", meaning: "Thảo luận riêng" },
+            "按照": { pinyin: "ànzhào", meaning: "Dựa theo" },
+            "西裝": { pinyin: "xīzhuāng", meaning: "Tây trang, âu phục" },
+            "質量": { pinyin: "zhìliàng", meaning: "Chất lượng" },
+            "品牌": { pinyin: "pǐnpái", meaning: "Thương hiệu" },
+            "客戶": { pinyin: "kèhù", meaning: "Khách hàng" },
+            "資料": { pinyin: "zīliào", meaning: "Tư liệu, tài liệu" },
+            "仔細": { pinyin: "zǐxì", meaning: "Kĩ lưỡng, cẩn thận" },
+            "貨": { pinyin: "huò", meaning: "Hàng hóa" },
+            "吃虧": { pinyin: "chīkuī", meaning: "Bị thiệt" },
+            "買主": { pinyin: "mǎizhǔ", meaning: "Người mua" },
+            "賣主": { pinyin: "màizhǔ", meaning: "Người bán" },
+            "老話": { pinyin: "lǎohuà", meaning: "Ngôn ngữ cổ, tục ngữ" },
+            "價錢": { pinyin: "jiàqian", meaning: "Giá cả" },
+            "只有": { pinyin: "zhǐyǒu", meaning: "Chỉ có" },
+            "上當": { pinyin: "shàngdàng", meaning: "Bị lừa" },
+            "自從": { pinyin: "zìcóng", meaning: "Từ khi" },
+            "實行": { pinyin: "shíxíng", meaning: "Thực hiện" },
+            "改革": { pinyin: "gǎigé", meaning: "Cải cách" },
+            "開放": { pinyin: "kāifàng", meaning: "Mở cửa" },
+            "政策": { pinyin: "zhèngcè", meaning: "Chính sách" },
+            "市場經濟": { pinyin: "shìchǎng jīngjì", meaning: "Kinh tế thị trường" },
+            "品種": { pinyin: "pǐnzhǒng", meaning: "Chủng loại" },
+            "顧客": { pinyin: "gùkè", meaning: "Khách hàng" },
+            "選擇": { pinyin: "xuǎnzé", meaning: "Lựa chọn" },
+            "競爭": { pinyin: "jìngzhēng", meaning: "Cạnh tranh" },
+            "一方面": { pinyin: "yīfāngmiàn", meaning: "Một mặt" },
+            "挑戰": { pinyin: "tiǎozhàn", meaning: "Thách thức" },
+            "行情": { pinyin: "hángqíng", meaning: "Tình hình thị trường" },
+            "充分": { pinyin: "chōngfèn", meaning: "Đầy đủ" },
+            "有關": { pinyin: "yǒuguān", meaning: "Có liên quan" },
+            "信息": { pinyin: "xìnxī", meaning: "Thông tin" },
+            "知己知彼": { pinyin: "zhījǐ zhībǐ", meaning: "Biết người biết ta" }
+        }
+    },
+    7: {  // B7
+        normal: ["訂購","批","製造","管理","生產效率","深刻","印象","會客室","本廠","親自","記得","趕","交貨","大致","車間","提出","生產區","組裝","成品","檢驗","設備","先進","國外","引進","組裝線","產量","成本","降低成本","卡通","投放","催","資料","可愛","企業","分為","國企","民營","外資企業","中央","政府","並","支持","資金","原料","銷售","優勢","不少","不善","長期","虧損","著力","對手","積極","推動","鼓勵","個人","私有","承包","租賃","兼併","購買","效益","過程","逐漸","獨資企業","合資","類型","調整","尋求","進入"],
+        shuffle: ["訂購","批","製造","管理","生產效率","深刻","印象","會客室","本廠","親自","記得","趕","交貨","大致","車間","提出","生產區","組裝","成品","檢驗","設備","先進","國外","引進","組裝線","產量","成本","降低成本","卡通","投放","催","資料","可愛","企業","分為","國企","民營","外資企業","中央","政府","並","支持","資金","原料","銷售","優勢","不少","不善","長期","虧損","著力","對手","積極","推動","鼓勵","個人","私有","承包","租賃","兼併","購買","效益","過程","逐漸","獨資企業","合資","類型","調整","尋求","進入"],
+        items: {
+            "訂購": { pinyin: "dìnggòu", meaning: "Đặt hàng" },
+            "批": { pinyin: "pī", meaning: "Lô" },
+            "製造": { pinyin: "zhìzào", meaning: "Chế tạo, sản xuất" },
+            "管理": { pinyin: "guǎnlǐ", meaning: "Quản lý" },
+            "生產效率": { pinyin: "shēngchǎn xiàolǜ", meaning: "Hiệu suất sản xuất" },
+            "深刻": { pinyin: "shēnkè", meaning: "Ấn tượng, sâu sắc" },
+            "印象": { pinyin: "yìnxiàng", meaning: "Ấn tượng" },
+            "會客室": { pinyin: "huìkèshì", meaning: "Phòng tiếp tân" },
+            "本廠": { pinyin: "běnchǎng", meaning: "Nhà máy của tôi/chúng tôi" },
+            "親自": { pinyin: "qīnzì", meaning: "Tự mình" },
+            "記得": { pinyin: "jìde", meaning: "Nhớ, nhớ lại" },
+            "趕": { pinyin: "gǎn", meaning: "Vội, gấp rút" },
+            "交貨": { pinyin: "jiāohuò", meaning: "Giao hàng" },
+            "大致": { pinyin: "dàzhì", meaning: "Tổng thể, đại khái" },
+            "車間": { pinyin: "chējiān", meaning: "Phân xưởng" },
+            "提出": { pinyin: "tíchū", meaning: "Đưa ra ý kiến" },
+            "生產區": { pinyin: "shēngchǎnqū", meaning: "Khu vực sản xuất" },
+            "組裝": { pinyin: "zǔzhuāng", meaning: "Lắp ráp" },
+            "成品": { pinyin: "chéngpǐn", meaning: "Thành phẩm" },
+            "檢驗": { pinyin: "jiǎnyàn", meaning: "Kiểm tra" },
+            "設備": { pinyin: "shèbèi", meaning: "Thiết bị" },
+            "先進": { pinyin: "xiānjìn", meaning: "Tiên tiến" },
+            "國外": { pinyin: "guówài", meaning: "Nước ngoài" },
+            "引進": { pinyin: "yǐnjìn", meaning: "Nhập về" },
+            "組裝線": { pinyin: "zǔzhuāngxiàn", meaning: "Dây chuyền lắp ráp" },
+            "產量": { pinyin: "chǎnliàng", meaning: "Sản lượng" },
+            "成本": { pinyin: "chéngběn", meaning: "Giá thành" },
+            "降低成本": { pinyin: "jiàngdī chéngběn", meaning: "Hạ thấp giá thành" },
+            "卡通": { pinyin: "kǎtōng", meaning: "Hoạt hình" },
+            "投放": { pinyin: "tóufàng", meaning: "Tung ra thị trường" },
+            "催": { pinyin: "cuī", meaning: "Thúc giục" },
+            "資料": { pinyin: "zīliào", meaning: "Tư liệu" },
+            "可愛": { pinyin: "kě'ài", meaning: "Đáng yêu" },
+            "企業": { pinyin: "qǐyè", meaning: "Doanh nghiệp" },
+            "分為": { pinyin: "fēnwéi", meaning: "Chia ra" },
+            "國企": { pinyin: "guóqǐ", meaning: "Doanh nghiệp nhà nước" },
+            "民營": { pinyin: "mín yíng", meaning: "Doanh nghiệp dân doanh" },
+            "外資企業": { pinyin: "wàizī qǐyè", meaning: "Doanh nghiệp có vốn nước ngoài" },
+            "中央": { pinyin: "zhōngyāng", meaning: "Trung ương" },
+            "政府": { pinyin: "zhèngfǔ", meaning: "Chính phủ" },
+            "並": { pinyin: "bìng", meaning: "Và, đồng thời" },
+            "支持": { pinyin: "zhīchí", meaning: "Hỗ trợ" },
+            "資金": { pinyin: "zījīn", meaning: "Vốn" },
+            "原料": { pinyin: "yuánliào", meaning: "Nguyên liệu" },
+            "銷售": { pinyin: "xiāoshòu", meaning: "Tiêu thụ" },
+            "優勢": { pinyin: "yōushì", meaning: "Ưu thế" },
+            "不少": { pinyin: "bùshǎo", meaning: "Không ít" },
+            "不善": { pinyin: "bùshàn", meaning: "Không giỏi" },
+            "長期": { pinyin: "chángqī", meaning: "Trong thời gian dài" },
+            "虧損": { pinyin: "kuīsǔn", meaning: "Lỗ vốn" },
+            "著力": { pinyin: "zhuólì", meaning: "Mạnh mẽ" },
+            "對手": { pinyin: "duìshǒu", meaning: "Đối thủ" },
+            "積極": { pinyin: "jījí", meaning: "Tích cực" },
+            "推動": { pinyin: "tuīdòng", meaning: "Thúc đẩy" },
+            "鼓勵": { pinyin: "gǔlì", meaning: "Khuyến khích" },
+            "個人": { pinyin: "gèrén", meaning: "Cá nhân" },
+            "私有": { pinyin: "sīyǒu", meaning: "Tư hữu" },
+            "承包": { pinyin: "chéngbāo", meaning: "Nhận khoán" },
+            "租賃": { pinyin: "zūlìn", meaning: "Thuê" },
+            "兼併": { pinyin: "jiānbìng", meaning: "Sáp nhập" },
+            "購買": { pinyin: "gòumǎi", meaning: "Mua" },
+            "效益": { pinyin: "xiàoyì", meaning: "Hiệu quả" },
+            "過程": { pinyin: "guòchéng", meaning: "Quá trình" },
+            "逐漸": { pinyin: "zhújiàn", meaning: "Dần dần" },
+            "獨資企業": { pinyin: "dúzī qǐyè", meaning: "Doanh nghiệp 100% vốn" },
+            "合資": { pinyin: "hézī", meaning: "Liên doanh" },
+            "類型": { pinyin: "lèixíng", meaning: "Loại hình" },
+            "調整": { pinyin: "tiáozhěng", meaning: "Điều chỉnh" },
+            "尋求": { pinyin: "xúnqiú", meaning: "Tìm kiếm" },
+            "進入": { pinyin: "jìnrù", meaning: "Tiến vào" }
+        }
+    },
+    8: {  // B8
+        normal: ["進貨","數量","關鍵","報盤","打","運費","改進","不得不","適當","折扣","不行","以上","考慮","激烈","市場","利潤","公認","競爭力","接受","薄利多銷","一言為定","失敗","皮夾克","報價","銷路","特價","出售","名牌","差不多","某些","知名度","還盤","降價","賠本","讓價","底價","遺憾","貨源","討價還價","買賣","漫天要價","說法","固然","誇張","的確","本領","取決於","細心","耐心","調查","制度","善於","好手","非...不可","理解","交流","溝通"],
+        shuffle: ["進貨","數量","關鍵","報盤","打","運費","改進","不得不","適當","折扣","不行","以上","考慮","激烈","市場","利潤","公認","競爭力","接受","薄利多銷","一言為定","失敗","皮夾克","報價","銷路","特價","出售","名牌","差不多","某些","知名度","還盤","降價","賠本","讓價","底價","遺憾","貨源","討價還價","買賣","漫天要價","說法","固然","誇張","的確","本領","取決於","細心","耐心","調查","制度","善於","好手","非...不可","理解","交流","溝通"],
+        items: {
+            "進貨": { pinyin: "jìnhuò", meaning: "Nhập hàng, mua hàng" },
+            "數量": { pinyin: "shùliàng", meaning: "Số lượng" },
+            "關鍵": { pinyin: "guānjiàn", meaning: "Quan trọng, chủ yếu" },
+            "報盤": { pinyin: "bàopán", meaning: "Báo giá" },
+            "打": { pinyin: "dǎ", meaning: "Tá, lô (12 cái)" },
+            "運費": { pinyin: "yùnfèi", meaning: "Phí vận chuyển" },
+            "改進": { pinyin: "gǎijìn", meaning: "Cải thiện" },
+            "不得不": { pinyin: "bùdébù", meaning: "Không thể không, phải" },
+            "適當": { pinyin: "shìdàng", meaning: "Thích hợp" },
+            "折扣": { pinyin: "zhékòu", meaning: "Giảm giá" },
+            "不行": { pinyin: "bùxíng", meaning: "Không được" },
+            "以上": { pinyin: "yǐshàng", meaning: "Trở lên" },
+            "考慮": { pinyin: "kǎolǜ", meaning: "Suy nghĩ, cân nhắc" },
+            "激烈": { pinyin: "jīliè", meaning: "Dữ dội" },
+            "市場": { pinyin: "shìchǎng", meaning: "Thị trường" },
+            "利潤": { pinyin: "lìrùn", meaning: "Lợi nhuận" },
+            "公認": { pinyin: "gōngrèn", meaning: "Công nhận" },
+            "競爭力": { pinyin: "jìngzhēnglì", meaning: "Sức cạnh tranh" },
+            "接受": { pinyin: "jiēshòu", meaning: "Chấp nhận" },
+            "薄利多銷": { pinyin: "bó lì duō xiāo", meaning: "Lời ít nhưng tiêu thụ nhiều" },
+            "一言為定": { pinyin: "yī yán wéi dìng", meaning: "Một lời đã định" },
+            "失敗": { pinyin: "shībài", meaning: "Thất bại" },
+            "皮夾克": { pinyin: "píjiākè", meaning: "Áo khoác da" },
+            "報價": { pinyin: "bàojià", meaning: "Báo giá" },
+            "銷路": { pinyin: "xiāolù", meaning: "Nguồn tiêu thụ" },
+            "特價": { pinyin: "tèjià", meaning: "Giá đặc biệt" },
+            "出售": { pinyin: "chūshòu", meaning: "Bán ra" },
+            "名牌": { pinyin: "míngpái", meaning: "Thương hiệu nổi tiếng" },
+            "差不多": { pinyin: "chàbuduō", meaning: "Xấp xỉ, gần như" },
+            "某些": { pinyin: "mǒuxiē", meaning: "Một ít, một vài" },
+            "知名度": { pinyin: "zhīmíngdù", meaning: "Tiếng tăm" },
+            "還盤": { pinyin: "huánpán", meaning: "Mặc cả, trả giá" },
+            "降價": { pinyin: "jiàngjià", meaning: "Hạ giá" },
+            "賠本": { pinyin: "péiběn", meaning: "Lỗ vốn" },
+            "讓價": { pinyin: "ràngjià", meaning: "Giảm giá" },
+            "底價": { pinyin: "dǐjià", meaning: "Giá sàn" },
+            "遺憾": { pinyin: "yíhàn", meaning: "Đáng tiếc" },
+            "貨源": { pinyin: "huòyuán", meaning: "Nguồn hàng" },
+            "討價還價": { pinyin: "tǎojià huánjià", meaning: "Mặc cả" },
+            "買賣": { pinyin: "mǎimài", meaning: "Mua bán" },
+            "漫天要價": { pinyin: "màntiān yàojià", meaning: "Đưa ra giá cao ngất trời" },
+            "說法": { pinyin: "shuōfǎ", meaning: "Cách nói" },
+            "固然": { pinyin: "gùrán", meaning: "Tất nhiên" },
+            "誇張": { pinyin: "kuāzhāng", meaning: "Khoa trương" },
+            "的確": { pinyin: "díquè", meaning: "Quả thật" },
+            "本領": { pinyin: "běnlǐng", meaning: "Bản lĩnh, tài năng" },
+            "取決於": { pinyin: "qǔjué yú", meaning: "Quyết định bởi" },
+            "細心": { pinyin: "xìxīn", meaning: "Cẩn thận" },
+            "耐心": { pinyin: "nàixīn", meaning: "Kiên nhẫn" },
+            "調查": { pinyin: "diàochá", meaning: "Điều tra" },
+            "制度": { pinyin: "zhìdù", meaning: "Chế độ" },
+            "善於": { pinyin: "shànyú", meaning: "Giỏi về" },
+            "好手": { pinyin: "hǎoshǒu", meaning: "Người giỏi" },
+            "非...不可": { pinyin: "fēi ... bù kě", meaning: "Nhất định phải..." },
+            "理解": { pinyin: "lǐjiě", meaning: "Hiểu" },
+            "交流": { pinyin: "jiāoliú", meaning: "Trao đổi" },
+            "溝通": { pinyin: "gōutōng", meaning: "Giao tiếp" }
+        }
+    }
+};
+
+
+        let currentLesson = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+        let showPinyin = false;
+        let stageSize = 5; // Mỗi chặng 5 từ
+
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            // Hiển thị các bài có dữ liệu
+            Object.keys(allLessons).forEach(lessonNum => {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${lessonNum}`;
+                btn.onclick = () => selectLesson(parseInt(lessonNum));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('mode-screen').style.display = 'block';
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
+        }
+
+        function backToMenu() {
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const lessonData = allLessons[currentLesson];
+            
+            vocabulary = lessonData.normal.map(hanzi => ({
+                hanzi: hanzi,
+                pinyin: lessonData.items[hanzi].pinyin,
+                meaning: lessonData.items[hanzi].meaning
+            }));
+
+            if (mode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+
+            currentIndex = 0;
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('total').textContent = vocabulary.length;
+            
+            loadQuestion();
+        }
+
+        function togglePinyin() {
+            showPinyin = !showPinyin;
+            const pinyinEl = document.getElementById('pinyin');
+            pinyinEl.style.display = showPinyin ? 'block' : 'none';
+            document.querySelector('.toggle-pinyin').textContent = showPinyin ? '🙈 Ẩn Pinyin' : '👁️ Hiện Pinyin';
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('pinyin').textContent = currentWord.pinyin;
+            document.getElementById('result').textContent = '';
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            let answers = [currentWord.meaning, ...wrongAnswers.map(w => w.meaning)];
+            answers = answers.sort(() => Math.random() - 0.5);
+
+            answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.meaning, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        // Kiểm tra chặng: nếu sai sẽ quay về đầu chặng
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1500);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+                resultDiv.style.color = "#f87171";
+                
+                // Quay về đầu chặng hiện tại (mỗi 5 từ)
+                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+                currentIndex = currentStageStart;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 2000);
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
+                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
+            `;
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
+                    Chơi lại bài này
+                </button>
+            `;
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            if (currentMode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        // Khởi động
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+
+</body></html>
