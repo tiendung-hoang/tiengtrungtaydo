@@ -1,572 +1,684 @@
 <!DOCTYPE html>
-<!-- saved from url=(0148)file:///D:/LAM%20ONE%20MROE%20TIME/M%E1%BA%ABu/Checked%20-%20HSK%201%20-%20Quiz%20T%E1%BB%AB%20V%E1%BB%B1ng%20(V%E1%BB%9Bi%20Pinyin)%20-%20Copy.html -->
+<!-- saved from url=(0073)https://tiendung-hoang.github.io/tiengtrungtaydo/HSK1/HSK1-Luyen-Noi.html -->
+<script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.28.1/dist/index.min.js"></script>
 <html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HSK 1 - Quiz Từ Vựng (Với Pinyin)</title>
+    <title>Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .lessons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        button {
-            width: 100%;
-            padding: 18px 12px;
-            font-size: 20px;
-            background: white;
-            color: #333;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .mode-btn {
-            background: #4ade80;
-            color: white;
-            font-size: 18px;
-            padding: 14px;
-        }
-        .mode-btn:hover {
-            background: #22c55e;
-        }
-        .back-btn {
-            background: #f87171;
-            color: white;
-            margin-top: 20px;
-        }
-        #quiz-container {
-            display: none;
-        }
-        .progress {
-            font-size: 18px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .hanzi {
-            font-size: 90px;
-            font-weight: bold;
-            text-align: center;
-            margin: 20px 0;
-            min-height: 110px;
-            line-height: 1.2;
-        }
-        .pinyin {
-            font-size: 28px;
-            text-align: center;
-            margin: 10px 0;
-            opacity: 0.9;
-            font-style: italic;
-        }
-        .options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        .result {
-            font-size: 26px;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        .correct { background: #4ade80 !important; color: white !important; }
-        .wrong { background: #f87171 !important; color: white !important; }
-        .toggle-pinyin {
-            background: #60a5fa;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin: 15px auto;
-            display: block;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        :root { --tw-color-primary: #e63939; }
+        body { font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif; }
+        .chinese-text { font-family: 'Noto Sans SC', sans-serif; }
+
+        .lesson-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .lesson-card:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 20px 25px -5px rgb(230 57 57 / 0.1); }
+
+        .big-emoji { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>📚 HSK 1 - Quiz Từ Vựng (Pinyin)</h1>
+    <script src="./Mau Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời_files/saved_resource"></script>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.bottom-6{bottom:1.5rem}.left-1\/2{left:50%}.top-0{top:0px}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.-mt-1{margin-top:-0.25rem}.mb-2{margin-bottom:0.5rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mb-3{margin-bottom:0.75rem}.ml-4{margin-left:1rem}.mt-6{margin-top:1.5rem}.mt-auto{margin-top:auto}.mb-1{margin-bottom:0.25rem}.mb-4{margin-bottom:1rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-3{height:0.75rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.min-h-\[420px\]{min-height:420px}.w-10{width:2.5rem}.w-full{width:100%}.w-3{width:0.75rem}.max-w-5xl{max-width:64rem}.flex-1{flex:1 1 0%}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes ping{75%, 100%{transform:scale(2);opacity:0}}.animate-ping{animation:ping 1s cubic-bezier(0, 0, 0.2, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-green-200{--tw-border-opacity:1;border-color:rgb(187 247 208 / var(--tw-border-opacity, 1))}.border-green-300{--tw-border-opacity:1;border-color:rgb(134 239 172 / var(--tw-border-opacity, 1))}.border-red-200{--tw-border-opacity:1;border-color:rgb(254 202 202 / var(--tw-border-opacity, 1))}.border-red-100{--tw-border-opacity:1;border-color:rgb(254 226 226 / var(--tw-border-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-red-600{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-green-400{--tw-bg-opacity:1;background-color:rgb(74 222 128 / var(--tw-bg-opacity, 1))}.bg-green-50{--tw-bg-opacity:1;background-color:rgb(240 253 244 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-600{--tw-gradient-from:#2563eb var(--tw-gradient-from-position);--tw-gradient-to:rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-green-500{--tw-gradient-from:#22c55e var(--tw-gradient-from-position);--tw-gradient-to:rgb(34 197 94 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-red-50{--tw-gradient-from:#fef2f2 var(--tw-gradient-from-position);--tw-gradient-to:rgb(254 242 242 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-red-500{--tw-gradient-from:#ef4444 var(--tw-gradient-from-position);--tw-gradient-to:rgb(239 68 68 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-emerald-600{--tw-gradient-to:#059669 var(--tw-gradient-to-position)}.to-indigo-600{--tw-gradient-to:#4f46e5 var(--tw-gradient-to-position)}.to-orange-50{--tw-gradient-to:#fff7ed var(--tw-gradient-to-position)}.to-orange-500{--tw-gradient-to:#f97316 var(--tw-gradient-to-position)}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-8{padding-left:2rem;padding-right:2rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.pb-6{padding-bottom:1.5rem}.pb-8{padding-bottom:2rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-8xl{font-size:6rem;line-height:1}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-6xl{font-size:3.75rem;line-height:1}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-green-700{--tw-text-opacity:1;color:rgb(21 128 61 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.opacity-75{opacity:0.75}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.hover\:bg-red-700:hover{--tw-bg-opacity:1;background-color:rgb(185 28 28 / var(--tw-bg-opacity, 1))}.hover\:text-red-700:hover{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.hover\:brightness-110:hover{--tw-brightness:brightness(1.1);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.disabled\:opacity-50:disabled{opacity:0.5}@media (min-width: 640px){.sm\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}@media (min-width: 768px){.md\:grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}}</style></head>
+<!-- FLOATING BUTTON - Quay về mục lục -->
+<body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen"><a href="https://tiendung-hoang.github.io/tiengtrungtaydo/HSK1/HSK1-muc-luc.html" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+          background: #ef4444; color: white; width: 60px; height: 60px; 
+          border-radius: 50%; display: flex; align-items: center; 
+          justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+          text-decoration: none; transition: all 0.3s;">
+    ←
+</a>
+    
 
-        <!-- Màn hình chọn bài -->
-        <div id="menu-screen" style="display: block;">
-            <h2>Chọn bài học</h2>
-            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button></div>
-        </div>
-
-        <!-- Màn hình chọn dạng -->
-        <div id="mode-screen" style="display: none;">
-            <h2 id="selected-lesson-title">Bài 1 - Chọn dạng quiz</h2>
-            <div style="text-align: center; margin: 30px 0;">
-                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
-                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)" style="margin-left: 20px;">🔀 Xáo trộn</button>
+    <!-- HEADER -->
+    <div class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-600 text-white rounded-2xl flex items-center justify-center text-3xl shadow-inner">🇨🇳</div>
+                <div>
+                    <h1 class="text-2xl font-bold text-red-600 tracking-tight">Luyện Hỏi Đáp</h1>
+                    <p class="text-xs text-red-500 -mt-1 font-medium">Tiếng Trung HSK 1 • A hỏi - B trả lời</p>
+                   <div class="flex items-center gap-2">
+                        <span>🎤</span>
+                        <select id="voiceType" class="px-3 py-2 border rounded-xl">
+                            <option value="female">👩 Giọng nữ</option>
+                            <option value="male">👨 Giọng nam</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+            
+            <div id="header-info" class="items-center gap-2 text-sm font-medium hidden">
+                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-3xl text-xs flex items-center gap-1">
+                    <span id="current-bai" class="font-bold">Đã chọn 1 bài <span class="text-red-400 mx-2">•</span> 3 câu</span>
+                </span>
+                <button onclick="backToHome()" class="flex items-center gap-1 text-red-600 hover:text-red-700 transition-colors">
+                    ← Quay về chọn bài
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 pb-8">
+
+        <!-- HOME VIEW -->
+        <div id="home-view" class="">
+            <div class="pt-8 pb-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
+                <p class="text-red-600 text-lg">15 bài • Mỗi bài 3 câu hỏi</p>
+            </div>
+            
+            <!-- NÚT MỚI -->
+            <div class="text-center mb-8">
+                <button onclick="enterMultiSelectMode()" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-3xl text-lg shadow-lg hover:brightness-110 transition">
+                    📋 Luyện tập chọn bài (nhiều bài)
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="lesson-grid"><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">👋</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 1</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🙏</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 2</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">👤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 3</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">👤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 4</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">👪</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 5</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🗣️</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 6</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">📅</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 7</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🥤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 8</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🐱</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 9</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🪑</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 10</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">⏰</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 11</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🌤️</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 12</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🤔</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 13</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">🚶</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 14</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer">
+                    <div class="text-6xl mb-4">💑</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 15</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div></div>
         </div>
 
-        <!-- Màn hình quiz -->
-        <div id="quiz-container" style="display: none;">
-            <div class="progress">Bài <span id="lesson-num">1</span> - Câu <span id="current">1</span>/<span id="total">6</span></div>
-            
-            <div class="hanzi" id="hanzi">你</div>
-            <div class="pinyin" id="pinyin" style="display: none;">nǐ</div>
-            <button class="toggle-pinyin" onclick="togglePinyin()">🙈 Ẩn Pinyin</button>
-            
-            <div class="result" id="result"></div>
-            <div class="options" id="options"><button>bạn</button><button>tốt, khỏe</button><button>không sao, không quan trọng</button><button>xin lỗi</button></div>
+        <!-- MULTI SELECT VIEW -->
+        <div id="multi-select-view" class="hidden">
+            <div class="pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Chọn các bài muốn luyện</h2>
+                    <button onclick="exitMultiSelectMode()" class="text-red-600 hover:text-red-700 font-medium">✕ Đóng</button>
+                </div>
+                
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="multi-lesson-grid"><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">👋</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 1</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🙏</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 2</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-green-500 bg-green-50">
+                    <div class="text-6xl mb-4">👤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 3</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">👤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 4</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">👪</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 5</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🗣️</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 6</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">📅</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 7</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🥤</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 8</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🐱</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 9</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🪑</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 10</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">⏰</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 11</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🌤️</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 12</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🤔</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 13</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">🚶</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 14</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div><div class="lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all border-gray-200 hover:border-red-200">
+                    <div class="text-6xl mb-4">💑</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">Bài 15</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                </div></div>
+            </div>
 
-            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
-                ← Thoát quiz
-            </button>
+            <div class="mt-6 w-full">
+                <button onclick="startMultiPractice()" id="btn-start-multi" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50">
+                    🚀 BẮT ĐẦU TỰ LUYỆN TẬP (<span id="selected-count">1</span> bài)
+                </button>
+            </div>
+        </div>
+
+        <!-- PRACTICE VIEW -->
+        <div id="practice-view" class="hidden">
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-700">3 câu hỏi của bài này</h3>
+                    <div class="flex gap-2">
+                        <button onclick="startAutoPractice()" class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            🔄 Tự luyện tập
+                        </button>
+                        <button onclick="startManualPractice()" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            👆 Tự luyện tập thủ công
+                        </button>
+                        <button onclick="randomQuestion()" class="px-5 py-2 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50">
+                            🎲 Ngẫu nhiên
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3" id="mini-questions"><div class="bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300"><div class="text-4xl mb-3">👤</div><p class="chinese-text text-sm font-medium">你叫什么名字？</p></div><div class="bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300"><div class="text-4xl mb-3">👨‍🏫</div><p class="chinese-text text-sm font-medium">你是老师吗？</p></div><div class="bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300"><div class="text-4xl mb-3">🇨🇳</div><p class="chinese-text text-sm font-medium">你是中国人吗？</p></div></div>
+            </div>
+
+            <!-- Main Area -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 min-h-[420px] flex flex-col" id="question-container">
+                <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center hidden">
+                    <div class="text-8xl mb-6">🎲</div>
+                    <h3 class="text-3xl font-bold text-gray-300">Sẵn sàng luyện chưa?</h3>
+                </div>
+
+                <div id="active-question" class="flex-1 flex flex-col">
+                    <div class="flex justify-center">
+                        <div id="big-emoji" class="big-emoji text-8xl mb-6">👨‍🏫</div>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h2 id="question-text" class="chinese-text text-4xl leading-tight font-medium text-gray-800">你是老师吗？</h2>
+                    </div>
+                    <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
+                        👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
+                    </div>
+                    <div class="text-center mb-6">
+                        <button onclick="repeatQuestion()" class="px-5 py-3 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50 mx-auto">
+                            🔊 Nghe lại câu hỏi
+                        </button>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
+                            👀 Hiện đáp án mẫu
+                        </button>
+                        <div id="answer-box" class="hidden mt-6 bg-green-50 border border-green-200 rounded-3xl p-6">
+                            <p id="answer-text-content" class="chinese-text text-3xl leading-snug font-medium text-green-800"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Status -->
+            <div id="auto-status" class="hidden mt-6 text-center">
+                <div class="inline-flex items-center gap-3 bg-white border border-green-300 rounded-3xl px-6 py-3">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span id="auto-text" class="font-medium text-green-700">Đang tự luyện tập...</span>
+                    <button onclick="stopAutoPractice()" class="text-red-500 hover:text-red-700 font-medium ml-4">Dừng</button>
+                </div>
+            </div>
+
+            
+            <div id="manual-status" class="mt-6 text-center hidden">
+                <div class="inline-flex items-center gap-3 bg-white border rounded-3xl px-6 py-3">
+                    <span class="font-medium text-blue-700">👆 Chế độ tự luyện tập thủ công</span>
+                    <button onclick="nextManualQuestion()" class="px-4 py-2 bg-blue-600 text-white rounded-full">➡️ Tiếp theo</button>
+                    <button onclick="stopManualPractice()" class="text-red-500 font-medium">Dừng</button>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+
+            <div class="mt-6 w-full">
+                <button onclick="randomQuestion()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4">
+                    🎲 LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO 🎲
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ==================== DỮ LIỆU TỪ EXCEL ====================
-const allLessons = {
-    1: {
-        normal: ["你","好","您","你们","对不起","没关系"],
-        shuffle: ["你","好","您","你们","对不起","没关系"],
-        items: {
-            "你": { pinyin: "nǐ", meaning: "bạn" },
-            "好": { pinyin: "hǎo", meaning: "tốt, khỏe" },
-            "您": { pinyin: "nín", meaning: "ngài (lịch sự)" },
-            "你们": { pinyin: "nǐmen", meaning: "các bạn" },
-            "对不起": { pinyin: "duìbùqǐ", meaning: "xin lỗi" },
-            "没关系": { pinyin: "méi guānxi", meaning: "không sao, không quan trọng" }
-        }
-    },
-    2: {
-        normal: ["谢谢","不","不客气","再见"],
-        shuffle: ["谢谢","不","不客气","再见"],
-        items: {
-            "谢谢": { pinyin: "xièxie", meaning: "cảm ơn" },
-            "不": { pinyin: "bù", meaning: "không" },
-            "不客气": { pinyin: "bú kèqi", meaning: "không có gì" },
-            "再见": { pinyin: "zài jiàn", meaning: "tạm biệt" }
-        }
-    },
-    3: {
-        normal: ["叫","什么","名字","我","是","老师","吗","学生","人","李月","中国","美国"],
-        shuffle: ["叫","什么","名字","我","是","老师","吗","学生","人","李月","中国","美国"],
-        items: {
-            "叫": { pinyin: "jiào", meaning: "gọi, tên là" },
-            "什么": { pinyin: "shénme", meaning: "gì, cái gì" },
-            "名字": { pinyin: "míngzi", meaning: "tên" },
-            "我": { pinyin: "wǒ", meaning: "tôi" },
-            "是": { pinyin: "shì", meaning: "là" },
-            "老师": { pinyin: "lǎoshī", meaning: "giáo viên" },
-            "吗": { pinyin: "ma", meaning: "trợ từ nghi vấn" },
-            "学生": { pinyin: "xuésheng", meaning: "học sinh" },
-            "人": { pinyin: "rén", meaning: "người" },
-            "李月": { pinyin: "Lǐ Yuè", meaning: "Lý Nguyệt" },
-            "中国": { pinyin: "Zhōngguó", meaning: "Trung Quốc" },
-            "美国": { pinyin: "Měiguó", meaning: "Mỹ" }
-        }
-    },
-    4: {
-        normal: ["她","谁","的","汉语","哪","国","呢","他","同学","朋友"],
-        shuffle: ["她","谁","的","汉语","哪","国","呢","他","同学","朋友"],
-        items: {
-            "她": { pinyin: "tā", meaning: "cô ấy" },
-            "谁": { pinyin: "shuí", meaning: "ai" },
-            "的": { pinyin: "de", meaning: "trợ từ (sở hữu)" },
-            "汉语": { pinyin: "Hànyǔ", meaning: "tiếng Hán" },
-            "哪": { pinyin: "nǎ", meaning: "nào" },
-            "国": { pinyin: "guó", meaning: "nước" },
-            "呢": { pinyin: "ne", meaning: "trợ từ (hỏi lại)" },
-            "他": { pinyin: "tā", meaning: "anh ấy" },
-            "同学": { pinyin: "tóngxué", meaning: "bạn cùng lớp" },
-            "朋友": { pinyin: "péngyou", meaning: "bạn" }
-        }
-    },
-    5: {
-        normal: ["家","有","口","女儿","几","岁","了","今年","多","大"],
-        shuffle: ["家","有","口","女儿","几","岁","了","今年","多","大"],
-        items: {
-            "家": { pinyin: "jiā", meaning: "nhà, gia đình" },
-            "有": { pinyin: "yǒu", meaning: "có" },
-            "口": { pinyin: "kǒu", meaning: "miệng (lượng từ người)" },
-            "女儿": { pinyin: "nǚ'ér", meaning: "con gái" },
-            "几": { pinyin: "jǐ", meaning: "mấy" },
-            "岁": { pinyin: "suì", meaning: "tuổi" },
-            "了": { pinyin: "le", meaning: "trợ từ (hoàn thành)" },
-            "今年": { pinyin: "jīnnián", meaning: "năm nay" },
-            "多": { pinyin: "duō", meaning: "nhiều" },
-            "大": { pinyin: "dà", meaning: "lớn" }
-        }
-    },
-    6: {
-        normal: ["会","说","妈妈","菜","很","好吃","做","写","汉字","字","怎么","读"],
-        shuffle: ["会","说","妈妈","菜","很","好吃","做","写","汉字","字","怎么","读"],
-        items: {
-            "会": { pinyin: "huì", meaning: "biết (có khả năng)" },
-            "说": { pinyin: "shuō", meaning: "nói" },
-            "妈妈": { pinyin: "māma", meaning: "mẹ" },
-            "菜": { pinyin: "cài", meaning: "món ăn" },
-            "很": { pinyin: "hěn", meaning: "rất" },
-            "好吃": { pinyin: "hǎochī", meaning: "ngon" },
-            "做": { pinyin: "zuò", meaning: "làm" },
-            "写": { pinyin: "xiě", meaning: "viết" },
-            "汉字": { pinyin: "hànzì", meaning: "chữ Hán" },
-            "字": { pinyin: "zì", meaning: "chữ" },
-            "怎么": { pinyin: "zěnme", meaning: "như thế nào" },
-            "读": { pinyin: "dú", meaning: "đọc" }
-        }
-    },
-    7: {
-        normal: ["请","问","今天","号","月","星期","昨天","明天","去","学校","看","书"],
-        shuffle: ["请","问","今天","号","月","星期","昨天","明天","去","学校","看","书"],
-        items: {
-            "请": { pinyin: "qǐng", meaning: "mời, xin" },
-            "问": { pinyin: "wèn", meaning: "hỏi" },
-            "今天": { pinyin: "jīntiān", meaning: "hôm nay" },
-            "号": { pinyin: "hào", meaning: "ngày (số)" },
-            "月": { pinyin: "yuè", meaning: "tháng" },
-            "星期": { pinyin: "xīngqī", meaning: "thứ (tuần)" },
-            "昨天": { pinyin: "zuótiān", meaning: "hôm qua" },
-            "明天": { pinyin: "míngtiān", meaning: "ngày mai" },
-            "去": { pinyin: "qù", meaning: "đi" },
-            "学校": { pinyin: "xuéxiào", meaning: "trường học" },
-            "看": { pinyin: "kàn", meaning: "xem" },
-            "书": { pinyin: "shū", meaning: "sách" }
-        }
-    },
-    8: {
-        normal: ["想","喝","茶","吃","米饭","下午","商店","买","个","杯子","这","多少","钱","块","那"],
-        shuffle: ["想","喝","茶","吃","米饭","下午","商店","买","个","杯子","这","多少","钱","块","那"],
-        items: {
-            "想": { pinyin: "xiǎng", meaning: "muốn" },
-            "喝": { pinyin: "hē", meaning: "uống" },
-            "茶": { pinyin: "chá", meaning: "trà" },
-            "吃": { pinyin: "chī", meaning: "ăn" },
-            "米饭": { pinyin: "mǐfàn", meaning: "cơm" },
-            "下午": { pinyin: "xiàwǔ", meaning: "chiều" },
-            "商店": { pinyin: "shāngdiàn", meaning: "cửa hàng" },
-            "买": { pinyin: "mǎi", meaning: "mua" },
-            "个": { pinyin: "gè", meaning: "cái (lượng từ)" },
-            "杯子": { pinyin: "bēizi", meaning: "cốc" },
-            "这": { pinyin: "zhè", meaning: "đây" },
-            "多少": { pinyin: "duōshao", meaning: "bao nhiêu" },
-            "钱": { pinyin: "qián", meaning: "tiền" },
-            "块": { pinyin: "kuài", meaning: "đồng (tiền)" },
-            "那": { pinyin: "nà", meaning: "đó" }
-        }
-    },
-    9: {
-        normal: ["小","猫","在","那儿","狗","椅子","下面","在","哪儿","工作","儿子","医院","医生","爸爸"],
-        shuffle: ["小","猫","在","那儿","狗","椅子","下面","在","哪儿","工作","儿子","医院","医生","爸爸"],
-        items: {
-            "小": { pinyin: "xiǎo", meaning: "nhỏ" },
-            "猫": { pinyin: "māo", meaning: "mèo" },
-            "在": { pinyin: "zài", meaning: "ở" },
-            "那儿": { pinyin: "nàr", meaning: "ở đó" },
-            "狗": { pinyin: "gǒu", meaning: "chó" },
-            "椅子": { pinyin: "yǐzi", meaning: "ghế" },
-            "下面": { pinyin: "xiàmiàn", meaning: "dưới" },
-            "哪儿": { pinyin: "nǎr", meaning: "ở đâu" },
-            "工作": { pinyin: "gōngzuò", meaning: "làm việc" },
-            "儿子": { pinyin: "érzi", meaning: "con trai" },
-            "医院": { pinyin: "yīyuàn", meaning: "bệnh viện" },
-            "医生": { pinyin: "yīshēng", meaning: "bác sĩ" },
-            "爸爸": { pinyin: "bàba", meaning: "bố" }
-        }
-    },
-    10: {
-        normal: ["桌子","上","电脑","和","本","里","前面","后面","这儿","没有","能","坐","王方","谢朋"],
-        shuffle: ["桌子","上","电脑","和","本","里","前面","后面","这儿","没有","能","坐","王方","谢朋"],
-        items: {
-            "桌子": { pinyin: "zhuōzi", meaning: "bàn" },
-            "上": { pinyin: "shàng", meaning: "trên" },
-            "电脑": { pinyin: "diànnǎo", meaning: "máy tính" },
-            "和": { pinyin: "hé", meaning: "và" },
-            "本": { pinyin: "běn", meaning: "cuốn (lượng từ sách)" },
-            "里": { pinyin: "lǐ", meaning: "trong" },
-            "前面": { pinyin: "qiánmiàn", meaning: "phía trước" },
-            "后面": { pinyin: "hòumiàn", meaning: "phía sau" },
-            "这儿": { pinyin: "zhèr", meaning: "ở đây" },
-            "没有": { pinyin: "méiyǒu", meaning: "không có" },
-            "能": { pinyin: "néng", meaning: "có thể" },
-            "坐": { pinyin: "zuò", meaning: "ngồi" },
-            "王方": { pinyin: "Wáng Fāng", meaning: "Vương Phương" },
-            "谢朋": { pinyin: "Xiè Péng", meaning: "Tạ Bằng" }
-        }
-    },
-    11: {
-        normal: ["现在","点","分","中午","吃饭","时候","回","我们","电影","住","前","北京"],
-        shuffle: ["现在","点","分","中午","吃饭","时候","回","我们","电影","住","前","北京"],
-        items: {
-            "现在": { pinyin: "xiànzài", meaning: "bây giờ" },
-            "点": { pinyin: "diǎn", meaning: "giờ" },
-            "分": { pinyin: "fēn", meaning: "phút" },
-            "中午": { pinyin: "zhōngwǔ", meaning: "trưa" },
-            "吃饭": { pinyin: "chīfàn", meaning: "ăn cơm" },
-            "时候": { pinyin: "shíhou", meaning: "lúc, thời gian" },
-            "回": { pinyin: "huí", meaning: "về" },
-            "我们": { pinyin: "wǒmen", meaning: "chúng tôi" },
-            "电影": { pinyin: "diànyǐng", meaning: "phim" },
-            "住": { pinyin: "zhù", meaning: "ở (cư trú)" },
-            "前": { pinyin: "qián", meaning: "trước" },
-            "北京": { pinyin: "Běijīng", meaning: "Bắc Kinh" }
-        }
-    },
-    12: {
-        normal: ["天气","怎么样","太","热","冷","下雨","小姐","来","身体","爱","些","水果","水"],
-        shuffle: ["天气","怎么样","太","热","冷","下雨","小姐","来","身体","爱","些","水果","水"],
-        items: {
-            "天气": { pinyin: "tiānqì", meaning: "thời tiết" },
-            "怎么样": { pinyin: "zěnmeyàng", meaning: "thế nào" },
-            "太": { pinyin: "tài", meaning: "quá" },
-            "热": { pinyin: "rè", meaning: "nóng" },
-            "冷": { pinyin: "lěng", meaning: "lạnh" },
-            "下雨": { pinyin: "xiàyǔ", meaning: "mưa" },
-            "小姐": { pinyin: "xiǎojiě", meaning: "cô (xưng hô)" },
-            "来": { pinyin: "lái", meaning: "đến" },
-            "身体": { pinyin: "shēntǐ", meaning: "sức khỏe" },
-            "爱": { pinyin: "ài", meaning: "yêu" },
-            "些": { pinyin: "xiē", meaning: "một ít" },
-            "水果": { pinyin: "shuǐguǒ", meaning: "trái cây" },
-            "水": { pinyin: "shuǐ", meaning: "nước" }
-        }
-    },
-    13: {
-        normal: ["喂","也","学习","上午","睡觉","电视","喜欢","给","打电话","吧","大卫"],
-        shuffle: ["喂","也","学习","上午","睡觉","电视","喜欢","给","打电话","吧","大卫"],
-        items: {
-            "喂": { pinyin: "wèi", meaning: "a lô" },
-            "也": { pinyin: "yě", meaning: "cũng" },
-            "学习": { pinyin: "xuéxí", meaning: "học" },
-            "上午": { pinyin: "shàngwǔ", meaning: "sáng" },
-            "睡觉": { pinyin: "shuìjiào", meaning: "ngủ" },
-            "电视": { pinyin: "diànshì", meaning: "ti vi" },
-            "喜欢": { pinyin: "xǐhuan", meaning: "thích" },
-            "给": { pinyin: "gěi", meaning: "cho" },
-            "打电话": { pinyin: "dǎ diànhuà", meaning: "gọi điện" },
-            "吧": { pinyin: "ba", meaning: "trợ từ (gợi ý)" },
-            "大卫": { pinyin: "Dàwèi", meaning: "David" }
-        }
-    },
-    14: {
-        normal: ["东西","一点儿","苹果","看见","先生","开","车","回来","分钟","后","衣服","漂亮","啊","少","这些","都","张"],
-        shuffle: ["东西","一点儿","苹果","看见","先生","开","车","回来","分钟","后","衣服","漂亮","啊","少","这些","都","张"],
-        items: {
-            "东西": { pinyin: "dōngxi", meaning: "đồ đạc" },
-            "一点儿": { pinyin: "yīdiǎnr", meaning: "một chút" },
-            "苹果": { pinyin: "píngguǒ", meaning: "táo" },
-            "看见": { pinyin: "kànjiàn", meaning: "nhìn thấy" },
-            "先生": { pinyin: "xiānsheng", meaning: "ông (xưng hô)" },
-            "开": { pinyin: "kāi", meaning: "mở, lái" },
-            "车": { pinyin: "chē", meaning: "xe" },
-            "回来": { pinyin: "huílái", meaning: "về" },
-            "分钟": { pinyin: "fēnzhōng", meaning: "phút" },
-            "后": { pinyin: "hòu", meaning: "sau" },
-            "衣服": { pinyin: "yīfu", meaning: "quần áo" },
-            "漂亮": { pinyin: "piàoliang", meaning: "đẹp" },
-            "啊": { pinyin: "a", meaning: "trợ từ (ngạc nhiên)" },
-            "少": { pinyin: "shǎo", meaning: "ít" },
-            "这些": { pinyin: "zhèxiē", meaning: "những cái này" },
-            "都": { pinyin: "dōu", meaning: "đều" },
-            "张": { pinyin: "zhāng", meaning: "tờ (lượng từ)" }
-        }
-    },
-    15: {
-        normal: ["认识","年","大学","饭店","出租车","一起","高兴","听","飞机"],
-        shuffle: ["认识","年","大学","饭店","出租车","一起","高兴","听","飞机"],
-        items: {
-            "认识": { pinyin: "rènshi", meaning: "biết (người)" },
-            "年": { pinyin: "nián", meaning: "năm" },
-            "大学": { pinyin: "dàxué", meaning: "đại học" },
-            "饭店": { pinyin: "fàndiàn", meaning: "nhà hàng, khách sạn" },
-            "出租车": { pinyin: "chūzūchē", meaning: "taxi" },
-            "一起": { pinyin: "yīqǐ", meaning: "cùng nhau" },
-            "高兴": { pinyin: "gāoxìng", meaning: "vui vẻ" },
-            "听": { pinyin: "tīng", meaning: "nghe" },
-            "飞机": { pinyin: "fēijī", meaning: "máy bay" }
-        }
-    }
-};
+        const lessons = [
+            {id:1,title:"Bài 1",pairs:[{q:"你好！",a:"你好",emoji:"👋"},{q:"您好！",a:"你们好",emoji:"🙌"},{q:"对不起？",a:"没关系",emoji:"😌"}]},
+            {id:2,title:"Bài 2",pairs:[{q:"谢谢？",a:"不谢",emoji:"🙏"},{q:"谢谢你？",a:"不客气",emoji:"🙏"},{q:"再见？",a:"再见",emoji:"👋"}]},
+            {id:3,title:"Bài 3",pairs:[{q:"你叫什么名字？",a:"我叫……",emoji:"👤"},{q:"你是老师吗？",a:"是 / 不是",emoji:"👨‍🏫"},{q:"你是中国人吗？",a:"对 / 不",emoji:"🇨🇳"}]},
+            {id:4,title:"Bài 4",pairs:[{q:"你是谁？",a:"我是……",emoji:"👤"},{q:"你是哪国人？",a:"我是越南人",emoji:"🇻🇳"},{q:"我是中国人，你呢？",a:"我不是中国人，我是越南人",emoji:"🇻🇳"}]},
+            {id:5,title:"Bài 5",pairs:[{q:"你家有几口人？",a:"我家有……",emoji:"👪"},{q:"你女儿几岁了？",a:"我女儿……岁了",emoji:"👧"},{q:"你多大了？",a:"我……岁",emoji:"🧓"}]},
+            {id:6,title:"Bài 6",pairs:[{q:"你会说汉语吗？",a:"我会说汉语",emoji:"🗣️"},{q:"越南菜好吃吗？",a:"很好吃",emoji:"🍜"},{q:"你会做中国菜吗？",a:"我会 / 不会做",emoji:"🍚"}]},
+            {id:7,title:"Bài 7",pairs:[{q:"请问今天几号，星期几？",a:"今天……",emoji:"📅"},{q:"明天几月几号？",a:"明天……",emoji:"📆"},{q:"你去学校做什么？",a:"我去学校……",emoji:"🏫"}]},
+            {id:8,title:"Bài 8",pairs:[{q:"你想喝什么？",a:"我想喝……",emoji:"🥤"},{q:"你想买什么？",a:"我想买……",emoji:"🛍️"},{q:"这个多少钱？",a:"这个……块钱",emoji:"💵"}]},
+            {id:9,title:"Bài 9",pairs:[{q:"小猫在哪里？",a:"小猫在……",emoji:"🐱"},{q:"你在哪儿工作？",a:"我在……工作",emoji:"💼"},{q:"你爸爸在家吗？",a:"他在家 / 不在家",emoji:"👨"}]},
+            {id:10,title:"Bài 10",pairs:[{q:"桌子上有什么？",a:"桌子上有……",emoji:"🪑"},{q:"你的手机在哪儿？",a:"我的手机在……",emoji:"📱"},{q:"我能坐这儿吗？",a:"可以 / 对不起",emoji:"🪑"}]},
+            {id:11,title:"Bài 11",pairs:[{q:"现在几点？",a:"现在……点",emoji:"⏰"},{q:"你什么时候回家？",a:"我……回家",emoji:"🏠"},{q:"你想在HCM市几天？",a:"我想在HCM市……天",emoji:"🏙️"}]},
+            {id:12,title:"Bài 12",pairs:[{q:"昨天天气怎么样？",a:"昨天天气……",emoji:"🌤️"},{q:"明天会下雨吗？",a:"明天会 / 不会下雨",emoji:"☔"},{q:"你身体怎么样？",a:"我身体很好",emoji:"💪"}]},
+            {id:13,title:"Bài 13",pairs:[{q:"现在你在做什么呢？",a:"现在我在……",emoji:"🤔"},{q:"昨天晚上你在做什么呢？",a:"昨天晚上我在……",emoji:"🌙"},{q:"你的电话号码是什么？",a:"我的电话号码是……",emoji:"📞"}]},
+            {id:14,title:"Bài 14",pairs:[{q:"昨天你去哪儿了？",a:"昨天我去……了",emoji:"🚶"},{q:"昨天你买什么了？",a:"昨天我买……了",emoji:"🛒"},{q:"你什么时候回家？",a:"我……回家",emoji:"🏠"}]},
+            {id:15,title:"Bài 15",pairs:[{q:"你和老公/老婆是什么时候认识的？",a:"我们是……认识的",emoji:"💑"},{q:"你们是在哪里认识的？",a:"我们是在……认识的",emoji:"📍"},{q:"你是怎么来的？",a:"我是……来的",emoji:"🚕"}]}
+        ];
+
         let currentLesson = null;
-        let currentMode = null;
-        let vocabulary = [];
-        let currentIndex = 0;
-        let isAnswered = false;
-        let showPinyin = false;
-        let stageSize = 5; // Mỗi chặng 5 từ
+        let currentPair = null;
+        let isAutoPlaying = false;
+        let autoTimeout = null;
+        let isManualPractice = false;
+        let manualQueue = [];
+        
+        // === CHỨC NĂNG MỚI ===
+        let selectedLessons = [];
+        let isMultiSelectMode = false;
 
-        function createLessonButtons() {
-            const container = document.getElementById('lesson-list');
-            container.innerHTML = '';
-            // Hiển thị các bài có dữ liệu
-            Object.keys(allLessons).forEach(lessonNum => {
-                const btn = document.createElement('button');
-                btn.textContent = `Bài ${lessonNum}`;
-                btn.onclick = () => selectLesson(parseInt(lessonNum));
-                container.appendChild(btn);
-            });
-        }
+        let femaleVoice = null;
+        let maleVoice = null;
+     
+       
+       function loadVoices() {
 
-        function selectLesson(lessonNum) {
-            currentLesson = lessonNum;
-            document.getElementById('menu-screen').style.display = 'none';
-            document.getElementById('mode-screen').style.display = 'block';
-            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
-        }
+    const voices = speechSynthesis.getVoices();
 
-        function backToMenu() {
-            document.getElementById('mode-screen').style.display = 'none';
-            document.getElementById('menu-screen').style.display = 'block';
-        }
+    const chineseVoices = voices.filter(v =>
+        v.lang.startsWith('zh')
+    );
 
-        function startQuiz(mode) {
-            currentMode = mode;
-            const lessonData = allLessons[currentLesson];
-            
-            vocabulary = lessonData.normal.map(hanzi => ({
-                hanzi: hanzi,
-                pinyin: lessonData.items[hanzi].pinyin,
-                meaning: lessonData.items[hanzi].meaning
-            }));
+    // Tìm giọng nữ
+    femaleVoice =
+        chineseVoices.find(v =>
+            v.name.toLowerCase().includes('xiaoxiao') ||
+            v.name.toLowerCase().includes('huihui') ||
+            v.name.toLowerCase().includes('female')
+        )
+        || chineseVoices[0]
+        || null;
 
-            if (mode === 'shuffle') {
-                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+    // Tìm giọng nam
+    maleVoice =
+        chineseVoices.find(v =>
+            v.name.toLowerCase().includes('kangkang') ||
+            v.name.toLowerCase().includes('huihui') ||
+            v.name.toLowerCase().includes('male')
+        )
+        || chineseVoices[1]
+        || femaleVoice;
+}
+       
+        function speak(text) {
+
+            if (!('speechSynthesis' in window)) return;
+
+            speechSynthesis.cancel();
+
+            const u = new SpeechSynthesisUtterance(text);
+
+            u.lang = 'zh-CN';
+            u.rate = 0.8;
+            u.pitch = 1.0;
+
+            const mode =
+                document.getElementById('voiceType')?.value
+                || 'female';
+
+            if (mode === 'male' && maleVoice) {
+                u.voice = maleVoice;
+            } else if (femaleVoice) {
+                u.voice = femaleVoice;
             }
 
-            currentIndex = 0;
-            document.getElementById('mode-screen').style.display = 'none';
-            document.getElementById('quiz-container').style.display = 'block';
-            
-            document.getElementById('lesson-num').textContent = currentLesson;
-            document.getElementById('total').textContent = vocabulary.length;
-            
-            loadQuestion();
+            speechSynthesis.speak(u);
         }
 
-        function togglePinyin() {
-            showPinyin = !showPinyin;
-            const pinyinEl = document.getElementById('pinyin');
-            pinyinEl.style.display = showPinyin ? 'block' : 'none';
-            document.querySelector('.toggle-pinyin').textContent = showPinyin ? '🙈 Ẩn Pinyin' : '👁️ Hiện Pinyin';
+        function repeatQuestion() {
+            if (!currentPair) return;
+
+            speechSynthesis.cancel();
+
+            setTimeout(() => {
+                speak(currentPair.q);
+            }, 100);
         }
 
-        function loadQuestion() {
-            isAnswered = false;
-            const currentWord = vocabulary[currentIndex];
-            
-            document.getElementById('current').textContent = currentIndex + 1;
-            document.getElementById('hanzi').textContent = currentWord.hanzi;
-            document.getElementById('pinyin').textContent = currentWord.pinyin;
-            document.getElementById('result').textContent = '';
-            
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
-
-            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
-            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
-            
-            let answers = [currentWord.meaning, ...wrongAnswers.map(w => w.meaning)];
-            answers = answers.sort(() => Math.random() - 0.5);
-
-            answers.forEach(answer => {
-                const btn = document.createElement('button');
-                btn.textContent = answer;
-                btn.onclick = () => checkAnswer(answer, currentWord.meaning, btn);
-                optionsDiv.appendChild(btn);
+        function renderLessonGrid() {
+            const grid = document.getElementById('lesson-grid');
+            grid.innerHTML = '';
+            lessons.forEach(lesson => {
+                const card = document.createElement('div');
+                card.className = "lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer";
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                `;
+                card.onclick = () => selectLesson(lesson.id);
+                grid.appendChild(card);
             });
         }
 
-        function checkAnswer(selected, correct, button) {
-            if (isAnswered) return;
-            isAnswered = true;
+        // ====================== MULTI SELECT FUNCTIONS ======================
+        function enterMultiSelectMode() {
+            isMultiSelectMode = true;
+            selectedLessons = [];
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.remove('hidden');
+            renderMultiLessonGrid();
+        }
 
-            const buttons = document.querySelectorAll('#options button');
-            buttons.forEach(btn => {
-                if (btn.textContent === correct) {
-                    btn.classList.add('correct');
-                } else if (btn.textContent === selected && selected !== correct) {
-                    btn.classList.add('wrong');
-                }
-                btn.disabled = true;
-            });
+        function exitMultiSelectMode() {
+            isMultiSelectMode = false;
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+        }
 
-            const resultDiv = document.getElementById('result');
-            if (selected === correct) {
-                resultDiv.textContent = "✓ Đúng rồi!";
-                resultDiv.style.color = "#4ade80";
+        function renderMultiLessonGrid() {
+            const grid = document.getElementById('multi-lesson-grid');
+            grid.innerHTML = '';
+
+            lessons.forEach(lesson => {
+                const isSelected = selectedLessons.some(l => l.id === lesson.id);
                 
-                setTimeout(() => {
-                    currentIndex++;
-                    if (currentIndex < vocabulary.length) {
-                        // Kiểm tra chặng: nếu sai sẽ quay về đầu chặng
-                        loadQuestion();
-                    } else {
-                        finishQuiz();
-                    }
-                }, 1500);
+                const card = document.createElement('div');
+                card.className = `lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-red-200'}`;
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">3 câu hỏi</div>
+                `;
+                card.onclick = () => toggleLessonSelection(lesson);
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleLessonSelection(lesson) {
+            const index = selectedLessons.findIndex(l => l.id === lesson.id);
+            
+            if (index === -1) {
+                selectedLessons.push(lesson);
             } else {
-                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
-                resultDiv.style.color = "#f87171";
-                
-                // Quay về đầu chặng hiện tại (mỗi 5 từ)
-                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
-                currentIndex = currentStageStart;
-                
-                setTimeout(() => {
-                    loadQuestion();
-                }, 2000);
+                selectedLessons.splice(index, 1);
             }
+            
+            renderMultiLessonGrid();
+            updateStartButton();
         }
 
-        function finishQuiz() {
-            document.getElementById('hanzi').innerHTML = `
-                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
-                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
-            `;
-            document.getElementById('options').innerHTML = `
-                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
-                    Chơi lại bài này
-                </button>
-            `;
+        function updateStartButton() {
+            const count = selectedLessons.length;
+            document.getElementById('selected-count').textContent = count;
+            document.getElementById('btn-start-multi').disabled = count === 0;
         }
 
-        function restartCurrentQuiz() {
-            currentIndex = 0;
-            if (currentMode === 'shuffle') {
-                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+        function startMultiPractice() {
+            if (selectedLessons.length === 0) return;
+
+            const allPairs = [];
+            selectedLessons.forEach(lesson => {
+                allPairs.push(...lesson.pairs);
+            });
+
+            currentLesson = {
+                id: 999,
+                title: `Đã chọn ${selectedLessons.length} bài`,
+                pairs: allPairs
+            };
+
+            exitMultiSelectMode();
+            selectLesson(999);
+        }
+
+        function selectLesson(id) {
+            if (id === 999) {
+                // currentLesson đã được tạo sẵn
+            } else {
+                currentLesson = lessons.find(l => l.id === id);
             }
-            loadQuestion();
+            
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('practice-view').classList.remove('hidden');
+            document.getElementById('header-info').classList.remove('hidden');
+            
+            document.getElementById('current-bai').innerHTML = `${currentLesson.title} <span class="text-red-400 mx-2">•</span> ${currentLesson.pairs.length} câu`;
+            
+            renderMiniQuestions();
+            showEmptyState();
         }
 
-        function exitQuiz() {
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('menu-screen').style.display = 'block';
+        function renderMiniQuestions() {
+            const container = document.getElementById('mini-questions');
+            container.innerHTML = '';
+            currentLesson.pairs.forEach(pair => {
+                const div = document.createElement('div');
+                div.className = "bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300";
+                div.innerHTML = `<div class="text-4xl mb-3">${pair.emoji}</div><p class="chinese-text text-sm font-medium">${pair.q}</p>`;
+                div.onclick = () => { currentPair = pair; showActiveQuestion(); };
+                container.appendChild(div);
+            });
+        }
+
+        function showEmptyState() {
+            document.getElementById('active-question').classList.add('hidden');
+            document.getElementById('empty-state').classList.remove('hidden');
+        }
+
+        function showActiveQuestion() {
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('active-question').classList.remove('hidden');
+            document.getElementById('big-emoji').innerHTML = currentPair.emoji;
+            document.getElementById('question-text').innerHTML = currentPair.q;
+            document.getElementById('answer-box').classList.add('hidden');
+        }
+
+        function randomQuestion() {
+            if (!currentLesson) return;
+            currentPair = currentLesson.pairs[Math.floor(Math.random() * currentLesson.pairs.length)];
+            showActiveQuestion();
+        }
+
+        async function toggleAnswer() {
+            const box = document.getElementById('answer-box');
+            const btn = document.getElementById('btn-show-answer');
+
+            if (!currentPair) return;
+
+            if (!box.classList.contains('hidden')) {
+                box.classList.add('hidden');
+                btn.textContent = '👀 Hiện đáp án mẫu';
+                return;
+            }
+
+            box.classList.remove('hidden');
+            btn.textContent = '👀 Ẩn đáp án';
+
+            const answerText = document.getElementById('answer-text-content');
+            answerText.innerHTML = `
+                <strong>Đáp án mẫu:</strong><br>
+                <span class="chinese-text">${currentPair.a}</span>
+            `;
+
+            // Xóa pinyin cũ nếu có
+            const oldPinyin = box.querySelector('.pinyin-container');
+            if (oldPinyin) oldPinyin.remove();
+
+            const pinyinContainer = document.createElement('div');
+            pinyinContainer.className = 'pinyin-container';
+            pinyinContainer.style.marginTop = '16px';
+            pinyinContainer.style.padding = '14px';
+            pinyinContainer.style.backgroundColor = '#f0fdf4';
+            pinyinContainer.style.borderRadius = '12px';
+            pinyinContainer.style.border = '1px solid #86efac';
+
+            try {
+                if (typeof window.pinyinPro === 'undefined') {
+                    throw new Error('Pinyin library not loaded');
+                }
+
+                const pinyinResult = window.pinyinPro.pinyin(currentPair.q, {
+                    toneType: 'tone',
+                    type: 'pinyin',
+                    separator: ' '
+                });
+
+                pinyinContainer.innerHTML = `
+                    <strong>🔊 Pinyin câu hỏi:</strong><br>
+                    <span style="font-size: 1.15em; color: #166534; font-family: monospace;">${pinyinResult}</span>
+                `;
+            } catch (e) {
+                console.error(e);
+                pinyinContainer.innerHTML = `
+                    <strong>🔊 Pinyin câu hỏi:</strong><br>
+                    <span style="color: #ef4444;">Không lấy được pinyin. Thư viện chưa tải xong hoặc lỗi mạng.</span><br>
+                    <small style="color:#666;">Vui lòng tải lại trang</small>
+                `;
+            }
+
+            box.appendChild(pinyinContainer);
+        }
+
+        function startAutoPractice() {
+            if (!currentLesson || isAutoPlaying) return;
+            isAutoPlaying = true;
+            document.getElementById('auto-status').classList.remove('hidden');
+
+            let queue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+
+            function playNext() {
+                if (!isAutoPlaying || queue.length === 0) {
+                    stopAutoPractice();
+            stopManualPractice();
+                    return;
+                }
+                currentPair = queue.shift();
+                showActiveQuestion();
+                speak(currentPair.q);
+                autoTimeout = setTimeout(playNext, 10000);   // Delay 5 giây
+            }
+            playNext();
+        }
+
+        function stopAutoPractice() {
+            isAutoPlaying = false;
+            if (autoTimeout) clearTimeout(autoTimeout);
+            speechSynthesis.cancel();
+            document.getElementById('auto-status').classList.add('hidden');
+        }
+
+        
+        function startManualPractice() {
+            if (!currentLesson) return;
+
+            stopAutoPractice();
+            stopManualPractice();
+            isManualPractice = true;
+            manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+
+            document.getElementById('manual-status').classList.remove('hidden');
+            nextManualQuestion();
+        }
+
+        function nextManualQuestion() {
+            if (!isManualPractice) return;
+
+            if (manualQueue.length === 0) {
+                manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            }
+
+            currentPair = manualQueue.shift();
+            showActiveQuestion();
+            speak(currentPair.q);
+        }
+
+        function stopManualPractice() {
+            isManualPractice = false;
+            manualQueue = [];
+            document.getElementById('manual-status').classList.add('hidden');
+        }
+
+
+        function backToHome() {
+            stopAutoPractice();
+            stopManualPractice();
+            document.getElementById('practice-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('header-info').classList.add('hidden');
         }
 
         // Khởi động
+        
+
+        
         window.onload = () => {
-            createLessonButtons();
+            renderLessonGrid();
+
+            loadVoices();
+
+            speechSynthesis.onvoiceschanged = () => {
+                loadVoices();
+            };
         };
     </script>
+
+
 
 </body></html>
