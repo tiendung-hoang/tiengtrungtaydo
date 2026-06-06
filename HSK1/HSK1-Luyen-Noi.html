@@ -269,8 +269,8 @@
             if ('speechSynthesis' in window) {
                 const u = new SpeechSynthesisUtterance(text);
                 u.lang = 'zh-CN';
-                u.rate = 0.95;
-                u.pitch = 1.05;
+                u.rate = 0.80;
+                u.pitch = 1.00;
                 speechSynthesis.speak(u);
             }
         }
