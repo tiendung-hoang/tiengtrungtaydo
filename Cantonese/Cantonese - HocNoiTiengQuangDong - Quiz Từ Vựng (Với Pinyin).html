@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0148)file:///D:/LAM%20ONE%20MROE%20TIME/M%E1%BA%ABu/Checked%20-%20INTENSE%20-%20Quiz%20T%E1%BB%AB%20V%E1%BB%B1ng%20(V%E1%BB%9Bi%20Pinyin)%20-%20Copy.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantonese Học Nói Tiếng Quảng Đông - Quiz Từ Vựng (Với Pinyin)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 18px 12px;
+            font-size: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 14px;
+        }
+        .mode-btn:hover {
+            background: #22c55e;
+        }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 20px;
+        }
+        #quiz-container {
+            display: none;
+        }
+        .progress {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hanzi {
+            font-size: 90px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 110px;
+            line-height: 1.2;
+        }
+        .pinyin {
+            font-size: 28px;
+            text-align: center;
+            margin: 10px 0;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .result {
+            font-size: 26px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+        .toggle-pinyin {
+            background: #60a5fa;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Cantonese Học Nói Tiếng Quảng Đông - Quiz Từ Vựng (Pinyin)</h1>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" style="display: block;">
+            <h2>Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button></div>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" style="display: none;">
+            <h2 id="selected-lesson-title">Bài 1 - Chọn dạng quiz</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)" style="margin-left: 20px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" style="display: none;">
+            <div class="progress">Bài <span id="lesson-num">1</span> - Câu <span id="current">5</span>/<span id="total">45</span></div>
+            
+            <div class="hanzi" id="hanzi">還是</div>
+            <div class="pinyin" id="pinyin" style="display: none;">háishì</div>
+            <button class="toggle-pinyin" onclick="togglePinyin()">🙈 Ẩn Pinyin</button>
+            
+            <div class="result" id="result" style="color: rgb(74, 222, 128);"></div>
+            <div class="options" id="options"><button>hiệu thuốc</button><button>vẫn còn</button><button>một chút, một lúc ngắn</button><button>dường như</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
+                ← Thoát quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TỪ EXCEL ====================
+
+const allLessons = {
+    1: {
+        normal: ["再见","唔阻你","身体","病咗","生意","过得去","好好","上班","上课","运动","开档","街市","而家","得闲","有事","各位","大家"],
+        shuffle: ["再见","唔阻你","身体","病咗","生意","过得去","好好","上班","上课","运动","开档","街市","而家","得闲","有事","各位","大家"],
+        items: {
+            "再见": { pinyin: "zoi3gin3", meaning: "tạm biệt" },
+            "唔阻你": { pinyin: "m4zo2 nei5", meaning: "không làm phiền bạn (để bạn đi)" },
+            "身体": { pinyin: "san1tai2", meaning: "sức khỏe, thân thể" },
+            "病咗": { pinyin: "beng6 zo2", meaning: "bị bệnh rồi" },
+            "生意": { pinyin: "saang1ji3", meaning: "làm ăn, buôn bán" },
+            "过得去": { pinyin: "gwo3dak1 heoi3", meaning: "cũng được, tàm tạm" },
+            "好好": { pinyin: "hou2hou2", meaning: "rất tốt" },
+            "上班": { pinyin: "soeng5baan1", meaning: "đi làm" },
+            "上课": { pinyin: "soeng5fo3", meaning: "đi học, đi dạy" },
+            "运动": { pinyin: "wan6dung6", meaning: "vận động" },
+            "开档": { pinyin: "hoi1dong2", meaning: "mở tiệm" },
+            "街市": { pinyin: "gaai1si5", meaning: "chợ" },
+            "而家": { pinyin: "ji4gaa1", meaning: "bây giờ" },
+            "得闲": { pinyin: "dak1haan4", meaning: "rảnh rỗi" },
+            "有事": { pinyin: "jau5si6", meaning: "có việc" },
+            "各位": { pinyin: "gok3wai2", meaning: "các vị" },
+            "大家": { pinyin: "daai6gaa1", meaning: "mọi người" }
+        }
+    },
+    2: {
+        normal: ["餐厅","好闷","舒服","唔使客气","游历","酒店","买卖","工厂","公司","会计","公务员","老细","工人","经理","职员","失业","搵嘢做","俾","请假","一日"],
+        shuffle: ["餐厅","好闷","舒服","唔使客气","游历","酒店","买卖","工厂","公司","会计","公务员","老细","工人","经理","职员","失业","搵嘢做","俾","请假","一日"],
+        items: {
+            "餐厅": { pinyin: "caan1teng1", meaning: "nhà hàng" },
+            "好闷": { pinyin: "hou2mun6", meaning: "buồn chán" },
+            "舒服": { pinyin: "syu1fuk6", meaning: "thoải mái" },
+            "唔使客气": { pinyin: "m4sai2 haak3hei3", meaning: "không cần khách khí" },
+            "游历": { pinyin: "jau4lik6", meaning: "du lịch" },
+            "酒店": { pinyin: "zau2dim3", meaning: "nhà hàng (cũng dùng cho khách sạn)" },
+            "买卖": { pinyin: "maai5maai6", meaning: "mua bán" },
+            "工厂": { pinyin: "gung1cong2", meaning: "công xưởng" },
+            "公司": { pinyin: "gung1si1", meaning: "công ty" },
+            "会计": { pinyin: "wui6gai3", meaning: "kế toán" },
+            "公务员": { pinyin: "gung1mou6jyun4", meaning: "công nhân viên (công chức)" },
+            "老细": { pinyin: "lou5sai3", meaning: "ông chủ" },
+            "工人": { pinyin: "gung1jan4", meaning: "công nhân" },
+            "经理": { pinyin: "ging1lei5", meaning: "giám đốc" },
+            "职员": { pinyin: "zik1jyun4", meaning: "nhân viên" },
+            "失业": { pinyin: "sat1jip6", meaning: "thất nghiệp" },
+            "搵嘢做": { pinyin: "wan2je5 zou6", meaning: "tìm việc làm" },
+            "俾": { pinyin: "bei2", meaning: "cho" },
+            "请假": { pinyin: "ceng2 gaa3", meaning: "xin nghỉ phép" },
+            "一日": { pinyin: "jat1 jat6", meaning: "một ngày" }
+        }
+    },
+    3: {
+        normal: ["好高兴","去送货","返车","卡片","塑胶","中文学校","读喺边度","书局","睇戏","买嘢","食早餐","超市","医生","律师","司机","导游","工程师","画家","同学","同事","阿哥","家姐","阿妹","细佬","英文","日文","法文","西贡","堤岸","平阳","同奈"],
+        shuffle: ["好高兴","去送货","返车","卡片","塑胶","中文学校","读喺边度","书局","睇戏","买嘢","食早餐","超市","医生","律师","司机","导游","工程师","画家","同学","同事","阿哥","家姐","阿妹","细佬","英文","日文","法文","西贡","堤岸","平阳","同奈"],
+        items: {
+            "好高兴": { pinyin: "hou2 gou1hing1", meaning: "rất vui mừng" },
+            "去送货": { pinyin: "heoi3 sung3fo3", meaning: "đi giao hàng" },
+            "返车": { pinyin: "faan2ce1", meaning: "về xe (trở về)" },
+            "卡片": { pinyin: "kaat1pin2", meaning: "danh thiếp" },
+            "塑胶": { pinyin: "sou3gaau1", meaning: "nhựa (làm ngành nhựa)" },
+            "中文学校": { pinyin: "zung1man4hok6haau6", meaning: "trường học tiếng Trung" },
+            "读喺边度": { pinyin: "duk6hai2 bin1dou6", meaning: "học ở đâu" },
+            "书局": { pinyin: "syu1guk2", meaning: "nhà sách" },
+            "睇戏": { pinyin: "tai2hei3", meaning: "xem phim" },
+            "买嘢": { pinyin: "maai5 je5", meaning: "mua đồ" },
+            "食早餐": { pinyin: "sik6 zou2caan1", meaning: "ăn sáng" },
+            "超市": { pinyin: "ciu1si5", meaning: "siêu thị" },
+            "医生": { pinyin: "ji1sang1", meaning: "bác sĩ" },
+            "律师": { pinyin: "leot6si1", meaning: "luật sư" },
+            "司机": { pinyin: "si1 gei1", meaning: "tài xế" },
+            "导游": { pinyin: "dou6jau4", meaning: "hướng dẫn viên du lịch" },
+            "工程师": { pinyin: "gung1cing4 si1", meaning: "kỹ sư" },
+            "画家": { pinyin: "waa2gaa1", meaning: "họa sĩ" },
+            "同学": { pinyin: "tung4hok6", meaning: "bạn học" },
+            "同事": { pinyin: "tung4si6", meaning: "đồng nghiệp" },
+            "阿哥": { pinyin: "aa3go1", meaning: "anh trai" },
+            "家姐": { pinyin: "gaa1ze1", meaning: "chị gái" },
+            "阿妹": { pinyin: "aa3mui2", meaning: "em gái" },
+            "细佬": { pinyin: "sai3lou2", meaning: "em trai" },
+            "英文": { pinyin: "jing1man4", meaning: "Tiếng Anh" },
+            "日文": { pinyin: "jat6man2", meaning: "Tiếng Nhật" },
+            "法文": { pinyin: "faat3man4", meaning: "Tiếng Pháp" },
+            "西贡": { pinyin: "sai1gung3", meaning: "Sài Gòn" },
+            "堤岸": { pinyin: "tai4ngon6", meaning: "Chợ Lớn" },
+            "平阳": { pinyin: "ping4joeng4", meaning: "Bình Dương" },
+            "同奈": { pinyin: "tung4noi6", meaning: "Đồng Nai" }
+        }
+    },
+    4: {
+        normal: ["些少","普通啦","叻唔叻","台湾","好少","中文","华人","广府人","潮州人","福建人","客家人","海南人","普通话","华语","唐话","越南话","中国","新加坡","马来西亚","泰国","日本","韩国","美国","法国","旅游","探亲","留学","考察市场","读书","写字","记得","唔记得","难","容易","时时","我听唔到, 唔该你讲慢啲","我听唔清楚, 唔该你再讲过","你讲好快, 我听唔切"],
+        shuffle: ["些少","普通啦","叻唔叻","台湾","好少","中文","华人","广府人","潮州人","福建人","客家人","海南人","普通话","华语","唐话","越南话","中国","新加坡","马来西亚","泰国","日本","韩国","美国","法国","旅游","探亲","留学","考察市场","读书","写字","记得","唔记得","难","容易","时时","我听唔到, 唔该你讲慢啲","我听唔清楚, 唔该你再讲过","你讲好快, 我听唔切"],
+        items: {
+            "些少": { pinyin: "se1siu2", meaning: "một chút" },
+            "普通啦": { pinyin: "pou2tung1 laa1", meaning: "bình thường thôi" },
+            "叻唔叻": { pinyin: "lek1 m4 lek1", meaning: "giỏi không" },
+            "台湾": { pinyin: "toi4waan1", meaning: "Đài Loan" },
+            "好少": { pinyin: "hou2siu2", meaning: "rất ít" },
+            "中文": { pinyin: "zung1man4", meaning: "Trung văn" },
+            "华人": { pinyin: "waa4jan4", meaning: "người Hoa" },
+            "广府人": { pinyin: "gwong2fu2 jan4", meaning: "người Quảng Đông" },
+            "潮州人": { pinyin: "ciu4zau1 jan4", meaning: "người Tiều Châu" },
+            "福建人": { pinyin: "fuk1gin3jan4", meaning: "người Phúc Kiến" },
+            "客家人": { pinyin: "haak3gaa1jan4", meaning: "người Hẹ" },
+            "海南人": { pinyin: "hoi2naam4 jan4", meaning: "người Hải Nam" },
+            "普通话": { pinyin: "pou2tung1 waa2", meaning: "tiếng Hoa (tiếng Phổ Thông)" },
+            "华语": { pinyin: "waa4jyu5", meaning: "tiếng Hoa" },
+            "唐话": { pinyin: "tong4waa6", meaning: "tiếng Hoa" },
+            "越南话": { pinyin: "jyut6naam4waa6", meaning: "tiếng Việt Nam" },
+            "中国": { pinyin: "zung1gwok3", meaning: "Trung Quốc" },
+            "新加坡": { pinyin: "san1gaa3bo1", meaning: "Singapore" },
+            "马来西亚": { pinyin: "maa5loi4sai1ngaa3", meaning: "Malaysia" },
+            "泰国": { pinyin: "taai3gwok3", meaning: "Thái Lan" },
+            "日本": { pinyin: "jat6bun2", meaning: "Nhật Bản" },
+            "韩国": { pinyin: "hon4gwok3", meaning: "Hàn Quốc" },
+            "美国": { pinyin: "mei5gwok3", meaning: "Mỹ" },
+            "法国": { pinyin: "faat3gwok3", meaning: "Pháp" },
+            "旅游": { pinyin: "leoi5jau4", meaning: "du lịch" },
+            "探亲": { pinyin: "taam3can1", meaning: "thăm người thân" },
+            "留学": { pinyin: "lau4hok6", meaning: "du học" },
+            "考察市场": { pinyin: "haau2caat3 si5coeng4", meaning: "khảo sát thị trường" },
+            "读书": { pinyin: "duk6syu1", meaning: "học" },
+            "写字": { pinyin: "se2zi6", meaning: "viết chữ" },
+            "记得": { pinyin: "gei3dak1", meaning: "nhớ" },
+            "唔记得": { pinyin: "m4gei3dak1", meaning: "quên" },
+            "难": { pinyin: "naan4", meaning: "khó" },
+            "容易": { pinyin: "jung4ji6", meaning: "dễ" },
+            "时时": { pinyin: "si4si4", meaning: "thường thường" },
+            "我听唔到, 唔该你讲慢啲": { pinyin: "ngo5 ting3m4 dou2, m4goi1nei5 gong2maan6 di1", meaning: "Tôi nghe không được, xin bạn nói chậm hơn" },
+            "我听唔清楚, 唔该你再讲过": { pinyin: "ngo5 ting3m4 cing1co2, m4goi1nei5 zoi3 gong2gwo3", meaning: "Tôi nghe không rõ, xin bạn nói lại" },
+            "你讲好快, 我听唔切": { pinyin: "nei5 gong2 hou2faai3, ngo5 ting3m4 cit3", meaning: "Bạn nói nhanh quá, tôi nghe không kịp" }
+        }
+    },
+    5: {
+        normal: ["几多","机动车","架机动车","笔","簿","手提电话","安全帽","汽车","单车","电单车","几好","几靓","几干净","几周到","去啦","有___无?","___喇","做乜嘢?","食饭未?","___系唔系___?"],
+        shuffle: ["几多","机动车","架机动车","笔","簿","手提电话","安全帽","汽车","单车","电单车","几好","几靓","几干净","几周到","去啦","有___无?","___喇","做乜嘢?","食饭未?","___系唔系___?"],
+        items: {
+            "几多": { pinyin: "gei1do1", meaning: "bao nhiêu" },
+            "机动车": { pinyin: "gei1dung6ce1", meaning: "xe cơ giới" },
+            "架机动车": { pinyin: "gaa3 gei1dung6ce1", meaning: "chiếc xe cơ giới" },
+            "笔": { pinyin: "bat1", meaning: "bút" },
+            "簿": { pinyin: "bou2", meaning: "tập" },
+            "手提电话": { pinyin: "sau2tai4 din6waa2", meaning: "điện thoại di động" },
+            "安全帽": { pinyin: "on1cyun4 mou2", meaning: "nón bảo hiểm" },
+            "汽车": { pinyin: "hei3ce1", meaning: "xe hơi" },
+            "单车": { pinyin: "daan1ce1", meaning: "xe đạp" },
+            "电单车": { pinyin: "din6daan1ce1", meaning: "xe đạp điện" },
+            "几好": { pinyin: "gei1hou2", meaning: "cũng được" },
+            "几靓": { pinyin: "gei1leng3", meaning: "cũng đẹp lắm" },
+            "几干净": { pinyin: "gei1gon1zeng6", meaning: "cũng sạch sẽ lắm" },
+            "几周到": { pinyin: "gei1zau1dou3", meaning: "cũng chu đáo lắm" },
+            "去啦": { pinyin: "", meaning: "đi (lệnh nhẹ nhàng)" },
+            "有___无?": { pinyin: "", meaning: "có... không?" },
+            "___喇": { pinyin: "", meaning: "... rồi (xác nhận)" },
+            "做乜嘢?": { pinyin: "", meaning: "làm gì?" },
+            "食饭未?": { pinyin: "", meaning: "ăn cơm chưa?" },
+            "___系唔系___?": { pinyin: "", meaning: "... có phải ... không?" }
+        }
+    },
+    // Tiếp tục các bài 6-25 (để tránh tin nhắn quá dài, tôi sẽ paste nốt ngay dưới đây)
+        6: {
+        normal: ["做工","卖嘢","结婚","仔女","几多岁","几大","读紧中学","阿爷","阿嫲","阿公","阿婆","老豆","老母","老公","老婆","先生","太太","丈夫","妻子","大过","细过","小学","三年级","幼稚园","姐夫","大学生","数目"],
+        shuffle: ["做工","卖嘢","结婚","仔女","几多岁","几大","读紧中学","阿爷","阿嫲","阿公","阿婆","老豆","老母","老公","老婆","先生","太太","丈夫","妻子","大过","细过","小学","三年级","幼稚园","姐夫","大学生","数目"],
+        items: {
+            "做工": { pinyin: "zou6gung1", meaning: "làm công nhân / làm việc" },
+            "卖嘢": { pinyin: "maai6je5", meaning: "bán hàng" },
+            "结婚": { pinyin: "git3fan1", meaning: "kết hôn" },
+            "仔女": { pinyin: "zai2neoi2", meaning: "con cái" },
+            "几多岁": { pinyin: "gei2 do1seoi3", meaning: "bao nhiêu tuổi" },
+            "几大": { pinyin: "gei1daai6", meaning: "bao nhiêu tuổi (người lớn)" },
+            "读紧中学": { pinyin: "duk6gan2zung1hok6", meaning: "đang học trung học" },
+            "阿爷": { pinyin: "aa3je4", meaning: "ông nội" },
+            "阿嫲": { pinyin: "aa3maa4", meaning: "bà nội" },
+            "阿公": { pinyin: "aa3gung1", meaning: "ông ngoại" },
+            "阿婆": { pinyin: "aa3po4", meaning: "bà ngoại" },
+            "老豆": { pinyin: "lou5dau6", meaning: "cha / bố" },
+            "老母": { pinyin: "lou5mou2", meaning: "mẹ" },
+            "老公": { pinyin: "lou5gung1", meaning: "chồng" },
+            "老婆": { pinyin: "lou5po4", meaning: "vợ" },
+            "先生": { pinyin: "sin1saang1", meaning: "chồng" },
+            "太太": { pinyin: "taai3taai2", meaning: "vợ" },
+            "丈夫": { pinyin: "zoeng6fu1", meaning: "chồng" },
+            "妻子": { pinyin: "cai1zi2", meaning: "vợ" },
+            "大过": { pinyin: "daai6gwo3", meaning: "lớn hơn" },
+            "细过": { pinyin: "sai3gwo3", meaning: "nhỏ hơn" },
+            "小学": { pinyin: "siu2hok6", meaning: "tiểu học" },
+            "三年级": { pinyin: "saam1 nin4kap1", meaning: "lớp ba" },
+            "幼稚园": { pinyin: "jau3zi6jyun2", meaning: "mẫu giáo" },
+            "姐夫": { pinyin: "ze2fu1", meaning: "anh rể" },
+            "大学生": { pinyin: "daai6hok6saang1", meaning: "sinh viên đại học" },
+            "数目": { pinyin: "", meaning: "số đếm (một, hai, ba...)" }
+        }
+    },
+    // ... (Tôi đã format đầy đủ tất cả 25 bài. Vì độ dài tin nhắn, tôi sẽ tóm tắt cách copy)
+    
+        7: {
+        normal: ["出街","喺度","手提电话","出去","麻烦","一阵","我想搵你","开紧会","唔紧要","请坐","请饮茶","哥哥","朋友","电话","车","客人","唔得闲"],
+        shuffle: ["出街","喺度","手提电话","出去","麻烦","一阵","我想搵你","开紧会","唔紧要","请坐","请饮茶","哥哥","朋友","电话","车","客人","唔得闲"],
+        items: {
+            "出街": { pinyin: "ceot1gaai1", meaning: "đi ra ngoài / đi phố" },
+            "喺度": { pinyin: "hai2 dou6", meaning: "ở đây" },
+            "手提电话": { pinyin: "sau2tai4 din6waa2", meaning: "điện thoại di động" },
+            "出去": { pinyin: "ceot1heoi3", meaning: "ra ngoài" },
+            "麻烦": { pinyin: "maa4faan4", meaning: "phiền, làm phiền" },
+            "一阵": { pinyin: "jat1 zan6", meaning: "một lát / một tí" },
+            "我想搵你": { pinyin: "ngo5 soeng2 wan2 nei5", meaning: "tôi muốn tìm bạn" },
+            "开紧会": { pinyin: "hoi1gan2wui2", meaning: "đang họp" },
+            "唔紧要": { pinyin: "m4gan2jiu3", meaning: "không sao / không quan trọng" },
+            "请坐": { pinyin: "cing2 co5", meaning: "mời ngồi" },
+            "请饮茶": { pinyin: "cing2jam2caa4", meaning: "mời uống trà" },
+            "哥哥": { pinyin: "go4go1", meaning: "anh trai" },
+            "朋友": { pinyin: "pang4jau5", meaning: "bạn bè" },
+            "电话": { pinyin: "din6waa2", meaning: "điện thoại" },
+            "车": { pinyin: "ce1", meaning: "xe" },
+            "客人": { pinyin: "haak3jan4", meaning: "khách" },
+            "唔得闲": { pinyin: "m4 dak1haan4", meaning: "bận / không rảnh" }
+        }
+    },
+    8: {
+        normal: ["星期","休息","生日","几时","你几时生日","号","日","月","年","今日","听日","琴日","后日","前日","大后日","大前日","呢个月","下个月","上个月","今年","明年","旧年","朝早","上昼","中午","下昼","夜晚","礼拜","周末","西历","农历","几号","星期几"],
+        shuffle: ["星期","休息","生日","几时","你几时生日","号","日","月","年","今日","听日","琴日","后日","前日","大后日","大前日","呢个月","下个月","上个月","今年","明年","旧年","朝早","上昼","中午","下昼","夜晚","礼拜","周末","西历","农历","几号","星期几"],
+        items: {
+            "星期": { pinyin: "sing1kei4", meaning: "tuần / thứ" },
+            "休息": { pinyin: "jau1sik1", meaning: "nghỉ ngơi" },
+            "生日": { pinyin: "saang1jat6", meaning: "sinh nhật" },
+            "几时": { pinyin: "gei2si4", meaning: "bao giờ / lúc nào" },
+            "你几时生日": { pinyin: "nei5 gei2si4sang1 jat6", meaning: "bạn sinh nhật khi nào" },
+            "号": { pinyin: "hou6", meaning: "ngày (số)" },
+            "日": { pinyin: "jat6", meaning: "ngày" },
+            "月": { pinyin: "jyut6", meaning: "tháng" },
+            "年": { pinyin: "nin4", meaning: "năm" },
+            "今日": { pinyin: "gam1jat6", meaning: "hôm nay" },
+            "听日": { pinyin: "ting3jat6", meaning: "ngày mai" },
+            "琴日": { pinyin: "kam4 jat6", meaning: "hôm qua" },
+            "后日": { pinyin: "hau6jat6", meaning: "ngày mốt" },
+            "前日": { pinyin: "cin4jat6", meaning: "ngày kia" },
+            "大后日": { pinyin: "daai6hau6 jat6", meaning: "ba ngày sau" },
+            "大前日": { pinyin: "daai6 cin4jat6", meaning: "ba ngày trước" },
+            "呢个月": { pinyin: "ni1 go3 jyut6", meaning: "tháng này" },
+            "下个月": { pinyin: "haa6 go3 jyut6", meaning: "tháng sau" },
+            "上个月": { pinyin: "soeng6 go3 jyut6", meaning: "tháng trước" },
+            "今年": { pinyin: "gam1nin4", meaning: "năm nay" },
+            "明年": { pinyin: "ming4nin4", meaning: "năm sau" },
+            "旧年": { pinyin: "gau6nin4", meaning: "năm ngoái" },
+            "朝早": { pinyin: "ziu1zou2", meaning: "sáng sớm" },
+            "上昼": { pinyin: "soeng6zau3", meaning: "buổi sáng" },
+            "中午": { pinyin: "zung1ng5", meaning: "buổi trưa" },
+            "下昼": { pinyin: "haa6zau3", meaning: "buổi chiều" },
+            "夜晚": { pinyin: "je6maan5", meaning: "buổi tối" },
+            "礼拜": { pinyin: "lai5baai3", meaning: "tuần / thứ" },
+            "周末": { pinyin: "zau1mut6", meaning: "cuối tuần" },
+            "西历": { pinyin: "sai1lik6", meaning: "dương lịch" },
+            "农历": { pinyin: "nung4lik6", meaning: "âm lịch" },
+            "几号": { pinyin: "gei1hou6", meaning: "ngày mấy" },
+            "星期几": { pinyin: "sing1kei4 gei1", meaning: "thứ mấy" }
+        }
+    },
+    9: {
+        normal: ["银纸","冚唪呤","换","越币","黄金一両","人民币","欧元","港币","足金","西金","铂金","加","减","乘","除","等于","十","百","千","万","十万","百万","千万","亿","十亿"],
+        shuffle: ["银纸","冚唪呤","换","越币","黄金一両","人民币","欧元","港币","足金","西金","铂金","加","减","乘","除","等于","十","百","千","万","十万","百万","千万","亿","十亿"],
+        items: {
+            "银纸": { pinyin: "ngan4zi2", meaning: "tiền giấy / tiền" },
+            "冚唪呤": { pinyin: "ham6baang6ling4", meaning: "tất cả / tổng cộng" },
+            "换": { pinyin: "wun6", meaning: "đổi (tiền)" },
+            "越币": { pinyin: "jyut6bai6", meaning: "tiền Việt Nam (VND)" },
+            "黄金一両": { pinyin: "wong4gam1 jat1 loeng2", meaning: "vàng một lượng" },
+            "人民币": { pinyin: "jan4man4bai6", meaning: "Nhân dân tệ" },
+            "欧元": { pinyin: "ngau1 jyun4", meaning: "Euro" },
+            "港币": { pinyin: "gong2bai6", meaning: "Đô la Hồng Kông" },
+            "足金": { pinyin: "zuk1gam1", meaning: "vàng 24K" },
+            "西金": { pinyin: "sai1gam1", meaning: "vàng 18K" },
+            "铂金": { pinyin: "paak3gam1", meaning: "bạch kim" },
+            "加": { pinyin: "gaa1", meaning: "cộng" },
+            "减": { pinyin: "gaam2", meaning: "trừ" },
+            "乘": { pinyin: "sing4", meaning: "nhân" },
+            "除": { pinyin: "ceoi4", meaning: "chia" },
+            "等于": { pinyin: "dang2jyu1", meaning: "bằng" },
+            "十": { pinyin: "sap6", meaning: "mười" },
+            "百": { pinyin: "baak3", meaning: "trăm" },
+            "千": { pinyin: "cin1", meaning: "nghìn" },
+            "万": { pinyin: "maan6", meaning: "vạn (10.000)" },
+            "十万": { pinyin: "sap6maan6", meaning: "trăm nghìn" },
+            "百万": { pinyin: "baak3maan6", meaning: "triệu" },
+            "千万": { pinyin: "cin1maan6", meaning: "chục triệu" },
+            "亿": { pinyin: "jik1", meaning: "trăm triệu" },
+            "十亿": { pinyin: "sap6jik1", meaning: "tỷ" }
+        }
+    },
+    10: {
+        normal: ["起身","争三个字","七点踏二","温习","训觉","上班","落班","上课","下课","开工","休息","冲凉","煮饭","食饭","洗衫","睇电视","睇书","做功课","上网","玩电子游戏","而家","有时","钟头","分钟","秒钟","从___到___","一点正","两点踏二","四点半","争三个字十二点","一个半钟头"],
+        shuffle: ["起身","争三个字","七点踏二","温习","训觉","上班","落班","上课","下课","开工","休息","冲凉","煮饭","食饭","洗衫","睇电视","睇书","做功课","上网","玩电子游戏","而家","有时","钟头","分钟","秒钟","从___到___","一点正","两点踏二","四点半","争三个字十二点","一个半钟头"],
+        items: {
+            "起身": { pinyin: "hei2san1", meaning: "thức dậy" },
+            "争三个字": { pinyin: "zang1saam1 go3 zi6", meaning: "kém 3 phút" },
+            "七点踏二": { pinyin: "cat1dim2 daap6ji6", meaning: "7 giờ 10 phút" },
+            "温习": { pinyin: "wan1zaap6", meaning: "ôn bài" },
+            "训觉": { pinyin: "fan3gok3", meaning: "ngủ" },
+            "上班": { pinyin: "soeng5baan1", meaning: "đi làm" },
+            "落班": { pinyin: "lok6baan1", meaning: "tan ca" },
+            "上课": { pinyin: "soeng5fo3", meaning: "đi học" },
+            "下课": { pinyin: "haa6fo3", meaning: "tan học" },
+            "开工": { pinyin: "hoi1gung1", meaning: "bắt đầu làm việc" },
+            "休息": { pinyin: "jau1sik1", meaning: "nghỉ ngơi" },
+            "冲凉": { pinyin: "cung1loeng4", meaning: "tắm" },
+            "煮饭": { pinyin: "zyu2faan6", meaning: "nấu cơm" },
+            "食饭": { pinyin: "sik6faan6", meaning: "ăn cơm" },
+            "洗衫": { pinyin: "sai2saam1", meaning: "giặt quần áo" },
+            "睇电视": { pinyin: "tai2din6si6", meaning: "xem ti vi" },
+            "睇书": { pinyin: "tai2syu1", meaning: "đọc sách" },
+            "做功课": { pinyin: "zou6 gung1fo3", meaning: "làm bài tập" },
+            "上网": { pinyin: "soeng6mong5", meaning: "lên mạng" },
+            "玩电子游戏": { pinyin: "waan2din6zi2 jau4hei3", meaning: "chơi game điện tử" },
+            "而家": { pinyin: "ji4gaa1", meaning: "bây giờ" },
+            "有时": { pinyin: "jau5si4", meaning: "đôi khi" },
+            "钟头": { pinyin: "zung1tau4", meaning: "giờ" },
+            "分钟": { pinyin: "fan1zung1", meaning: "phút" },
+            "秒钟": { pinyin: "miu5zung1", meaning: "giây" },
+            "从___到___": { pinyin: "", meaning: "từ... đến..." },
+            "一点正": { pinyin: "jat1 dim2zing3", meaning: "1 giờ đúng" },
+            "两点踏二": { pinyin: "loeng5dim2 daap6ji6", meaning: "2 giờ 10" },
+            "四点半": { pinyin: "sei3dim2 bun3", meaning: "4 giờ rưỡi" },
+            "争三个字十二点": { pinyin: "zang1saam1 go3zi6 sap6 ji6dim2", meaning: "12 giờ kém 3 phút" },
+            "一个半钟头": { pinyin: "jat1 go3 bun3zung1tau4", meaning: "một tiếng rưỡi" }
+        }
+    },
+    11: {
+        normal: ["住喺","离","公寓","听讲","本大词典","我带你去","大约","塞车","迟到","胡志明市","西贡","堤岸","省","市","郡","县","坊","社","街","巷","巷里头","向街屋","楼梯","电梯","门牌","街名","远","近","坐的士","搭巴士","行路","走机动车","踩单车","揸汽车"],
+        shuffle: ["住喺","离","公寓","听讲","本大词典","我带你去","大约","塞车","迟到","胡志明市","西贡","堤岸","省","市","郡","县","坊","社","街","巷","巷里头","向街屋","楼梯","电梯","门牌","街名","远","近","坐的士","搭巴士","行路","走机动车","踩单车","揸汽车"],
+        items: {
+            "住喺": { pinyin: "zyu6 hai2", meaning: "ở tại" },
+            "离": { pinyin: "lei4", meaning: "cách / xa" },
+            "公寓": { pinyin: "gung1jyu6", meaning: "chung cư" },
+            "听讲": { pinyin: "teng1gong2", meaning: "nghe nói" },
+            "本大词典": { pinyin: "bun2 daai6ci4din2", meaning: "cuốn từ điển lớn" },
+            "我带你去": { pinyin: "ngo5daai3 nei5 heoi3", meaning: "tôi dẫn bạn đi" },
+            "大约": { pinyin: "daai6joek3", meaning: "khoảng / chừng" },
+            "塞车": { pinyin: "sak1ce1", meaning: "kẹt xe" },
+            "迟到": { pinyin: "ci4dou3", meaning: "muộn / trễ" },
+            "胡志明市": { pinyin: "wu4zi3ming4 si5", meaning: "TP. Hồ Chí Minh" },
+            "西贡": { pinyin: "sai1gung3", meaning: "Sài Gòn" },
+            "堤岸": { pinyin: "tai4ngon6", meaning: "Chợ Lớn" },
+            "省": { pinyin: "saang2", meaning: "tỉnh" },
+            "市": { pinyin: "si5", meaning: "thành phố" },
+            "郡": { pinyin: "gwan6", meaning: "quận" },
+            "县": { pinyin: "jyun6", meaning: "huyện" },
+            "坊": { pinyin: "fong1", meaning: "phường" },
+            "社": { pinyin: "se5", meaning: "xã" },
+            "街": { pinyin: "gaai1", meaning: "đường" },
+            "巷": { pinyin: "hong6", meaning: "hẻm" },
+            "巷里头": { pinyin: "hong6 lei5tau4", meaning: "trong hẻm" },
+            "向街屋": { pinyin: "hoeng3 gaai1 uk1", meaning: "nhà mặt tiền" },
+            "楼梯": { pinyin: "lau4tai1", meaning: "cầu thang" },
+            "电梯": { pinyin: "din6tai1", meaning: "thang máy" },
+            "门牌": { pinyin: "mun4 paai4", meaning: "số nhà" },
+            "街名": { pinyin: "gaai1 meng2", meaning: "tên đường" },
+            "远": { pinyin: "jyun5", meaning: "xa" },
+            "近": { pinyin: "gan6", meaning: "gần" },
+            "坐的士": { pinyin: "co5 dik1si2", meaning: "đi taxi" },
+            "搭巴士": { pinyin: "daap3 baa1si2", meaning: "đi xe buýt" },
+            "行路": { pinyin: "haang4lou6", meaning: "đi bộ" },
+            "走机动车": { pinyin: "zau2 gei1dung6ce1", meaning: "đi xe máy" },
+            "踩单车": { pinyin: "caai2daan1ce1", meaning: "đạp xe đạp" },
+            "揸汽车": { pinyin: "zaa1 hei3ce1", meaning: "lái xe hơi" }
+        }
+    },
+    12: {
+        normal: ["外资公司","职位","专出产","家用电器","接送","点样","好易","好难","点解","因为","下个礼拜","公司","办公室","办公大楼","总经理","计划部","经营部","部长","主任","会计","出纳","生管","仓管","干部","公务员","待遇","薪水","学校","班","课室"],
+        shuffle: ["外资公司","职位","专出产","家用电器","接送","点样","好易","好难","点解","因为","下个礼拜","公司","办公室","办公大楼","总经理","计划部","经营部","部长","主任","会计","出纳","生管","仓管","干部","公务员","待遇","薪水","学校","班","课室"],
+        items: {
+            "外资公司": { pinyin: "ngoi6zi1gung1si1", meaning: "công ty vốn nước ngoài" },
+            "职位": { pinyin: "zik1wai6", meaning: "chức vụ" },
+            "专出产": { pinyin: "zyun1 ceot1caan2", meaning: "chuyên sản xuất" },
+            "家用电器": { pinyin: "gaa1jung6 din6hei3", meaning: "đồ điện gia dụng" },
+            "接送": { pinyin: "zip3sung3", meaning: "đưa đón" },
+            "点样": { pinyin: "dim2joeng2", meaning: "như thế nào" },
+            "好易": { pinyin: "hou2ji6", meaning: "rất dễ" },
+            "好难": { pinyin: "hou2naan6", meaning: "rất khó" },
+            "点解": { pinyin: "dim2gaai2", meaning: "tại sao" },
+            "因为": { pinyin: "jan1wai6", meaning: "vì" },
+            "下个礼拜": { pinyin: "haa6 go3lai5baai3", meaning: "tuần sau" },
+            "公司": { pinyin: "gung1si1", meaning: "công ty" },
+            "办公室": { pinyin: "baan6gung1 sat1", meaning: "phòng làm việc" },
+            "办公大楼": { pinyin: "baan6gung1 daai6lau4", meaning: "cao ốc văn phòng" },
+            "总经理": { pinyin: "zung2ging1lei5", meaning: "tổng giám đốc" },
+            "计划部": { pinyin: "gai3waak6bou6", meaning: "phòng kế hoạch" },
+            "经营部": { pinyin: "ging1jing4bou6", meaning: "phòng kinh doanh" },
+            "部长": { pinyin: "bou6zoeng2", meaning: "trưởng phòng" },
+            "主任": { pinyin: "zyu2jam6", meaning: "chủ nhiệm" },
+            "会计": { pinyin: "wui6gai3", meaning: "kế toán" },
+            "出纳": { pinyin: "ceot1naap6", meaning: "thủ quỹ" },
+            "生管": { pinyin: "sang1gun2", meaning: "quản lý sản xuất" },
+            "仓管": { pinyin: "cong1gun2", meaning: "quản lý kho" },
+            "干部": { pinyin: "gon1bou6", meaning: "cán bộ" },
+            "公务员": { pinyin: "gung1mou6jyun4", meaning: "công chức" },
+            "待遇": { pinyin: "doi6jyu6", meaning: "đãi ngộ" },
+            "薪水": { pinyin: "san1seoi2", meaning: "lương" },
+            "学校": { pinyin: "hok6haau6", meaning: "trường học" },
+            "班": { pinyin: "baan1", meaning: "lớp" },
+            "课室": { pinyin: "fo3sat1", meaning: "phòng học" }
+        }
+    },
+    13: {
+        normal: ["第日","帮手","手提","比较","俾","啱开会","唔便","贸易","造模","讲声","未充电","搞惦咗","传真","总台","分机","接线生","占紧线","扳机","打错号数","打唔通","接电话","讯号弱","上网","网页","电子信箱","网址","电信地址","先进","非常","清楚","可能","当时","搞惦","即刻"],
+        shuffle: ["第日","帮手","手提","比较","俾","啱开会","唔便","贸易","造模","讲声","未充电","搞惦咗","传真","总台","分机","接线生","占紧线","扳机","打错号数","打唔通","接电话","讯号弱","上网","网页","电子信箱","网址","电信地址","先进","非常","清楚","可能","当时","搞惦","即刻"],
+        items: {
+            "第日": { pinyin: "dai6jat6", meaning: "ngày mai / ngày kia" },
+            "帮手": { pinyin: "bong1sau2", meaning: "giúp đỡ" },
+            "手提": { pinyin: "sau2tai4", meaning: "điện thoại di động" },
+            "比较": { pinyin: "bei2gaau3", meaning: "tương đối" },
+            "俾": { pinyin: "bei2", meaning: "cho" },
+            "啱开会": { pinyin: "ngaam1hoi1wui2", meaning: "vừa đang họp" },
+            "唔便": { pinyin: "m4bin6", meaning: "không tiện" },
+            "贸易": { pinyin: "mau6jik6", meaning: "thương mại" },
+            "造模": { pinyin: "zou6mou4", meaning: "thợ khuôn" },
+            "讲声": { pinyin: "gong2sing1", meaning: "nhắn lại" },
+            "未充电": { pinyin: "mei6 cung1din6", meaning: "chưa sạc pin" },
+            "搞惦咗": { pinyin: "gaau2dim3 zo2", meaning: "làm xong rồi" },
+            "传真": { pinyin: "cyun4zan1", meaning: "fax" },
+            "总台": { pinyin: "zung2toi4", meaning: "tổng đài" },
+            "分机": { pinyin: "fan1 gei1", meaning: "máy nhánh" },
+            "接线生": { pinyin: "zip3sin3sang1", meaning: "nhân viên tổng đài" },
+            "占紧线": { pinyin: "zim1gan2sin3", meaning: "máy đang bận" },
+            "扳机": { pinyin: "baan1 gei1", meaning: "cúp máy" },
+            "打错号数": { pinyin: "daa2co3hou6sou3", meaning: "gọi nhầm số" },
+            "打唔通": { pinyin: "daa2 m4tung1", meaning: "gọi không được" },
+            "接电话": { pinyin: "zip3din6waa2", meaning: "nghe điện thoại" },
+            "讯号弱": { pinyin: "seon3hou6joek6", meaning: "sóng yếu" },
+            "上网": { pinyin: "soeng6mong5", meaning: "lên mạng" },
+            "网页": { pinyin: "mong5jip6", meaning: "trang web" },
+            "电子信箱": { pinyin: "din6zi2 seon3soeng1", meaning: "email" },
+            "网址": { pinyin: "mong5zi2", meaning: "địa chỉ web" },
+            "电信地址": { pinyin: "din6seon3 dei6zi2", meaning: "địa chỉ email" },
+            "先进": { pinyin: "sin1zeon3", meaning: "tiên tiến" },
+            "非常": { pinyin: "fei1soeng4", meaning: "rất" },
+            "清楚": { pinyin: "cing1co2", meaning: "rõ ràng" },
+            "可能": { pinyin: "ho2nang4", meaning: "có lẽ" },
+            "当时": { pinyin: "dong1si4", meaning: "lúc đó" },
+            "搞惦": { pinyin: "gaau2dim3", meaning: "làm xong" },
+            "即刻": { pinyin: "zik1haak1", meaning: "ngay lập tức" }
+        }
+    },
+    14: {
+        normal: ["矿泉水","一支","纸巾","续返你","饼干","本地货","外国货","过期","担保","碱粉","唛头","包你好用","你要几基","杂货铺","卖晒","岩岩","保用日期","包装","续返","罢冷","总共","仲要","添","冇货","满意","中意","种"],
+        shuffle: ["矿泉水","一支","纸巾","续返你","饼干","本地货","外国货","过期","担保","碱粉","唛头","包你好用","你要几基","杂货铺","卖晒","岩岩","保用日期","包装","续返","罢冷","总共","仲要","添","冇货","满意","中意","种"],
+        items: {
+            "矿泉水": { pinyin: "kwong3cyun4 seoi2", meaning: "nước khoáng" },
+            "一支": { pinyin: "jat1 zi1", meaning: "một chai" },
+            "纸巾": { pinyin: "zi2gan1", meaning: "khăn giấy" },
+            "续返你": { pinyin: "zuk6faan1 nei5", meaning: "thối lại cho bạn" },
+            "饼干": { pinyin: "beng2gon1", meaning: "bánh quy" },
+            "本地货": { pinyin: "bun2dei6fo3", meaning: "hàng nội địa" },
+            "外国货": { pinyin: "ngoi6gwok3fo3", meaning: "hàng ngoại" },
+            "过期": { pinyin: "gwo3kei4", meaning: "quá hạn" },
+            "担保": { pinyin: "daam3bou2", meaning: "bảo đảm" },
+            "碱粉": { pinyin: "gaan2fan2", meaning: "bột giặt" },
+            "唛头": { pinyin: "mak1tau4", meaning: "nhãn hiệu" },
+            "包你好用": { pinyin: "baau1 nei5 hou2jung6", meaning: "đảm bảo tốt" },
+            "你要几基": { pinyin: "nei5 jiu3 gei2 gei1", meaning: "bạn muốn mấy kg" },
+            "杂货铺": { pinyin: "zaap6fo3pou3", meaning: "tiệm tạp hóa" },
+            "卖晒": { pinyin: "maai6saai3", meaning: "bán hết" },
+            "岩岩": { pinyin: "ngaam4 ngaam4", meaning: "vừa mới" },
+            "保用日期": { pinyin: "bou2jung6 jat6kei4", meaning: "hạn sử dụng" },
+            "包装": { pinyin: "baau1zong1", meaning: "bao bì" },
+            "续返": { pinyin: "zuk6faan2", meaning: "thối lại" },
+            "罢冷": { pinyin: "baa6laang5", meaning: "tất cả / tổng cộng" },
+            "总共": { pinyin: "zung2gung6", meaning: "tổng cộng" },
+            "仲要": { pinyin: "zung6 jiu3", meaning: "còn muốn thêm" },
+            "添": { pinyin: "tim1", meaning: "thêm nữa" },
+            "冇货": { pinyin: "mou5 fo3", meaning: "hết hàng" },
+            "满意": { pinyin: "mun5ji3", meaning: "hài lòng" },
+            "中意": { pinyin: "zung1ji3", meaning: "thích" },
+            "种": { pinyin: "zung2", meaning: "loại" }
+        }
+    },
+    15: {
+        normal: ["帮衬","苹果","仲要第啲无","够喇","桔","甜唔甜","计平啲","减","拣","秤睇","香蕉","菠萝","龙眼","榴莲","山竺","木瓜","橙","碌柚","红毛丹","雪梨","甜","酸","苦","涩","新鲜","新上市","旧","烂","有虫","秤","切开","剥皮","开档","收档","大纸","散纸","起价","跌价","加多","减少","生果造"],
+        shuffle: ["帮衬","苹果","仲要第啲无","够喇","桔","甜唔甜","计平啲","减","拣","秤睇","香蕉","菠萝","龙眼","榴莲","山竺","木瓜","橙","碌柚","红毛丹","雪梨","甜","酸","苦","涩","新鲜","新上市","旧","烂","有虫","秤","切开","剥皮","开档","收档","大纸","散纸","起价","跌价","加多","减少","生果造"],
+        items: {
+            "帮衬": { pinyin: "bong1can3", meaning: "ghé mua / ủng hộ" },
+            "苹果": { pinyin: "ping4gwo2", meaning: "táo" },
+            "仲要第啲无": { pinyin: "zung6 jiu3 dai6 di1 mou4", meaning: "còn muốn gì nữa không" },
+            "够喇": { pinyin: "gau3 laa3", meaning: "đủ rồi" },
+            "桔": { pinyin: "gat1", meaning: "quýt" },
+            "甜唔甜": { pinyin: "tim4 m4 tim4", meaning: "ngọt không" },
+            "计平啲": { pinyin: "gai3ping4 di1", meaning: "tính rẻ hơn chút" },
+            "减": { pinyin: "gaam2", meaning: "giảm" },
+            "拣": { pinyin: "gaan2", meaning: "chọn" },
+            "秤睇": { pinyin: "cing3 tai2", meaning: "cân xem" },
+            "香蕉": { pinyin: "hoeng1ziu1", meaning: "chuối" },
+            "菠萝": { pinyin: "bo1lo4", meaning: "dứa" },
+            "龙眼": { pinyin: "lung4ngaan5", meaning: "nhãn" },
+            "榴莲": { pinyin: "lau4lin4", meaning: "sầu riêng" },
+            "山竺": { pinyin: "saan1zuk1", meaning: "măng cụt" },
+            "木瓜": { pinyin: "muk6gwaa1", meaning: "đu đủ" },
+            "橙": { pinyin: "caang2", meaning: "cam" },
+            "碌柚": { pinyin: "luk1jau2", meaning: "bưởi" },
+            "红毛丹": { pinyin: "hung4mou4 daan1", meaning: "chôm chôm" },
+            "雪梨": { pinyin: "syut3lei4", meaning: "lê" },
+            "甜": { pinyin: "tim4", meaning: "ngọt" },
+            "酸": { pinyin: "syun1", meaning: "chua" },
+            "苦": { pinyin: "fu2", meaning: "đắng" },
+            "涩": { pinyin: "gip3", meaning: "chát" },
+            "新鲜": { pinyin: "san1sin1", meaning: "tươi" },
+            "新上市": { pinyin: "san1 soeng5si5", meaning: "hàng mới" },
+            "旧": { pinyin: "gau6", meaning: "cũ" },
+            "烂": { pinyin: "laan6", meaning: "nát" },
+            "有虫": { pinyin: "jau5cung4", meaning: "có sâu" },
+            "秤": { pinyin: "cing3", meaning: "cân" },
+            "切开": { pinyin: "cit3hoi1", meaning: "bổ ra" },
+            "剥皮": { pinyin: "mok1pei4", meaning: "bóc vỏ" },
+            "开档": { pinyin: "hoi1dong2", meaning: "mở hàng" },
+            "收档": { pinyin: "sau1dong2", meaning: "đóng hàng" },
+            "大纸": { pinyin: "daai6zi2", meaning: "tiền chẵn" },
+            "散纸": { pinyin: "saan3zi2", meaning: "tiền lẻ" },
+            "起价": { pinyin: "hei2gaa3", meaning: "tăng giá" },
+            "跌价": { pinyin: "dit3gaa3", meaning: "giảm giá" },
+            "加多": { pinyin: "gaa1do1", meaning: "thêm" },
+            "减少": { pinyin: "gaam2siu2", meaning: "bớt" },
+            "生果造": { pinyin: "saang1gwo2 zou6", meaning: "mùa trái cây" }
+        }
+    },
+    16: {
+        normal: ["恤衫","短袖","长袖","净色","晒士","试下","试衫房","对鞋","兴紧","绑带","简单","大方","襟唔襟架","襟用","唔妥","修整","外套","颜色","红色","黃色","蓝色","绿色","灰色","朱古力色","天蓝色","米黄色","紫色","橙色","深","浅","长","短","厚","薄","款","布质","襟","甩色","牛仔裤","睡衣","一套","长衫","衫裙","单裙","大反","西装裤","领带","皮鞋","波鞋","低衫","低裤","高鞋","拖鞋","一对","帽","一顶","裤头带","荷包","蔑","手巾仔","手表","太阳眼镜"],
+        shuffle: ["恤衫","短袖","长袖","净色","晒士","试下","试衫房","对鞋","兴紧","绑带","简单","大方","襟唔襟架","襟用","唔妥","修整","外套","颜色","红色","黃色","蓝色","绿色","灰色","朱古力色","天蓝色","米黄色","紫色","橙色","深","浅","长","短","厚","薄","款","布质","襟","甩色","牛仔裤","睡衣","一套","长衫","衫裙","单裙","大反","西装裤","领带","皮鞋","波鞋","低衫","低裤","高鞋","拖鞋","一对","帽","一顶","裤头带","荷包","蔑","手巾仔","手表","太阳眼镜"],
+        items: {
+            "恤衫": { pinyin: "seot1saam1", meaning: "áo sơ mi" },
+            "短袖": { pinyin: "dyun2zau6", meaning: "tay ngắn" },
+            "长袖": { pinyin: "coeng4zau6", meaning: "tay dài" },
+            "净色": { pinyin: "zing6sik1", meaning: "màu trơn" },
+            "晒士": { pinyin: "saai1si2", meaning: "size" },
+            "试下": { pinyin: "si3haa6", meaning: "thử xem" },
+            "试衫房": { pinyin: "si3saam1 fong2", meaning: "phòng thử đồ" },
+            "对鞋": { pinyin: "deoi3haai4", meaning: "đôi giày" },
+            "兴紧": { pinyin: "hing1gan2", meaning: "đang thịnh hành" },
+            "绑带": { pinyin: "bong2daai3", meaning: "có dây buộc" },
+            "简单": { pinyin: "gaan2daan1", meaning: "đơn giản" },
+            "大方": { pinyin: "daai6fong1", meaning: "sang trọng, lịch sự" },
+            "襟唔襟架": { pinyin: "kam1 m4 kam1gaa2", meaning: "có bền không" },
+            "襟用": { pinyin: "kam1jung6", meaning: "bền" },
+            "唔妥": { pinyin: "m4to5", meaning: "không ổn" },
+            "修整": { pinyin: "sau1zing2", meaning: "sửa chữa" },
+            "外套": { pinyin: "ngoi6tou3", meaning: "áo khoác ngoài" },
+            "颜色": { pinyin: "ngaan4sik1", meaning: "màu sắc" },
+            "红色": { pinyin: "hung4sik1", meaning: "màu đỏ" },
+            "黃色": { pinyin: "wong4sik1", meaning: "màu vàng" },
+            "蓝色": { pinyin: "laam4sik1", meaning: "màu xanh dương" },
+            "绿色": { pinyin: "luk6sik1", meaning: "màu xanh lá" },
+            "灰色": { pinyin: "fui1sik1", meaning: "màu xám" },
+            "朱古力色": { pinyin: "zyu1gu1lik1 sik1", meaning: "màu nâu" },
+            "天蓝色": { pinyin: "tin1laam4sik1", meaning: "màu xanh da trời" },
+            "米黄色": { pinyin: "mai5wong4sik1", meaning: "màu kem" },
+            "紫色": { pinyin: "zi2sik1", meaning: "màu tím" },
+            "橙色": { pinyin: "caang2sik1", meaning: "màu cam" },
+            "深": { pinyin: "sam1", meaning: "đậm" },
+            "浅": { pinyin: "cin2", meaning: "nhạt" },
+            "长": { pinyin: "coeng4", meaning: "dài" },
+            "短": { pinyin: "dyun2", meaning: "ngắn" },
+            "厚": { pinyin: "hau5", meaning: "dày" },
+            "薄": { pinyin: "bok6", meaning: "mỏng" },
+            "款": { pinyin: "fun2", meaning: "kiểu dáng" },
+            "布质": { pinyin: "bou3zat1", meaning: "chất liệu vải" },
+            "襟": { pinyin: "kam1", meaning: "bền" },
+            "甩色": { pinyin: "lat1sik1", meaning: "phai màu" },
+            "牛仔裤": { pinyin: "ngau4zai2fu3", meaning: "quần jean" },
+            "睡衣": { pinyin: "seoi6ji1", meaning: "áo ngủ" },
+            "一套": { pinyin: "jat1 tou3", meaning: "một bộ" },
+            "长衫": { pinyin: "coeng4saam1", meaning: "áo dài" },
+            "衫裙": { pinyin: "saam1kwan4", meaning: "áo đầm" },
+            "单裙": { pinyin: "daan1kwan4", meaning: "váy" },
+            "大反": { pinyin: "daai6faan2", meaning: "áo vét" },
+            "西装裤": { pinyin: "sai1zong1fu3", meaning: "quần tây" },
+            "领带": { pinyin: "ling5daai2", meaning: "cà vạt" },
+            "皮鞋": { pinyin: "pei4haai4", meaning: "giày da" },
+            "波鞋": { pinyin: "bo1haai4", meaning: "giày thể thao" },
+            "低衫": { pinyin: "dai1 saam1", meaning: "áo lót" },
+            "低裤": { pinyin: "dai1fu3", meaning: "quần lót" },
+            "高鞋": { pinyin: "gou1 haai4", meaning: "giày cao gót" },
+            "拖鞋": { pinyin: "to1haai2", meaning: "dép" },
+            "一对": { pinyin: "jat1deoi3", meaning: "một đôi" },
+            "帽": { pinyin: "mou2", meaning: "nón" },
+            "一顶": { pinyin: "jat1deng2", meaning: "một cái (nón)" },
+            "裤头带": { pinyin: "fu3tau4daai3", meaning: "dây nịch" },
+            "荷包": { pinyin: "ho4baau1", meaning: "ví" },
+            "蔑": { pinyin: "mit6", meaning: "vớ" },
+            "手巾仔": { pinyin: "sau2gan1 zai2", meaning: "khăn mùi soa" },
+            "手表": { pinyin: "sau2biu1", meaning: "đồng hồ đeo tay" },
+            "太阳眼镜": { pinyin: "taai3joeng4 ngaan5geng2", meaning: "kính râm" }
+        }
+    },
+    17: {
+        normal: ["婆庙","一直行","搭电梯","巷仔","机场","三叉路","四丫路","六丫路","红绿灯","环岛","禁牌","斑马线","单向路","双向路","天桥","高速公路","火车站","的士","揽de","三轆车","地铁","西区车站","白藤码头","渡轮","芽龙港","独立府","莲潭公园","动物园"],
+        shuffle: ["婆庙","一直行","搭电梯","巷仔","机场","三叉路","四丫路","六丫路","红绿灯","环岛","禁牌","斑马线","单向路","双向路","天桥","高速公路","火车站","的士","揽de","三轆车","地铁","西区车站","白藤码头","渡轮","芽龙港","独立府","莲潭公园","动物园"],
+        items: {
+            "婆庙": { pinyin: "po4miu6", meaning: "miếu Bà" },
+            "一直行": { pinyin: "jat1zik6 hang4", meaning: "đi thẳng" },
+            "搭电梯": { pinyin: "daap3din6tai1", meaning: "đi thang máy" },
+            "巷仔": { pinyin: "hong6 zai2", meaning: "hẻm nhỏ" },
+            "机场": { pinyin: "gei1coeng4", meaning: "sân bay" },
+            "三叉路": { pinyin: "saam1caa1 lou6", meaning: "ngã ba" },
+            "四丫路": { pinyin: "sei3 aa1 lou6", meaning: "ngã tư" },
+            "六丫路": { pinyin: "luk6 aa1 lou6", meaning: "ngã sáu" },
+            "红绿灯": { pinyin: "hung4luk6dang1", meaning: "đèn giao thông" },
+            "环岛": { pinyin: "waan4dou2", meaning: "bùng binh" },
+            "禁牌": { pinyin: "gam3 paai2", meaning: "biển cấm" },
+            "斑马线": { pinyin: "baan1maa5sin3", meaning: "vạch dành cho người đi bộ" },
+            "单向路": { pinyin: "daan1hoeng3 lou6", meaning: "đường một chiều" },
+            "双向路": { pinyin: "soeng1hoeng3 lou6", meaning: "đường hai chiều" },
+            "天桥": { pinyin: "tin1kiu4", meaning: "cầu vượt" },
+            "高速公路": { pinyin: "gou1cuk1 gung1lou6", meaning: "đường cao tốc" },
+            "火车站": { pinyin: "fo2ce1zaam6", meaning: "ga xe lửa" },
+            "的士": { pinyin: "dik1si2", meaning: "taxi" },
+            "揽de": { pinyin: "laam5 de", meaning: "xe ôm" },
+            "三轆车": { pinyin: "saam1 luk1ce1", meaning: "xe ba gác" },
+            "地铁": { pinyin: "dei6tit3", meaning: "tàu điện ngầm" },
+            "西区车站": { pinyin: "sai1keoi1ce1zaam6", meaning: "bến xe miền Tây" },
+            "白藤码头": { pinyin: "baak6tang4maa5tau4", meaning: "bến Bạch Đằng" },
+            "渡轮": { pinyin: "dou6leon4", meaning: "phà" },
+            "芽龙港": { pinyin: "ngaa4lung4gong2", meaning: "Bến Nhà Rồng" },
+            "独立府": { pinyin: "duk6laap6fu2", meaning: "Dinh Độc Lập" },
+            "莲潭公园": { pinyin: "lin4taam4 gung1jyun2", meaning: "Công viên Đầm Sen" },
+            "动物园": { pinyin: "dung6mat6 jyun4", meaning: "Sở thú" }
+        }
+    },
+    18: {
+        normal: ["天花板","吊扇","盆花","钢琴","柜桶","厨房","酒店","咖啡店","前边","后边","上边","下边","左边","右边","出便","入便","隔离","侧边","中间","周围","周边","角落头","对面","斜对面","附近","东边","南边","西边","北边"],
+        shuffle: ["天花板","吊扇","盆花","钢琴","柜桶","厨房","酒店","咖啡店","前边","后边","上边","下边","左边","右边","出便","入便","隔离","侧边","中间","周围","周边","角落头","对面","斜对面","附近","东边","南边","西边","北边"],
+        items: {
+            "天花板": { pinyin: "tin1 faa1baan2", meaning: "trần nhà" },
+            "吊扇": { pinyin: "diu3sin3", meaning: "quạt trần" },
+            "盆花": { pinyin: "pun4faa1", meaning: "chậu hoa" },
+            "钢琴": { pinyin: "gong3kam4", meaning: "đàn piano" },
+            "柜桶": { pinyin: "gwai6tung2", meaning: "tủ kéo / ngăn kéo" },
+            "厨房": { pinyin: "cyu4fong2", meaning: "nhà bếp" },
+            "酒店": { pinyin: "zau2dim3", meaning: "khách sạn" },
+            "咖啡店": { pinyin: "gaa3fe1 dim3", meaning: "quán cà phê" },
+            "前边": { pinyin: "cin4 bin1", meaning: "phía trước" },
+            "后边": { pinyin: "hau6bin1", meaning: "phía sau" },
+            "上边": { pinyin: "soeng6bin1", meaning: "phía trên" },
+            "下边": { pinyin: "haa6bin1", meaning: "phía dưới" },
+            "左边": { pinyin: "zo2 bin1", meaning: "bên trái" },
+            "右边": { pinyin: "jau2 bin1", meaning: "bên phải" },
+            "出便": { pinyin: "ceot1bin6", meaning: "bên ngoài" },
+            "入便": { pinyin: "jap6bin6", meaning: "bên trong" },
+            "隔离": { pinyin: "gaak3lei4", meaning: "kế bên" },
+            "侧边": { pinyin: "zak1bin1", meaning: "sát hông" },
+            "中间": { pinyin: "zung1gaan1", meaning: "chính giữa" },
+            "周围": { pinyin: "zau1wai4", meaning: "xung quanh" },
+            "周边": { pinyin: "zau1bin1", meaning: "ngoại vi" },
+            "角落头": { pinyin: "gok3 lok6tau4", meaning: "trong góc" },
+            "对面": { pinyin: "deoi3min6", meaning: "đối diện" },
+            "斜对面": { pinyin: "ce4deoi3min6", meaning: "xéo đối diện" },
+            "附近": { pinyin: "fu6gan6", meaning: "gần đây" },
+            "东边": { pinyin: "dung1bin1", meaning: "phía đông" },
+            "南边": { pinyin: "naam4bin1", meaning: "phía nam" },
+            "西边": { pinyin: "sai1bin1", meaning: "phía tây" },
+            "北边": { pinyin: "bak1bin1", meaning: "phía bắc" }
+        }
+    },
+    19: {
+        normal: ["雪啡","好苦","姜糖","顺便","抖下","粉面","宵夜","肚饿","就算啦","牛肉份","糯米饭","金边粉条","猪汤糕","煎糕","咖哩檬","羊肉沙爹粉","猪红粥","大包","通心粉","早点","虾饺","烧卖","叉烧包","糯米鸡","芋头糕","萝卜糕","豉油","辣酱","胡椒","醋","辣椒","筷子","碗碟","杯","羹","刀","叉","面包夹肉","夹","拔","点","搞","切"],
+        shuffle: ["雪啡","好苦","姜糖","顺便","抖下","粉面","宵夜","肚饿","就算啦","牛肉份","糯米饭","金边粉条","猪汤糕","煎糕","咖哩檬","羊肉沙爹粉","猪红粥","大包","通心粉","早点","虾饺","烧卖","叉烧包","糯米鸡","芋头糕","萝卜糕","豉油","辣酱","胡椒","醋","辣椒","筷子","碗碟","杯","羹","刀","叉","面包夹肉","夹","拔","点","搞","切"],
+        items: {
+            "雪啡": { pinyin: "syut3fe1", meaning: "cà phê đá" },
+            "好苦": { pinyin: "hou2fu2", meaning: "rất đắng" },
+            "姜糖": { pinyin: "goeng1tong4", meaning: "đường gừng" },
+            "顺便": { pinyin: "seon6bin2", meaning: "tiện thể" },
+            "抖下": { pinyin: "dau2 haa6", meaning: "nghỉ ngơi" },
+            "粉面": { pinyin: "fan2min6", meaning: "hủ tiếu / mì" },
+            "宵夜": { pinyin: "siu1je2", meaning: "ăn khuya" },
+            "肚饿": { pinyin: "tou5ngo6", meaning: "đói bụng" },
+            "就算啦": { pinyin: "zau6syun3 laa1", meaning: "thì thôi vậy" },
+            "牛肉份": { pinyin: "ngau4juk6 fan6", meaning: "phở bò" },
+            "糯米饭": { pinyin: "no6mai5faan6", meaning: "xôi" },
+            "金边粉条": { pinyin: "gam1bin1fan2tiu4", meaning: "hủ tiếu Nam Vang" },
+            "猪汤糕": { pinyin: "zyu1tong1gou1", meaning: "bánh ướt" },
+            "煎糕": { pinyin: "zin1 gou1", meaning: "bột chiên" },
+            "咖哩檬": { pinyin: "gaa3le1 mung1", meaning: "bún cà ri" },
+            "羊肉沙爹粉": { pinyin: "joeng4juk6 saa3 de1 fan2", meaning: "hủ tiếu sa tế dê" },
+            "猪红粥": { pinyin: "zyu1hung4zuk1", meaning: "cháo huyết" },
+            "大包": { pinyin: "daai6baau1", meaning: "bánh bao" },
+            "通心粉": { pinyin: "tung1sam1fan2", meaning: "nui" },
+            "早点": { pinyin: "zou2dim2", meaning: "điểm tâm sáng" },
+            "虾饺": { pinyin: "haa1gaau2", meaning: "há cảo" },
+            "烧卖": { pinyin: "siu1maai2", meaning: "xíu mại" },
+            "叉烧包": { pinyin: "caa1siu1baau1", meaning: "bánh bao xá xíu" },
+            "糯米鸡": { pinyin: "no6mai5gai1", meaning: "xôi gà" },
+            "芋头糕": { pinyin: "wu6tau2gou1", meaning: "bánh khoai môn" },
+            "萝卜糕": { pinyin: "lo4baak6 gou1", meaning: "bánh củ cải" },
+            "豉油": { pinyin: "si6jau4", meaning: "nước tương" },
+            "辣酱": { pinyin: "laat6zoeng3", meaning: "tương ớt" },
+            "胡椒": { pinyin: "wu4ziu1", meaning: "tiêu" },
+            "醋": { pinyin: "cou3", meaning: "giấm" },
+            "辣椒": { pinyin: "laat6ziu1", meaning: "ớt" },
+            "筷子": { pinyin: "faai3zi2", meaning: "đũa" },
+            "碗碟": { pinyin: "wun2dip6", meaning: "chén đĩa" },
+            "杯": { pinyin: "bui1", meaning: "ly" },
+            "羹": { pinyin: "gang1", meaning: "muỗng" },
+            "刀": { pinyin: "dou1", meaning: "dao" },
+            "叉": { pinyin: "caa1", meaning: "nĩa" },
+            "面包夹肉": { pinyin: "min6baau1 gaap3juk6", meaning: "bánh mì kẹp thịt" },
+            "夹": { pinyin: "gaap3", meaning: "gắp" },
+            "拔": { pinyin: "bat6", meaning: "múc" },
+            "点": { pinyin: "dim2", meaning: "chấm" },
+            "搞": { pinyin: "gaau2", meaning: "khuấy" },
+            "切": { pinyin: "cit3", meaning: "cắt" }
+        }
+    },
+    20: {
+        normal: ["严重","头晕","周身痛","梗系感亲","食一啲药先","如果再唔妥","喉咙痛","发烧","胃痛","入咗医院","发冷","伤风","呕","流鼻涕","打乞嗤","痰","鼻塞","作闷","无胃口","唔消化","肚痛","肚疴","中风","呼吸困难","度血压","照镜","验血","药单","搽药膏","滴眼药水","针灸","登记","攞筹"],
+        shuffle: ["严重","头晕","周身痛","梗系感亲","食一啲药先","如果再唔妥","喉咙痛","发烧","胃痛","入咗医院","发冷","伤风","呕","流鼻涕","打乞嗤","痰","鼻塞","作闷","无胃口","唔消化","肚痛","肚疴","中风","呼吸困难","度血压","照镜","验血","药单","搽药膏","滴眼药水","针灸","登记","攞筹"],
+        items: {
+            "严重": { pinyin: "jim4zung6", meaning: "nghiêm trọng" },
+            "头晕": { pinyin: "tau4wan4", meaning: "chóng mặt" },
+            "周身痛": { pinyin: "zau1san1 tung3", meaning: "đau khắp người" },
+            "梗系感亲": { pinyin: "gang2 hai6 gam2can1", meaning: "chắc là bị cảm" },
+            "食一啲药先": { pinyin: "sik6 jat1di1 joek6sin1", meaning: "uống thuốc trước" },
+            "如果再唔妥": { pinyin: "jyu4gwo2 zoi3 m4to5", meaning: "nếu vẫn không ổn" },
+            "喉咙痛": { pinyin: "hau4lung4tung3", meaning: "đau họng" },
+            "发烧": { pinyin: "faat3siu1", meaning: "sốt" },
+            "胃痛": { pinyin: "wai6tung3", meaning: "đau dạ dày" },
+            "入咗医院": { pinyin: "jap6 zo2 ji1jyun2", meaning: "nhập viện" },
+            "发冷": { pinyin: "faat3laang5", meaning: "cảm lạnh" },
+            "伤风": { pinyin: "soeng1fung1", meaning: "sổ mũi" },
+            "呕": { pinyin: "ngau2", meaning: "nôn ói" },
+            "流鼻涕": { pinyin: "lau4 bei6tai3", meaning: "chảy nước mũi" },
+            "打乞嗤": { pinyin: "daa2 hat1ci1", meaning: "hắt hơi" },
+            "痰": { pinyin: "taam4", meaning: "đờm" },
+            "鼻塞": { pinyin: "bei6sak1", meaning: "nghẹt mũi" },
+            "作闷": { pinyin: "zok3mun6", meaning: "buồn nôn" },
+            "无胃口": { pinyin: "mou4wai6hau2", meaning: "biếng ăn" },
+            "唔消化": { pinyin: "m4 siu1faa3", meaning: "không tiêu" },
+            "肚痛": { pinyin: "tou5tung3", meaning: "đau bụng" },
+            "肚疴": { pinyin: "tou5 o1", meaning: "tiêu chảy" },
+            "中风": { pinyin: "zung1fung1", meaning: "trúng gió" },
+            "呼吸困难": { pinyin: "fu1kap1 kwan3naan4", meaning: "khó thở" },
+            "度血压": { pinyin: "dou6 hyut3ngaat3", meaning: "đo huyết áp" },
+            "照镜": { pinyin: "ziu3geng3", meaning: "chụp X-quang" },
+            "验血": { pinyin: "jim6hyut3", meaning: "xét nghiệm máu" },
+            "药单": { pinyin: "joek6daan1", meaning: "đơn thuốc" },
+            "搽药膏": { pinyin: "caa4joek6gou1", meaning: "bôi thuốc" },
+            "滴眼药水": { pinyin: "dik6 ngaan5joek6seoi2", meaning: "nhỏ mắt" },
+            "针灸": { pinyin: "zam1gau3", meaning: "châm cứu" },
+            "登记": { pinyin: "dang1gei3", meaning: "đăng ký" },
+            "攞筹": { pinyin: "lo2cau4", meaning: "lấy số thứ tự" }
+        }
+    },
+    21: {
+        normal: ["水浸街","无法法","定雨楼","头先","好光猛","无端端","横惦","行雷闪电","避一阵","犀利","满身大汗","闷","雨季","旱季","暖","温暖","凉","凉爽","黑云","雾","天光","地震","海啸","旱灾","水灾","龙捲风","打风","树倒","落冰雹","打雷","闪电","避雨","屋漏","塞坑渠","担遮"],
+        shuffle: ["水浸街","无法法","定雨楼","头先","好光猛","无端端","横惦","行雷闪电","避一阵","犀利","满身大汗","闷","雨季","旱季","暖","温暖","凉","凉爽","黑云","雾","天光","地震","海啸","旱灾","水灾","龙捲风","打风","树倒","落冰雹","打雷","闪电","避雨","屋漏","塞坑渠","担遮"],
+        items: {
+            "水浸街": { pinyin: "seoi2 zam3 gaai1", meaning: "ngập đường" },
+            "无法法": { pinyin: "mou4faat3 faat3", meaning: "không có cách nào" },
+            "定雨楼": { pinyin: "ding6jyu5lau4", meaning: "cầm ô" },
+            "头先": { pinyin: "tau4sin1", meaning: "lúc nãy" },
+            "好光猛": { pinyin: "hou2gwong1maang5", meaning: "trời sáng trưng" },
+            "无端端": { pinyin: "mou4dyun1dyun1", meaning: "tự dưng" },
+            "横惦": { pinyin: "waang4dim3", meaning: "dù sao thì" },
+            "行雷闪电": { pinyin: "haang4leoi4sim2din6", meaning: "sấm sét" },
+            "避一阵": { pinyin: "bei6 jat1 zan6", meaning: "trú một lát" },
+            "犀利": { pinyin: "sai1lei6", meaning: "dữ dội" },
+            "满身大汗": { pinyin: "mun5san1 daai6hon6", meaning: "toàn thân đổ mồ hôi" },
+            "闷": { pinyin: "mun6", meaning: "buồn chán" },
+            "雨季": { pinyin: "jyu5 gwai3", meaning: "mùa mưa" },
+            "旱季": { pinyin: "hon5 gwai3", meaning: "mùa khô" },
+            "暖": { pinyin: "nyun5", meaning: "ấm" },
+            "温暖": { pinyin: "wan1nyun5", meaning: "ấm áp" },
+            "凉": { pinyin: "loeng4", meaning: "mát" },
+            "凉爽": { pinyin: "loeng4song2", meaning: "mát mẻ" },
+            "黑云": { pinyin: "haak1wan4", meaning: "mây đen" },
+            "雾": { pinyin: "mou6", meaning: "sương mù" },
+            "天光": { pinyin: "tin1gwong1", meaning: "trời sáng" },
+            "地震": { pinyin: "dei6zan3", meaning: "động đất" },
+            "海啸": { pinyin: "hoi2siu6", meaning: "sóng thần" },
+            "旱灾": { pinyin: "hon5zoi1", meaning: "hạn hán" },
+            "水灾": { pinyin: "seoi2zoi1", meaning: "lũ lụt" },
+            "龙捲风": { pinyin: "lung4gyun2fung1", meaning: "lốc xoáy" },
+            "打风": { pinyin: "daa2fung1", meaning: "bão" },
+            "树倒": { pinyin: "syu6dou2", meaning: "cây ngã" },
+            "落冰雹": { pinyin: "lok6 bing1bok6", meaning: "mưa đá" },
+            "打雷": { pinyin: "daa2leoi4", meaning: "sấm" },
+            "闪电": { pinyin: "sim2din6", meaning: "sét" },
+            "避雨": { pinyin: "bei6jyu5", meaning: "trú mưa" },
+            "屋漏": { pinyin: "uk1 lau6", meaning: "dột nhà" },
+            "塞坑渠": { pinyin: "coi3 haang1keoi4", meaning: "nghẹt cống" },
+            "担遮": { pinyin: "daam1 ze1", meaning: "che dù" }
+        }
+    },
+    22: {
+        normal: ["兑换外币","兑换率","结果","存款","利息","只系","手续","填写","身份证","柜台交钱","搞促销","凡系","幸运抽奖","美金","欧元","人民币","英磅","法郎","卢布","马克","日圆","台币","港纸","黄金","鉑金","足金","西金","钻石","签字","银纸","毫子","大纸","细纸","散纸","假银纸","烂银纸","支票","储钱","储蓄","悭钱","节俭","夹万","钱婴","晒钱","孤汗","阔佬","信用卡","辘卡","提款机","贷款","提款","户口","利率","余额","存摺","转帐","汇款","收据"],
+        shuffle: ["兑换外币","兑换率","结果","存款","利息","只系","手续","填写","身份证","柜台交钱","搞促销","凡系","幸运抽奖","美金","欧元","人民币","英磅","法郎","卢布","马克","日圆","台币","港纸","黄金","鉑金","足金","西金","钻石","签字","银纸","毫子","大纸","细纸","散纸","假银纸","烂银纸","支票","储钱","储蓄","悭钱","节俭","夹万","钱婴","晒钱","孤汗","阔佬","信用卡","辘卡","提款机","贷款","提款","户口","利率","余额","存摺","转帐","汇款","收据"],
+        items: {
+            "兑换外币": { pinyin: "deoi3wun6ngoi6bai6", meaning: "đổi ngoại tệ" },
+            "兑换率": { pinyin: "deoi3wun6leot2", meaning: "tỷ giá hối đoái" },
+            "结果": { pinyin: "git3gwo2", meaning: "kết quả" },
+            "存款": { pinyin: "cyun4fun2", meaning: "gửi tiền tiết kiệm" },
+            "利息": { pinyin: "lei6sik1", meaning: "lãi suất" },
+            "只系": { pinyin: "zi2 hai6", meaning: "chỉ là" },
+            "手续": { pinyin: "sau2zuk6", meaning: "thủ tục" },
+            "填写": { pinyin: "tin4se2", meaning: "điền vào" },
+            "身份证": { pinyin: "san1fan2 zing3", meaning: "chứng minh nhân dân" },
+            "柜台交钱": { pinyin: "gwai6toi4 gaau1cin4", meaning: "nộp tiền tại quầy" },
+            "搞促销": { pinyin: "gaau2 cuk1siu1", meaning: "làm khuyến mãi" },
+            "凡系": { pinyin: "faan4hai6", meaning: "tất cả những ai" },
+            "幸运抽奖": { pinyin: "hang6wan6cau1 zoeng2", meaning: "xổ số may mắn" },
+            "美金": { pinyin: "mei5gam1", meaning: "đô la Mỹ" },
+            "欧元": { pinyin: "ngau1 jyun4", meaning: "Euro" },
+            "人民币": { pinyin: "jan4man4bai6", meaning: "Nhân dân tệ" },
+            "英磅": { pinyin: "jing1 bong6", meaning: "Bảng Anh" },
+            "法郎": { pinyin: "faat3long4", meaning: "Franc Pháp" },
+            "卢布": { pinyin: "lou4bou3", meaning: "Rúp Nga" },
+            "马克": { pinyin: "maa5haak1", meaning: "Mark Đức" },
+            "日圆": { pinyin: "jat6jyun4", meaning: "Yên Nhật" },
+            "台币": { pinyin: "toi4bai6", meaning: "Đài tệ" },
+            "港纸": { pinyin: "gong2zi2", meaning: "tiền Hồng Kông" },
+            "黄金": { pinyin: "wong4gam1", meaning: "vàng" },
+            "鉑金": { pinyin: "bok6gam1", meaning: "bạch kim" },
+            "足金": { pinyin: "zuk1gam1", meaning: "vàng 24K" },
+            "西金": { pinyin: "sai1gam1", meaning: "vàng 18K" },
+            "钻石": { pinyin: "zyun3sek6", meaning: "kim cương" },
+            "签字": { pinyin: "cim1zi6", meaning: "ký tên" },
+            "银纸": { pinyin: "ngan4zi2", meaning: "tiền giấy" },
+            "毫子": { pinyin: "hou4zi2", meaning: "tiền xu" },
+            "大纸": { pinyin: "daai6zi2", meaning: "tiền chẵn" },
+            "细纸": { pinyin: "sai3zi2", meaning: "tiền nhỏ" },
+            "散纸": { pinyin: "saan3zi2", meaning: "tiền lẻ" },
+            "假银纸": { pinyin: "gaa2ngan4zi2", meaning: "tiền giả" },
+            "烂银纸": { pinyin: "laan6ngan4zi2", meaning: "tiền rách" },
+            "支票": { pinyin: "zi1piu3", meaning: "séc" },
+            "储钱": { pinyin: "cyu5cin4", meaning: "để dành tiền" },
+            "储蓄": { pinyin: "cyu5cuk1", meaning: "tiết kiệm" },
+            "悭钱": { pinyin: "haan1cin4", meaning: "tiết kiệm tiền" },
+            "节俭": { pinyin: "zit3gim6", meaning: "tiết kiệm" },
+            "夹万": { pinyin: "gaap3maan6", meaning: "két sắt" },
+            "钱婴": { pinyin: "cin4jing1", meaning: "heo đất" },
+            "晒钱": { pinyin: "saai3cin4", meaning: "lãng phí" },
+            "孤汗": { pinyin: "gu1 hon6", meaning: "keo kiệt" },
+            "阔佬": { pinyin: "fut3lou2", meaning: "hào phóng" },
+            "信用卡": { pinyin: "seon3jung6kaat1", meaning: "thẻ tín dụng" },
+            "辘卡": { pinyin: "luk1kaa1", meaning: "rút tiền bằng thẻ" },
+            "提款机": { pinyin: "tai4fun2 gei1", meaning: "máy ATM" },
+            "贷款": { pinyin: "taai3fun2", meaning: "vay tiền" },
+            "提款": { pinyin: "tai4fun2", meaning: "rút tiền" },
+            "户口": { pinyin: "wu6hau2", meaning: "tài khoản" },
+            "利率": { pinyin: "lei6leot2", meaning: "lãi suất" },
+            "余额": { pinyin: "jyu4ngaak2", meaning: "số dư" },
+            "存摺": { pinyin: "cyun4zip3", meaning: "sổ tiết kiệm" },
+            "转帐": { pinyin: "zyun2zoeng3", meaning: "chuyển khoản" },
+            "汇款": { pinyin: "wui6fun2", meaning: "chuyển tiền" },
+            "收据": { pinyin: "sau1geoi3", meaning: "biên nhận" }
+        }
+    },
+    23: {
+        normal: ["回答","荣幸","商品交易会","需求","尽力","商量细节","人人","机器","不妨","领域","消息","老实讲","爽快","吸引","供应","实净","满意","斟妥咗","饮翻杯","接洽","对于","提出","希望","尽早","建立","交易","欢迎","参观","购买","推荐","旅店","接","送","今次","货品","尝试","产品","将来","报价表","付款方式","答复","报价","尽量","包装","斟生意","赞成"],
+        shuffle: ["回答","荣幸","商品交易会","需求","尽力","商量细节","人人","机器","不妨","领域","消息","老实讲","爽快","吸引","供应","实净","满意","斟妥咗","饮翻杯","接洽","对于","提出","希望","尽早","建立","交易","欢迎","参观","购买","推荐","旅店","接","送","今次","货品","尝试","产品","将来","报价表","付款方式","答复","报价","尽量","包装","斟生意","赞成"],
+        items: {
+            "回答": { pinyin: "wui4daap3", meaning: "trả lời" },
+            "荣幸": { pinyin: "wing4hang6", meaning: "vinh hạnh" },
+            "商品交易会": { pinyin: "soeng1ban2 gaau1jik6wui2", meaning: "hội chợ thương mại" },
+            "需求": { pinyin: "seoi1kau4", meaning: "nhu cầu" },
+            "尽力": { pinyin: "zeon6lik6", meaning: "cố gắng hết sức" },
+            "商量细节": { pinyin: "soeng1loeng4 sai3zit3", meaning: "bàn chi tiết" },
+            "人人": { pinyin: "jan4jan4", meaning: "mọi người" },
+            "机器": { pinyin: "gei1hei3", meaning: "máy móc" },
+            "不妨": { pinyin: "bat1fong4", meaning: "không ngại" },
+            "领域": { pinyin: "ling5wik6", meaning: "lĩnh vực" },
+            "消息": { pinyin: "siu1sik1", meaning: "tin tức" },
+            "老实讲": { pinyin: "lou5sat6gong2", meaning: "nói thật" },
+            "爽快": { pinyin: "song2faai3", meaning: "dứt khoát" },
+            "吸引": { pinyin: "kap1jan5", meaning: "hấp dẫn" },
+            "供应": { pinyin: "gung1jing3", meaning: "cung cấp" },
+            "实净": { pinyin: "sat6zing6", meaning: "chắc chắn / bền chắc" },
+            "满意": { pinyin: "mun5ji3", meaning: "hài lòng" },
+            "斟妥咗": { pinyin: "zam1 to5 zo2", meaning: "thỏa thuận xong" },
+            "饮翻杯": { pinyin: "jam2faan1 bui1", meaning: "uống ly mừng" },
+            "接洽": { pinyin: "zip3hap1", meaning: "liên hệ" },
+            "对于": { pinyin: "deoi3jyu1", meaning: "đối với" },
+            "提出": { pinyin: "tai4ceot1", meaning: "đề xuất" },
+            "希望": { pinyin: "hei1mong6", meaning: "hy vọng" },
+            "尽早": { pinyin: "zeon6zou2", meaning: "sớm nhất" },
+            "建立": { pinyin: "gin3laap6", meaning: "xây dựng" },
+            "交易": { pinyin: "gaau1jik6", meaning: "giao dịch" },
+            "欢迎": { pinyin: "fun1jing4", meaning: "hoan nghênh" },
+            "参观": { pinyin: "caam1gun1", meaning: "tham quan" },
+            "购买": { pinyin: "kau3maai5", meaning: "mua" },
+            "推荐": { pinyin: "teoi1zin3", meaning: "giới thiệu" },
+            "旅店": { pinyin: "leoi5dim3", meaning: "khách sạn" },
+            "接": { pinyin: "zip3", meaning: "đón" },
+            "送": { pinyin: "sung3", meaning: "đưa" },
+            "今次": { pinyin: "gam1ci3", meaning: "lần này" },
+            "货品": { pinyin: "fo3ban2", meaning: "hàng hóa" },
+            "尝试": { pinyin: "soeng4si3", meaning: "thử" },
+            "产品": { pinyin: "caan2ban2", meaning: "sản phẩm" },
+            "将来": { pinyin: "zoeng1loi4", meaning: "tương lai" },
+            "报价表": { pinyin: "bou3gaa3biu2", meaning: "bảng báo giá" },
+            "付款方式": { pinyin: "fu6fun2 fong1sik1", meaning: "phương thức thanh toán" },
+            "答复": { pinyin: "daap3fuk6", meaning: "trả lời" },
+            "报价": { pinyin: "bou3gaa3", meaning: "báo giá" },
+            "尽量": { pinyin: "zeon6loeng4", meaning: "cố gắng" },
+            "包装": { pinyin: "baau1zong1", meaning: "đóng gói" },
+            "斟生意": { pinyin: "zam1 saang1ji3", meaning: "bàn chuyện làm ăn" },
+            "赞成": { pinyin: "zaan3sing4", meaning: "tán thành" }
+        }
+    },
+    24: {
+        normal: ["趁呢个机会","海滩","旅程","大巴","海鲜炉晚餐","免费","旅行保险","打落收费","团","组织","深圳","继续","坐船","返翻","起程","净系","来回机票","入境签证","食宿","安宁税","减价","探亲团","古芝地道","河上市集","九龙江平原","南部水乡","会安古街","顺化皇城","下龙湾","独柱寺","还剑湖","沙巴","奠边府","占婆塔","森林","公路","爬山","租车","买飞"],
+        shuffle: ["趁呢个机会","海滩","旅程","大巴","海鲜炉晚餐","免费","旅行保险","打落收费","团","组织","深圳","继续","坐船","返翻","起程","净系","来回机票","入境签证","食宿","安宁税","减价","探亲团","古芝地道","河上市集","九龙江平原","南部水乡","会安古街","顺化皇城","下龙湾","独柱寺","还剑湖","沙巴","奠边府","占婆塔","森林","公路","爬山","租车","买飞"],
+        items: {
+            "趁呢个机会": { pinyin: "can3 ni1 go3gei1wui6", meaning: "nhân dịp này" },
+            "海滩": { pinyin: "hoi2taan1", meaning: "bãi biển" },
+            "旅程": { pinyin: "leoi5cing4", meaning: "hành trình" },
+            "大巴": { pinyin: "daai6baa1", meaning: "xe khách lớn" },
+            "海鲜炉晚餐": { pinyin: "hoi2sin1lou4maan5caan1", meaning: "bữa tối lẩu hải sản" },
+            "免费": { pinyin: "min5fai3", meaning: "miễn phí" },
+            "旅行保险": { pinyin: "leoi5hang4 bou2him2", meaning: "bảo hiểm du lịch" },
+            "打落收费": { pinyin: "daa2 lok6 sau1fai3", meaning: "tính phí" },
+            "团": { pinyin: "tyun4", meaning: "đoàn" },
+            "组织": { pinyin: "zou2zik1", meaning: "tổ chức" },
+            "深圳": { pinyin: "sam1zan3", meaning: "Thâm Quyến" },
+            "继续": { pinyin: "gai3zuk6", meaning: "tiếp tục" },
+            "坐船": { pinyin: "zo6 syun4", meaning: "đi tàu thủy" },
+            "返翻": { pinyin: "faan1 faan1", meaning: "về lại" },
+            "起程": { pinyin: "hei2cing4", meaning: "khởi hành" },
+            "净系": { pinyin: "zing6hai6", meaning: "chỉ có" },
+            "来回机票": { pinyin: "loi4wui4 gei1piu3", meaning: "vé khứ hồi" },
+            "入境签证": { pinyin: "jap6ging2 cim1zing3", meaning: "visa nhập cảnh" },
+            "食宿": { pinyin: "sik6suk1", meaning: "ăn ở" },
+            "安宁税": { pinyin: "on1ning4seoi3", meaning: "thuế sân bay" },
+            "减价": { pinyin: "gaam2gaa3", meaning: "giảm giá" },
+            "探亲团": { pinyin: "taam3can1tyun4", meaning: "đoàn thăm thân" },
+            "古芝地道": { pinyin: "gu2zi1dei6 dou6", meaning: "Địa đạo Củ Chi" },
+            "河上市集": { pinyin: "ho4soeng6 si5zaap6", meaning: "Chợ nổi" },
+            "九龙江平原": { pinyin: "gau2lung4gong1 ping4jyun4", meaning: "Đồng bằng sông Cửu Long" },
+            "南部水乡": { pinyin: "naam4bou6 seoi2hoeng1", meaning: "vùng sông nước Nam Bộ" },
+            "会安古街": { pinyin: "wui6ngon1 gu2 gaai1", meaning: "Phố cổ Hội An" },
+            "顺化皇城": { pinyin: "seon6faa3 wong4sing4", meaning: "Hoàng thành Huế" },
+            "下龙湾": { pinyin: "haa6lung4waan1", meaning: "Vịnh Hạ Long" },
+            "独柱寺": { pinyin: "duk6cyu5 zi2", meaning: "Chùa Một Cột" },
+            "还剑湖": { pinyin: "waan4gim3wu4", meaning: "Hồ Hoàn Kiếm" },
+            "沙巴": { pinyin: "saa1baa1", meaning: "Sa Pa" },
+            "奠边府": { pinyin: "din6bin1fu2", meaning: "Điện Biên Phủ" },
+            "占婆塔": { pinyin: "zim1po4 taap3", meaning: "Tháp Chàm" },
+            "森林": { pinyin: "sam1lam4", meaning: "rừng" },
+            "公路": { pinyin: "gung1lou6", meaning: "xa lộ" },
+            "爬山": { pinyin: "paa4saan1", meaning: "leo núi" },
+            "租车": { pinyin: "zou1ce1", meaning: "thuê xe" },
+            "买飞": { pinyin: "maai5fei1", meaning: "mua vé" }
+        }
+    },
+    25: {
+        normal: ["福","寿","中秋","贺","生日快乐","福如东海, 寿比南山","年年有今日, 岁岁有今朝","百年好合","永结同心","美满良缘","白头偕老","庆获麟儿","庆获千金","金玉满堂","金碧辉煌","恭喜发财","心想事成","万事如意","身壮力健","新年进步","一路平安","一帆风顺","生意兴隆","大展鸿图","节日快乐","中秋月圆人团圆","学业进步","步步高升"],
+        shuffle: ["福","寿","中秋","贺","生日快乐","福如东海, 寿比南山","年年有今日, 岁岁有今朝","百年好合","永结同心","美满良缘","白头偕老","庆获麟儿","庆获千金","金玉满堂","金碧辉煌","恭喜发财","心想事成","万事如意","身壮力健","新年进步","一路平安","一帆风顺","生意兴隆","大展鸿图","节日快乐","中秋月圆人团圆","学业进步","步步高升"],
+        items: {
+            "福": { pinyin: "fuk1", meaning: "phúc" },
+            "寿": { pinyin: "sau6", meaning: "thọ" },
+            "中秋": { pinyin: "zung1cau1", meaning: "Trung Thu" },
+            "贺": { pinyin: "ho6", meaning: "chúc mừng" },
+            "生日快乐": { pinyin: "saang1jat6 faai3lok6", meaning: "Chúc mừng sinh nhật" },
+            "福如东海, 寿比南山": { pinyin: "fuk1 jyu4dung1hoi2, sau6bei2 naam4saan1", meaning: "Phúc như Đông Hải, Thọ tỷ Nam Sơn" },
+            "年年有今日, 岁岁有今朝": { pinyin: "nin4nin4 jau5 gam1jat6, seoi3seoi3jau5 gam1ziu1", meaning: "Năm nào cũng như hôm nay" },
+            "百年好合": { pinyin: "baak3nin4 hou2hap6", meaning: "Trăm năm hạnh phúc" },
+            "永结同心": { pinyin: "wing5git3tung4sam1", meaning: "Kết tóc se tơ" },
+            "美满良缘": { pinyin: "mei5mun5loeng4jyun4", meaning: "Hôn nhân mỹ mãn" },
+            "白头偕老": { pinyin: "baak6tau4gaai1lou5", meaning: "Đầu bạc răng long" },
+            "庆获麟儿": { pinyin: "hing3wok6leon4ji4", meaning: "Chúc mừng quý tử" },
+            "庆获千金": { pinyin: "hing3wok6cin1gam1", meaning: "Chúc mừng quý nữ" },
+            "金玉满堂": { pinyin: "gam1juk6mun5tong4", meaning: "Vàng ngọc đầy nhà" },
+            "金碧辉煌": { pinyin: "gam1bik1fai1wong4", meaning: "Lộng lẫy huy hoàng" },
+            "恭喜发财": { pinyin: "gung1hei2faat3coi4", meaning: "Chúc mừng phát tài" },
+            "心想事成": { pinyin: "sam1 soeng2 si6sing4", meaning: "Tâm nguyện thành sự" },
+            "万事如意": { pinyin: "maan6si6 jyu4ji3", meaning: "Vạn sự như ý" },
+            "身壮力健": { pinyin: "san1zong3lik6 gin6", meaning: "Thân khỏe mạnh" },
+            "新年进步": { pinyin: "san1nin4 zeon3bou6", meaning: "Năm mới tiến bộ" },
+            "一路平安": { pinyin: "jat1lou6 ping4ngon1", meaning: "Một đường bình an" },
+            "一帆风顺": { pinyin: "jat1 faan4fung1seon6", meaning: "Thuận buồm xuôi gió" },
+            "生意兴隆": { pinyin: "saang1ji3hing1lung4", meaning: "Buôn may bán đắt" },
+            "大展鸿图": { pinyin: "daai6 zin2hung4tou4", meaning: "Phát triển lớn lao" },
+            "节日快乐": { pinyin: "zit3jat6 faai3lok6", meaning: "Chúc mừng ngày lễ" },
+            "中秋月圆人团圆": { pinyin: "zung1cau1jyut6jyun4jan4 tyun4jyun4", meaning: "Trung Thu trăng tròn người sum vầy" },
+            "学业进步": { pinyin: "hok6jip6zeon3bou6", meaning: "Học hành tiến bộ" },
+            "步步高升": { pinyin: "bou6bou6 gou1sing1", meaning: "Bước bước thăng tiến" }
+        }
+    }
+};
+
+
+
+
+
+        let currentLesson = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+        let showPinyin = false;
+        let stageSize = 5; // Mỗi chặng 5 từ
+
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            // Hiển thị các bài có dữ liệu
+            Object.keys(allLessons).forEach(lessonNum => {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${lessonNum}`;
+                btn.onclick = () => selectLesson(parseInt(lessonNum));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('mode-screen').style.display = 'block';
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
+        }
+
+        function backToMenu() {
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const lessonData = allLessons[currentLesson];
+            
+            vocabulary = lessonData.normal.map(hanzi => ({
+                hanzi: hanzi,
+                pinyin: lessonData.items[hanzi].pinyin,
+                meaning: lessonData.items[hanzi].meaning
+            }));
+
+            if (mode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+
+            currentIndex = 0;
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('total').textContent = vocabulary.length;
+            
+            loadQuestion();
+        }
+
+        function togglePinyin() {
+            showPinyin = !showPinyin;
+            const pinyinEl = document.getElementById('pinyin');
+            pinyinEl.style.display = showPinyin ? 'block' : 'none';
+            document.querySelector('.toggle-pinyin').textContent = showPinyin ? '🙈 Ẩn Pinyin' : '👁️ Hiện Pinyin';
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('pinyin').textContent = currentWord.pinyin;
+            document.getElementById('result').textContent = '';
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            let answers = [currentWord.meaning, ...wrongAnswers.map(w => w.meaning)];
+            answers = answers.sort(() => Math.random() - 0.5);
+
+            answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.meaning, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        // Kiểm tra chặng: nếu sai sẽ quay về đầu chặng
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1500);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+                resultDiv.style.color = "#f87171";
+                
+                // Quay về đầu chặng hiện tại (mỗi 5 từ)
+                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+                currentIndex = currentStageStart;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 2000);
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
+                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
+            `;
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
+                    Chơi lại bài này
+                </button>
+            `;
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            if (currentMode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        // Khởi động
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+
+</body></html>
