@@ -1,1 +1,1862 @@
+<!DOCTYPE html>
+<!-- saved from url=(0089)https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/INTENSE-Md2-Quiz-Tuvung-Doc.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Chinese 2 - Quiz Từ Vựng (Với Nghĩa)</title>
+    <style>
+    
+    .meaning {
+    font-size: 24px;
+    text-align: center;
+    margin: 15px 0;
+    opacity: 0.95;
+    font-style: italic;
+}
 
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 18px 12px;
+            font-size: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 14px;
+        }
+        .mode-btn:hover {
+            background: #22c55e;
+        }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 20px;
+        }
+        #quiz-container {
+            display: none;
+        }
+        .progress {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hanzi {
+            font-size: 90px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 110px;
+            line-height: 1.2;
+        }
+        .pinyin {
+            font-size: 28px;
+            text-align: center;
+            margin: 10px 0;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .result {
+            font-size: 26px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+        .toggle-pinyin {
+            background: #60a5fa;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen">
+    <!-- FLOATING BUTTON - Quay về mục lục -->
+<a href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/INTENSE-muc-luc.html" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+          background: #ef4444; color: white; width: 60px; height: 60px; 
+          border-radius: 50%; display: flex; align-items: center; 
+          justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+          text-decoration: none; transition: all 0.3s;">
+    ←
+</a> 
+    <div class="container">
+<h1>📚 Modern Chinese 2 - Quiz Từ Vựng (Nghĩa → Pinyin)</h1>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" style="display: block;">
+            <h2>Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button></div>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" style="display: none;">
+            <h2 id="selected-lesson-title">Bài 1 - Chọn dạng quiz</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)" style="margin-left: 20px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" style="display: none;">
+            <div class="progress">Bài <span id="lesson-num">1</span> - Câu <span id="current">5</span>/<span id="total">45</span></div>
+            
+            <div class="hanzi" id="hanzi">還是</div>
+<div class="meaning" id="meaning" style="display: none; font-size: 24px; text-align: center; margin: 15px 0; opacity: 0.95;"></div>
+<button class="toggle-pinyin" onclick="toggleMeaning()" style="background: #60a5fa;">👁️ Hiện Nghĩa</button>
+            
+            <div class="result" id="result" style="color: rgb(74, 222, 128);"></div>
+            <div class="options" id="options"><button>hiệu thuốc</button><button>vẫn còn</button><button>một chút, một lúc ngắn</button><button>dường như</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
+                ← Thoát quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TỪ EXCEL ====================
+
+const allLessons = {
+    
+    
+        1: {
+        normal: ["啊", "啊", "阿姨", "哎", "矮", "愛", "愛", "安靜", "安排", "安排", "安全", "安全", "吧", "八", "巴士", "把", "把", "爸爸", "白", "白", "白菜", "白色", "白天", "百", "百貨公司", "班", "搬", "搬家", "半", "辦", "辦法", "辦公室", "半天", "幫", "幫忙", "幫助", "棒", "棒球", "包", "包", "包子", "飽", "抱", "抱歉", "報紙", "背", "杯", "杯子", "北", "北邊", "背", "背", "被", "本", "本來", "本子", "笨", "鼻(子)", "筆", "比", "比", "比較", "比賽", "比賽", "必須", "畢業", "邊(兒)", "遍", "變", "變", "變成", "變化", "變化", "錶", "表", "表現", "表現", "表演", "表演", "別", "別的", "別人", "冰", "冰塊(兒)", "冰箱", "餅", "餅乾", "病", "病", "病人", "不必", "不錯", "不但", "不過", "不見(了)", "不客氣", "不要", "不要緊", "不用", "布", "部", "不", "不得了", "部分", "部分/份", "不管", "不好意思", "不久", "不可", "不少", "不少", "不同", "不行", "不一定", "擦", "猜", "才", "菜", "菜單", "參觀", "參加", "餐廳", "餐桌", "草", "草地", "草原", "廁所", "詞", "次", "聰明", "從", "從來", "從前", "醋", "錯", "錯", "錯誤", "叉子", "茶", "查", "差", "差不多", "差(一)點(兒)", "產品", "長", "常", "常常", "場", "唱", "唱歌", "超級市場", "吵", "車(子)", "車站", "襯衫", "成", "程度", "成功", "成績", "誠實", "城市", "吃", "吃飯", "遲到", "尺", "抽", "臭", "出", "出發", "出國", "出來", "出去", "出現", "廚房", "除了", "穿", "船(兒)", "串", "窗(子)", "窗戶", "床", "吹", "春", "春節", "春天", "答應", "打", "打電話", "打掃", "打算", "大", "大部分/份", "大概", "大家", "大樓", "大陸", "大人", "大聲", "大學", "大衣", "袋", "帶", "戴", "代表", "代表", "袋子", "擔心", "淡", "蛋", "蛋糕", "但是", "當", "當", "當然", "當中", "刀", "刀子", "倒", "道", "到", "到", "到", "到處", "到底", "道理", "的", "的", "得", "得很", "的話", "得", "得到", "得", "燈", "等", "等", "等", "低", "底", "底下", "第", "地"],
+        shuffle: ["啊", "啊", "阿姨", "哎", "矮", "愛", "愛", "安靜", "安排", "安排", "安全", "安全", "吧", "八", "巴士", "把", "把", "爸爸", "白", "白", "白菜", "白色", "白天", "百", "百貨公司", "班", "搬", "搬家", "半", "辦", "辦法", "辦公室", "半天", "幫", "幫忙", "幫助", "棒", "棒球", "包", "包", "包子", "飽", "抱", "抱歉", "報紙", "背", "杯", "杯子", "北", "北邊", "背", "背", "被", "本", "本來", "本子", "笨", "鼻(子)", "筆", "比", "比", "比較", "比賽", "比賽", "必須", "畢業", "邊(兒)", "遍", "變", "變", "變成", "變化", "變化", "錶", "表", "表現", "表現", "表演", "表演", "別", "別的", "別人", "冰", "冰塊(兒)", "冰箱", "餅", "餅乾", "病", "病", "病人", "不必", "不錯", "不但", "不過", "不見(了)", "不客氣", "不要", "不要緊", "不用", "布", "部", "不", "不得了", "部分", "部分/份", "不管", "不好意思", "不久", "不可", "不少", "不少", "不同", "不行", "不一定", "擦", "猜", "才", "菜", "菜單", "參觀", "參加", "餐廳", "餐桌", "草", "草地", "草原", "廁所", "詞", "次", "聰明", "從", "從來", "從前", "醋", "錯", "錯", "錯誤", "叉子", "茶", "查", "差", "差不多", "差(一)點(兒)", "產品", "長", "常", "常常", "場", "唱", "唱歌", "超級市場", "吵", "車(子)", "車站", "襯衫", "成", "程度", "成功", "成績", "誠實", "城市", "吃", "吃飯", "遲到", "尺", "抽", "臭", "出", "出發", "出國", "出來", "出去", "出現", "廚房", "除了", "穿", "船(兒)", "串", "窗(子)", "窗戶", "床", "吹", "春", "春節", "春天", "答應", "打", "打電話", "打掃", "打算", "大", "大部分/份", "大概", "大家", "大樓", "大陸", "大人", "大聲", "大學", "大衣", "袋", "帶", "戴", "代表", "代表", "袋子", "擔心", "淡", "蛋", "蛋糕", "但是", "當", "當", "當然", "當中", "刀", "刀子", "倒", "道", "到", "到", "到", "到處", "到底", "道理", "的", "的", "得", "得很", "的話", "得", "得到", "得", "燈", "等", "等", "等", "低", "底", "底下", "第", "地"],
+        items: {
+            "啊": { pinyin: "a", meaning: "à (hạt ngữ khí biểu lộ cảm xúc)" },
+            "啊": { pinyin: "ā", meaning: "à (dùng để kêu gọi, ngạc nhiên)" },
+            "阿姨": { pinyin: "āyí", meaning: "dì (cô, thím)" },
+            "哎": { pinyin: "āi", meaning: "ui (tiếng than)" },
+            "矮": { pinyin: "ǎi", meaning: "thấp" },
+            "愛": { pinyin: "ài", meaning: "yêu" },
+            "愛": { pinyin: "ài", meaning: "yêu thích" },
+            "安靜": { pinyin: "ānjìng", meaning: "yên tĩnh" },
+            "安排": { pinyin: "ānpái", meaning: "sắp xếp" },
+            "安排": { pinyin: "ānpái", meaning: "sự sắp xếp" },
+            "安全": { pinyin: "ānquán", meaning: "an toàn" },
+            "安全": { pinyin: "ānquán", meaning: "sự an toàn" },
+            "吧": { pinyin: "ba", meaning: "đi (hạt ngữ khí)" },
+            "八": { pinyin: "bā", meaning: "tám" },
+            "巴士": { pinyin: "bāshì", meaning: "xe buýt" },
+            "把": { pinyin: "bǎ", meaning: "cái (lượng từ)" },
+            "把": { pinyin: "bǎ", meaning: "(dấu xử lý)" },
+            "爸爸": { pinyin: "bàba", meaning: "bố" },
+            "白": { pinyin: "bái", meaning: "trắng" },
+            "白": { pinyin: "bái", meaning: "vô ích" },
+            "白菜": { pinyin: "báicài", meaning: "cải trắng" },
+            "白色": { pinyin: "báisè", meaning: "màu trắng" },
+            "白天": { pinyin: "báitiān", meaning: "ban ngày" },
+            "百": { pinyin: "bǎi", meaning: "trăm" },
+            "百貨公司": { pinyin: "bǎihuògōngsī", meaning: "cửa hàng bách hóa" },
+            "班": { pinyin: "bān", meaning: "chuyến, lớp" },
+            "搬": { pinyin: "bān", meaning: "dời" },
+            "搬家": { pinyin: "bānjiā", meaning: "chuyển nhà" },
+            "半": { pinyin: "bàn", meaning: "nửa" },
+            "辦": { pinyin: "bàn", meaning: "làm, tổ chức" },
+            "辦法": { pinyin: "bànfǎ", meaning: "cách làm" },
+            "辦公室": { pinyin: "bàngōngshì", meaning: "văn phòng" },
+            "半天": { pinyin: "bàntiān", meaning: "nửa ngày" },
+            "幫": { pinyin: "bāng", meaning: "giúp" },
+            "幫忙": { pinyin: "bāngmáng", meaning: "giúp đỡ" },
+            "幫助": { pinyin: "bāngzhù", meaning: "giúp đỡ" },
+            "棒": { pinyin: "bàng", meaning: "tuyệt vời" },
+            "棒球": { pinyin: "bàngqiú", meaning: "bóng chày" },
+            "包": { pinyin: "bāo", meaning: "gói" },
+            "包": { pinyin: "bāo", meaning: "gói (lượng từ)" },
+            "包子": { pinyin: "bāozi", meaning: "bánh bao" },
+            "飽": { pinyin: "bǎo", meaning: "no" },
+            "抱": { pinyin: "bào", meaning: "ôm" },
+            "抱歉": { pinyin: "bàoqiàn", meaning: "xin lỗi" },
+            "報紙": { pinyin: "bàozhǐ", meaning: "báo" },
+            "背": { pinyin: "bèi", meaning: "lưng" },
+            "杯": { pinyin: "bēi", meaning: "cốc" },
+            "杯子": { pinyin: "bēizi", meaning: "cốc" },
+            "北": { pinyin: "běi", meaning: "phía bắc" },
+            "北邊": { pinyin: "běibiān", meaning: "phía bắc" },
+            "背": { pinyin: "bèi", meaning: "thuộc lòng" },
+            "背": { pinyin: "bēi", meaning: "cõng" },
+            "被": { pinyin: "bèi", meaning: "(dấu bị động)" },
+            "本": { pinyin: "běn", meaning: "quyển" },
+            "本來": { pinyin: "běnlái", meaning: "vốn dĩ" },
+            "本子": { pinyin: "běnzi", meaning: "sổ" },
+            "笨": { pinyin: "bèn", meaning: "ngốc" },
+            "鼻(子)": { pinyin: "bí(zi)", meaning: "mũi" },
+            "筆": { pinyin: "bǐ", meaning: "bút" },
+            "比": { pinyin: "bǐ", meaning: "so với" },
+            "比": { pinyin: "bǐ", meaning: "so sánh" },
+            "比較": { pinyin: "bǐjiào", meaning: "so sánh" },
+            "比賽": { pinyin: "bǐsài", meaning: "thi đấu" },
+            "比賽": { pinyin: "bǐsài", meaning: "cuộc thi" },
+            "必須": { pinyin: "bìxū", meaning: "phải" },
+            "畢業": { pinyin: "bìyè", meaning: "tốt nghiệp" },
+            "邊(兒)": { pinyin: "biān(ér)", meaning: "bên" },
+            "遍": { pinyin: "biàn", meaning: "lần" },
+            "變": { pinyin: "biàn", meaning: "thay đổi" },
+            "變": { pinyin: "biàn", meaning: "biến" },
+            "變成": { pinyin: "biànchéng", meaning: "trở thành" },
+            "變化": { pinyin: "biànhuà", meaning: "sự thay đổi" },
+            "變化": { pinyin: "biànhuà", meaning: "thay đổi" },
+            "錶": { pinyin: "biǎo", meaning: "đồng hồ" },
+            "表": { pinyin: "biǎo", meaning: "bảng" },
+            "表現": { pinyin: "biǎoxiàn", meaning: "biểu hiện" },
+            "表現": { pinyin: "biǎoxiàn", meaning: "thể hiện" },
+            "表演": { pinyin: "biǎoyǎn", meaning: "biểu diễn" },
+            "表演": { pinyin: "biǎoyǎn", meaning: "sự biểu diễn" },
+            "別": { pinyin: "bié", meaning: "đừng" },
+            "別的": { pinyin: "biéde", meaning: "khác" },
+            "別人": { pinyin: "biérén", meaning: "người khác" },
+            "冰": { pinyin: "bīng", meaning: "đá" },
+            "冰塊(兒)": { pinyin: "bīngkuài(ér)", meaning: "khối đá" },
+            "冰箱": { pinyin: "bīngxiāng", meaning: "tủ lạnh" },
+            "餅": { pinyin: "bǐng", meaning: "bánh" },
+            "餅乾": { pinyin: "bǐnggān", meaning: "bánh quy" },
+            "病": { pinyin: "bìng", meaning: "bệnh" },
+            "病": { pinyin: "bìng", meaning: "bị bệnh" },
+            "病人": { pinyin: "bìngrén", meaning: "bệnh nhân" },
+            "不必": { pinyin: "búbì", meaning: "không cần" },
+            "不錯": { pinyin: "búcuò", meaning: "không tệ" },
+            "不但": { pinyin: "búdàn", meaning: "không chỉ" },
+            "不過": { pinyin: "búguò", meaning: "nhưng" },
+            "不見(了)": { pinyin: "bújiàn(le)", meaning: "mất" },
+            "不客氣": { pinyin: "búkèqì", meaning: "không có chi" },
+            "不要": { pinyin: "búyào", meaning: "không muốn" },
+            "不要緊": { pinyin: "búyàojǐn", meaning: "không sao" },
+            "不用": { pinyin: "búyòng", meaning: "không cần" },
+            "布": { pinyin: "bù", meaning: "vải" },
+            "部": { pinyin: "bù", meaning: "bộ" },
+            "不": { pinyin: "bù", meaning: "không" },
+            "不得了": { pinyin: "bùdéliǎo", meaning: "cực kỳ" },
+            "部分": { pinyin: "bùfèn", meaning: "phần" },
+            "部分/份": { pinyin: "bùfèn", meaning: "phần" },
+            "不管": { pinyin: "bùguǎn", meaning: "dù" },
+            "不好意思": { pinyin: "bùhǎoyìsi", meaning: "xấu hổ" },
+            "不久": { pinyin: "bùjiǔ", meaning: "không lâu" },
+            "不可": { pinyin: "bùkě", meaning: "không thể" },
+            "不少": { pinyin: "bùshǎo", meaning: "không ít" },
+            "不少": { pinyin: "bùshǎo", meaning: "khá nhiều" },
+            "不同": { pinyin: "bùtóng", meaning: "khác" },
+            "不行": { pinyin: "bùxíng", meaning: "không được" },
+            "不一定": { pinyin: "bùyídìng", meaning: "không chắc" },
+            "擦": { pinyin: "cā", meaning: "lau" },
+            "猜": { pinyin: "cāi", meaning: "đoán" },
+            "才": { pinyin: "cái", meaning: "mới" },
+            "菜": { pinyin: "cài", meaning: "rau, món ăn" },
+            "菜單": { pinyin: "càidān", meaning: "thực đơn" },
+            "參觀": { pinyin: "cānguān", meaning: "tham quan" },
+            "參加": { pinyin: "cānjiā", meaning: "tham gia" },
+            "餐廳": { pinyin: "cāntīng", meaning: "nhà hàng" },
+            "餐桌": { pinyin: "cānzhuō", meaning: "bàn ăn" },
+            "草": { pinyin: "cǎo", meaning: "cỏ" },
+            "草地": { pinyin: "cǎodì", meaning: "bãi cỏ" },
+            "草原": { pinyin: "cǎoyuán", meaning: "thảo nguyên" },
+            "廁所": { pinyin: "cèsuǒ", meaning: "nhà vệ sinh" },
+            "詞": { pinyin: "cí", meaning: "từ" },
+            "次": { pinyin: "cì", meaning: "lần" },
+            "聰明": { pinyin: "cōngmíng", meaning: "thông minh" },
+            "從": { pinyin: "cóng", meaning: "từ" },
+            "從來": { pinyin: "cónglái", meaning: "từ trước đến nay" },
+            "從前": { pinyin: "cóngqián", meaning: "trước đây" },
+            "醋": { pinyin: "cù", meaning: "giấm" },
+            "錯": { pinyin: "cuò", meaning: "sai" },
+            "錯": { pinyin: "cuò", meaning: "lỗi" },
+            "錯誤": { pinyin: "cuòwù", meaning: "sai lầm" },
+            "叉子": { pinyin: "chāzi", meaning: "nĩa" },
+            "茶": { pinyin: "chá", meaning: "trà" },
+            "查": { pinyin: "chá", meaning: "kiểm tra" },
+            "差": { pinyin: "chà", meaning: "kém" },
+            "差不多": { pinyin: "chàbùduō", meaning: "gần như" },
+            "差(一)點(兒)": { pinyin: "chà(yì)diǎn(ér)", meaning: "suýt" },
+            "產品": { pinyin: "chǎnpǐn", meaning: "sản phẩm" },
+            "長": { pinyin: "cháng", meaning: "dài" },
+            "常": { pinyin: "cháng", meaning: "thường" },
+            "常常": { pinyin: "chángcháng", meaning: "thường xuyên" },
+            "場": { pinyin: "chǎng", meaning: "sân" },
+            "唱": { pinyin: "chàng", meaning: "hát" },
+            "唱歌": { pinyin: "chànggē", meaning: "hát" },
+            "超級市場": { pinyin: "chāojíshìchǎng", meaning: "siêu thị" },
+            "吵": { pinyin: "chǎo", meaning: "ồn ào" },
+            "車(子)": { pinyin: "chē(zi)", meaning: "xe" },
+            "車站": { pinyin: "chēzhàn", meaning: "ga xe" },
+            "襯衫": { pinyin: "chènshān", meaning: "áo sơ mi" },
+            "成": { pinyin: "chéng", meaning: "thành" },
+            "程度": { pinyin: "chéngdù", meaning: "mức độ" },
+            "成功": { pinyin: "chénggōng", meaning: "thành công" },
+            "成績": { pinyin: "chéngjī", meaning: "thành tích" },
+            "誠實": { pinyin: "chéngshí", meaning: "thành thật" },
+            "城市": { pinyin: "chéngshì", meaning: "thành phố" },
+            "吃": { pinyin: "chī", meaning: "ăn" },
+            "吃飯": { pinyin: "chīfàn", meaning: "ăn cơm" },
+            "遲到": { pinyin: "chídào", meaning: "muộn" },
+            "尺": { pinyin: "chǐ", meaning: "thước" },
+            "抽": { pinyin: "chōu", meaning: "hút" },
+            "臭": { pinyin: "chòu", meaning: "hôi" },
+            "出": { pinyin: "chū", meaning: "ra" },
+            "出發": { pinyin: "chūfā", meaning: "khởi hành" },
+            "出國": { pinyin: "chūguó", meaning: "ra nước ngoài" },
+            "出來": { pinyin: "chūlái", meaning: "ra" },
+            "出去": { pinyin: "chūqù", meaning: "ra ngoài" },
+            "出現": { pinyin: "chūxiàn", meaning: "xuất hiện" },
+            "廚房": { pinyin: "chúfáng", meaning: "nhà bếp" },
+            "除了": { pinyin: "chúle", meaning: "ngoài trừ" },
+            "穿": { pinyin: "chuān", meaning: "mặc" },
+            "船(兒)": { pinyin: "chuán(ér)", meaning: "tàu thuyền" },
+            "串": { pinyin: "chuàn", meaning: "xâu" },
+            "窗(子)": { pinyin: "chuāng(zi)", meaning: "cửa sổ" },
+            "窗戶": { pinyin: "chuānghu", meaning: "cửa sổ" },
+            "床": { pinyin: "chuáng", meaning: "giường" },
+            "吹": { pinyin: "chuī", meaning: "thổi" },
+            "春": { pinyin: "chūn", meaning: "mùa xuân" },
+            "春節": { pinyin: "chūnjié", meaning: "Tết Nguyên Đán" },
+            "春天": { pinyin: "chūntiān", meaning: "mùa xuân" },
+            "答應": { pinyin: "dāying", meaning: "đồng ý" },
+            "打": { pinyin: "dǎ", meaning: "đánh" },
+            "打電話": { pinyin: "dǎdiànhuà", meaning: "gọi điện" },
+            "打掃": { pinyin: "dǎsǎo", meaning: "dọn dẹp" },
+            "打算": { pinyin: "dǎsuàn", meaning: "dự định" },
+            "大": { pinyin: "dà", meaning: "lớn" },
+            "大部分/份": { pinyin: "dàbùfèn", meaning: "phần lớn" },
+            "大概": { pinyin: "dàgài", meaning: "khoảng" },
+            "大家": { pinyin: "dàjiā", meaning: "mọi người" },
+            "大樓": { pinyin: "dàlóu", meaning: "tòa nhà" },
+            "大陸": { pinyin: "dàlù", meaning: "lục địa" },
+            "大人": { pinyin: "dàrén", meaning: "người lớn" },
+            "大聲": { pinyin: "dàshēng", meaning: "to tiếng" },
+            "大學": { pinyin: "dàxué", meaning: "đại học" },
+            "大衣": { pinyin: "dàyī", meaning: "áo khoác" },
+            "袋": { pinyin: "dài", meaning: "túi" },
+            "帶": { pinyin: "dài", meaning: "mang" },
+            "戴": { pinyin: "dài", meaning: "đeo" },
+            "代表": { pinyin: "dàibiǎo", meaning: "đại diện" },
+            "代表": { pinyin: "dàibiǎo", meaning: "đại diện" },
+            "袋子": { pinyin: "dàizi", meaning: "túi" },
+            "擔心": { pinyin: "dānxīn", meaning: "lo lắng" },
+            "淡": { pinyin: "dàn", meaning: "nhạt" },
+            "蛋": { pinyin: "dàn", meaning: "trứng" },
+            "蛋糕": { pinyin: "dàngāo", meaning: "bánh kem" },
+            "但是": { pinyin: "dànshì", meaning: "nhưng" },
+            "當": { pinyin: "dāng", meaning: "khi" },
+            "當": { pinyin: "dàng", meaning: "làm" },
+            "當然": { pinyin: "dāngrán", meaning: "đương nhiên" },
+            "當中": { pinyin: "dāngzhōng", meaning: "giữa" },
+            "刀": { pinyin: "dāo", meaning: "dao" },
+            "刀子": { pinyin: "dāozi", meaning: "dao" },
+            "倒": { pinyin: "dào", meaning: "đổ" },
+            "道": { pinyin: "dào", meaning: "đường" },
+            "到": { pinyin: "dào", meaning: "đến" },
+            "到": { pinyin: "dào", meaning: "đến" },
+            "到": { pinyin: "dào", meaning: "đến" },
+            "到處": { pinyin: "dàochù", meaning: "khắp nơi" },
+            "到底": { pinyin: "dàodǐ", meaning: "rốt cuộc" },
+            "道理": { pinyin: "dàolǐ", meaning: "lý lẽ" },
+            "的": { pinyin: "de", meaning: "(dấu sở hữu)" },
+            "的": { pinyin: "de", meaning: "(dấu sở hữu)" },
+            "得": { pinyin: "dé", meaning: "được" },
+            "得很": { pinyin: "de hěn", meaning: "rất" },
+            "的話": { pinyin: "dehuà", meaning: "nếu" },
+            "得": { pinyin: "děi", meaning: "phải" },
+            "得到": { pinyin: "dédào", meaning: "đạt được" },
+            "得": { pinyin: "de", meaning: "(dấu kết quả)" },
+            "燈": { pinyin: "dēng", meaning: "đèn" },
+            "等": { pinyin: "děng", meaning: "chờ" },
+            "等": { pinyin: "děng", meaning: "v.v." },
+            "等": { pinyin: "děng", meaning: "cấp" },
+            "低": { pinyin: "dī", meaning: "thấp" },
+            "底": { pinyin: "dǐ", meaning: "đáy" },
+            "底下": { pinyin: "dǐxià", meaning: "dưới" },
+            "第": { pinyin: "dì", meaning: "thứ" },
+            "地": { pinyin: "dì", meaning: "đất" }
+        }
+    },
+    
+
+    2: {
+        normal: ["地", "地", "弟弟", "地方", "地區", "地圖", "地下", "地址", "點", "點", "點", "點菜", "點(兒)", "點心", "點鐘", "店", "電", "電車", "電燈", "電話", "電腦", "電視", "電影", "電影院", "掉", "丟1", "丟2", "冬", "冬天", "東", "東邊", "東西", "懂", "動", "動物", "動物園", "都", "讀", "讀書", "度", "肚子", "短", "段", "對", "對", "對", "對", "對不起", "對方", "對了", "對面", "頓", "多", "多", "多", "多", "多麼", "多少", "朵", "餓", "嗯", "兒童", "兒子", "耳朵", "二", "發", "發票", "發燒", "發生", "發現", "發現", "飯", "飯店", "方便", "方法", "方面", "方式", "方向", "房東", "房間", "房子", "房租", "訪問", "放", "放假", "放心", "飛", "非常", "飛機", "費用", "分", "分", "分", "分鐘", "份", "風", "封", "豐富", "風景", "服務", "服務生", "付", "附近", "父親", "複習", "負責", "該", "該", "改", "改變", "改變", "乾", "乾淨", "敢", "感覺", "感覺", "趕快", "感冒", "感謝", "剛", "剛才", "剛剛", "高", "高興", "告訴", "歌(兒)", "哥哥", "各", "個", "個人", "各位", "給", "給", "根", "根", "跟", "跟", "跟", "更", "公車", "公車站", "公尺", "公分", "公共", "公共汽車", "公斤", "公里", "公路", "公克", "功課", "工人", "公司", "恭喜", "公寓", "公園", "工作", "工作", "共", "狗(兒)", "夠", "夠", "夠", "故事", "刮", "掛", "乖", "怪", "關", "關", "關係", "關心", "罐", "廣播", "廣播", "貴", "貴姓", "國", "國家", "果汁", "過", "過", "過來", "過年", "過去", "過去", "還", "還是", "還是", "孩子", "海", "海邊", "海洋", "害", "害怕", "寒假", "漢堡", "漢語", "漢字", "行", "好", "好", "好吃", "好處", "好好(兒)", "好幾", "好久", "好久不見", "好看", "好了", "好聽", "好像", "好些", "好玩(兒)", "號", "號碼", "喝", "和", "和", "河", "盒", "盒子", "合作", "黑", "黑板", "很", "後", "後", "後來", "後面", "後天", "紅", "紅包", "紅茶", "紅綠燈", "忽然", "湖", "互相", "護士", "護照", "花", "花", "花(兒)", "花園", "滑雪", "畫", "畫(兒)", "畫畫(兒)", "畫家", "壞"],
+        shuffle: ["地", "地", "弟弟", "地方", "地區", "地圖", "地下", "地址", "點", "點", "點", "點菜", "點(兒)", "點心", "點鐘", "店", "電", "電車", "電燈", "電話", "電腦", "電視", "電影", "電影院", "掉", "丟1", "丟2", "冬", "冬天", "東", "東邊", "東西", "懂", "動", "動物", "動物園", "都", "讀", "讀書", "度", "肚子", "短", "段", "對", "對", "對", "對", "對不起", "對方", "對了", "對面", "頓", "多", "多", "多", "多", "多麼", "多少", "朵", "餓", "嗯", "兒童", "兒子", "耳朵", "二", "發", "發票", "發燒", "發生", "發現", "發現", "飯", "飯店", "方便", "方法", "方面", "方式", "方向", "房東", "房間", "房子", "房租", "訪問", "放", "放假", "放心", "飛", "非常", "飛機", "費用", "分", "分", "分", "分鐘", "份", "風", "封", "豐富", "風景", "服務", "服務生", "付", "附近", "父親", "複習", "負責", "該", "該", "改", "改變", "改變", "乾", "乾淨", "敢", "感覺", "感覺", "趕快", "感冒", "感謝", "剛", "剛才", "剛剛", "高", "高興", "告訴", "歌(兒)", "哥哥", "各", "個", "個人", "各位", "給", "給", "根", "根", "跟", "跟", "跟", "更", "公車", "公車站", "公尺", "公分", "公共", "公共汽車", "公斤", "公里", "公路", "公克", "功課", "工人", "公司", "恭喜", "公寓", "公園", "工作", "工作", "共", "狗(兒)", "夠", "夠", "夠", "故事", "刮", "掛", "乖", "怪", "關", "關", "關係", "關心", "罐", "廣播", "廣播", "貴", "貴姓", "國", "國家", "果汁", "過", "過", "過來", "過年", "過去", "過去", "還", "還是", "還是", "孩子", "海", "海邊", "海洋", "害", "害怕", "寒假", "漢堡", "漢語", "漢字", "行", "好", "好", "好吃", "好處", "好好(兒)", "好幾", "好久", "好久不見", "好看", "好了", "好聽", "好像", "好些", "好玩(兒)", "號", "號碼", "喝", "和", "和", "河", "盒", "盒子", "合作", "黑", "黑板", "很", "後", "後", "後來", "後面", "後天", "紅", "紅包", "紅茶", "紅綠燈", "忽然", "湖", "互相", "護士", "護照", "花", "花", "花(兒)", "花園", "滑雪", "畫", "畫(兒)", "畫畫(兒)", "畫家", "壞"],
+        items: {
+            "地": { pinyin: "dì", meaning: "đất" },
+            "地": { pinyin: "dì", meaning: "khu vực" },
+            "弟弟": { pinyin: "dìdi", meaning: "em trai" },
+            "地方": { pinyin: "dìfāng", meaning: "nơi chốn" },
+            "地區": { pinyin: "dìqū", meaning: "khu vực" },
+            "地圖": { pinyin: "dìtú", meaning: "bản đồ" },
+            "地下": { pinyin: "dìxià", meaning: "dưới đất" },
+            "地址": { pinyin: "dìzhǐ", meaning: "địa chỉ" },
+            "點": { pinyin: "diǎn", meaning: "chấm" },
+            "點": { pinyin: "diǎn", meaning: "một ít" },
+            "點": { pinyin: "diǎn", meaning: "gọi món" },
+            "點菜": { pinyin: "diǎncài", meaning: "gọi món ăn" },
+            "點(兒)": { pinyin: "diǎn(ér)", meaning: "một chút" },
+            "點心": { pinyin: "diǎnxīn", meaning: "điểm tâm" },
+            "點鐘": { pinyin: "diǎnzhōng", meaning: "giờ" },
+            "店": { pinyin: "diàn", meaning: "cửa hàng" },
+            "電": { pinyin: "diàn", meaning: "điện" },
+            "電車": { pinyin: "diànchē", meaning: "xe điện" },
+            "電燈": { pinyin: "diàndēng", meaning: "đèn điện" },
+            "電話": { pinyin: "diànhuà", meaning: "điện thoại" },
+            "電腦": { pinyin: "diànnǎo", meaning: "máy tính" },
+            "電視": { pinyin: "diànshì", meaning: "ti vi" },
+            "電影": { pinyin: "diànyǐng", meaning: "phim" },
+            "電影院": { pinyin: "diànyǐngyuàn", meaning: "rạp chiếu phim" },
+            "掉": { pinyin: "diào", meaning: "rơi" },
+            "丟1": { pinyin: "diū", meaning: "vứt" },
+            "丟2": { pinyin: "diū", meaning: "mất" },
+            "冬": { pinyin: "dōng", meaning: "mùa đông" },
+            "冬天": { pinyin: "dōngtiān", meaning: "mùa đông" },
+            "東": { pinyin: "dōng", meaning: "phía đông" },
+            "東邊": { pinyin: "dōngbiān", meaning: "phía đông" },
+            "東西": { pinyin: "dōngxī", meaning: "đồ vật" },
+            "懂": { pinyin: "dǒng", meaning: "hiểu" },
+            "動": { pinyin: "dòng", meaning: "di chuyển" },
+            "動物": { pinyin: "dòngwù", meaning: "động vật" },
+            "動物園": { pinyin: "dòngwùyuán", meaning: "sở thú" },
+            "都": { pinyin: "dōu", meaning: "đều" },
+            "讀": { pinyin: "dú", meaning: "đọc" },
+            "讀書": { pinyin: "dúshū", meaning: "học" },
+            "度": { pinyin: "dù", meaning: "độ" },
+            "肚子": { pinyin: "dùzi", meaning: "bụng" },
+            "短": { pinyin: "duǎn", meaning: "ngắn" },
+            "段": { pinyin: "duàn", meaning: "đoạn" },
+            "對": { pinyin: "duì", meaning: "đôi" },
+            "對": { pinyin: "duì", meaning: "đối với" },
+            "對": { pinyin: "duì", meaning: "đúng" },
+            "對": { pinyin: "duì", meaning: "đối phó" },
+            "對不起": { pinyin: "duìbùqǐ", meaning: "xin lỗi" },
+            "對方": { pinyin: "duìfāng", meaning: "bên kia" },
+            "對了": { pinyin: "duìle", meaning: "à đúng rồi" },
+            "對面": { pinyin: "duìmiàn", meaning: "đối diện" },
+            "頓": { pinyin: "dùn", meaning: "bữa" },
+            "多": { pinyin: "duō", meaning: "nhiều" },
+            "多": { pinyin: "duō", meaning: "bao nhiêu" },
+            "多": { pinyin: "duō", meaning: "hơn" },
+            "多": { pinyin: "duō", meaning: "quá" },
+            "多麼": { pinyin: "duóme", meaning: "thế nào" },
+            "多少": { pinyin: "duōshǎo", meaning: "bao nhiêu" },
+            "朵": { pinyin: "duǒ", meaning: "bông" },
+            "餓": { pinyin: "è", meaning: "đói" },
+            "嗯": { pinyin: "ēn", meaning: "ừ" },
+            "兒童": { pinyin: "értóng", meaning: "trẻ em" },
+            "兒子": { pinyin: "érzi", meaning: "con trai" },
+            "耳朵": { pinyin: "ěrduo", meaning: "tai" },
+            "二": { pinyin: "èr", meaning: "hai" },
+            "發": { pinyin: "fā", meaning: "phát" },
+            "發票": { pinyin: "fāpiào", meaning: "hóa đơn" },
+            "發燒": { pinyin: "fāshāo", meaning: "sốt" },
+            "發生": { pinyin: "fāshēng", meaning: "xảy ra" },
+            "發現": { pinyin: "fāxiàn", meaning: "phát hiện" },
+            "發現": { pinyin: "fāxiàn", meaning: "sự phát hiện" },
+            "飯": { pinyin: "fàn", meaning: "cơm" },
+            "飯店": { pinyin: "fàndiàn", meaning: "khách sạn" },
+            "方便": { pinyin: "fāngbiàn", meaning: "thuận tiện" },
+            "方法": { pinyin: "fāngfǎ", meaning: "phương pháp" },
+            "方面": { pinyin: "fāngmiàn", meaning: "phương diện" },
+            "方式": { pinyin: "fāngshì", meaning: "cách thức" },
+            "方向": { pinyin: "fāngxiàng", meaning: "hướng" },
+            "房東": { pinyin: "fángdōng", meaning: "chủ nhà" },
+            "房間": { pinyin: "fángjiān", meaning: "phòng" },
+            "房子": { pinyin: "fángzi", meaning: "nhà" },
+            "房租": { pinyin: "fángzū", meaning: "tiền nhà" },
+            "訪問": { pinyin: "fǎngwèn", meaning: "thăm viếng" },
+            "放": { pinyin: "fàng", meaning: "đặt" },
+            "放假": { pinyin: "fàngjià", meaning: "nghỉ lễ" },
+            "放心": { pinyin: "fàngxīn", meaning: "yên tâm" },
+            "飛": { pinyin: "fēi", meaning: "bay" },
+            "非常": { pinyin: "fēicháng", meaning: "rất" },
+            "飛機": { pinyin: "fēijī", meaning: "máy bay" },
+            "費用": { pinyin: "fèiyòng", meaning: "chi phí" },
+            "分": { pinyin: "fēn", meaning: "phân" },
+            "分": { pinyin: "fēn", meaning: "phân biệt" },
+            "分": { pinyin: "fēn", meaning: "xu" },
+            "分鐘": { pinyin: "fēnzhōng", meaning: "phút" },
+            "份": { pinyin: "fèn", meaning: "phần" },
+            "風": { pinyin: "fēng", meaning: "gió" },
+            "封": { pinyin: "fēng", meaning: "bức" },
+            "豐富": { pinyin: "fēngfù", meaning: "phong phú" },
+            "風景": { pinyin: "fēngjǐng", meaning: "phong cảnh" },
+            "服務": { pinyin: "fúwù", meaning: "phục vụ" },
+            "服務生": { pinyin: "fúwùshēng", meaning: "nhân viên phục vụ" },
+            "付": { pinyin: "fù", meaning: "trả" },
+            "附近": { pinyin: "fùjìn", meaning: "gần đây" },
+            "父親": { pinyin: "fùqīn", meaning: "cha" },
+            "複習": { pinyin: "fùxí", meaning: "ôn tập" },
+            "負責": { pinyin: "fùzé", meaning: "chịu trách nhiệm" },
+            "該": { pinyin: "gāi", meaning: "nên" },
+            "該": { pinyin: "gāi", meaning: "đến lượt" },
+            "改": { pinyin: "gǎi", meaning: "sửa" },
+            "改變": { pinyin: "gǎibiàn", meaning: "thay đổi" },
+            "改變": { pinyin: "gǎibiàn", meaning: "sự thay đổi" },
+            "乾": { pinyin: "gān", meaning: "khô" },
+            "乾淨": { pinyin: "gānjìng", meaning: "sạch sẽ" },
+            "敢": { pinyin: "gǎn", meaning: "dám" },
+            "感覺": { pinyin: "gǎnjué", meaning: "cảm giác" },
+            "感覺": { pinyin: "gǎnjué", meaning: "cảm thấy" },
+            "趕快": { pinyin: "gǎnkuài", meaning: "nhanh lên" },
+            "感冒": { pinyin: "gǎnmào", meaning: "cảm cúm" },
+            "感謝": { pinyin: "gǎnxiè", meaning: "cảm ơn" },
+            "剛": { pinyin: "gāng", meaning: "vừa mới" },
+            "剛才": { pinyin: "gāngcái", meaning: "vừa nãy" },
+            "剛剛": { pinyin: "gānggāng", meaning: "vừa mới" },
+            "高": { pinyin: "gāo", meaning: "cao" },
+            "高興": { pinyin: "gāoxìng", meaning: "vui vẻ" },
+            "告訴": { pinyin: "gàosù", meaning: "nói cho biết" },
+            "歌(兒)": { pinyin: "gē(ér)", meaning: "bài hát" },
+            "哥哥": { pinyin: "gēge", meaning: "anh trai" },
+            "各": { pinyin: "gè", meaning: "mỗi" },
+            "個": { pinyin: "ge", meaning: "cái" },
+            "個人": { pinyin: "gèrén", meaning: "cá nhân" },
+            "各位": { pinyin: "gèwèi", meaning: "các vị" },
+            "給": { pinyin: "gěi", meaning: "cho" },
+            "給": { pinyin: "gěi", meaning: "đưa" },
+            "根": { pinyin: "gēn", meaning: "cái" },
+            "根": { pinyin: "gēn", meaning: "gốc" },
+            "跟": { pinyin: "gēn", meaning: "và" },
+            "跟": { pinyin: "gēn", meaning: "với" },
+            "跟": { pinyin: "gēn", meaning: "theo" },
+            "更": { pinyin: "gèng", meaning: "càng" },
+            "公車": { pinyin: "gōngchē", meaning: "xe buýt" },
+            "公車站": { pinyin: "gōngchēzhàn", meaning: "trạm xe buýt" },
+            "公尺": { pinyin: "gōngchǐ", meaning: "mét" },
+            "公分": { pinyin: "gōngfēn", meaning: "cm" },
+            "公共": { pinyin: "gōnggòng", meaning: "công cộng" },
+            "公共汽車": { pinyin: "gōnggòngqìchē", meaning: "xe buýt" },
+            "公斤": { pinyin: "gōngjīn", meaning: "kg" },
+            "公里": { pinyin: "gōnglǐ", meaning: "km" },
+            "公路": { pinyin: "gōnglù", meaning: "đường cao tốc" },
+            "公克": { pinyin: "gōngkè", meaning: "gam" },
+            "功課": { pinyin: "gōngkè", meaning: "bài tập" },
+            "工人": { pinyin: "gōngrén", meaning: "công nhân" },
+            "公司": { pinyin: "gōngsī", meaning: "công ty" },
+            "恭喜": { pinyin: "gōngxǐ", meaning: "chúc mừng" },
+            "公寓": { pinyin: "gōngyù", meaning: "chung cư" },
+            "公園": { pinyin: "gōngyuán", meaning: "công viên" },
+            "工作": { pinyin: "gōngzuò", meaning: "công việc" },
+            "工作": { pinyin: "gōngzuò", meaning: "làm việc" },
+            "共": { pinyin: "gòng", meaning: "tổng cộng" },
+            "狗(兒)": { pinyin: "gǒu(ér)", meaning: "chó" },
+            "夠": { pinyin: "gòu", meaning: "khá" },
+            "夠": { pinyin: "gòu", meaning: "đủ" },
+            "夠": { pinyin: "gòu", meaning: "đủ" },
+            "故事": { pinyin: "gùshì", meaning: "câu chuyện" },
+            "刮": { pinyin: "guā", meaning: "cạo" },
+            "掛": { pinyin: "guà", meaning: "treo" },
+            "乖": { pinyin: "guāi", meaning: "ngoan" },
+            "怪": { pinyin: "guài", meaning: "lạ" },
+            "關": { pinyin: "guān", meaning: "đóng" },
+            "關": { pinyin: "guān", meaning: "quan tâm" },
+            "關係": { pinyin: "guānxì", meaning: "quan hệ" },
+            "關心": { pinyin: "guānxīn", meaning: "quan tâm" },
+            "罐": { pinyin: "guàn", meaning: "lon" },
+            "廣播": { pinyin: "guǎngbò", meaning: "phát thanh" },
+            "廣播": { pinyin: "guǎngbò", meaning: "đài phát thanh" },
+            "貴": { pinyin: "guì", meaning: "đắt" },
+            "貴姓": { pinyin: "guìxìng", meaning: "họ gì ạ?" },
+            "國": { pinyin: "guó", meaning: "quốc gia" },
+            "國家": { pinyin: "guójiā", meaning: "quốc gia" },
+            "果汁": { pinyin: "guǒzhī", meaning: "nước trái cây" },
+            "過": { pinyin: "guò", meaning: "qua" },
+            "過": { pinyin: "guò", meaning: "(dấu hoàn thành)" },
+            "過來": { pinyin: "guòlái", meaning: "đến đây" },
+            "過年": { pinyin: "guònián", meaning: "ăn Tết" },
+            "過去": { pinyin: "guòqù", meaning: "quá khứ" },
+            "過去": { pinyin: "guòqù", meaning: "đi qua" },
+            "還": { pinyin: "hái", meaning: "còn" },
+            "還是": { pinyin: "háishì", meaning: "hay là" },
+            "還是": { pinyin: "háishì", meaning: "vẫn" },
+            "孩子": { pinyin: "háizi", meaning: "trẻ em" },
+            "海": { pinyin: "hǎi", meaning: "biển" },
+            "海邊": { pinyin: "hǎibiān", meaning: "bờ biển" },
+            "海洋": { pinyin: "hǎiyáng", meaning: "đại dương" },
+            "害": { pinyin: "hài", meaning: "gây hại" },
+            "害怕": { pinyin: "hàipà", meaning: "sợ hãi" },
+            "寒假": { pinyin: "hánjià", meaning: "kỳ nghỉ đông" },
+            "漢堡": { pinyin: "hànbǎo", meaning: "hamburger" },
+            "漢語": { pinyin: "hànyǔ", meaning: "tiếng Hán" },
+            "漢字": { pinyin: "hànzì", meaning: "chữ Hán" },
+            "行": { pinyin: "háng", meaning: "hàng" },
+            "好": { pinyin: "hǎo", meaning: "tốt" },
+            "好": { pinyin: "hǎo", meaning: "rất" },
+            "好吃": { pinyin: "hǎochī", meaning: "ngon" },
+            "好處": { pinyin: "hǎochù", meaning: "lợi ích" },
+            "好好(兒)": { pinyin: "hǎohǎo(ér)", meaning: "tốt" },
+            "好幾": { pinyin: "hǎojǐ", meaning: "vài" },
+            "好久": { pinyin: "hǎojiǔ", meaning: "lâu lắm" },
+            "好久不見": { pinyin: "hǎojiǔbújiàn", meaning: "lâu không gặp" },
+            "好看": { pinyin: "hǎokàn", meaning: "đẹp" },
+            "好了": { pinyin: "hǎole", meaning: "xong rồi" },
+            "好聽": { pinyin: "hǎotīng", meaning: "hay" },
+            "好像": { pinyin: "hǎoxiàng", meaning: "dường như" },
+            "好些": { pinyin: "hǎoxiē", meaning: "khá nhiều" },
+            "好玩(兒)": { pinyin: "hǎowán(ér)", meaning: "vui" },
+            "號": { pinyin: "hào", meaning: "số" },
+            "號碼": { pinyin: "hàomǎ", meaning: "số" },
+            "喝": { pinyin: "hē", meaning: "uống" },
+            "和": { pinyin: "hé", meaning: "và" },
+            "和": { pinyin: "hé", meaning: "với" },
+            "河": { pinyin: "hé", meaning: "sông" },
+            "盒": { pinyin: "hé", meaning: "hộp" },
+            "盒子": { pinyin: "hézi", meaning: "hộp" },
+            "合作": { pinyin: "hézuò", meaning: "hợp tác" },
+            "黑": { pinyin: "hēi", meaning: "đen" },
+            "黑板": { pinyin: "hēibǎn", meaning: "bảng đen" },
+            "很": { pinyin: "hěn", meaning: "rất" },
+            "後": { pinyin: "hòu", meaning: "sau" },
+            "後": { pinyin: "hòu", meaning: "sau" },
+            "後來": { pinyin: "hòulái", meaning: "sau đó" },
+            "後面": { pinyin: "hòumiàn", meaning: "phía sau" },
+            "後天": { pinyin: "hòutiān", meaning: "ngày kia" },
+            "紅": { pinyin: "hóng", meaning: "đỏ" },
+            "紅包": { pinyin: "hóngbāo", meaning: "bao lì xì" },
+            "紅茶": { pinyin: "hóngchá", meaning: "trà đen" },
+            "紅綠燈": { pinyin: "hónglǜdēng", meaning: "đèn giao thông" },
+            "忽然": { pinyin: "hūrán", meaning: "đột nhiên" },
+            "湖": { pinyin: "hú", meaning: "hồ" },
+            "互相": { pinyin: "hùxiāng", meaning: "lẫn nhau" },
+            "護士": { pinyin: "hùshì", meaning: "y tá" },
+            "護照": { pinyin: "hùzhào", meaning: "hộ chiếu" },
+            "花": { pinyin: "huā", meaning: "tiêu" },
+            "花": { pinyin: "huā", meaning: "hoa" },
+            "花(兒)": { pinyin: "huā(ér)", meaning: "hoa" },
+            "花園": { pinyin: "huāyuán", meaning: "vườn hoa" },
+            "滑雪": { pinyin: "huáxuě", meaning: "trượt tuyết" },
+            "畫": { pinyin: "huà", meaning: "vẽ" },
+            "畫(兒)": { pinyin: "huà(ér)", meaning: "bức tranh" },
+            "畫畫(兒)": { pinyin: "huàhuà(ér)", meaning: "vẽ tranh" },
+            "畫家": { pinyin: "huàjiā", meaning: "họa sĩ" },
+            "壞": { pinyin: "huài", meaning: "xấu" }
+        }
+    },
+    
+        3: {
+        normal: ["歡迎", "還", "環境", "換", "黃", "黃色", "回", "回", "回答", "回答", "回國", "回家", "回來", "回去", "會", "會", "會話", "會議", "活", "活動", "活動", "火", "火車", "火車站", "或", "或是", "雞", "機場", "機車", "雞蛋", "機會", "機器", "急", "極了", "擠", "擠", "寄", "記", "記", "計程車", "記得", "計畫/劃", "計畫/劃", "季節", "繼續", "加", "家", "家", "家具", "家人", "家庭", "假", "架", "間", "檢查", "簡單", "件", "見", "健康", "健康", "見面", "建設", "建設", "將來", "講", "講話", "醬油", "交1", "交2", "教", "郊區", "腳", "餃子", "較", "叫1", "叫2", "叫3", "叫4", "叫", "教室", "教書", "教育", "教育", "叫做", "接", "接受", "接著", "節", "結果", "結婚", "節目", "節日", "結束", "姐姐", "姊姊", "解決", "姊妹", "解釋", "解釋", "借", "介紹", "斤", "金(子)", "今年", "今天", "緊", "緊張", "近", "進", "進步", "進來", "進去", "進行", "經", "經常", "經過", "經過", "精神", "警察", "九", "久", "酒", "救", "舊", "就", "就要", "橘子", "舉", "舉行", "句", "句子", "覺得", "決定", "決定", "咖啡", "卡車", "卡片", "開", "開車", "開花", "開會", "開始", "開始", "開水", "開玩笑", "開心", "開學", "看", "看", "看病", "看到", "看法", "看見", "烤", "考", "考試", "考試", "棵", "科", "顆", "科學", "科學", "咳嗽", "渴", "可", "可愛", "可樂", "可能", "可能", "可是", "可以", "可以", "克", "刻", "課", "課本", "客氣", "客人", "客廳", "課文", "肯", "口", "口", "口", "口袋", "空", "空氣", "空間", "哭", "苦", "褲子", "塊", "塊", "快", "快", "快樂", "快要", "筷子", "困難", "困難", "啦", "拉", "來", "藍", "籃球", "老", "老闆/板", "老人", "老師", "了", "了", "累", "冷", "冷氣", "冷氣機", "離", "離", "離開", "裡/裏", "里", "禮拜", "禮拜日", "禮拜天", "裡邊", "裡/裏面", "禮物", "力", "立刻", "例如", "利用", "連", "臉", "練習", "練習", "涼", "涼快", "兩", "亮", "輛", "聊", "聊天", "了解", "鄰居", "零", "零錢", "領", "流", "留", "留", "六", "樓"],
+        shuffle: ["歡迎", "還", "環境", "換", "黃", "黃色", "回", "回", "回答", "回答", "回國", "回家", "回來", "回去", "會", "會", "會話", "會議", "活", "活動", "活動", "火", "火車", "火車站", "或", "或是", "雞", "機場", "機車", "雞蛋", "機會", "機器", "急", "極了", "擠", "擠", "寄", "記", "記", "計程車", "記得", "計畫/劃", "計畫/劃", "季節", "繼續", "加", "家", "家", "家具", "家人", "家庭", "假", "架", "間", "檢查", "簡單", "件", "見", "健康", "健康", "見面", "建設", "建設", "將來", "講", "講話", "醬油", "交1", "交2", "教", "郊區", "腳", "餃子", "較", "叫1", "叫2", "叫3", "叫4", "叫", "教室", "教書", "教育", "教育", "叫做", "接", "接受", "接著", "節", "結果", "結婚", "節目", "節日", "結束", "姐姐", "姊姊", "解決", "姊妹", "解釋", "解釋", "借", "介紹", "斤", "金(子)", "今年", "今天", "緊", "緊張", "近", "進", "進步", "進來", "進去", "進行", "經", "經常", "經過", "經過", "精神", "警察", "九", "久", "酒", "救", "舊", "就", "就要", "橘子", "舉", "舉行", "句", "句子", "覺得", "決定", "決定", "咖啡", "卡車", "卡片", "開", "開車", "開花", "開會", "開始", "開始", "開水", "開玩笑", "開心", "開學", "看", "看", "看病", "看到", "看法", "看見", "烤", "考", "考試", "考試", "棵", "科", "顆", "科學", "科學", "咳嗽", "渴", "可", "可愛", "可樂", "可能", "可能", "可是", "可以", "可以", "克", "刻", "課", "課本", "客氣", "客人", "客廳", "課文", "肯", "口", "口", "口", "口袋", "空", "空氣", "空間", "哭", "苦", "褲子", "塊", "塊", "快", "快", "快樂", "快要", "筷子", "困難", "困難", "啦", "拉", "來", "藍", "籃球", "老", "老闆/板", "老人", "老師", "了", "了", "累", "冷", "冷氣", "冷氣機", "離", "離", "離開", "裡/裏", "里", "禮拜", "禮拜日", "禮拜天", "裡邊", "裡/裏面", "禮物", "力", "立刻", "例如", "利用", "連", "臉", "練習", "練習", "涼", "涼快", "兩", "亮", "輛", "聊", "聊天", "了解", "鄰居", "零", "零錢", "領", "流", "留", "留", "六", "樓"],
+        items: {
+            "歡迎": { pinyin: "huānyíng", meaning: "chào mừng" },
+            "還": { pinyin: "huán", meaning: "trả lại" },
+            "環境": { pinyin: "huánjìng", meaning: "môi trường" },
+            "換": { pinyin: "huàn", meaning: "đổi" },
+            "黃": { pinyin: "huáng", meaning: "vàng" },
+            "黃色": { pinyin: "huángsè", meaning: "màu vàng" },
+            "回": { pinyin: "huí", meaning: "về" },
+            "回": { pinyin: "huí", meaning: "lần" },
+            "回答": { pinyin: "huídá", meaning: "trả lời" },
+            "回答": { pinyin: "huídá", meaning: "câu trả lời" },
+            "回國": { pinyin: "huíguó", meaning: "về nước" },
+            "回家": { pinyin: "huíjiā", meaning: "về nhà" },
+            "回來": { pinyin: "huílái", meaning: "quay về" },
+            "回去": { pinyin: "huíqù", meaning: "quay về" },
+            "會": { pinyin: "huì", meaning: "sẽ" },
+            "會": { pinyin: "huì", meaning: "có thể" },
+            "會話": { pinyin: "huìhuà", meaning: "đối thoại" },
+            "會議": { pinyin: "huìyì", meaning: "hội nghị" },
+            "活": { pinyin: "huó", meaning: "sống" },
+            "活動": { pinyin: "huódòng", meaning: "hoạt động" },
+            "活動": { pinyin: "huódòng", meaning: "vận động" },
+            "火": { pinyin: "huǒ", meaning: "lửa" },
+            "火車": { pinyin: "huǒchē", meaning: "tàu hỏa" },
+            "火車站": { pinyin: "huǒchēzhàn", meaning: "ga tàu" },
+            "或": { pinyin: "huò", meaning: "hoặc" },
+            "或是": { pinyin: "huòshì", meaning: "hoặc là" },
+            "雞": { pinyin: "jī", meaning: "gà" },
+            "機場": { pinyin: "jīchǎng", meaning: "sân bay" },
+            "機車": { pinyin: "jīchē", meaning: "xe máy" },
+            "雞蛋": { pinyin: "jīdàn", meaning: "trứng gà" },
+            "機會": { pinyin: "jīhuì", meaning: "cơ hội" },
+            "機器": { pinyin: "jīqì", meaning: "máy móc" },
+            "急": { pinyin: "jí", meaning: "vội" },
+            "極了": { pinyin: "jíle", meaning: "cực kỳ" },
+            "擠": { pinyin: "jǐ", meaning: "chen chúc" },
+            "擠": { pinyin: "jǐ", meaning: "đẩy" },
+            "寄": { pinyin: "jì", meaning: "gửi" },
+            "記": { pinyin: "jì", meaning: "nhớ" },
+            "記": { pinyin: "jì", meaning: "ghi" },
+            "計程車": { pinyin: "jìchéngchē", meaning: "taxi" },
+            "記得": { pinyin: "jìdé", meaning: "nhớ" },
+            "計畫/劃": { pinyin: "jìhuà", meaning: "kế hoạch" },
+            "計畫/劃": { pinyin: "jìhuà", meaning: "lập kế hoạch" },
+            "季節": { pinyin: "jìjié", meaning: "mùa" },
+            "繼續": { pinyin: "jìxù", meaning: "tiếp tục" },
+            "加": { pinyin: "jiā", meaning: "thêm" },
+            "家": { pinyin: "jiā", meaning: "nhà" },
+            "家": { pinyin: "jiā", meaning: "gia đình" },
+            "家具": { pinyin: "jiājù", meaning: "đồ nội thất" },
+            "家人": { pinyin: "jiārén", meaning: "người nhà" },
+            "家庭": { pinyin: "jiātíng", meaning: "gia đình" },
+            "假": { pinyin: "jiǎ", meaning: "giả" },
+            "架": { pinyin: "jià", meaning: "cái (lượng từ)" },
+            "間": { pinyin: "jiān", meaning: "căn" },
+            "檢查": { pinyin: "jiǎnchá", meaning: "kiểm tra" },
+            "簡單": { pinyin: "jiǎndān", meaning: "đơn giản" },
+            "件": { pinyin: "jiàn", meaning: "cái" },
+            "見": { pinyin: "jiàn", meaning: "gặp" },
+            "健康": { pinyin: "jiànkāng", meaning: "khỏe mạnh" },
+            "健康": { pinyin: "jiànkāng", meaning: "sức khỏe" },
+            "見面": { pinyin: "jiànmiàn", meaning: "gặp mặt" },
+            "建設": { pinyin: "jiànshè", meaning: "xây dựng" },
+            "建設": { pinyin: "jiànshè", meaning: "xây dựng" },
+            "將來": { pinyin: "jiānglái", meaning: "tương lai" },
+            "講": { pinyin: "jiǎng", meaning: "nói" },
+            "講話": { pinyin: "jiǎnghuà", meaning: "nói chuyện" },
+            "醬油": { pinyin: "jiàngyóu", meaning: "nước tương" },
+            "交1": { pinyin: "jiāo", meaning: "giao" },
+            "交2": { pinyin: "jiāo", meaning: "kết bạn" },
+            "教": { pinyin: "jiāo", meaning: "dạy" },
+            "郊區": { pinyin: "jiāoqū", meaning: "ngoại ô" },
+            "腳": { pinyin: "jiǎo", meaning: "chân" },
+            "餃子": { pinyin: "jiǎozi", meaning: "sủi cảo" },
+            "較": { pinyin: "jiào", meaning: "khá" },
+            "叫1": { pinyin: "jiào", meaning: "bảo" },
+            "叫2": { pinyin: "jiào", meaning: "gọi là" },
+            "叫3": { pinyin: "jiào", meaning: "kêu" },
+            "叫4": { pinyin: "jiào", meaning: "gọi" },
+            "叫": { pinyin: "jiào", meaning: "khiến" },
+            "教室": { pinyin: "jiàoshì", meaning: "lớp học" },
+            "教書": { pinyin: "jiāoshū", meaning: "dạy học" },
+            "教育": { pinyin: "jiàoyù", meaning: "giáo dục" },
+            "教育": { pinyin: "jiàoyù", meaning: "giáo dục" },
+            "叫做": { pinyin: "jiàozuò", meaning: "gọi là" },
+            "接": { pinyin: "jiē", meaning: "tiếp" },
+            "接受": { pinyin: "jiēshòu", meaning: "chấp nhận" },
+            "接著": { pinyin: "jiēzhe", meaning: "tiếp theo" },
+            "節": { pinyin: "jié", meaning: "tiết" },
+            "結果": { pinyin: "jiéguǒ", meaning: "cuối cùng" },
+            "結婚": { pinyin: "jiéhūn", meaning: "kết hôn" },
+            "節目": { pinyin: "jiémù", meaning: "chương trình" },
+            "節日": { pinyin: "jiérì", meaning: "ngày lễ" },
+            "結束": { pinyin: "jiéshù", meaning: "kết thúc" },
+            "姐姐": { pinyin: "jiějie", meaning: "chị gái" },
+            "姊姊": { pinyin: "jiějie", meaning: "chị gái" },
+            "解決": { pinyin: "jiějué", meaning: "giải quyết" },
+            "姊妹": { pinyin: "jiěmèi", meaning: "chị em" },
+            "解釋": { pinyin: "jiěshì", meaning: "giải thích" },
+            "解釋": { pinyin: "jiěshì", meaning: "sự giải thích" },
+            "借": { pinyin: "jiè", meaning: "mượn" },
+            "介紹": { pinyin: "jièshào", meaning: "giới thiệu" },
+            "斤": { pinyin: "jīn", meaning: "cân" },
+            "金(子)": { pinyin: "jīn(zi)", meaning: "vàng" },
+            "今年": { pinyin: "jīnnián", meaning: "năm nay" },
+            "今天": { pinyin: "jīntiān", meaning: "hôm nay" },
+            "緊": { pinyin: "jǐn", meaning: "chặt" },
+            "緊張": { pinyin: "jǐnzhāng", meaning: "căng thẳng" },
+            "近": { pinyin: "jìn", meaning: "gần" },
+            "進": { pinyin: "jìn", meaning: "vào" },
+            "進步": { pinyin: "jìnbù", meaning: "tiến bộ" },
+            "進來": { pinyin: "jìnlái", meaning: "vào" },
+            "進去": { pinyin: "jìnqù", meaning: "vào trong" },
+            "進行": { pinyin: "jìnxíng", meaning: "tiến hành" },
+            "經": { pinyin: "jīng", meaning: "qua" },
+            "經常": { pinyin: "jīngcháng", meaning: "thường xuyên" },
+            "經過": { pinyin: "jīngguò", meaning: "qua" },
+            "經過": { pinyin: "jīngguò", meaning: "đi qua" },
+            "精神": { pinyin: "jīngshén", meaning: "tinh thần" },
+            "警察": { pinyin: "jǐngchá", meaning: "cảnh sát" },
+            "九": { pinyin: "jiǔ", meaning: "chín" },
+            "久": { pinyin: "jiǔ", meaning: "lâu" },
+            "酒": { pinyin: "jiǔ", meaning: "rượu" },
+            "救": { pinyin: "jiù", meaning: "cứu" },
+            "舊": { pinyin: "jiù", meaning: "cũ" },
+            "就": { pinyin: "jiù", meaning: "ngay" },
+            "就要": { pinyin: "jiùyào", meaning: "sắp" },
+            "橘子": { pinyin: "júzi", meaning: "quýt" },
+            "舉": { pinyin: "jǔ", meaning: "giơ" },
+            "舉行": { pinyin: "jǔxíng", meaning: "tổ chức" },
+            "句": { pinyin: "jù", meaning: "câu" },
+            "句子": { pinyin: "jùzi", meaning: "câu" },
+            "覺得": { pinyin: "juéde", meaning: "cảm thấy" },
+            "決定": { pinyin: "juédìng", meaning: "quyết định" },
+            "決定": { pinyin: "juédìng", meaning: "quyết định" },
+            "咖啡": { pinyin: "kāfēi", meaning: "cà phê" },
+            "卡車": { pinyin: "kǎchē", meaning: "xe tải" },
+            "卡片": { pinyin: "kǎpiàn", meaning: "thẻ" },
+            "開": { pinyin: "kāi", meaning: "mở" },
+            "開車": { pinyin: "kāichē", meaning: "lái xe" },
+            "開花": { pinyin: "kāihuā", meaning: "nở hoa" },
+            "開會": { pinyin: "kāihuì", meaning: "họp" },
+            "開始": { pinyin: "kāishǐ", meaning: "bắt đầu" },
+            "開始": { pinyin: "kāishǐ", meaning: "bắt đầu" },
+            "開水": { pinyin: "kāishuǐ", meaning: "nước sôi" },
+            "開玩笑": { pinyin: "kāiwánxiào", meaning: "đùa" },
+            "開心": { pinyin: "kāixīn", meaning: "vui vẻ" },
+            "開學": { pinyin: "kāixué", meaning: "khai giảng" },
+            "看": { pinyin: "kàn", meaning: "xem" },
+            "看": { pinyin: "kàn", meaning: "nghĩ" },
+            "看病": { pinyin: "kànbìng", meaning: "khám bệnh" },
+            "看到": { pinyin: "kàndào", meaning: "thấy" },
+            "看法": { pinyin: "kànfǎ", meaning: "quan điểm" },
+            "看見": { pinyin: "kànjiàn", meaning: "thấy" },
+            "烤": { pinyin: "kǎo", meaning: "nướng" },
+            "考": { pinyin: "kǎo", meaning: "thi" },
+            "考試": { pinyin: "kǎoshì", meaning: "kỳ thi" },
+            "考試": { pinyin: "kǎoshì", meaning: "thi" },
+            "棵": { pinyin: "kē", meaning: "cây" },
+            "科": { pinyin: "kē", meaning: "môn" },
+            "顆": { pinyin: "kē", meaning: "hạt" },
+            "科學": { pinyin: "kēxué", meaning: "khoa học" },
+            "科學": { pinyin: "kēxué", meaning: "khoa học" },
+            "咳嗽": { pinyin: "késòu", meaning: "ho" },
+            "渴": { pinyin: "kě", meaning: "khát" },
+            "可": { pinyin: "kě", meaning: "có thể" },
+            "可愛": { pinyin: "kěài", meaning: "dễ thương" },
+            "可樂": { pinyin: "kělè", meaning: "coca-cola" },
+            "可能": { pinyin: "kěnéng", meaning: "có thể" },
+            "可能": { pinyin: "kěnéng", meaning: "khả năng" },
+            "可是": { pinyin: "kěshì", meaning: "nhưng" },
+            "可以": { pinyin: "kěyǐ", meaning: "có thể" },
+            "可以": { pinyin: "kěyǐ", meaning: "được" },
+            "克": { pinyin: "kè", meaning: "gam" },
+            "刻": { pinyin: "kè", meaning: "phút" },
+            "課": { pinyin: "kè", meaning: "bài học" },
+            "課本": { pinyin: "kèběn", meaning: "sách giáo khoa" },
+            "客氣": { pinyin: "kèqì", meaning: "lịch sự" },
+            "客人": { pinyin: "kèrén", meaning: "khách" },
+            "客廳": { pinyin: "kètīng", meaning: "phòng khách" },
+            "課文": { pinyin: "kèwén", meaning: "bài học" },
+            "肯": { pinyin: "kěn", meaning: "sẵn lòng" },
+            "口": { pinyin: "kǒu", meaning: "miệng" },
+            "口": { pinyin: "kǒu", meaning: "cửa" },
+            "口": { pinyin: "kǒu", meaning: "miếng" },
+            "口袋": { pinyin: "kǒudài", meaning: "túi" },
+            "空": { pinyin: "kōng", meaning: "trống" },
+            "空氣": { pinyin: "kōngqì", meaning: "không khí" },
+            "空間": { pinyin: "kōngjiān", meaning: "không gian" },
+            "哭": { pinyin: "kū", meaning: "khóc" },
+            "苦": { pinyin: "kǔ", meaning: "đắng" },
+            "褲子": { pinyin: "kùzi", meaning: "quần" },
+            "塊": { pinyin: "kuài", meaning: "đồng" },
+            "塊": { pinyin: "kuài", meaning: "miếng" },
+            "快": { pinyin: "kuài", meaning: "nhanh" },
+            "快": { pinyin: "kuài", meaning: "sắp" },
+            "快樂": { pinyin: "kuàilè", meaning: "vui vẻ" },
+            "快要": { pinyin: "kuàiyào", meaning: "sắp" },
+            "筷子": { pinyin: "kuàizi", meaning: "đũa" },
+            "困難": { pinyin: "kùnnán", meaning: "khó khăn" },
+            "困難": { pinyin: "kùnnán", meaning: "khó khăn" },
+            "啦": { pinyin: "la", meaning: "rồi" },
+            "拉": { pinyin: "lā", meaning: "kéo" },
+            "來": { pinyin: "lái", meaning: "đến" },
+            "藍": { pinyin: "lán", meaning: "xanh dương" },
+            "籃球": { pinyin: "lánqiú", meaning: "bóng rổ" },
+            "老": { pinyin: "lǎo", meaning: "già" },
+            "老闆/板": { pinyin: "lǎobǎn", meaning: "chủ" },
+            "老人": { pinyin: "lǎorén", meaning: "người già" },
+            "老師": { pinyin: "lǎoshī", meaning: "thầy cô" },
+            "了": { pinyin: "le", meaning: "(dấu hoàn thành)" },
+            "了": { pinyin: "le", meaning: "(dấu thay đổi)" },
+            "累": { pinyin: "lèi", meaning: "mệt" },
+            "冷": { pinyin: "lěng", meaning: "lạnh" },
+            "冷氣": { pinyin: "lěngqì", meaning: "điều hòa" },
+            "冷氣機": { pinyin: "lěngqìjī", meaning: "máy lạnh" },
+            "離": { pinyin: "lí", meaning: "cách" },
+            "離": { pinyin: "lí", meaning: "xa" },
+            "離開": { pinyin: "líkāi", meaning: "rời" },
+            "裡/裏": { pinyin: "lǐ", meaning: "trong" },
+            "里": { pinyin: "lǐ", meaning: "dặm" },
+            "禮拜": { pinyin: "lǐbài", meaning: "tuần" },
+            "禮拜日": { pinyin: "lǐbàirì", meaning: "chủ nhật" },
+            "禮拜天": { pinyin: "lǐbàitiān", meaning: "chủ nhật" },
+            "裡邊": { pinyin: "lǐbiān", meaning: "bên trong" },
+            "裡/裏面": { pinyin: "lǐmiàn", meaning: "bên trong" },
+            "禮物": { pinyin: "lǐwù", meaning: "quà" },
+            "力": { pinyin: "lì", meaning: "sức" },
+            "立刻": { pinyin: "lìkè", meaning: "ngay lập tức" },
+            "例如": { pinyin: "lìrú", meaning: "ví dụ" },
+            "利用": { pinyin: "lìyòng", meaning: "sử dụng" },
+            "連": { pinyin: "lián", meaning: "thậm chí" },
+            "臉": { pinyin: "liǎn", meaning: "mặt" },
+            "練習": { pinyin: "liànxí", meaning: "luyện tập" },
+            "練習": { pinyin: "liànxí", meaning: "bài tập" },
+            "涼": { pinyin: "liáng", meaning: "mát" },
+            "涼快": { pinyin: "liángkuài", meaning: "mát mẻ" },
+            "兩": { pinyin: "liǎng", meaning: "hai" },
+            "亮": { pinyin: "liàng", meaning: "sáng" },
+            "輛": { pinyin: "liàng", meaning: "chiếc" },
+            "聊": { pinyin: "liáo", meaning: "trò chuyện" },
+            "聊天": { pinyin: "liáotiān", meaning: "trò chuyện" },
+            "了解": { pinyin: "liǎojiě", meaning: "hiểu" },
+            "鄰居": { pinyin: "línjū", meaning: "hàng xóm" },
+            "零": { pinyin: "líng", meaning: "không" },
+            "零錢": { pinyin: "língqián", meaning: "tiền lẻ" },
+            "領": { pinyin: "lǐng", meaning: "nhận" },
+            "流": { pinyin: "liú", meaning: "chảy" },
+            "留": { pinyin: "liú", meaning: "giữ" },
+            "留": { pinyin: "liú", meaning: "ở lại" },
+            "六": { pinyin: "liù", meaning: "sáu" },
+            "樓": { pinyin: "lóu", meaning: "tầng" }
+        }
+    },
+
+
+        4: {
+        normal: ["樓上","樓梯","樓下","旅館","旅行","旅遊","綠","錄","路","路上","錄音","亂","嘛","嗎","媽媽","麻煩","馬","馬路","馬上","罵","買","賣","滿","滿意","慢","慢慢","慢用","忙","貓","毛","毛病","毛衣","帽子","沒","沒錯","沒關係","沒什麼","沒事(兒)","沒問題","沒意思","沒有","沒用","每","美","美麗","妹妹","門(兒)","門口","米","米飯","面","麵","麵包","麵條","明白","名詞","明年","明天","明信片","名字","秒","摩托車","母親","木","目的","目前","木頭","拿","哪","哪兒","哪裡","哪些","那","那邊","那兒","那麼","那些","那樣","奶","奶茶","奶奶","難","男","南","南邊","難過","男孩(子/兒)","難看","男朋友","男人","男生","呢","內","內容","能","能夠","能力","妳","你","你們","年","年底","年級","年紀","年年","年輕","念","念書","鳥(兒)","您","牛","牛奶","牛肉","弄","女","女兒","女孩(子/兒)","女朋友","女人","女生","努力","暖和","爬","爬山","怕","拍","盤","盤子","旁","旁邊","胖","跑","陪","朋友","皮","皮包","啤酒","篇","便宜","片","瓶","平","平安","平常","蘋果","瓶子","票","漂亮","破","葡萄","七","騎","奇怪","其它","其他","其中","起","起床","起來","氣","汽車","汽水","千","鉛筆","錢","前","前面","前年","前天","淺","牆","搶","橋","巧克力","親","輕","清","青菜","清楚","青年","晴","情況","晴天","情形","請","請假","請客","請問","慶祝","秋","秋天","求","球","去","去年","全","全部","全身","卻","裙子","然後","讓","熱","熱狗","熱鬧","熱水","人","人家","人口","人民","人們","認","認得","任何","認識","認為","認真","扔","日","日記","日期","日子","容易","肉","如果","三","傘","散步","森林","死","四","送","宿舍","酸","算","雖然","隨便","隨時"],
+        shuffle: ["樓上","樓梯","樓下","旅館","旅行","旅遊","綠","錄","路","路上","錄音","亂","嘛","嗎","媽媽","麻煩","馬","馬路","馬上","罵","買","賣","滿","滿意","慢","慢慢","慢用","忙","貓","毛","毛病","毛衣","帽子","沒","沒錯","沒關係","沒什麼","沒事(兒)","沒問題","沒意思","沒有","沒用","每","美","美麗","妹妹","門(兒)","門口","米","米飯","面","麵","麵包","麵條","明白","名詞","明年","明天","明信片","名字","秒","摩托車","母親","木","目的","目前","木頭","拿","哪","哪兒","哪裡","哪些","那","那邊","那兒","那麼","那些","那樣","奶","奶茶","奶奶","難","男","南","南邊","難過","男孩(子/兒)","難看","男朋友","男人","男生","呢","內","內容","能","能夠","能力","妳","你","你們","年","年底","年級","年紀","年年","年輕","念","念書","鳥(兒)","您","牛","牛奶","牛肉","弄","女","女兒","女孩(子/兒)","女朋友","女人","女生","努力","暖和","爬","爬山","怕","拍","盤","盤子","旁","旁邊","胖","跑","陪","朋友","皮","皮包","啤酒","篇","便宜","片","瓶","平","平安","平常","蘋果","瓶子","票","漂亮","破","葡萄","七","騎","奇怪","其它","其他","其中","起","起床","起來","氣","汽車","汽水","千","鉛筆","錢","前","前面","前年","前天","淺","牆","搶","橋","巧克力","親","輕","清","青菜","清楚","青年","晴","情況","晴天","情形","請","請假","請客","請問","慶祝","秋","秋天","求","球","去","去年","全","全部","全身","卻","裙子","然後","讓","熱","熱狗","熱鬧","熱水","人","人家","人口","人民","人們","認","認得","任何","認識","認為","認真","扔","日","日記","日期","日子","容易","肉","如果","三","傘","散步","森林","死","四","送","宿舍","酸","算","雖然","隨便","隨時"],
+        items: {
+            "樓上": { pinyin: "lóushàng", meaning: "tầng trên" },
+            "樓梯": { pinyin: "lóutī", meaning: "cầu thang" },
+            "樓下": { pinyin: "lóuxià", meaning: "tầng dưới" },
+            "旅館": { pinyin: "lǚguǎn", meaning: "khách sạn" },
+            "旅行": { pinyin: "lǚxíng", meaning: "du lịch, đi chuyến" },
+            "旅遊": { pinyin: "lǚyóu", meaning: "du lịch" },
+            "綠": { pinyin: "lǜ", meaning: "xanh lá" },
+            "錄": { pinyin: "lù", meaning: "ghi âm, ghi lại" },
+            "路": { pinyin: "lù", meaning: "đường" },
+            "路上": { pinyin: "lùshàng", meaning: "trên đường" },
+            "錄音": { pinyin: "lùyīn", meaning: "ghi âm" },
+            "亂": { pinyin: "luàn", meaning: "lộn xộn" },
+            "嘛": { pinyin: "ma", meaning: "mà (hạt ngữ khí thuyết phục)" },
+            "嗎": { pinyin: "ma", meaning: "à? (hạt hỏi)" },
+            "媽媽": { pinyin: "māma", meaning: "mẹ" },
+            "麻煩": { pinyin: "máfán", meaning: "phiền phức" },
+            "馬": { pinyin: "mǎ", meaning: "ngựa" },
+            "馬路": { pinyin: "mǎlù", meaning: "đường cái" },
+            "馬上": { pinyin: "mǎshàng", meaning: "ngay lập tức" },
+            "罵": { pinyin: "mà", meaning: "mắng" },
+            "買": { pinyin: "mǎi", meaning: "mua" },
+            "賣": { pinyin: "mài", meaning: "bán" },
+            "滿": { pinyin: "mǎn", meaning: "đầy" },
+            "滿意": { pinyin: "mǎnyì", meaning: "hài lòng" },
+            "慢": { pinyin: "màn", meaning: "chậm" },
+            "慢慢": { pinyin: "mànmàn", meaning: "chậm rãi" },
+            "慢用": { pinyin: "mànyòng", meaning: "mời dùng (ăn chậm nhé)" },
+            "忙": { pinyin: "máng", meaning: "bận" },
+            "貓": { pinyin: "māo", meaning: "mèo" },
+            "毛": { pinyin: "máo", meaning: "lông, tóc" },
+            "毛病": { pinyin: "máobìng", meaning: "bệnh, vấn đề" },
+            "毛衣": { pinyin: "máoyī", meaning: "áo len" },
+            "帽子": { pinyin: "màozi", meaning: "mũ" },
+            "沒": { pinyin: "méi", meaning: "không có" },
+            "沒錯": { pinyin: "méicuò", meaning: "đúng rồi" },
+            "沒關係": { pinyin: "méiguānxì", meaning: "không sao" },
+            "沒什麼": { pinyin: "méishéme", meaning: "không có gì" },
+            "沒事(兒)": { pinyin: "méishì(ér)", meaning: "không sao" },
+            "沒問題": { pinyin: "méiwèntí", meaning: "không vấn đề gì" },
+            "沒意思": { pinyin: "méiyìsi", meaning: "chán" },
+            "沒有": { pinyin: "méiyǒu", meaning: "không có" },
+            "沒用": { pinyin: "méiyòng", meaning: "vô ích" },
+            "每": { pinyin: "měi", meaning: "mỗi" },
+            "美": { pinyin: "měi", meaning: "đẹp" },
+            "美麗": { pinyin: "měilì", meaning: "xinh đẹp" },
+            "妹妹": { pinyin: "mèimei", meaning: "em gái" },
+            "門(兒)": { pinyin: "mén(ér)", meaning: "cửa" },
+            "門口": { pinyin: "ménkǒu", meaning: "cửa ra vào" },
+            "米": { pinyin: "mǐ", meaning: "gạo" },
+            "米飯": { pinyin: "mǐfàn", meaning: "cơm" },
+            "面": { pinyin: "miàn", meaning: "mặt, bề mặt" },
+            "麵": { pinyin: "miàn", meaning: "mì" },
+            "麵包": { pinyin: "miànbāo", meaning: "bánh mì" },
+            "麵條": { pinyin: "miàntiáo", meaning: "mì sợi" },
+            "明白": { pinyin: "míngbái", meaning: "hiểu" },
+            "名詞": { pinyin: "míngcí", meaning: "danh từ" },
+            "明年": { pinyin: "míngnián", meaning: "năm sau" },
+            "明天": { pinyin: "míngtiān", meaning: "ngày mai" },
+            "明信片": { pinyin: "míngxìnpiàn", meaning: "bưu thiếp" },
+            "名字": { pinyin: "míngzì", meaning: "tên" },
+            "秒": { pinyin: "miǎo", meaning: "giây" },
+            "摩托車": { pinyin: "mótuōchē", meaning: "xe máy" },
+            "母親": { pinyin: "mǔqīn", meaning: "mẹ" },
+            "木": { pinyin: "mù", meaning: "gỗ" },
+            "目的": { pinyin: "mùdì", meaning: "mục đích" },
+            "目前": { pinyin: "mùqián", meaning: "hiện tại" },
+            "木頭": { pinyin: "mùtóu", meaning: "gỗ" },
+            "拿": { pinyin: "ná", meaning: "cầm, lấy" },
+            "哪": { pinyin: "nǎ", meaning: "nào" },
+            "哪兒": { pinyin: "nǎer", meaning: "đâu" },
+            "哪裡": { pinyin: "nǎlǐ", meaning: "đâu" },
+            "哪些": { pinyin: "nǎxiē", meaning: "những cái nào" },
+            "那": { pinyin: "nà", meaning: "đó" },
+            "那邊": { pinyin: "nàbiān", meaning: "bên kia" },
+            "那兒": { pinyin: "nàer", meaning: "đó" },
+            "那麼": { pinyin: "nàme", meaning: "như vậy" },
+            "那些": { pinyin: "nàxiē", meaning: "những cái đó" },
+            "那樣": { pinyin: "nàyàng", meaning: "như vậy" },
+            "奶": { pinyin: "nǎi", meaning: "sữa" },
+            "奶茶": { pinyin: "nǎichá", meaning: "trà sữa" },
+            "奶奶": { pinyin: "nǎinai", meaning: "bà (nội)" },
+            "難": { pinyin: "nán", meaning: "khó" },
+            "男": { pinyin: "nán", meaning: "nam" },
+            "南": { pinyin: "nán", meaning: "phía nam" },
+            "南邊": { pinyin: "nánbiān", meaning: "phía nam" },
+            "難過": { pinyin: "nánguò", meaning: "buồn" },
+            "男孩(子/兒)": { pinyin: "nánhái(zi/ér)", meaning: "con trai" },
+            "難看": { pinyin: "nánkàn", meaning: "xấu" },
+            "男朋友": { pinyin: "nánpéngyǒu", meaning: "bạn trai" },
+            "男人": { pinyin: "nánrén", meaning: "đàn ông" },
+            "男生": { pinyin: "nánshēng", meaning: "nam sinh" },
+            "呢": { pinyin: "ne", meaning: "thì sao? (hạt ngữ khí)" },
+            "內": { pinyin: "nèi", meaning: "trong" },
+            "內容": { pinyin: "nèiróng", meaning: "nội dung" },
+            "能": { pinyin: "néng", meaning: "có thể" },
+            "能夠": { pinyin: "nénggòu", meaning: "có thể" },
+            "能力": { pinyin: "nénglì", meaning: "khả năng" },
+            "妳": { pinyin: "nǐ", meaning: "cô (bạn nữ)" },
+            "你": { pinyin: "nǐ", meaning: "bạn" },
+            "你們": { pinyin: "nǐmen", meaning: "các bạn" },
+            "年": { pinyin: "nián", meaning: "năm" },
+            "年底": { pinyin: "niándǐ", meaning: "cuối năm" },
+            "年級": { pinyin: "niánjí", meaning: "lớp" },
+            "年紀": { pinyin: "niánjì", meaning: "tuổi" },
+            "年年": { pinyin: "niánnián", meaning: "hàng năm" },
+            "年輕": { pinyin: "niánqīng", meaning: "trẻ" },
+            "念": { pinyin: "niàn", meaning: "đọc" },
+            "念書": { pinyin: "niànshū", meaning: "học" },
+            "鳥(兒)": { pinyin: "niǎo(ér)", meaning: "chim" },
+            "您": { pinyin: "nín", meaning: "ông/bà (lịch sự)" },
+            "牛": { pinyin: "niú", meaning: "bò" },
+            "牛奶": { pinyin: "niúnǎi", meaning: "sữa bò" },
+            "牛肉": { pinyin: "niúròu", meaning: "thịt bò" },
+            "弄": { pinyin: "nòng", meaning: "làm" },
+            "女": { pinyin: "nǚ", meaning: "nữ" },
+            "女兒": { pinyin: "nǚér", meaning: "con gái" },
+            "女孩(子/兒)": { pinyin: "nǚhái(zi/ér)", meaning: "con gái" },
+            "女朋友": { pinyin: "nǚpéngyǒu", meaning: "bạn gái" },
+            "女人": { pinyin: "nǚrén", meaning: "phụ nữ" },
+            "女生": { pinyin: "nǚshēng", meaning: "nữ sinh" },
+            "努力": { pinyin: "nǔlì", meaning: "nỗ lực" },
+            "暖和": { pinyin: "nuǎnhuo", meaning: "ấm áp" },
+            "爬": { pinyin: "pá", meaning: "leo" },
+            "爬山": { pinyin: "páshān", meaning: "leo núi" },
+            "怕": { pinyin: "pà", meaning: "sợ" },
+            "拍": { pinyin: "pāi", meaning: "chụp ảnh" },
+            "盤": { pinyin: "pán", meaning: "đĩa" },
+            "盤子": { pinyin: "pánzi", meaning: "đĩa" },
+            "旁": { pinyin: "páng", meaning: "bên cạnh" },
+            "旁邊": { pinyin: "pángbiān", meaning: "bên cạnh" },
+            "胖": { pinyin: "pàng", meaning: "béo" },
+            "跑": { pinyin: "pǎo", meaning: "chạy" },
+            "陪": { pinyin: "péi", meaning: "đi cùng" },
+            "朋友": { pinyin: "péngyǒu", meaning: "bạn" },
+            "皮": { pinyin: "pí", meaning: "da" },
+            "皮包": { pinyin: "píbāo", meaning: "cặp da" },
+            "啤酒": { pinyin: "píjiǔ", meaning: "bia" },
+            "篇": { pinyin: "piān", meaning: "bài (lượng từ)" },
+            "便宜": { pinyin: "piányí", meaning: "rẻ" },
+            "片": { pinyin: "piàn", meaning: "miếng" },
+            "瓶": { pinyin: "píng", meaning: "chai" },
+            "平": { pinyin: "píng", meaning: "bằng phẳng" },
+            "平安": { pinyin: "píngān", meaning: "bình an" },
+            "平常": { pinyin: "píngcháng", meaning: "thường ngày" },
+            "蘋果": { pinyin: "píngguǒ", meaning: "táo" },
+            "瓶子": { pinyin: "píngzi", meaning: "chai" },
+            "票": { pinyin: "piào", meaning: "vé" },
+            "漂亮": { pinyin: "piàoliàng", meaning: "đẹp" },
+            "破": { pinyin: "pò", meaning: "hỏng" },
+            "葡萄": { pinyin: "pútáo", meaning: "nho" },
+            "七": { pinyin: "qī", meaning: "bảy" },
+            "騎": { pinyin: "qí", meaning: "cưỡi" },
+            "奇怪": { pinyin: "qíguài", meaning: "lạ" },
+            "其它": { pinyin: "qítā", meaning: "các cái khác" },
+            "其他": { pinyin: "qítā", meaning: "các cái khác" },
+            "其中": { pinyin: "qízhōng", meaning: "trong đó" },
+            "起": { pinyin: "qǐ", meaning: "đứng dậy" },
+            "起床": { pinyin: "qǐchuáng", meaning: "thức dậy" },
+            "起來": { pinyin: "qǐlái", meaning: "đứng dậy" },
+            "氣": { pinyin: "qì", meaning: "giận" },
+            "汽車": { pinyin: "qìchē", meaning: "xe hơi" },
+            "汽水": { pinyin: "qìshuǐ", meaning: "nước ngọt có ga" },
+            "千": { pinyin: "qiān", meaning: "ngàn" },
+            "鉛筆": { pinyin: "qiānbǐ", meaning: "bút chì" },
+            "錢": { pinyin: "qián", meaning: "tiền" },
+            "前": { pinyin: "qián", meaning: "trước" },
+            "前面": { pinyin: "qiánmiàn", meaning: "phía trước" },
+            "前年": { pinyin: "qiánnián", meaning: "năm kia" },
+            "前天": { pinyin: "qiántiān", meaning: "hôm kia" },
+            "淺": { pinyin: "qiǎn", meaning: "nông" },
+            "牆": { pinyin: "qiáng", meaning: "tường" },
+            "搶": { pinyin: "qiǎng", meaning: "cướp" },
+            "橋": { pinyin: "qiáo", meaning: "cầu" },
+            "巧克力": { pinyin: "qiǎokèlì", meaning: "sô cô la" },
+            "親": { pinyin: "qīn", meaning: "hôn" },
+            "輕": { pinyin: "qīng", meaning: "nhẹ" },
+            "清": { pinyin: "qīng", meaning: "trong, sạch" },
+            "青菜": { pinyin: "qīngcài", meaning: "rau xanh" },
+            "清楚": { pinyin: "qīngchǔ", meaning: "rõ ràng" },
+            "青年": { pinyin: "qīngnián", meaning: "thanh niên" },
+            "晴": { pinyin: "qíng", meaning: "nắng" },
+            "情況": { pinyin: "qíngkuàng", meaning: "tình hình" },
+            "晴天": { pinyin: "qíngtiān", meaning: "ngày nắng" },
+            "情形": { pinyin: "qíngxíng", meaning: "tình hình" },
+            "請": { pinyin: "qǐng", meaning: "mời" },
+            "請假": { pinyin: "qǐngjià", meaning: "xin nghỉ" },
+            "請客": { pinyin: "qǐngkè", meaning: "đãi khách" },
+            "請問": { pinyin: "qǐngwèn", meaning: "xin hỏi" },
+            "慶祝": { pinyin: "qìngzhù", meaning: "kỷ niệm" },
+            "秋": { pinyin: "qiū", meaning: "thu" },
+            "秋天": { pinyin: "qiūtiān", meaning: "mùa thu" },
+            "求": { pinyin: "qiú", meaning: "cầu xin" },
+            "球": { pinyin: "qiú", meaning: "bóng" },
+            "去": { pinyin: "qù", meaning: "đi" },
+            "去年": { pinyin: "qùnián", meaning: "năm ngoái" },
+            "全": { pinyin: "quán", meaning: "toàn bộ" },
+            "全部": { pinyin: "quánbù", meaning: "toàn bộ" },
+            "全身": { pinyin: "quánshēn", meaning: "toàn thân" },
+            "卻": { pinyin: "què", meaning: "nhưng" },
+            "裙子": { pinyin: "qúnzi", meaning: "váy" },
+            "然後": { pinyin: "ránhòu", meaning: "sau đó" },
+            "讓": { pinyin: "ràng", meaning: "để, cho" },
+            "熱": { pinyin: "rè", meaning: "nóng" },
+            "熱狗": { pinyin: "règǒu", meaning: "hot dog" },
+            "熱鬧": { pinyin: "rènào", meaning: "nhộn nhịp" },
+            "熱水": { pinyin: "rèshuǐ", meaning: "nước nóng" },
+            "人": { pinyin: "rén", meaning: "người" },
+            "人家": { pinyin: "rénjiā", meaning: "người ta" },
+            "人口": { pinyin: "rénkǒu", meaning: "dân số" },
+            "人民": { pinyin: "rénmín", meaning: "nhân dân" },
+            "人們": { pinyin: "rénmen", meaning: "mọi người" },
+            "認": { pinyin: "rèn", meaning: "nhận" },
+            "認得": { pinyin: "rèndé", meaning: "nhận ra" },
+            "任何": { pinyin: "rènhé", meaning: "bất kỳ" },
+            "認識": { pinyin: "rènshì", meaning: "quen biết" },
+            "認為": { pinyin: "rènwéi", meaning: "cho rằng" },
+            "認真": { pinyin: "rènzhēn", meaning: "nghiêm túc" },
+            "扔": { pinyin: "rēng", meaning: "ném" },
+            "日": { pinyin: "rì", meaning: "ngày" },
+            "日記": { pinyin: "rìjì", meaning: "nhật ký" },
+            "日期": { pinyin: "rìqī", meaning: "ngày tháng" },
+            "日子": { pinyin: "rìzi", meaning: "ngày" },
+            "容易": { pinyin: "róngyì", meaning: "dễ" },
+            "肉": { pinyin: "ròu", meaning: "thịt" },
+            "如果": { pinyin: "rúguǒ", meaning: "nếu" },
+            "三": { pinyin: "sān", meaning: "ba" },
+            "傘": { pinyin: "sǎn", meaning: "ô" },
+            "散步": { pinyin: "sànbù", meaning: "dạo bộ" },
+            "森林": { pinyin: "sēnlín", meaning: "rừng" },
+            "死": { pinyin: "sǐ", meaning: "chết" },
+            "四": { pinyin: "sì", meaning: "bốn" },
+            "送": { pinyin: "sòng", meaning: "tặng, đưa" },
+            "宿舍": { pinyin: "sùshè", meaning: "ký túc xá" },
+            "酸": { pinyin: "suān", meaning: "chua" },
+            "算": { pinyin: "suàn", meaning: "tính" },
+            "雖然": { pinyin: "suīrán", meaning: "mặc dù" },
+            "隨便": { pinyin: "suíbiàn", meaning: "tùy ý" },
+            "隨時": { pinyin: "suíshí", meaning: "bất cứ lúc nào" }
+        }
+    },
+    
+        5: {
+        normal: ["歲","所","所以","所有","殺","沙發","山","商店","上","上班","上車","上街","上課","上來","上面","上去","上午","上學","燒","少","什麼","誰","深","身上","身體","生","生病","生活","生氣","生日","生意","生字","聲調","聲音","剩","十","時代","十分","時候","時間","石頭","石油","食物","十字路口","使用","事","是","試","市場","世界","事情","事實","收","手","手錶","手機","手套","瘦","輸","書","書包","書店","舒服","書架","書桌","熟","數","暑假","樹","數學","刷牙","雙","水","水果","水餃","睡","睡覺","說","說話","說明","她","它","他","他們","它們","她們","台","抬","颱風","太","態度","太太","太陽","談","湯","湯匙","糖","躺","討論","討厭","套","特別","疼","踢","提高","提供","體育","替","天","天氣","天天","甜","填","條","跳","跳舞","貼","聽","聽到","聽說","停","停車","通","通過","通知","同","同時","同學","同意","同樣","痛","痛苦","偷","頭","頭髮","圖","圖片","圖書館","土","土地","推","腿","脫","襪子","外","外邊","外國","外面","外套","外文","外語","玩(兒)","完","完成","完全","晚","碗","晚安","晚餐","晚飯","晚會","晚上","萬","往","網球","忘","忘記","危險","為","喂","位","味道","未來","為什麼","位子","聞","文化","文學","文字","文章","問","問題","我","我們","握手","屋子","無聊","五","午餐","午飯","西","西邊","西餐","西瓜","希望","習慣","洗","喜歡","洗手間","洗衣機","洗澡","細","下","下班","下車","下課","下來","下面","下去","夏天","下午","下雪","下雨","先","先生","現代","現在","香","鄉下","相信","箱子","想","響","想法","向","像","消息","小","小孩(子/兒)","小姐","小朋友","小時","小說","小偷","小心","小學","笑"],
+        shuffle: ["歲","所","所以","所有","殺","沙發","山","商店","上","上班","上車","上街","上課","上來","上面","上去","上午","上學","燒","少","什麼","誰","深","身上","身體","生","生病","生活","生氣","生日","生意","生字","聲調","聲音","剩","十","時代","十分","時候","時間","石頭","石油","食物","十字路口","使用","事","是","試","市場","世界","事情","事實","收","手","手錶","手機","手套","瘦","輸","書","書包","書店","舒服","書架","書桌","熟","數","暑假","樹","數學","刷牙","雙","水","水果","水餃","睡","睡覺","說","說話","說明","她","它","他","他們","它們","她們","台","抬","颱風","太","態度","太太","太陽","談","湯","湯匙","糖","躺","討論","討厭","套","特別","疼","踢","提高","提供","體育","替","天","天氣","天天","甜","填","條","跳","跳舞","貼","聽","聽到","聽說","停","停車","通","通過","通知","同","同時","同學","同意","同樣","痛","痛苦","偷","頭","頭髮","圖","圖片","圖書館","土","土地","推","腿","脫","襪子","外","外邊","外國","外面","外套","外文","外語","玩(兒)","完","完成","完全","晚","碗","晚安","晚餐","晚飯","晚會","晚上","萬","往","網球","忘","忘記","危險","為","喂","位","味道","未來","為什麼","位子","聞","文化","文學","文字","文章","問","問題","我","我們","握手","屋子","無聊","五","午餐","午飯","西","西邊","西餐","西瓜","希望","習慣","洗","喜歡","洗手間","洗衣機","洗澡","細","下","下班","下車","下課","下來","下面","下去","夏天","下午","下雪","下雨","先","先生","現代","現在","香","鄉下","相信","箱子","想","響","想法","向","像","消息","小","小孩(子/兒)","小姐","小朋友","小時","小說","小偷","小心","小學","笑"],
+        items: {
+            "歲": { pinyin: "suì", meaning: "tuổi" },
+            "所": { pinyin: "suǒ", meaning: "cái (lượng từ cho tòa nhà)" },
+            "所以": { pinyin: "suǒyǐ", meaning: "vì vậy" },
+            "所有": { pinyin: "suǒyǒu", meaning: "tất cả" },
+            "殺": { pinyin: "shā", meaning: "giết" },
+            "沙發": { pinyin: "shāfā", meaning: "ghế sofa" },
+            "山": { pinyin: "shān", meaning: "núi" },
+            "商店": { pinyin: "shāngdiàn", meaning: "cửa hàng" },
+            "上": { pinyin: "shàng", meaning: "lên" },
+            "上班": { pinyin: "shàngbān", meaning: "đi làm" },
+            "上車": { pinyin: "shàngchē", meaning: "lên xe" },
+            "上街": { pinyin: "shàngjiē", meaning: "ra phố" },
+            "上課": { pinyin: "shàngkè", meaning: "học" },
+            "上來": { pinyin: "shànglái", meaning: "lên" },
+            "上面": { pinyin: "shàngmiàn", meaning: "phía trên" },
+            "上去": { pinyin: "shàngqù", meaning: "đi lên" },
+            "上午": { pinyin: "shàngwǔ", meaning: "buổi sáng" },
+            "上學": { pinyin: "shàngxué", meaning: "đi học" },
+            "燒": { pinyin: "shāo", meaning: "nấu, đốt" },
+            "少": { pinyin: "shǎo", meaning: "ít" },
+            "什麼": { pinyin: "shéme", meaning: "cái gì" },
+            "誰": { pinyin: "shéi", meaning: "ai" },
+            "深": { pinyin: "shēn", meaning: "sâu" },
+            "身上": { pinyin: "shēnshàng", meaning: "trên người" },
+            "身體": { pinyin: "shēntǐ", meaning: "cơ thể" },
+            "生": { pinyin: "shēng", meaning: "sinh" },
+            "生病": { pinyin: "shēngbìng", meaning: "bị bệnh" },
+            "生活": { pinyin: "shēnghuó", meaning: "cuộc sống" },
+            "生氣": { pinyin: "shēngqì", meaning: "giận" },
+            "生日": { pinyin: "shēngrì", meaning: "sinh nhật" },
+            "生意": { pinyin: "shēngyì", meaning: "kinh doanh" },
+            "生字": { pinyin: "shēngzì", meaning: "từ mới" },
+            "聲調": { pinyin: "shēngdiào", meaning: "thanh điệu" },
+            "聲音": { pinyin: "shēngyīn", meaning: "âm thanh" },
+            "剩": { pinyin: "shèng", meaning: "còn lại" },
+            "十": { pinyin: "shí", meaning: "mười" },
+            "時代": { pinyin: "shídài", meaning: "thời đại" },
+            "十分": { pinyin: "shífēn", meaning: "rất" },
+            "時候": { pinyin: "shíhòu", meaning: "khi" },
+            "時間": { pinyin: "shíjiān", meaning: "thời gian" },
+            "石頭": { pinyin: "shítou", meaning: "đá" },
+            "石油": { pinyin: "shíyóu", meaning: "dầu mỏ" },
+            "食物": { pinyin: "shíwù", meaning: "thức ăn" },
+            "十字路口": { pinyin: "shízìlùkǒu", meaning: "ngã tư" },
+            "使用": { pinyin: "shǐyòng", meaning: "sử dụng" },
+            "事": { pinyin: "shì", meaning: "việc" },
+            "是": { pinyin: "shì", meaning: "là" },
+            "試": { pinyin: "shì", meaning: "thử" },
+            "市場": { pinyin: "shìchǎng", meaning: "chợ" },
+            "世界": { pinyin: "shìjiè", meaning: "thế giới" },
+            "事情": { pinyin: "shìqíng", meaning: "việc" },
+            "事實": { pinyin: "shìshí", meaning: "sự thật" },
+            "收": { pinyin: "shōu", meaning: "nhận" },
+            "手": { pinyin: "shǒu", meaning: "tay" },
+            "手錶": { pinyin: "shǒubiǎo", meaning: "đồng hồ đeo tay" },
+            "手機": { pinyin: "shǒujī", meaning: "điện thoại di động" },
+            "手套": { pinyin: "shǒutào", meaning: "găng tay" },
+            "瘦": { pinyin: "shòu", meaning: "gầy" },
+            "輸": { pinyin: "shū", meaning: "thua" },
+            "書": { pinyin: "shū", meaning: "sách" },
+            "書包": { pinyin: "shūbāo", meaning: "cặp sách" },
+            "書店": { pinyin: "shūdiàn", meaning: "hiệu sách" },
+            "舒服": { pinyin: "shūfú", meaning: "thoải mái" },
+            "書架": { pinyin: "shūjià", meaning: "kệ sách" },
+            "書桌": { pinyin: "shūzhuō", meaning: "bàn học" },
+            "熟": { pinyin: "shóu", meaning: "chín, quen" },
+            "數": { pinyin: "shǔ", meaning: "đếm" },
+            "暑假": { pinyin: "shǔjià", meaning: "kỳ nghỉ hè" },
+            "樹": { pinyin: "shù", meaning: "cây" },
+            "數學": { pinyin: "shùxué", meaning: "toán học" },
+            "刷牙": { pinyin: "shuāyá", meaning: "đánh răng" },
+            "雙": { pinyin: "shuāng", meaning: "đôi" },
+            "水": { pinyin: "shuǐ", meaning: "nước" },
+            "水果": { pinyin: "shuǐguǒ", meaning: "trái cây" },
+            "水餃": { pinyin: "shuǐjiǎo", meaning: "sủi cảo" },
+            "睡": { pinyin: "shuì", meaning: "ngủ" },
+            "睡覺": { pinyin: "shuìjiào", meaning: "ngủ" },
+            "說": { pinyin: "shuō", meaning: "nói" },
+            "說話": { pinyin: "shuōhuà", meaning: "nói chuyện" },
+            "說明": { pinyin: "shuōmíng", meaning: "giải thích" },
+            "她": { pinyin: "tā", meaning: "cô ấy" },
+            "它": { pinyin: "tā", meaning: "nó (vật)" },
+            "他": { pinyin: "tā", meaning: "anh ấy" },
+            "他們": { pinyin: "tāmen", meaning: "họ" },
+            "它們": { pinyin: "tāmen", meaning: "chúng nó" },
+            "她們": { pinyin: "tāmen", meaning: "họ (nữ)" },
+            "台": { pinyin: "tái", meaning: "cái (lượng từ)" },
+            "抬": { pinyin: "tái", meaning: "nâng" },
+            "颱風": { pinyin: "táifēng", meaning: "bão" },
+            "太": { pinyin: "tài", meaning: "quá" },
+            "態度": { pinyin: "tàidù", meaning: "thái độ" },
+            "太太": { pinyin: "tàitai", meaning: "vợ, bà" },
+            "太陽": { pinyin: "tàiyáng", meaning: "mặt trời" },
+            "談": { pinyin: "tán", meaning: "nói về" },
+            "湯": { pinyin: "tāng", meaning: "canh" },
+            "湯匙": { pinyin: "tāngchí", meaning: "thìa" },
+            "糖": { pinyin: "táng", meaning: "đường, kẹo" },
+            "躺": { pinyin: "tǎng", meaning: "nằm" },
+            "討論": { pinyin: "tǎolùn", meaning: "thảo luận" },
+            "討厭": { pinyin: "tǎoyàn", meaning: "ghét" },
+            "套": { pinyin: "tào", meaning: "bộ" },
+            "特別": { pinyin: "tèbié", meaning: "đặc biệt" },
+            "疼": { pinyin: "téng", meaning: "đau" },
+            "踢": { pinyin: "tī", meaning: "đá" },
+            "提高": { pinyin: "tígāo", meaning: "nâng cao" },
+            "提供": { pinyin: "tígōng", meaning: "cung cấp" },
+            "體育": { pinyin: "tǐyù", meaning: "thể dục" },
+            "替": { pinyin: "tì", meaning: "thay" },
+            "天": { pinyin: "tiān", meaning: "ngày, trời" },
+            "天氣": { pinyin: "tiānqì", meaning: "thời tiết" },
+            "天天": { pinyin: "tiāntiān", meaning: "hàng ngày" },
+            "甜": { pinyin: "tián", meaning: "ngọt" },
+            "填": { pinyin: "tián", meaning: "điền" },
+            "條": { pinyin: "tiáo", meaning: "cái (lượng từ)" },
+            "跳": { pinyin: "tiào", meaning: "nhảy" },
+            "跳舞": { pinyin: "tiàowǔ", meaning: "nhảy múa" },
+            "貼": { pinyin: "tiē", meaning: "dán" },
+            "聽": { pinyin: "tīng", meaning: "nghe" },
+            "聽到": { pinyin: "tīngdào", meaning: "nghe thấy" },
+            "聽說": { pinyin: "tīngshuō", meaning: "nghe nói" },
+            "停": { pinyin: "tíng", meaning: "dừng" },
+            "停車": { pinyin: "tíngchē", meaning: "đỗ xe" },
+            "通": { pinyin: "tōng", meaning: "thông" },
+            "通過": { pinyin: "tōngguò", meaning: "qua" },
+            "通知": { pinyin: "tōngzhī", meaning: "thông báo" },
+            "同": { pinyin: "tóng", meaning: "cùng" },
+            "同時": { pinyin: "tóngshí", meaning: "đồng thời" },
+            "同學": { pinyin: "tóngxué", meaning: "bạn học" },
+            "同意": { pinyin: "tóngyì", meaning: "đồng ý" },
+            "同樣": { pinyin: "tóngyàng", meaning: "giống nhau" },
+            "痛": { pinyin: "tòng", meaning: "đau" },
+            "痛苦": { pinyin: "tòngkǔ", meaning: "đau khổ" },
+            "偷": { pinyin: "tōu", meaning: "trộm" },
+            "頭": { pinyin: "tóu", meaning: "đầu" },
+            "頭髮": { pinyin: "tóufǎ", meaning: "tóc" },
+            "圖": { pinyin: "tú", meaning: "hình" },
+            "圖片": { pinyin: "túpiàn", meaning: "ảnh" },
+            "圖書館": { pinyin: "túshūguǎn", meaning: "thư viện" },
+            "土": { pinyin: "tǔ", meaning: "đất" },
+            "土地": { pinyin: "tǔdì", meaning: "đất đai" },
+            "推": { pinyin: "tuī", meaning: "đẩy" },
+            "腿": { pinyin: "tuǐ", meaning: "chân" },
+            "脫": { pinyin: "tuō", meaning: "cởi" },
+            "襪子": { pinyin: "wàzi", meaning: "vớ" },
+            "外": { pinyin: "wài", meaning: "ngoài" },
+            "外邊": { pinyin: "wàibiān", meaning: "bên ngoài" },
+            "外國": { pinyin: "wàiguó", meaning: "nước ngoài" },
+            "外面": { pinyin: "wàimiàn", meaning: "bên ngoài" },
+            "外套": { pinyin: "wàitào", meaning: "áo khoác" },
+            "外文": { pinyin: "wàiwén", meaning: "ngoại ngữ" },
+            "外語": { pinyin: "wàiyǔ", meaning: "ngoại ngữ" },
+            "玩(兒)": { pinyin: "wán(ér)", meaning: "chơi" },
+            "完": { pinyin: "wán", meaning: "xong" },
+            "完成": { pinyin: "wánchéng", meaning: "hoàn thành" },
+            "完全": { pinyin: "wánquán", meaning: "hoàn toàn" },
+            "晚": { pinyin: "wǎn", meaning: "tối" },
+            "碗": { pinyin: "wǎn", meaning: "bát" },
+            "晚安": { pinyin: "wǎnān", meaning: "chúc ngủ ngon" },
+            "晚餐": { pinyin: "wǎncān", meaning: "bữa tối" },
+            "晚飯": { pinyin: "wǎnfàn", meaning: "bữa tối" },
+            "晚會": { pinyin: "wǎnhuì", meaning: "tiệc tối" },
+            "晚上": { pinyin: "wǎnshàng", meaning: "ban đêm" },
+            "萬": { pinyin: "wàn", meaning: "vạn" },
+            "往": { pinyin: "wǎng", meaning: "về phía" },
+            "網球": { pinyin: "wǎngqiú", meaning: "quần vợt" },
+            "忘": { pinyin: "wàng", meaning: "quên" },
+            "忘記": { pinyin: "wàngjì", meaning: "quên" },
+            "危險": { pinyin: "wēixiǎn", meaning: "nguy hiểm" },
+            "為": { pinyin: "wèi", meaning: "vì" },
+            "喂": { pinyin: "wèi", meaning: "alo" },
+            "位": { pinyin: "wèi", meaning: "vị (lượng từ)" },
+            "味道": { pinyin: "wèidào", meaning: "hương vị" },
+            "未來": { pinyin: "wèilái", meaning: "tương lai" },
+            "為什麼": { pinyin: "wèishéme", meaning: "tại sao" },
+            "位子": { pinyin: "wèizi", meaning: "chỗ ngồi" },
+            "聞": { pinyin: "wén", meaning: "ngửi" },
+            "文化": { pinyin: "wénhuà", meaning: "văn hóa" },
+            "文學": { pinyin: "wénxué", meaning: "văn học" },
+            "文字": { pinyin: "wénzì", meaning: "chữ viết" },
+            "文章": { pinyin: "wénzhāng", meaning: "bài viết" },
+            "問": { pinyin: "wèn", meaning: "hỏi" },
+            "問題": { pinyin: "wèntí", meaning: "vấn đề" },
+            "我": { pinyin: "wǒ", meaning: "tôi" },
+            "我們": { pinyin: "wǒmen", meaning: "chúng tôi" },
+            "握手": { pinyin: "wòshǒu", meaning: "bắt tay" },
+            "屋子": { pinyin: "wūzi", meaning: "nhà" },
+            "無聊": { pinyin: "wúliáo", meaning: "chán" },
+            "五": { pinyin: "wǔ", meaning: "năm" },
+            "午餐": { pinyin: "wǔcān", meaning: "bữa trưa" },
+            "午飯": { pinyin: "wǔfàn", meaning: "bữa trưa" },
+            "西": { pinyin: "xī", meaning: "phía tây" },
+            "西邊": { pinyin: "xībiān", meaning: "phía tây" },
+            "西餐": { pinyin: "xīcān", meaning: "đồ ăn Tây" },
+            "西瓜": { pinyin: "xīguā", meaning: "dưa hấu" },
+            "希望": { pinyin: "xīwàng", meaning: "hy vọng" },
+            "習慣": { pinyin: "xíguàn", meaning: "thói quen" },
+            "洗": { pinyin: "xǐ", meaning: "rửa" },
+            "喜歡": { pinyin: "xǐhuān", meaning: "thích" },
+            "洗手間": { pinyin: "xǐshǒujiān", meaning: "nhà vệ sinh" },
+            "洗衣機": { pinyin: "xǐyījī", meaning: "máy giặt" },
+            "洗澡": { pinyin: "xǐzǎo", meaning: "tắm" },
+            "細": { pinyin: "xì", meaning: "mịn" },
+            "下": { pinyin: "xià", meaning: "xuống" },
+            "下班": { pinyin: "xiàbān", meaning: "tan làm" },
+            "下車": { pinyin: "xiàchē", meaning: "xuống xe" },
+            "下課": { pinyin: "xiàkè", meaning: "tan học" },
+            "下來": { pinyin: "xiàlái", meaning: "xuống" },
+            "下面": { pinyin: "xiàmiàn", meaning: "phía dưới" },
+            "下去": { pinyin: "xiàqù", meaning: "đi xuống" },
+            "夏天": { pinyin: "xiàtiān", meaning: "mùa hè" },
+            "下午": { pinyin: "xiàwǔ", meaning: "buổi chiều" },
+            "下雪": { pinyin: "xiàxuě", meaning: "tuyết rơi" },
+            "下雨": { pinyin: "xiàyǔ", meaning: "mưa" },
+            "先": { pinyin: "xiān", meaning: "trước" },
+            "先生": { pinyin: "xiānshēng", meaning: "ông, anh" },
+            "現代": { pinyin: "xiàndài", meaning: "hiện đại" },
+            "現在": { pinyin: "xiànzài", meaning: "bây giờ" },
+            "香": { pinyin: "xiāng", meaning: "thơm" },
+            "鄉下": { pinyin: "xiāngxià", meaning: "nông thôn" },
+            "相信": { pinyin: "xiāngxìn", meaning: "tin" },
+            "箱子": { pinyin: "xiāngzi", meaning: "hộp" },
+            "想": { pinyin: "xiǎng", meaning: "nghĩ" },
+            "響": { pinyin: "xiǎng", meaning: "vang" },
+            "想法": { pinyin: "xiǎngfǎ", meaning: "ý tưởng" },
+            "向": { pinyin: "xiàng", meaning: "hướng" },
+            "像": { pinyin: "xiàng", meaning: "giống" },
+            "消息": { pinyin: "xiāoxí", meaning: "tin tức" },
+            "小": { pinyin: "xiǎo", meaning: "nhỏ" },
+            "小孩(子/兒)": { pinyin: "xiǎohái(zi/ér)", meaning: "trẻ em" },
+            "小姐": { pinyin: "xiǎojiě", meaning: "cô" },
+            "小朋友": { pinyin: "xiǎopéngyǒu", meaning: "bé" },
+            "小時": { pinyin: "xiǎoshí", meaning: "giờ" },
+            "小說": { pinyin: "xiǎoshuō", meaning: "tiểu thuyết" },
+            "小偷": { pinyin: "xiǎotōu", meaning: "kẻ trộm" },
+            "小心": { pinyin: "xiǎoxīn", meaning: "cẩn thận" },
+            "小學": { pinyin: "xiǎoxué", meaning: "tiểu học" },
+            "笑": { pinyin: "xiào", meaning: "cười" }
+        }
+    },
+    
+        6: {
+        normal: ["笑","笑話","校長","些","鞋(子)","寫","寫信","寫字","謝謝","心","新","辛苦","新年","心情","新聞","信","信封","信箱","信心","信用卡","星(星)","星期","星期日","星期天","行","姓","姓名","興趣","兄弟","休息","需要","許多","選","選擇","學","學費","學期","學生","學習","學校","雪","呀","牙","牙齒","牙刷","要求","要","藥","要緊","鑰匙","要是","鹽","研究","顏色","嚴重","眼睛","眼鏡","羊","陽光","樣","樣樣","樣子","爺爺","也","也許","頁","夜","夜裡/裏","一","衣服","醫生","醫院","一半(兒)","一定","一共","一塊(兒)","一切","一下子/兒","一樣","以後","已經","以前","以為","椅子","一邊","一點(兒)","一會兒","意見","一起","意思","一些","一直","陰","陰天","因為","音樂","銀行","飲料","應","應該","英文","影響","油","郵局","郵票","尤其","游泳","游泳池","有","有的","有(的)時候","有點(兒)","有空","有名","有錢","有趣","有意思","有用","又","右","右邊","右手","永遠","用","用功","魚(兒)","與","雨","語法","雨傘","雨天","語言","預備","遇到","玉米","預習","雲","運動","元","圓","原來","原諒","原因","遠","願意","院子","約","月","越","越來越","月亮","在","再","再見","髒","早","早安","早餐","早飯","早上","早晚","怎麼","怎麼辦","怎麼了","怎麼樣","增加","資料","字","字典","自己","自行車","自由","走","走路","總是","總統","足球","嘴","嘴巴","最","最好","最後","最近","昨天","左","左邊","左手","坐","作","做","做菜","做飯","做事","作業","摘","站","張","長","長大","著急","找","找錢","照","照片","照相","照相機","著","這","這邊","這兒","這裡/裏","這麼(樣)","這些","這樣","真","真正","整齊","正","正常","正確","正在","枝","隻","支","知道","直","值得","指","紙","只","只好","只要","只有","鐘","中","中餐","中飯","中間","鐘頭","中文","中午","中心","中學","種","重","重要","週/周末","豬","豬肉","煮","主人","主任","主要","主意","住","祝","注意","轉","裝","準備","桌(子)"],
+        shuffle: ["笑","笑話","校長","些","鞋(子)","寫","寫信","寫字","謝謝","心","新","辛苦","新年","心情","新聞","信","信封","信箱","信心","信用卡","星(星)","星期","星期日","星期天","行","姓","姓名","興趣","兄弟","休息","需要","許多","選","選擇","學","學費","學期","學生","學習","學校","雪","呀","牙","牙齒","牙刷","要求","要","藥","要緊","鑰匙","要是","鹽","研究","顏色","嚴重","眼睛","眼鏡","羊","陽光","樣","樣樣","樣子","爺爺","也","也許","頁","夜","夜裡/裏","一","衣服","醫生","醫院","一半(兒)","一定","一共","一塊(兒)","一切","一下子/兒","一樣","以後","已經","以前","以為","椅子","一邊","一點(兒)","一會兒","意見","一起","意思","一些","一直","陰","陰天","因為","音樂","銀行","飲料","應","應該","英文","影響","油","郵局","郵票","尤其","游泳","游泳池","有","有的","有(的)時候","有點(兒)","有空","有名","有錢","有趣","有意思","有用","又","右","右邊","右手","永遠","用","用功","魚(兒)","與","雨","語法","雨傘","雨天","語言","預備","遇到","玉米","預習","雲","運動","元","圓","原來","原諒","原因","遠","願意","院子","約","月","越","越來越","月亮","在","再","再見","髒","早","早安","早餐","早飯","早上","早晚","怎麼","怎麼辦","怎麼了","怎麼樣","增加","資料","字","字典","自己","自行車","自由","走","走路","總是","總統","足球","嘴","嘴巴","最","最好","最後","最近","昨天","左","左邊","左手","坐","作","做","做菜","做飯","做事","作業","摘","站","張","長","長大","著急","找","找錢","照","照片","照相","照相機","著","這","這邊","這兒","這裡/裏","這麼(樣)","這些","這樣","真","真正","整齊","正","正常","正確","正在","枝","隻","支","知道","直","值得","指","紙","只","只好","只要","只有","鐘","中","中餐","中飯","中間","鐘頭","中文","中午","中心","中學","種","重","重要","週/周末","豬","豬肉","煮","主人","主任","主要","主意","住","祝","注意","轉","裝","準備","桌(子)"],
+        items: {
+            "笑": { pinyin: "xiào", meaning: "cười" },
+            "笑話": { pinyin: "xiàohuà", meaning: "câu chuyện cười" },
+            "校長": { pinyin: "xiàozhǎng", meaning: "hiệu trưởng" },
+            "些": { pinyin: "xiē", meaning: "một ít" },
+            "鞋(子)": { pinyin: "xié(zi)", meaning: "giày" },
+            "寫": { pinyin: "xiě", meaning: "viết" },
+            "寫信": { pinyin: "xiěxìn", meaning: "viết thư" },
+            "寫字": { pinyin: "xiězì", meaning: "viết chữ" },
+            "謝謝": { pinyin: "xièxie", meaning: "cảm ơn" },
+            "心": { pinyin: "xīn", meaning: "tim" },
+            "新": { pinyin: "xīn", meaning: "mới" },
+            "辛苦": { pinyin: "xīnkǔ", meaning: "vất vả" },
+            "新年": { pinyin: "xīnnián", meaning: "năm mới" },
+            "心情": { pinyin: "xīnqíng", meaning: "tâm trạng" },
+            "新聞": { pinyin: "xīnwén", meaning: "tin tức" },
+            "信": { pinyin: "xìn", meaning: "thư" },
+            "信封": { pinyin: "xìnfēng", meaning: "phong bì" },
+            "信箱": { pinyin: "xìnxiāng", meaning: "hòm thư" },
+            "信心": { pinyin: "xìnxīn", meaning: "niềm tin" },
+            "信用卡": { pinyin: "xìnyòngkǎ", meaning: "thẻ tín dụng" },
+            "星(星)": { pinyin: "xīng(xing)", meaning: "ngôi sao" },
+            "星期": { pinyin: "xīngqí", meaning: "tuần" },
+            "星期日": { pinyin: "xīngqírì", meaning: "chủ nhật" },
+            "星期天": { pinyin: "xīngqítiān", meaning: "chủ nhật" },
+            "行": { pinyin: "xíng", meaning: "được" },
+            "姓": { pinyin: "xìng", meaning: "họ" },
+            "姓名": { pinyin: "xìngmíng", meaning: "họ tên" },
+            "興趣": { pinyin: "xìngqù", meaning: "sở thích" },
+            "兄弟": { pinyin: "xiōngdì", meaning: "anh em" },
+            "休息": { pinyin: "xiūxí", meaning: "nghỉ ngơi" },
+            "需要": { pinyin: "xūyào", meaning: "cần" },
+            "許多": { pinyin: "xǔduō", meaning: "nhiều" },
+            "選": { pinyin: "xuǎn", meaning: "chọn" },
+            "選擇": { pinyin: "xuǎnzé", meaning: "lựa chọn" },
+            "學": { pinyin: "xué", meaning: "học" },
+            "學費": { pinyin: "xuéfèi", meaning: "học phí" },
+            "學期": { pinyin: "xuéqí", meaning: "học kỳ" },
+            "學生": { pinyin: "xuéshēng", meaning: "học sinh" },
+            "學習": { pinyin: "xuéxí", meaning: "học tập" },
+            "學校": { pinyin: "xuéxiào", meaning: "trường học" },
+            "雪": { pinyin: "xuě", meaning: "tuyết" },
+            "呀": { pinyin: "yā", meaning: "à (hạt ngữ khí)" },
+            "牙": { pinyin: "yá", meaning: "răng" },
+            "牙齒": { pinyin: "yáchǐ", meaning: "răng" },
+            "牙刷": { pinyin: "yáshuā", meaning: "bàn chải đánh răng" },
+            "要求": { pinyin: "yāoqiú", meaning: "yêu cầu" },
+            "要": { pinyin: "yào", meaning: "muốn" },
+            "藥": { pinyin: "yào", meaning: "thuốc" },
+            "要緊": { pinyin: "yàojǐn", meaning: "quan trọng" },
+            "鑰匙": { pinyin: "yàoshi", meaning: "chìa khóa" },
+            "要是": { pinyin: "yàoshì", meaning: "nếu" },
+            "鹽": { pinyin: "yán", meaning: "muối" },
+            "研究": { pinyin: "yánjiù", meaning: "nghiên cứu" },
+            "顏色": { pinyin: "yánsè", meaning: "màu sắc" },
+            "嚴重": { pinyin: "yánzhòng", meaning: "nghiêm trọng" },
+            "眼睛": { pinyin: "yǎnjīng", meaning: "mắt" },
+            "眼鏡": { pinyin: "yǎnjìng", meaning: "kính" },
+            "羊": { pinyin: "yáng", meaning: "cừu" },
+            "陽光": { pinyin: "yángguāng", meaning: "ánh nắng" },
+            "樣": { pinyin: "yàng", meaning: "kiểu" },
+            "樣樣": { pinyin: "yàngyàng", meaning: "mọi thứ" },
+            "樣子": { pinyin: "yàngzi", meaning: "hình dáng" },
+            "爺爺": { pinyin: "yéye", meaning: "ông nội" },
+            "也": { pinyin: "yě", meaning: "cũng" },
+            "也許": { pinyin: "yěxǔ", meaning: "có lẽ" },
+            "頁": { pinyin: "yè", meaning: "trang" },
+            "夜": { pinyin: "yè", meaning: "đêm" },
+            "夜裡/裏": { pinyin: "yèlǐ", meaning: "ban đêm" },
+            "一": { pinyin: "yī", meaning: "một" },
+            "衣服": { pinyin: "yīfú", meaning: "quần áo" },
+            "醫生": { pinyin: "yīshēng", meaning: "bác sĩ" },
+            "醫院": { pinyin: "yīyuàn", meaning: "bệnh viện" },
+            "一半(兒)": { pinyin: "yíbàn(ér)", meaning: "một nửa" },
+            "一定": { pinyin: "yídìng", meaning: "chắc chắn" },
+            "一共": { pinyin: "yígòng", meaning: "tổng cộng" },
+            "一塊(兒)": { pinyin: "yíkuài(ér)", meaning: "cùng nhau" },
+            "一切": { pinyin: "yíqiè", meaning: "tất cả" },
+            "一下子/兒": { pinyin: "yíxiàzi/ér", meaning: "một lát" },
+            "一樣": { pinyin: "yíyàng", meaning: "giống nhau" },
+            "以後": { pinyin: "yǐhòu", meaning: "sau này" },
+            "已經": { pinyin: "yǐjīng", meaning: "đã" },
+            "以前": { pinyin: "yǐqián", meaning: "trước đây" },
+            "以為": { pinyin: "yǐwéi", meaning: "nghĩ rằng" },
+            "椅子": { pinyin: "yǐzi", meaning: "ghế" },
+            "一邊": { pinyin: "yìbiān", meaning: "một bên" },
+            "一點(兒)": { pinyin: "yìdiǎn(ér)", meaning: "một chút" },
+            "一會兒": { pinyin: "yìhuìér", meaning: "một lát" },
+            "意見": { pinyin: "yìjiàn", meaning: "ý kiến" },
+            "一起": { pinyin: "yìqǐ", meaning: "cùng nhau" },
+            "意思": { pinyin: "yìsi", meaning: "ý nghĩa" },
+            "一些": { pinyin: "yìxiē", meaning: "một vài" },
+            "一直": { pinyin: "yìzhí", meaning: "luôn luôn" },
+            "陰": { pinyin: "yīn", meaning: "âm u" },
+            "陰天": { pinyin: "yīntiān", meaning: "trời u ám" },
+            "因為": { pinyin: "yīnwèi", meaning: "vì" },
+            "音樂": { pinyin: "yīnyuè", meaning: "nhạc" },
+            "銀行": { pinyin: "yínháng", meaning: "ngân hàng" },
+            "飲料": { pinyin: "yǐnliào", meaning: "đồ uống" },
+            "應": { pinyin: "yīng", meaning: "nên" },
+            "應該": { pinyin: "yīnggāi", meaning: "nên" },
+            "英文": { pinyin: "yīngwén", meaning: "tiếng Anh" },
+            "影響": { pinyin: "yǐngxiǎng", meaning: "ảnh hưởng" },
+            "油": { pinyin: "yóu", meaning: "dầu" },
+            "郵局": { pinyin: "yóujú", meaning: "bưu điện" },
+            "郵票": { pinyin: "yóupiào", meaning: "tem" },
+            "尤其": { pinyin: "yóuqí", meaning: "đặc biệt là" },
+            "游泳": { pinyin: "yóuyǒng", meaning: "bơi" },
+            "游泳池": { pinyin: "yóuyǒngchí", meaning: "bể bơi" },
+            "有": { pinyin: "yǒu", meaning: "có" },
+            "有的": { pinyin: "yǒude", meaning: "có cái" },
+            "有(的)時候": { pinyin: "yǒu(de)shíhòu", meaning: "đôi khi" },
+            "有點(兒)": { pinyin: "yǒudiǎn(ér)", meaning: "hơi" },
+            "有空": { pinyin: "yǒukòng", meaning: "rảnh" },
+            "有名": { pinyin: "yǒumíng", meaning: "nổi tiếng" },
+            "有錢": { pinyin: "yǒuqián", meaning: "giàu" },
+            "有趣": { pinyin: "yǒuqù", meaning: "thú vị" },
+            "有意思": { pinyin: "yǒuyìsi", meaning: "thú vị" },
+            "有用": { pinyin: "yǒuyòng", meaning: "hữu ích" },
+            "又": { pinyin: "yòu", meaning: "lại" },
+            "右": { pinyin: "yòu", meaning: "bên phải" },
+            "右邊": { pinyin: "yòubiān", meaning: "bên phải" },
+            "右手": { pinyin: "yòushǒu", meaning: "tay phải" },
+            "永遠": { pinyin: "yǒngyuǎn", meaning: "mãi mãi" },
+            "用": { pinyin: "yòng", meaning: "dùng" },
+            "用功": { pinyin: "yònggōng", meaning: "chăm chỉ" },
+            "魚(兒)": { pinyin: "yú(ér)", meaning: "cá" },
+            "與": { pinyin: "yǔ", meaning: "và" },
+            "雨": { pinyin: "yǔ", meaning: "mưa" },
+            "語法": { pinyin: "yǔfǎ", meaning: "ngữ pháp" },
+            "雨傘": { pinyin: "yǔsǎn", meaning: "ô" },
+            "雨天": { pinyin: "yǔtiān", meaning: "ngày mưa" },
+            "語言": { pinyin: "yǔyán", meaning: "ngôn ngữ" },
+            "預備": { pinyin: "yùbèi", meaning: "chuẩn bị" },
+            "遇到": { pinyin: "yùdào", meaning: "gặp" },
+            "玉米": { pinyin: "yùmǐ", meaning: "ngô" },
+            "預習": { pinyin: "yùxí", meaning: "ôn bài trước" },
+            "雲": { pinyin: "yún", meaning: "mây" },
+            "運動": { pinyin: "yùndòng", meaning: "thể dục" },
+            "元": { pinyin: "yuán", meaning: "đồng (tiền)" },
+            "圓": { pinyin: "yuán", meaning: "tròn" },
+            "原來": { pinyin: "yuánlái", meaning: "hóa ra" },
+            "原諒": { pinyin: "yuánliàng", meaning: "tha thứ" },
+            "原因": { pinyin: "yuányīn", meaning: "nguyên nhân" },
+            "遠": { pinyin: "yuǎn", meaning: "xa" },
+            "願意": { pinyin: "yuànyì", meaning: "sẵn lòng" },
+            "院子": { pinyin: "yuànzi", meaning: "sân" },
+            "約": { pinyin: "yuē", meaning: "hẹn" },
+            "月": { pinyin: "yuè", meaning: "tháng" },
+            "越": { pinyin: "yuè", meaning: "càng" },
+            "越來越": { pinyin: "yuèláiyuè", meaning: "càng ngày càng" },
+            "月亮": { pinyin: "yuèliàng", meaning: "mặt trăng" },
+            "在": { pinyin: "zài", meaning: "đang" },
+            "再": { pinyin: "zài", meaning: "lại" },
+            "再見": { pinyin: "zàijiàn", meaning: "tạm biệt" },
+            "髒": { pinyin: "zāng", meaning: "bẩn" },
+            "早": { pinyin: "zǎo", meaning: "sớm" },
+            "早安": { pinyin: "zǎoān", meaning: "chào buổi sáng" },
+            "早餐": { pinyin: "zǎocān", meaning: "bữa sáng" },
+            "早飯": { pinyin: "zǎofàn", meaning: "bữa sáng" },
+            "早上": { pinyin: "zǎoshàng", meaning: "buổi sáng" },
+            "早晚": { pinyin: "zǎowǎn", meaning: "sớm muộn" },
+            "怎麼": { pinyin: "zěnme", meaning: "thế nào" },
+            "怎麼辦": { pinyin: "zěnmebàn", meaning: "làm sao" },
+            "怎麼了": { pinyin: "zěnmele", meaning: "sao vậy" },
+            "怎麼樣": { pinyin: "zěnmeyàng", meaning: "thế nào" },
+            "增加": { pinyin: "zēngjiā", meaning: "tăng" },
+            "資料": { pinyin: "zīliào", meaning: "tài liệu" },
+            "字": { pinyin: "zì", meaning: "chữ" },
+            "字典": { pinyin: "zìdiǎn", meaning: "từ điển" },
+            "自己": { pinyin: "zìjǐ", meaning: "bản thân" },
+            "自行車": { pinyin: "zìxíngchē", meaning: "xe đạp" },
+            "自由": { pinyin: "zìyóu", meaning: "tự do" },
+            "走": { pinyin: "zǒu", meaning: "đi" },
+            "走路": { pinyin: "zǒulù", meaning: "đi bộ" },
+            "總是": { pinyin: "zǒngshì", meaning: "luôn luôn" },
+            "總統": { pinyin: "zǒngtǒng", meaning: "tổng thống" },
+            "足球": { pinyin: "zúqiú", meaning: "bóng đá" },
+            "嘴": { pinyin: "zuǐ", meaning: "miệng" },
+            "嘴巴": { pinyin: "zuǐbā", meaning: "miệng" },
+            "最": { pinyin: "zuì", meaning: "nhất" },
+            "最好": { pinyin: "zuìhǎo", meaning: "tốt nhất" },
+            "最後": { pinyin: "zuìhòu", meaning: "cuối cùng" },
+            "最近": { pinyin: "zuìjìn", meaning: "gần đây" },
+            "昨天": { pinyin: "zuótiān", meaning: "hôm qua" },
+            "左": { pinyin: "zuǒ", meaning: "trái" },
+            "左邊": { pinyin: "zuǒbiān", meaning: "bên trái" },
+            "左手": { pinyin: "zuǒshǒu", meaning: "tay trái" },
+            "坐": { pinyin: "zuò", meaning: "ngồi" },
+            "作": { pinyin: "zuò", meaning: "làm" },
+            "做": { pinyin: "zuò", meaning: "làm" },
+            "做菜": { pinyin: "zuòcài", meaning: "nấu ăn" },
+            "做飯": { pinyin: "zuòfàn", meaning: "nấu cơm" },
+            "做事": { pinyin: "zuòshì", meaning: "làm việc" },
+            "作業": { pinyin: "zuòyè", meaning: "bài tập" },
+            "摘": { pinyin: "zhāi", meaning: "hái" },
+            "站": { pinyin: "zhàn", meaning: "ga" },
+            "張": { pinyin: "zhāng", meaning: "tờ" },
+            "長": { pinyin: "zhǎng", meaning: "trưởng thành" },
+            "長大": { pinyin: "zhǎngdà", meaning: "lớn lên" },
+            "著急": { pinyin: "zhāojí", meaning: "lo lắng" },
+            "找": { pinyin: "zhǎo", meaning: "tìm" },
+            "找錢": { pinyin: "zhǎoqián", meaning: "trả tiền thừa" },
+            "照": { pinyin: "zhào", meaning: "theo" },
+            "照片": { pinyin: "zhàopiàn", meaning: "ảnh" },
+            "照相": { pinyin: "zhàoxiàng", meaning: "chụp ảnh" },
+            "照相機": { pinyin: "zhàoxiàngjī", meaning: "máy ảnh" },
+            "著": { pinyin: "zhe", meaning: "đang" },
+            "這": { pinyin: "zhè", meaning: "này" },
+            "這邊": { pinyin: "zhèbiān", meaning: "bên này" },
+            "這兒": { pinyin: "zhèer", meaning: "đây" },
+            "這裡/裏": { pinyin: "zhèlǐ", meaning: "đây" },
+            "這麼(樣)": { pinyin: "zhème(yàng)", meaning: "như vậy" },
+            "這些": { pinyin: "zhèxiē", meaning: "những cái này" },
+            "這樣": { pinyin: "zhèyàng", meaning: "như vậy" },
+            "真": { pinyin: "zhēn", meaning: "thật" },
+            "真正": { pinyin: "zhēnzhèng", meaning: "thật sự" },
+            "整齊": { pinyin: "zhěngqí", meaning: "ngăn nắp" },
+            "正": { pinyin: "zhèng", meaning: "đang" },
+            "正常": { pinyin: "zhèngcháng", meaning: "bình thường" },
+            "正確": { pinyin: "zhèngquè", meaning: "đúng" },
+            "正在": { pinyin: "zhèngzài", meaning: "đang" },
+            "枝": { pinyin: "zhī", meaning: "cành" },
+            "隻": { pinyin: "zhī", meaning: "con" },
+            "支": { pinyin: "zhī", meaning: "cái" },
+            "知道": { pinyin: "zhīdào", meaning: "biết" },
+            "直": { pinyin: "zhí", meaning: "thẳng" },
+            "值得": { pinyin: "zhídé", meaning: "đáng" },
+            "指": { pinyin: "zhǐ", meaning: "chỉ" },
+            "紙": { pinyin: "zhǐ", meaning: "giấy" },
+            "只": { pinyin: "zhǐ", meaning: "chỉ" },
+            "只好": { pinyin: "zhǐhǎo", meaning: "chỉ có thể" },
+            "只要": { pinyin: "zhǐyào", meaning: "miễn là" },
+            "只有": { pinyin: "zhǐyǒu", meaning: "chỉ có" },
+            "鐘": { pinyin: "zhōng", meaning: "đồng hồ" },
+            "中": { pinyin: "zhōng", meaning: "trong" },
+            "中餐": { pinyin: "zhōngcān", meaning: "bữa trưa" },
+            "中飯": { pinyin: "zhōngfàn", meaning: "bữa trưa" },
+            "中間": { pinyin: "zhōngjiān", meaning: "giữa" },
+            "鐘頭": { pinyin: "zhōngtóu", meaning: "giờ" },
+            "中文": { pinyin: "zhōngwén", meaning: "tiếng Trung" },
+            "中午": { pinyin: "zhōngwǔ", meaning: "buổi trưa" },
+            "中心": { pinyin: "zhōngxīn", meaning: "trung tâm" },
+            "中學": { pinyin: "zhōngxué", meaning: "trung học" },
+            "種": { pinyin: "zhòng", meaning: "trồng" },
+            "重": { pinyin: "zhòng", meaning: "nặng" },
+            "重要": { pinyin: "zhòngyào", meaning: "quan trọng" },
+            "週/周末": { pinyin: "zhōumò", meaning: "cuối tuần" },
+            "豬": { pinyin: "zhū", meaning: "heo" },
+            "豬肉": { pinyin: "zhūròu", meaning: "thịt heo" },
+            "煮": { pinyin: "zhǔ", meaning: "nấu" },
+            "主人": { pinyin: "zhǔrén", meaning: "chủ" },
+            "主任": { pinyin: "zhǔrèn", meaning: "giám đốc" },
+            "主要": { pinyin: "zhǔyào", meaning: "chủ yếu" },
+            "主意": { pinyin: "zhǔyì", meaning: "ý kiến" },
+            "住": { pinyin: "zhù", meaning: "ở" },
+            "祝": { pinyin: "zhù", meaning: "chúc" },
+            "注意": { pinyin: "zhùyì", meaning: "chú ý" },
+            "轉": { pinyin: "zhuǎn", meaning: "chuyển" },
+            "裝": { pinyin: "zhuāng", meaning: "lắp" },
+            "準備": { pinyin: "zhǔnbèi", meaning: "chuẩn bị" },
+            "桌(子)": { pinyin: "zhuō(zi)", meaning: "bàn" }
+        }
+    }
+    
+   
+};
+       
+       
+               // ==================== DỮ LIỆU TỪ EXCEL (giữ nguyên) ====================
+        // ... (giữ nguyên phần const allLessons = { ... })
+
+        let currentLesson = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+        let showMeaning = false;
+        let stageSize = 5;
+
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            Object.keys(allLessons).forEach(lessonNum => {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${lessonNum}`;
+                btn.onclick = () => selectLesson(parseInt(lessonNum));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('mode-screen').style.display = 'block';
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
+        }
+
+        function backToMenu() {
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const lessonData = allLessons[currentLesson];
+            
+            vocabulary = lessonData.normal.map(hanzi => ({
+                hanzi: hanzi,
+                pinyin: lessonData.items[hanzi].pinyin,
+                meaning: lessonData.items[hanzi].meaning
+            }));
+
+            if (mode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+
+            currentIndex = 0;
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('total').textContent = vocabulary.length;
+            
+            loadQuestion();
+        }
+
+        function toggleMeaning() {
+            showMeaning = !showMeaning;
+            const meaningEl = document.getElementById('meaning');
+            meaningEl.style.display = showMeaning ? 'block' : 'none';
+            meaningEl.textContent = vocabulary[currentIndex].meaning;
+            document.querySelector('.toggle-pinyin').textContent = showMeaning ? '🙈 Ẩn Nghĩa' : '👁️ Hiện Nghĩa';
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('meaning').textContent = currentWord.meaning;
+            document.getElementById('meaning').style.display = 'none';
+            document.getElementById('result').textContent = '';
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            // Tạo 4 đáp án Pinyin (1 đúng + 3 sai)
+            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            let answers = [currentWord.pinyin, ...wrongAnswers.map(w => w.pinyin)];
+            answers = answers.sort(() => Math.random() - 0.5);
+
+            answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.pinyin, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1500);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+                resultDiv.style.color = "#f87171";
+                
+                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+                currentIndex = currentStageStart;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 2000);
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
+                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
+            `;
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
+                    Chơi lại bài này
+                </button>
+            `;
+            document.getElementById('meaning').style.display = 'none';
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            if (currentMode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        // Khởi động
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+
+
+</body></html>
