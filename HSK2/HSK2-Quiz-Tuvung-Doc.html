@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://tiendung-hoang.github.io/tiengtrungtaydo/HSK2/HSK2-Quiz-Tuvung-Doc.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK 2 - Quiz Từ Vựng (Với Pinyin)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lessons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 18px 12px;
+            font-size: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 14px;
+        }
+        .mode-btn:hover {
+            background: #22c55e;
+        }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 20px;
+        }
+        #quiz-container {
+            display: none;
+        }
+        .progress {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hanzi {
+            font-size: 90px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 110px;
+            line-height: 1.2;
+        }
+        .pinyin {
+            font-size: 28px;
+            text-align: center;
+            margin: 10px 0;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .result {
+            font-size: 26px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+        .toggle-pinyin {
+            background: #60a5fa;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- FLOATING BUTTON - Quay về mục lục -->
+<a href="https://tiendung-hoang.github.io/tiengtrungtaydo/HSK2/HSK2-muc-luc.html" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+          background: #ef4444; color: white; width: 60px; height: 60px; 
+          border-radius: 50%; display: flex; align-items: center; 
+          justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+          text-decoration: none; transition: all 0.3s;">
+    ←
+</a>
+    <div class="container">
+        <h1>📚 HSK 2 - Quiz Từ Vựng (Pinyin)</h1>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" style="display: block;">
+            <h2>Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button></div>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" style="display: none;">
+            <h2 id="selected-lesson-title">Bài 1 - Chọn dạng quiz</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="mode-btn" onclick="startQuiz(&#39;normal&#39;)">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz(&#39;shuffle&#39;)" style="margin-left: 20px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" style="display: none;">
+            <div class="progress">Bài <span id="lesson-num">1</span> - Câu <span id="current">1</span>/<span id="total">6</span></div>
+            
+            <div class="hanzi" id="hanzi">你</div>
+            <div class="pinyin" id="pinyin" style="display: none;">nǐ</div>
+            <button class="toggle-pinyin" onclick="togglePinyin()">🙈 Ẩn Pinyin</button>
+            
+            <div class="result" id="result"></div>
+            <div class="options" id="options"><button>bạn</button><button>tốt, khỏe</button><button>không sao, không quan trọng</button><button>xin lỗi</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width: 100%; margin-top: 30px;">
+                ← Thoát quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TỪ EXCEL ====================
+
+const allLessons = {
+    1: {
+        normal: ["旅游","觉得","最","为什么","也","运动","踢足球","一起","要","新","它","眼睛"],
+        shuffle: ["旅游","觉得","最","为什么","也","运动","踢足球","一起","要","新","它","眼睛"],
+        items: {
+            "旅游": { pinyin: "lǚyóu", meaning: "du lịch" },
+            "觉得": { pinyin: "juéde", meaning: "cảm thấy, cho rằng" },
+            "最": { pinyin: "zuì", meaning: "nhất" },
+            "为什么": { pinyin: "wèishénme", meaning: "tại sao" },
+            "也": { pinyin: "yě", meaning: "cũng" },
+            "运动": { pinyin: "yùndòng", meaning: "thể thao" },
+            "踢足球": { pinyin: "tī zúqiú", meaning: "đá bóng" },
+            "一起": { pinyin: "yīqǐ", meaning: "cùng nhau" },
+            "要": { pinyin: "yào", meaning: "muốn, cần" },
+            "新": { pinyin: "xīn", meaning: "mới" },
+            "它": { pinyin: "tā", meaning: "nó" },
+            "眼睛": { pinyin: "yǎnjing", meaning: "mắt" }
+        }
+    },
+    2: {
+        normal: ["生病","每","早上","跑步","起床","药","身体","出院","出","高","米","知道","休息","忙","时间"],
+        shuffle: ["生病","每","早上","跑步","起床","药","身体","出院","出","高","米","知道","休息","忙","时间"],
+        items: {
+            "生病": { pinyin: "shēngbìng", meaning: "bị ốm" },
+            "每": { pinyin: "měi", meaning: "mỗi" },
+            "早上": { pinyin: "zǎoshang", meaning: "buổi sáng" },
+            "跑步": { pinyin: "pǎobù", meaning: "chạy bộ" },
+            "起床": { pinyin: "qǐchuáng", meaning: "thức dậy" },
+            "药": { pinyin: "yào", meaning: "thuốc" },
+            "身体": { pinyin: "shēntǐ", meaning: "cơ thể, sức khỏe" },
+            "出院": { pinyin: "chūyuàn", meaning: "xuất viện" },
+            "出": { pinyin: "chū", meaning: "ra" },
+            "高": { pinyin: "gāo", meaning: "cao" },
+            "米": { pinyin: "mǐ", meaning: "mét" },
+            "知道": { pinyin: "zhīdào", meaning: "biết" },
+            "休息": { pinyin: "xiūxi", meaning: "nghỉ ngơi" },
+            "忙": { pinyin: "máng", meaning: "bận" },
+            "时间": { pinyin: "shíjiān", meaning: "thời gian" }
+        }
+    },
+    3: {
+        normal: ["手表","千","报纸","送","一下","牛奶","房间","丈夫","旁边","真","粉色","粉","颜色","左边","红色","红"],
+        shuffle: ["手表","千","报纸","送","一下","牛奶","房间","丈夫","旁边","真","粉色","粉","颜色","左边","红色","红"],
+        items: {
+            "手表": { pinyin: "shǒubiǎo", meaning: "đồng hồ đeo tay" },
+            "千": { pinyin: "qiān", meaning: "nghìn" },
+            "报纸": { pinyin: "bàozhǐ", meaning: "báo chí" },
+            "送": { pinyin: "sòng", meaning: "tặng, đưa" },
+            "一下": { pinyin: "yīxià", meaning: "một chút" },
+            "牛奶": { pinyin: "niúnǎi", meaning: "sữa bò" },
+            "房间": { pinyin: "fángjiān", meaning: "phòng" },
+            "丈夫": { pinyin: "zhàngfu", meaning: "chồng" },
+            "旁边": { pinyin: "pángbiān", meaning: "bên cạnh" },
+            "真": { pinyin: "zhēn", meaning: "thật" },
+            "粉色": { pinyin: "fěnsè", meaning: "màu hồng" },
+            "粉": { pinyin: "fěn", meaning: "hồng" },
+            "颜色": { pinyin: "yánsè", meaning: "màu sắc" },
+            "左边": { pinyin: "zuǒbiān", meaning: "bên trái" },
+            "红色": { pinyin: "hóngsè", meaning: "màu đỏ" },
+            "红": { pinyin: "hóng", meaning: "đỏ" }
+        }
+    },
+    4: {
+        normal: ["生日","快乐","给","接","晚上","问","非常","开始","已经","长","两","帮","介绍"],
+        shuffle: ["生日","快乐","给","接","晚上","问","非常","开始","已经","长","两","帮","介绍"],
+        items: {
+            "生日": { pinyin: "shēngrì", meaning: "sinh nhật" },
+            "快乐": { pinyin: "kuàilè", meaning: "vui vẻ" },
+            "给": { pinyin: "gěi", meaning: "cho" },
+            "接": { pinyin: "jiē", meaning: "nhận (điện thoại)" },
+            "晚上": { pinyin: "wǎnshang", meaning: "buổi tối" },
+            "问": { pinyin: "wèn", meaning: "hỏi" },
+            "非常": { pinyin: "fēicháng", meaning: "rất" },
+            "开始": { pinyin: "kāishǐ", meaning: "bắt đầu" },
+            "已经": { pinyin: "yǐjīng", meaning: "đã" },
+            "长": { pinyin: "cháng", meaning: "dài" },
+            "两": { pinyin: "liǎng", meaning: "hai" },
+            "帮": { pinyin: "bāng", meaning: "giúp" },
+            "介绍": { pinyin: "jièshào", meaning: "giới thiệu" }
+        }
+    },
+    5: {
+        normal: ["可以","不错","考试","意思","咖啡","对","以后"],
+        shuffle: ["可以","不错","考试","意思","咖啡","对","以后"],
+        items: {
+            "可以": { pinyin: "kěyǐ", meaning: "có thể" },
+            "不错": { pinyin: "búcuò", meaning: "không tệ" },
+            "考试": { pinyin: "kǎoshì", meaning: "thi cử" },
+            "意思": { pinyin: "yìsi", meaning: "ý nghĩa" },
+            "咖啡": { pinyin: "kāfēi", meaning: "cà phê" },
+            "对": { pinyin: "duì", meaning: "đúng" },
+            "以后": { pinyin: "yǐhòu", meaning: "sau này" }
+        }
+    },
+    6: {
+        normal: ["门","外","自行车","羊肉","好吃","面条","打篮球","因为","所以","游泳","经常","公斤","姐姐"],
+        shuffle: ["门","外","自行车","羊肉","好吃","面条","打篮球","因为","所以","游泳","经常","公斤","姐姐"],
+        items: {
+            "门": { pinyin: "mén", meaning: "cửa" },
+            "外": { pinyin: "wài", meaning: "ngoài" },
+            "自行车": { pinyin: "zìxíngchē", meaning: "xe đạp" },
+            "羊肉": { pinyin: "yángròu", meaning: "thịt cừu" },
+            "好吃": { pinyin: "hǎochī", meaning: "ngon" },
+            "面条": { pinyin: "miàntiáo", meaning: "mì sợi" },
+            "打篮球": { pinyin: "dǎ lánqiú", meaning: "chơi bóng rổ" },
+            "因为": { pinyin: "yīnwèi", meaning: "vì" },
+            "所以": { pinyin: "suǒyǐ", meaning: "vì vậy" },
+            "游泳": { pinyin: "yóuyǒng", meaning: "bơi lội" },
+            "经常": { pinyin: "jīngcháng", meaning: "thường xuyên" },
+            "公斤": { pinyin: "gōngjīn", meaning: "ki-lô-gam" },
+            "姐姐": { pinyin: "jiějie", meaning: "chị gái" }
+        }
+    },
+    7: {
+        normal: ["教室","机场","路","离","公司","远","公共汽车","小时","慢","快","过","走","到"],
+        shuffle: ["教室","机场","路","离","公司","远","公共汽车","小时","慢","快","过","走","到"],
+        items: {
+            "教室": { pinyin: "jiàoshì", meaning: "lớp học" },
+            "机场": { pinyin: "jīchǎng", meaning: "sân bay" },
+            "路": { pinyin: "lù", meaning: "đường" },
+            "离": { pinyin: "lí", meaning: "cách" },
+            "公司": { pinyin: "gōngsī", meaning: "công ty" },
+            "远": { pinyin: "yuǎn", meaning: "xa" },
+            "公共汽车": { pinyin: "gōnggòng qìchē", meaning: "xe buýt" },
+            "小时": { pinyin: "xiǎoshí", meaning: "giờ" },
+            "慢": { pinyin: "màn", meaning: "chậm" },
+            "快": { pinyin: "kuài", meaning: "nhanh" },
+            "过": { pinyin: "guò", meaning: "qua" },
+            "走": { pinyin: "zǒu", meaning: "đi bộ" },
+            "到": { pinyin: "dào", meaning: "đến" }
+        }
+    },
+    8: {
+        normal: ["再","让","告诉","等","找","事情","服务员","白","黑","贵"],
+        shuffle: ["再","让","告诉","等","找","事情","服务员","白","黑","贵"],
+        items: {
+            "再": { pinyin: "zài", meaning: "lại, nữa" },
+            "让": { pinyin: "ràng", meaning: "để, cho" },
+            "告诉": { pinyin: "gàosu", meaning: "nói cho biết" },
+            "等": { pinyin: "děng", meaning: "đợi" },
+            "找": { pinyin: "zhǎo", meaning: "tìm" },
+            "事情": { pinyin: "shìqing", meaning: "việc" },
+            "服务员": { pinyin: "fúwùyuán", meaning: "nhân viên phục vụ" },
+            "白": { pinyin: "bái", meaning: "trắng" },
+            "黑": { pinyin: "hēi", meaning: "đen" },
+            "贵": { pinyin: "guì", meaning: "đắt" }
+        }
+    },
+    9: {
+        normal: ["错","从","跳舞","第一","希望","问题","欢迎","上班","懂","完","题"],
+        shuffle: ["错","从","跳舞","第一","希望","问题","欢迎","上班","懂","完","题"],
+        items: {
+            "错": { pinyin: "cuò", meaning: "sai" },
+            "从": { pinyin: "cóng", meaning: "từ" },
+            "跳舞": { pinyin: "tiàowǔ", meaning: "nhảy múa" },
+            "第一": { pinyin: "dìyī", meaning: "thứ nhất" },
+            "希望": { pinyin: "xīwàng", meaning: "hy vọng" },
+            "问题": { pinyin: "wèntí", meaning: "vấn đề" },
+            "欢迎": { pinyin: "huānyíng", meaning: "hoan nghênh" },
+            "上班": { pinyin: "shàngbān", meaning: "đi làm" },
+            "懂": { pinyin: "dǒng", meaning: "hiểu" },
+            "完": { pinyin: "wán", meaning: "xong" },
+            "题": { pinyin: "tí", meaning: "câu hỏi" }
+        }
+    },
+    10: {
+        normal: ["课","帮助","别","哥哥","鸡蛋","西瓜","正在","手机","洗"],
+        shuffle: ["课","帮助","别","哥哥","鸡蛋","西瓜","正在","手机","洗"],
+        items: {
+            "课": { pinyin: "kè", meaning: "bài học" },
+            "帮助": { pinyin: "bāngzhù", meaning: "giúp đỡ" },
+            "别": { pinyin: "bié", meaning: "đừng" },
+            "哥哥": { pinyin: "gēge", meaning: "anh trai" },
+            "鸡蛋": { pinyin: "jīdàn", meaning: "trứng gà" },
+            "西瓜": { pinyin: "xīguā", meaning: "dưa hấu" },
+            "正在": { pinyin: "zhèngzài", meaning: "đang" },
+            "手机": { pinyin: "shǒujī", meaning: "điện thoại di động" },
+            "洗": { pinyin: "xǐ", meaning: "rửa" }
+        }
+    },
+    11: {
+        normal: ["唱歌","男","女","孩子","右边","左边","比","便宜","说话","可能","去年","姓"],
+        shuffle: ["唱歌","男","女","孩子","右边","左边","比","便宜","说话","可能","去年","姓"],
+        items: {
+            "唱歌": { pinyin: "chànggē", meaning: "hát" },
+            "男": { pinyin: "nán", meaning: "nam" },
+            "女": { pinyin: "nǚ", meaning: "nữ" },
+            "孩子": { pinyin: "háizi", meaning: "trẻ em" },
+            "右边": { pinyin: "yòubiān", meaning: "bên phải" },
+            "左边": { pinyin: "zuǒbiān", meaning: "bên trái" },
+            "比": { pinyin: "bǐ", meaning: "so với" },
+            "便宜": { pinyin: "piányi", meaning: "rẻ" },
+            "说话": { pinyin: "shuōhuà", meaning: "nói chuyện" },
+            "可能": { pinyin: "kěnéng", meaning: "có thể" },
+            "去年": { pinyin: "qùnián", meaning: "năm ngoái" },
+            "姓": { pinyin: "xìng", meaning: "họ" }
+        }
+    },
+    12: {
+        normal: ["得","妻子","雪","零","度","穿","进","弟弟","近"],
+        shuffle: ["得","妻子","雪","零","度","穿","进","弟弟","近"],
+        items: {
+            "得": { pinyin: "de", meaning: "trợ từ (mức độ)" },
+            "妻子": { pinyin: "qīzi", meaning: "vợ" },
+            "雪": { pinyin: "xuě", meaning: "tuyết" },
+            "零": { pinyin: "líng", meaning: "không" },
+            "度": { pinyin: "dù", meaning: "độ" },
+            "穿": { pinyin: "chuān", meaning: "mặc" },
+            "进": { pinyin: "jìn", meaning: "vào" },
+            "弟弟": { pinyin: "dìdi", meaning: "em trai" },
+            "近": { pinyin: "jìn", meaning: "gần" }
+        }
+    },
+    13: {
+        normal: ["着","手","拿","铅笔","班","长","笑","宾馆","一直","往","路口","杨笑笑"],
+        shuffle: ["着","手","拿","铅笔","班","长","笑","宾馆","一直","往","路口","杨笑笑"],
+        items: {
+            "着": { pinyin: "zhe", meaning: "trợ từ (đang)" },
+            "手": { pinyin: "shǒu", meaning: "tay" },
+            "拿": { pinyin: "ná", meaning: "cầm" },
+            "铅笔": { pinyin: "qiānbǐ", meaning: "bút chì" },
+            "班": { pinyin: "bān", meaning: "lớp" },
+            "长": { pinyin: "zhǎng", meaning: "trưởng" },
+            "笑": { pinyin: "xiào", meaning: "cười" },
+            "宾馆": { pinyin: "bīnguǎn", meaning: "khách sạn" },
+            "一直": { pinyin: "yīzhí", meaning: "luôn luôn" },
+            "往": { pinyin: "wǎng", meaning: "hướng về" },
+            "路口": { pinyin: "lùkǒu", meaning: "ngã tư" },
+            "杨笑笑": { pinyin: "Yáng Xiàoxiào", meaning: "Dương Tiếu Tiếu" }
+        }
+    },
+    14: {
+        normal: ["有意思","但是","虽然","次","玩儿","晴","百"],
+        shuffle: ["有意思","但是","虽然","次","玩儿","晴","百"],
+        items: {
+            "有意思": { pinyin: "yǒu yìsi", meaning: "thú vị" },
+            "但是": { pinyin: "dànshì", meaning: "nhưng" },
+            "虽然": { pinyin: "suīrán", meaning: "mặc dù" },
+            "次": { pinyin: "cì", meaning: "lần" },
+            "玩儿": { pinyin: "wánr", meaning: "chơi" },
+            "晴": { pinyin: "qíng", meaning: "nắng" },
+            "百": { pinyin: "bǎi", meaning: "trăm" }
+        }
+    },
+    15: {
+        normal: ["日","新年","票","火车站","大家","更","妹妹","阴"],
+        shuffle: ["日","新年","票","火车站","大家","更","妹妹","阴"],
+        items: {
+            "日": { pinyin: "rì", meaning: "ngày" },
+            "新年": { pinyin: "xīnnián", meaning: "năm mới" },
+            "票": { pinyin: "piào", meaning: "vé" },
+            "火车站": { pinyin: "huǒchēzhàn", meaning: "ga tàu" },
+            "大家": { pinyin: "dàjiā", meaning: "mọi người" },
+            "更": { pinyin: "gèng", meaning: "càng" },
+            "妹妹": { pinyin: "mèimei", meaning: "em gái" },
+            "阴": { pinyin: "yīn", meaning: "âm u" }
+        }
+    }
+};
+
+
+        let currentLesson = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+        let showPinyin = false;
+        let stageSize = 5; // Mỗi chặng 5 từ
+
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            // Hiển thị các bài có dữ liệu
+            Object.keys(allLessons).forEach(lessonNum => {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${lessonNum}`;
+                btn.onclick = () => selectLesson(parseInt(lessonNum));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('mode-screen').style.display = 'block';
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum} - Chọn dạng quiz`;
+        }
+
+        function backToMenu() {
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const lessonData = allLessons[currentLesson];
+            
+            vocabulary = lessonData.normal.map(hanzi => ({
+                hanzi: hanzi,
+                pinyin: lessonData.items[hanzi].pinyin,
+                meaning: lessonData.items[hanzi].meaning
+            }));
+
+            if (mode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+
+            currentIndex = 0;
+            document.getElementById('mode-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('total').textContent = vocabulary.length;
+            
+            loadQuestion();
+        }
+
+        function togglePinyin() {
+            showPinyin = !showPinyin;
+            const pinyinEl = document.getElementById('pinyin');
+            pinyinEl.style.display = showPinyin ? 'block' : 'none';
+            document.querySelector('.toggle-pinyin').textContent = showPinyin ? '🙈 Ẩn Pinyin' : '👁️ Hiện Pinyin';
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('pinyin').textContent = currentWord.pinyin;
+            document.getElementById('result').textContent = '';
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            let wrongAnswers = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+            wrongAnswers = wrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            let answers = [currentWord.meaning, ...wrongAnswers.map(w => w.meaning)];
+            answers = answers.sort(() => Math.random() - 0.5);
+
+            answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.meaning, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        // Kiểm tra chặng: nếu sai sẽ quay về đầu chặng
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1500);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+                resultDiv.style.color = "#f87171";
+                
+                // Quay về đầu chặng hiện tại (mỗi 5 từ)
+                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+                currentIndex = currentStageStart;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 2000);
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size: 60px;">🎉 Hoàn thành!</div>
+                <div style="font-size: 28px; margin-top: 20px;">Bạn đã học xong Bài ${currentLesson}</div>
+            `;
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:25px; font-size:24px; background:#4ade80; color:white;">
+                    Chơi lại bài này
+                </button>
+            `;
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            if (currentMode === 'shuffle') {
+                vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'block';
+        }
+
+        // Khởi động
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+
+
+</body></html>
