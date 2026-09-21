@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<!-- saved from url=(0151)file:///D:/nhap%20intense/lam%20quiz/Sum%20all/Quiz%20Pinyin%20T%E1%BB%AB%20V%E1%BB%B1ng%20Ti%E1%BA%BFng%20Trung%20-%2016%20B%C3%A0i%20h%E1%BB%8Dc.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pinyin Từ Vựng Tiếng Trung - 16 Bài học</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, 'Noto Sans', sans-serif;
+background: linear-gradient(135deg, #b91c1c, #991b1b);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.12);
+            padding: 28px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+        }
+        h1 {
+            text-align: center;
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+        .lessons, .parts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        button {
+            width: 100%;
+            padding: 16px 12px;
+            font-size: 17px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-weight: 600;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        }
+        .mode-btn {
+            background: #4ade80;
+            color: white;
+            font-size: 18px;
+            padding: 16px;
+        }
+        .mode-btn:hover { background: #22c55e; }
+        .back-btn {
+            background: #f87171;
+            color: white;
+            margin-top: 18px;
+        }
+        .back-btn:hover { background: #ef4444; }
+        .progress {
+            font-size: 17px;
+            text-align: center;
+            margin-bottom: 12px;
+            opacity: 0.95;
+        }
+        .stage-info {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.85;
+            margin-bottom: 16px;
+        }
+        .hanzi {
+            font-size: 84px;
+            font-weight: 700;
+            text-align: center;
+            margin: 18px 0 8px;
+            min-height: 100px;
+            line-height: 1.15;
+            letter-spacing: 2px;
+        }
+        .meaning {
+            font-size: 22px;
+            text-align: center;
+            margin: 8px 0 12px;
+            opacity: 0.95;
+            font-style: italic;
+            display: none;
+            min-height: 28px;
+        }
+        .toggle-btn {
+            background: #60a5fa;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 10px;
+            margin: 8px auto 16px;
+            display: block;
+            width: auto;
+            max-width: 220px;
+            font-size: 15px;
+        }
+        .toggle-btn:hover { background: #3b82f6; }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 18px;
+        }
+        .options button {
+            font-size: 18px;
+            padding: 16px 10px;
+            line-height: 1.35;
+            white-space: normal;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        .result {
+            font-size: 24px;
+            text-align: center;
+            margin: 14px 0;
+            font-weight: 700;
+            min-height: 32px;
+        }
+        .correct { background: #4ade80 !important; color: white !important; }
+        .wrong { background: #f87171 !important; color: white !important; }
+        .screen { display: none; }
+        .screen.active { display: block; }
+        .hint {
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 12px;
+        }
+        @media (max-width: 600px) {
+            .hanzi { font-size: 56px; min-height: 76px; }
+            .options { grid-template-columns: 1fr; }
+            .options button { min-height: 54px; font-size: 16px; }
+            h1 { font-size: 22px; }
+        }
+
+        /* Toggle nhãn đáp án 一、二、三、四 */
+        .label-toggle-wrap {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(8px);
+            padding: 8px 12px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            font-size: 13px;
+            font-weight: 600;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .label-toggle-wrap span { white-space: nowrap; opacity: 0.95; }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.25s;
+            flex-shrink: 0;
+        }
+        .toggle-switch.on { background: #4ade80; }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+            transition: transform 0.25s;
+        }
+        .toggle-switch.on::after { transform: translateX(20px); }
+        @media (max-width: 480px) {
+            .label-toggle-wrap { top: 10px; right: 10px; padding: 6px 10px; font-size: 12px; gap: 6px; }
+            .toggle-switch { width: 40px; height: 22px; }
+            .toggle-switch::after { width: 16px; height: 16px; top: 3px; left: 3px; }
+            .toggle-switch.on::after { transform: translateX(18px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toggle nhãn đáp án 一、二、三、四 (góc phải trên) -->
+    <div class="label-toggle-wrap" title="Bật/tắt nhãn 一、二、三、四 cho đáp án">
+        <span>一 二 三 四</span>
+        <div class="toggle-switch" id="label-toggle" onclick="toggleOptionLabels()"></div>
+    </div>
+
+    <a href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Md1-Mucluc.html" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;  
+          background: #ef4444; color: white; width: 60px; height: 60px; 
+          border-radius: 50%; display: flex; align-items: center; 
+          justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+          text-decoration: none; transition: all 0.3s;">
+    ←</a>
+    <div class="container">
+        <h1>📚 Quiz Pinyin Từ Vựng</h1>
+        <div class="subtitle">16 bài học · Hán tự → Chọn Pinyin đúng</div>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" class="screen active">
+            <h2 style="text-align:center; margin-bottom:16px;">Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button><button>Bài 16</button></div>
+        </div>
+
+        <!-- Màn hình chọn phần -->
+        <div id="part-screen" class="screen">
+            <h2 id="selected-lesson-title" style="text-align:center;">Bài 3</h2>
+            <p style="text-align:center; opacity:0.9; margin-bottom:18px;" id="lesson-sub">Bài học về Mua sắm, Đồ vật, Giá cả, Màu sắc &amp; Mời bạn bè.</p>
+            <h3 style="text-align:center; margin-bottom:12px;">Chọn phần</h3>
+            <div class="parts" id="part-list"><button>Phần 1 (Từ 1 - 17: Mua sắm, Quà tặng, Đồ ăn)</button><button>Phần 2 (Từ 1 - 17: Chỉ định, Tiền bạc, Màu sắc)</button><button>Phần 3 (Từ 1 - 5: Mời gọi, Giải trí, Món phụ)</button><button>Tất cả bài học</button></div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" class="screen">
+            <h2 id="mode-title" style="text-align:center;">Bài 3 · Phần 3 (Từ 1 - 5: Mời gọi, Giải trí, Món phụ)</h2>
+            <p style="text-align:center; opacity:0.9;" id="mode-info">Số từ: 8</p>
+            <div style="text-align:center; margin:28px 0; display:flex; flex-wrap:wrap; gap:14px; justify-content:center;">
+                <button class="mode-btn" onclick="startQuiz('normal')" style="max-width:220px;">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz('shuffle')" style="max-width:220px;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToParts()">← Quay lại chọn phần</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" class="screen">
+            <div class="progress">
+                Bài <span id="lesson-num">3</span> · 
+                <span id="part-label">Phần 3 (Từ 1 - 5: Mời gọi, Giải trí, Món phụ)</span> · 
+                Câu <span id="current">1</span>/<span id="total">8</span>
+            </div>
+            <div class="stage-info" id="stage-info">Chặng 1/2 (từ 1–5)</div>
+            
+            <div class="hanzi" id="hanzi">點心</div>
+            <div class="meaning" id="meaning" style="display: none;">đồ ăn nhẹ, điểm tâm (snack; light refreshments)</div>
+            <button class="toggle-btn" id="toggle-btn" onclick="toggleMeaning()" style="display: block;">👁️ Hiện Nghĩa</button>
+            
+            <div class="result" id="result" style="color: rgb(74, 222, 128);"></div>
+            <div class="options" id="options"><button>diǎnxīn</button><button>qǐng</button><button>tián</button><button>zhèxiē / zhèixiē</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width:100%; margin-top:24px;">
+                ← Thoát quiz
+            </button>
+            <div class="hint">💡 Nhìn Hán tự → chọn Pinyin đúng · Sai → quay về đầu chặng (5 từ)</div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU TỪ FLASHCARD ====================
+        const allLessons = {"1":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Học từ vựng theo phần, tùy chỉnh chế độ xem và xáo trộn thẻ.","parts":{"part1":"Phần 1 (Từ 1 - 14)","part2":"Phần 2 (Từ 1 - 5)","part3":"Phần 3 (Từ 1 - 8)","extra":"Bổ sung (Tên & Cụm từ)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"新","pinyin":"xīn","meaning":"mới (new)"},{"hanzi":"同學","pinyin":"tóngxué","meaning":"bạn học (classmate)"},{"hanzi":"她","pinyin":"tā","meaning":"cô ấy, bà ấy (she; her)"},{"hanzi":"誰","pinyin":"shéi","meaning":"ai (who)"},{"hanzi":"叫","pinyin":"jiào","meaning":"tên là, gọi là (to be called)"},{"hanzi":"姓","pinyin":"xìng","meaning":"họ là (to be surnamed)"},{"hanzi":"很","pinyin":"hěn","meaning":"Rất (very)"},{"hanzi":"可愛","pinyin":"kě'ài","meaning":"đáng yêu, dễ thương (lovely; cute)"},{"hanzi":"哪","pinyin":"nǎ / něi","meaning":"nào (which)"},{"hanzi":"國","pinyin":"guó","meaning":"quốc gia, nước (country)"},{"hanzi":"妳","pinyin":"nǐ","meaning":"bạn (nữ) (you - female)"},{"hanzi":"知道","pinyin":"zhīdào","meaning":"biết (to know)"},{"hanzi":"嗎","pinyin":"ma","meaning":"trợ từ nghi vấn (question particle)"},{"hanzi":"日本","pinyin":"Rìběn","meaning":"Nhật Bản (Japan)"},{"hanzi":"臺灣 / 台灣","pinyin":"Táiwān","meaning":"Đài Loan (Taiwan)"},{"hanzi":"中國","pinyin":"Zhōngguó","meaning":"Trung Quốc (China)"},{"hanzi":"美國","pinyin":"Měiguó","meaning":"Mỹ (the USA)"},{"hanzi":"英國","pinyin":"Yīngguó","meaning":"Anh (the UK)"},{"hanzi":"漂亮","pinyin":"piàoliang","meaning":"đẹp, xinh đẹp (pretty; beautiful)"}],"part2":[{"hanzi":"什麼","pinyin":"shénme","meaning":"cái gì (what)"},{"hanzi":"名字","pinyin":"míngzi","meaning":"tên (first name; full name)"},{"hanzi":"姓名","pinyin":"xìngmíng","meaning":"họ và tên (full name)"},{"hanzi":"呢","pinyin":"ne","meaning":"thì sao (particle - how about)"},{"hanzi":"印尼","pinyin":"Yìnní","meaning":"Indonesia"},{"hanzi":"喜歡","pinyin":"xǐhuān","meaning":"thích (to like)"}],"part3":[{"hanzi":"大家","pinyin":"dàjiā","meaning":"mọi người (everyone)"},{"hanzi":"朋友","pinyin":"péngyǒu","meaning":"bạn bè (friend)"},{"hanzi":"愛","pinyin":"ài","meaning":"yêu, thích (to love)"},{"hanzi":"吃","pinyin":"chī","meaning":"ăn (to eat)"},{"hanzi":"水果","pinyin":"shuǐguǒ","meaning":"trái cây, hoa quả (fruit)"},{"hanzi":"水","pinyin":"shuǐ","meaning":"nước (water)"},{"hanzi":"喝","pinyin":"hē","meaning":"uống (to drink)"},{"hanzi":"茶","pinyin":"chá","meaning":"trà (tea)"},{"hanzi":"謝謝","pinyin":"xièxie","meaning":"cảm ơn (to thank)"},{"hanzi":"不客氣","pinyin":"bú kèqi","meaning":"không có gì (you are welcome)"}],"extra":[{"hanzi":"珍珠奶茶","pinyin":"zhēnzhū nǎichá","meaning":"trà sữa trân châu (bubble milk tea)"},{"hanzi":"奶茶","pinyin":"nǎichá","meaning":"trà sữa (milk tea)"},{"hanzi":"自我介紹","pinyin":"zìwǒ jièshào","meaning":"tự giới thiệu (self-introduction)"},{"hanzi":"早安","pinyin":"zǎo'ān","meaning":"chào buổi sáng (good morning)"},{"hanzi":"午安","pinyin":"wǔ'ān","meaning":"chào buổi trưa/chiều (good afternoon)"},{"hanzi":"晚安","pinyin":"wǎn'ān","meaning":"chúc ngủ ngon / chào buổi tối (good night)"}]}},"2":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Thời gian, Sinh hoạt và Giao tiếp hàng ngày.","parts":{"part1":"Phần 1 (Từ 1 - 18)","part2":"Phần 2 (Từ 1 - 10)","part3":"Phần 3 (Từ 1 - 7)","extra":"Bổ sung (Cụm từ Giao tiếp)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"幾","pinyin":"jǐ","meaning":"mấy, bao nhiêu (how many)"},{"hanzi":"點 / 點鐘","pinyin":"diǎn / diǎnzhōng","meaning":"giờ (o'clock)"},{"hanzi":"現在","pinyin":"xiànzài","meaning":"bây giờ (now)"},{"hanzi":"去","pinyin":"qù","meaning":"đi (to go)"},{"hanzi":"學校","pinyin":"xuéxiào","meaning":"trường học (school)"},{"hanzi":"媽媽","pinyin":"māma","meaning":"mẹ (mom)"},{"hanzi":"爸爸","pinyin":"bàba","meaning":"bố, ba (dad)"},{"hanzi":"孩子","pinyin":"háizi","meaning":"con, trẻ em (child; children)"},{"hanzi":"今天","pinyin":"jīntiān","meaning":"hôm nay (today)"},{"hanzi":"星期","pinyin":"xīngqí","meaning":"tuần, thứ (week; day of the week)"},{"hanzi":"月","pinyin":"yuè","meaning":"tháng (month)"},{"hanzi":"號","pinyin":"hào","meaning":"ngày (dùng trong văn nói) (date/number)"},{"hanzi":"日","pinyin":"rì","meaning":"ngày (dùng trong văn viết) (day)"},{"hanzi":"星期天","pinyin":"xīngqí tiān","meaning":"Chủ Nhật (Sunday)"},{"hanzi":"早上","pinyin":"zǎoshàng","meaning":"buổi sáng (morning)"},{"hanzi":"有","pinyin":"yǒu","meaning":"có (to have)"},{"hanzi":"沒","pinyin":"méi","meaning":"không, chưa (not)"},{"hanzi":"課","pinyin":"kè","meaning":"lớp học, bài học (class)"},{"hanzi":"圖書館","pinyin":"túshūguǎn","meaning":"thư viện (library)"},{"hanzi":"中午","pinyin":"zhōngwǔ","meaning":"buổi trưa (noon)"},{"hanzi":"回","pinyin":"huí","meaning":"về, trở về (to return)"},{"hanzi":"家","pinyin":"jiā","meaning":"nhà, gia đình (home; house)"},{"hanzi":"家人","pinyin":"jiārén","meaning":"người nhà, gia đình (family members)"},{"hanzi":"下午","pinyin":"xiàwǔ","meaning":"buổi chiều (afternoon)"},{"hanzi":"上午","pinyin":"shàngwǔ","meaning":"buổi sáng (morning)"},{"hanzi":"下課","pinyin":"xiàkè","meaning":"tan học, tan lớp (class dismissed)"},{"hanzi":"上課","pinyin":"shàngkè","meaning":"đi học, lên lớp (to attend class)"},{"hanzi":"分","pinyin":"fēn","meaning":"phút (minute)"}],"part2":[{"hanzi":"明天","pinyin":"míngtiān","meaning":"ngày mai (tomorrow)"},{"hanzi":"昨天","pinyin":"zuótiān","meaning":"hôm qua (yesterday)"},{"hanzi":"週末","pinyin":"zhōumò","meaning":"cuối tuần (weekend)"},{"hanzi":"要","pinyin":"yào","meaning":"muốn, cần (to want to do something)"},{"hanzi":"來","pinyin":"lái","meaning":"đến, tới (to come)"},{"hanzi":"啊","pinyin":"ā","meaning":"thốt từ 'A!' (interjection of surprise)"},{"hanzi":"的","pinyin":"de","meaning":"của (trợ từ sở hữu) (possessive particle)"},{"hanzi":"生日","pinyin":"shēngrì","meaning":"sinh nhật (birthday)"},{"hanzi":"快樂","pinyin":"kuàilè","meaning":"vui vẻ, hạnh phúc (happy)"},{"hanzi":"晚上","pinyin":"wǎnshàng","meaning":"buổi tối, ban đêm (evening; night)"},{"hanzi":"問題","pinyin":"wèntí","meaning":"câu hỏi, vấn đề (question; problem)"}],"part3":[{"hanzi":"做","pinyin":"zuò","meaning":"làm (to make; to do)"},{"hanzi":"歲","pinyin":"suì","meaning":"tuổi (measure word for age)"},{"hanzi":"起床","pinyin":"qǐchuáng","meaning":"thức dậy (to get up)"},{"hanzi":"午飯","pinyin":"wǔfàn","meaning":"bữa trưa (lunch)"},{"hanzi":"早飯","pinyin":"zǎofàn","meaning":"bữa sáng (breakfast)"},{"hanzi":"晚飯","pinyin":"wǎnfàn","meaning":"bữa tối (dinner)"},{"hanzi":"飯","pinyin":"fàn","meaning":"cơm, bữa ăn (cooked rice; meal)"},{"hanzi":"做飯","pinyin":"zuòfàn","meaning":"nấu ăn (to cook)"},{"hanzi":"睡覺","pinyin":"shuìjiào","meaning":"ngủ (to sleep; to go to bed)"},{"hanzi":"忙","pinyin":"máng","meaning":"bận rộn (busy)"},{"hanzi":"累","pinyin":"lèi","meaning":"mệt mỏi (tired)"}],"extra":[{"hanzi":"沒問題","pinyin":"Méi wèntí.","meaning":"Không vấn đề / Không sao cả (No problem.)"},{"hanzi":"明天見","pinyin":"Míngtiān jiàn.","meaning":"Hẹn gặp lại ngày mai (See you tomorrow.)"},{"hanzi":"再見","pinyin":"Zàijiàn.","meaning":"Tạm biệt (Good-bye.)"}]}},"3":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Mua sắm, Đồ vật, Giá cả, Màu sắc & Mời bạn bè.","parts":{"part1":"Phần 1 (Từ 1 - 17: Mua sắm, Quà tặng, Đồ ăn)","part2":"Phần 2 (Từ 1 - 17: Chỉ định, Tiền bạc, Màu sắc)","part3":"Phần 3 (Từ 1 - 5: Mời gọi, Giải trí, Món phụ)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"買","pinyin":"mǎi","meaning":"mua (to buy)"},{"hanzi":"禮物","pinyin":"lǐwù","meaning":"quà tặng (gift)"},{"hanzi":"想（要）","pinyin":"xiǎng (yào)","meaning":"muốn, ước muốn (to want to; would like to)"},{"hanzi":"送","pinyin":"sòng","meaning":"tặng, biếu (to give as a present)"},{"hanzi":"個","pinyin":"ge","meaning":"cái, con, người (lượng từ chung) (general measure word)"},{"hanzi":"看","pinyin":"kàn","meaning":"xem, nhìn, đọc (to read; to look; to watch)"},{"hanzi":"書","pinyin":"shū","meaning":"sách (book)"},{"hanzi":"兩","pinyin":"liǎng","meaning":"hai (dùng cho số lượng) (two for quantity)"},{"hanzi":"本","pinyin":"běn","meaning":"cuốn, quyển (lượng từ cho sách) (measure word for books)"},{"hanzi":"中文","pinyin":"Zhōngwén","meaning":"tiếng Trung (Chinese)"},{"hanzi":"英文","pinyin":"Yīngwén","meaning":"tiếng Anh (English)"},{"hanzi":"一些","pinyin":"yìxiē","meaning":"một vài, một ít (some)"},{"hanzi":"花","pinyin":"huā","meaning":"hoa (flower)"},{"hanzi":"朵","pinyin":"duǒ","meaning":"bông, đóa (lượng từ cho hoa) (measure word for flowers)"},{"hanzi":"和","pinyin":"hé / hàn","meaning":"và, với (and)"},{"hanzi":"大","pinyin":"dà","meaning":"to, lớn (big)"},{"hanzi":"小","pinyin":"xiǎo","meaning":"nhỏ, bé (small)"},{"hanzi":"蛋糕","pinyin":"dàngāo","meaning":"bánh ngọt, bánh kem (cake)"},{"hanzi":"蛋","pinyin":"dàn","meaning":"trứng (egg)"},{"hanzi":"一起","pinyin":"yìqǐ","meaning":"cùng nhau (together)"},{"hanzi":"啊","pinyin":"ā","meaning":"chà, nhé, à (trợ từ cuối câu) (phrase final particle)"}],"part2":[{"hanzi":"這","pinyin":"zhè / zhèi","meaning":"đây, này (this)"},{"hanzi":"那","pinyin":"nà / nèi","meaning":"kia, đó (that)"},{"hanzi":"種","pinyin":"zhǒng","meaning":"loại, thứ (species; kind; sort)"},{"hanzi":"鉛筆","pinyin":"qiānbǐ","meaning":"bút chì (pencil)"},{"hanzi":"筆","pinyin":"bǐ","meaning":"bút (pen)"},{"hanzi":"怎麼樣","pinyin":"zěnmeyàng","meaning":"như thế nào, ra sao (How about?)"},{"hanzi":"東西","pinyin":"dōngxi","meaning":"đồ đạc, vật dụng (thing; stuff)"},{"hanzi":"枝","pinyin":"zhī","meaning":"cây, chiếc (lượng từ cho bút) (measure word for pens)"},{"hanzi":"塊","pinyin":"kuài","meaning":"đồng (đơn vị tiền tệ văn nói) (measure word for money)"},{"hanzi":"錢","pinyin":"qián","meaning":"tiền (money)"},{"hanzi":"元","pinyin":"yuán","meaning":"đồng (đơn vị tiền tệ văn viết) (unit of money)"},{"hanzi":"便宜","pinyin":"piányí","meaning":"rẻ (cheap; inexpensive)"},{"hanzi":"貴","pinyin":"guì","meaning":"đắt, quý (expensive)"},{"hanzi":"顏色","pinyin":"yánsè","meaning":"màu sắc (color)"},{"hanzi":"紅色","pinyin":"hóngsè","meaning":"màu đỏ (red color)"},{"hanzi":"紅","pinyin":"hóng","meaning":"đỏ (red)"},{"hanzi":"白色","pinyin":"báisè","meaning":"màu trắng (white color)"},{"hanzi":"白","pinyin":"bái","meaning":"trắng (white)"},{"hanzi":"都","pinyin":"dōu","meaning":"đều, tất cả (all; both)"},{"hanzi":"好看","pinyin":"hǎokàn","meaning":"đẹp, dễ nhìn (good-looking; beautiful; pretty)"},{"hanzi":"常（常）","pinyin":"cháng (cháng)","meaning":"thường xuyên (often)"},{"hanzi":"穿","pinyin":"chuān","meaning":"mặc, đi (giày/tất) (to wear)"},{"hanzi":"衣服","pinyin":"yīfu","meaning":"quần áo (clothes)"},{"hanzi":"件","pinyin":"jiàn","meaning":"chiếc, cái (lượng từ cho quần áo) (measure word for clothes)"}],"part3":[{"hanzi":"請","pinyin":"qǐng","meaning":"mời, đãi (to invite; to treat)"},{"hanzi":"玩","pinyin":"wán","meaning":"chơi, giải trí (to play)"},{"hanzi":"這些","pinyin":"zhèxiē / zhèixiē","meaning":"những cái này (these)"},{"hanzi":"那些","pinyin":"nàxiē / nèixiē","meaning":"những cái kia (those)"},{"hanzi":"點心","pinyin":"diǎnxīn","meaning":"đồ ăn nhẹ, điểm tâm (snack; light refreshments)"},{"hanzi":"甜點","pinyin":"tiándiǎn","meaning":"món tráng miệng (dessert)"},{"hanzi":"甜","pinyin":"tián","meaning":"ngọt (sweet)"},{"hanzi":"開心","pinyin":"kāixīn","meaning":"vui vẻ, hân hoan (happy)"}]}},"4":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Ăn uống, Gọi món, Cửa hàng & Thời tiết.","parts":{"part1":"Phần 1 (1-17: Cà phê, Thời tiết, Đồ ăn & Bán)","part2":"Phần 2 (1-15: Gọi món, Đơn vị đo, Trà & Tiền bạc)","part3":"Phần 3 (1-7: Bốn mùa, Cửa hàng & Thức uống)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"咖啡","pinyin":"kāfēi","meaning":"cà phê (coffee)"},{"hanzi":"還是","pinyin":"háishì","meaning":"hay là (hoặc - dùng trong câu hỏi) (or)"},{"hanzi":"天氣","pinyin":"tiānqì","meaning":"thời tiết (weather)"},{"hanzi":"好","pinyin":"hǎo","meaning":"rất (very)"},{"hanzi":"熱","pinyin":"rè","meaning":"nóng (hot)"},{"hanzi":"冷","pinyin":"lěng","meaning":"lạnh (cold)"},{"hanzi":"飲料","pinyin":"yǐnliào","meaning":"thức uống, giải khát (beverage)"},{"hanzi":"也","pinyin":"yě","meaning":"cũng (also; too; as well)"},{"hanzi":"餓","pinyin":"è","meaning":"đói (hungry)"},{"hanzi":"渴","pinyin":"kě","meaning":"khát (thirsty)"},{"hanzi":"（一）點（兒）","pinyin":"(yì)diǎn(r)","meaning":"một chút, một ít (a little; a bit)"},{"hanzi":"餐廳 / 飯館","pinyin":"cāntīng / fànguǎn","meaning":"nhà hàng, quán ăn (restaurant)"},{"hanzi":"家","pinyin":"jiā","meaning":"quán, nhà hàng (lượng từ cho nhà hàng/cửa hàng) (measure word for restaurants)"},{"hanzi":"太","pinyin":"tài","meaning":"quá, lắm (too)"},{"hanzi":"多","pinyin":"duō","meaning":"nhiều (many; much)"},{"hanzi":"少","pinyin":"shǎo","meaning":"ít (less; little)"},{"hanzi":"麵","pinyin":"miàn","meaning":"mì, bún (noodles)"},{"hanzi":"好吃","pinyin":"hǎochī","meaning":"ngon (đồ ăn) (delicious)"},{"hanzi":"好喝","pinyin":"hǎohē","meaning":"ngon (đồ uống) (good to drink)"},{"hanzi":"了","pinyin":"le","meaning":"trợ từ (dùng sau Vs, đi kèm với 太) (used after a Vs, preceded by 太)"},{"hanzi":"最","pinyin":"zuì","meaning":"nhất (most)"},{"hanzi":"賣","pinyin":"mài","meaning":"bán (to sell)"},{"hanzi":"牛肉麵","pinyin":"niúròu miàn","meaning":"mì bò (beef noodles)"}],"part2":[{"hanzi":"點","pinyin":"diǎn","meaning":"gọi món, đặt (to order from a menu)"},{"hanzi":"碗","pinyin":"wǎn","meaning":"bát, tô (lượng từ / danh từ) (bowl)"},{"hanzi":"杯","pinyin":"bēi","meaning":"ly, cốc (lượng từ) (cup of)"},{"hanzi":"杯子","pinyin":"bēizi","meaning":"cái ly, cái cốc (cup)"},{"hanzi":"瓶子","pinyin":"píngzi","meaning":"cái chai, cái bình (bottle)"},{"hanzi":"瓶","pinyin":"píng","meaning":"chai, bình (lượng từ) (bottle of)"},{"hanzi":"女","pinyin":"nǚ","meaning":"nữ, gái (female)"},{"hanzi":"男","pinyin":"nán","meaning":"nam, trai (male)"},{"hanzi":"位","pinyin":"wèi","meaning":"vị, ngài (lượng từ kính ngữ cho người) (honorific measure word for people)"},{"hanzi":"紅茶","pinyin":"hóngchá","meaning":"hồng trà, trà đen (black tea)"},{"hanzi":"綠茶","pinyin":"lǜchá","meaning":"trà xanh (green tea)"},{"hanzi":"綠色","pinyin":"lǜsè","meaning":"màu xanh lá (green color)"},{"hanzi":"綠","pinyin":"lǜ","meaning":"xanh lá (green)"},{"hanzi":"請","pinyin":"qǐng","meaning":"xin, vui lòng (please)"},{"hanzi":"給","pinyin":"gěi","meaning":"cho, đưa (to give)"},{"hanzi":"一共","pinyin":"yígòng","meaning":"tổng cộng (altogether; in total)"},{"hanzi":"多少","pinyin":"duōshǎo","meaning":"bao nhiêu (how many; how much)"},{"hanzi":"百","pinyin":"bǎi","meaning":"trăm (hundred)"},{"hanzi":"千","pinyin":"qiān","meaning":"ngàn, nghìn (thousand)"},{"hanzi":"萬","pinyin":"wàn","meaning":"mười ngàn, vạn (ten thousand)"},{"hanzi":"零","pinyin":"líng","meaning":"số không (zero)"},{"hanzi":"找錢","pinyin":"zhǎoqián","meaning":"thối lại tiền thừa (to give change)"},{"hanzi":"您","pinyin":"nín","meaning":"ngài, ông/bà (kính ngữ của 你) (you - honorific)"},{"hanzi":"多","pinyin":"duō","meaning":"hơn, trên (more; over)"}],"part3":[{"hanzi":"夏天","pinyin":"xiàtiān","meaning":"mùa hè (summer)"},{"hanzi":"春天","pinyin":"chūntiān","meaning":"mùa xuân (spring)"},{"hanzi":"秋天","pinyin":"qiūtiān","meaning":"mùa thu (autumn; fall)"},{"hanzi":"冬天","pinyin":"dōngtiān","meaning":"mùa đông (winter)"},{"hanzi":"店 / 商店","pinyin":"diàn / shāngdiàn","meaning":"cửa hàng, tiệm (store; shop)"},{"hanzi":"果汁","pinyin":"guǒzhī","meaning":"nước ép trái cây (juice)"},{"hanzi":"牛奶","pinyin":"niúnǎi","meaning":"sữa tươi (milk)"},{"hanzi":"有的","pinyin":"yǒude","meaning":"có cái, có người, có những (some; some of)"},{"hanzi":"每","pinyin":"měi","meaning":"mỗi (every; each; per)"},{"hanzi":"天","pinyin":"tiān","meaning":"ngày (day)"}]}},"5":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Ví tiền, Vị trí, Đồ đạc, Gia đình & Thú cưng.","parts":{"part1":"Phần 1 (1-13 + Phrase 1: Ví tiền, Vị trí, Quán xá, Nhàn rỗi)","part2":"Phần 2 (1-16: Nhà cửa, Phòng khách, Người thân, Vị trí)","part3":"Phần 3 (1-4 + Phrase 1: Đồ nội thất, Thú cưng, Tắm nắng)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"錢包","pinyin":"qiánbāo","meaning":"ví tiền (wallet; purse)"},{"hanzi":"在","pinyin":"zài","meaning":"ở, tại (to be located at; in; on)"},{"hanzi":"哪裡 / 哪兒","pinyin":"nǎlǐ / nǎr","meaning":"đâu, ở đâu (where)"},{"hanzi":"聽","pinyin":"tīng","meaning":"nghe (to listen)"},{"hanzi":"音樂","pinyin":"yīnyuè","meaning":"âm nhạc (music)"},{"hanzi":"下午茶","pinyin":"xiàwǔ chá","meaning":"trà chiều (afternoon tea)"},{"hanzi":"不錯","pinyin":"búcuò","meaning":"không tồi, khá tốt (not bad)"},{"hanzi":"咖啡廳","pinyin":"kāfēitīng","meaning":"quán cà phê (café)"},{"hanzi":"那裡 / 那兒","pinyin":"nàlǐ / nàr","meaning":"chỗ đó, kia (there)"},{"hanzi":"這裡 / 這兒","pinyin":"zhèlǐ / zhèr","meaning":"chỗ này, đây (here)"},{"hanzi":"冰淇淋","pinyin":"bīngqílín","meaning":"kem (ice cream)"},{"hanzi":"巧克力","pinyin":"qiǎokèlì","meaning":"sô-cô-la (chocolate)"},{"hanzi":"半","pinyin":"bàn","meaning":"rưỡi, nửa (half)"},{"hanzi":"吧","pinyin":"ba","meaning":"đi, nhé (trợ từ đề xuất) (final particle for suggestion)"},{"hanzi":"有空","pinyin":"yǒukòng","meaning":"có rảnh, có thời gian (free; at leisure; available)"},{"hanzi":"沒（有）空","pinyin":"méi(yǒu)kòng","meaning":"không rảnh, bận (unavailable; not free)"}],"part2":[{"hanzi":"跟","pinyin":"gēn","meaning":"và, cùng (and)"},{"hanzi":"可是","pinyin":"kěshì","meaning":"nhưng, nhưng mà (but)"},{"hanzi":"房間","pinyin":"fángjiān","meaning":"căn phòng (room)"},{"hanzi":"間","pinyin":"jiān","meaning":"căn, phòng (lượng từ cho phòng) (measure word for rooms)"},{"hanzi":"房子","pinyin":"fángzi","meaning":"ngôi nhà, tòa nhà (building; house)"},{"hanzi":"棟","pinyin":"dòng","meaning":"tòa, căn (lượng từ cho tòa nhà) (measure word for buildings)"},{"hanzi":"裡（面）","pinyin":"lǐ(miàn)","meaning":"bên trong (inside; in)"},{"hanzi":"外（面）","pinyin":"wài(miàn)","meaning":"bên ngoài (outside)"},{"hanzi":"客廳","pinyin":"kètīng","meaning":"phòng khách (living room)"},{"hanzi":"桌子","pinyin":"zhuōzi","meaning":"cái bàn (table)"},{"hanzi":"椅子","pinyin":"yǐzi","meaning":"cái ghế (chair)"},{"hanzi":"張","pinyin":"zhāng","meaning":"cái, tấm (lượng từ cho bàn, ghế, tờ giấy) (measure word for tables/chairs)"},{"hanzi":"上（面）","pinyin":"shàng(miàn)","meaning":"bên trên (above; over; on top of)"},{"hanzi":"有","pinyin":"yǒu","meaning":"có, tồn tại (There is/are; to exist)"},{"hanzi":"哥哥","pinyin":"gēge","meaning":"anh trai (elder brother)"},{"hanzi":"姐姐 / 姊姊","pinyin":"jiějie","meaning":"chị gái (elder sister)"},{"hanzi":"弟弟","pinyin":"dìdi","meaning":"em trai (younger brother)"},{"hanzi":"妹妹","pinyin":"mèimei","meaning":"em gái (younger sister)"},{"hanzi":"沙發","pinyin":"shāfā","meaning":"ghế sofa (sofa)"},{"hanzi":"下（面）","pinyin":"xià(miàn)","meaning":"bên dưới (below; under; underneath)"},{"hanzi":"旁邊","pinyin":"pángbiān","meaning":"bên cạnh (side; next to)"},{"hanzi":"前（面）","pinyin":"qián(miàn)","meaning":"phía trước (the front; in front)"},{"hanzi":"後（面）","pinyin":"hòu(miàn)","meaning":"phía sau (at the back; behind)"},{"hanzi":"幫","pinyin":"bāng","meaning":"giúp đỡ (to help)"},{"hanzi":"找","pinyin":"zhǎo","meaning":"tìm kiếm (to look for)"},{"hanzi":"廚房","pinyin":"chúfáng","meaning":"nhà bếp (kitchen)"},{"hanzi":"再","pinyin":"zài","meaning":"lại, nữa (again)"}],"part3":[{"hanzi":"床","pinyin":"chuáng","meaning":"cái giường (bed)"},{"hanzi":"家具","pinyin":"jiājù","meaning":"đồ nội thất, gia cụ (furniture)"},{"hanzi":"電視（機）","pinyin":"diànshì(jī)","meaning":"tivi, máy truyền hình (TV; television)"},{"hanzi":"台","pinyin":"tái","meaning":"cái, chiếc (lượng từ cho tivi, máy tính) (measure word for TV/computers)"},{"hanzi":"窗戶","pinyin":"chuānghù","meaning":"cửa sổ (window)"},{"hanzi":"門","pinyin":"mén","meaning":"cửa ra vào (door)"},{"hanzi":"貓","pinyin":"māo","meaning":"con mèo (cat)"},{"hanzi":"狗","pinyin":"gǒu","meaning":"con chó (dog)"},{"hanzi":"鳥","pinyin":"niǎo","meaning":"con chim (bird)"},{"hanzi":"隻","pinyin":"zhī","meaning":"con (lượng từ cho động vật) (measure word for animals)"},{"hanzi":"曬太陽 / 晒太陽","pinyin":"shài tàiyáng","meaning":"tắm nắng, phơi nắng (to bask in the sun)"}]}},"6":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Thể thao, Hoạt động ngoài trời, Giải trí & Sở thích.","parts":{"part1":"Phần 1 (1-11: Các môn thể thao & Thiên nhiên)","part2":"Phần 2 (1-15 + Phrases: Giải trí, Thiết bị & Thời gian)","part3":"Phần 3 (1-9: Sở thích, Nghệ thuật & Cảm xúc)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"打","pinyin":"dǎ","meaning":"đánh, chơi (môn bóng dùng tay) (to hit; to beat; to play ball games)"},{"hanzi":"網球","pinyin":"wǎngqiú","meaning":"quần vợt, tennis (tennis)"},{"hanzi":"球","pinyin":"qiú","meaning":"quả bóng (ball)"},{"hanzi":"籃球","pinyin":"lánqiú","meaning":"bóng rổ (basketball)"},{"hanzi":"棒球","pinyin":"bàngqiú","meaning":"bóng chày (baseball)"},{"hanzi":"足球","pinyin":"zúqiú","meaning":"bóng đá (football; soccer)"},{"hanzi":"踢","pinyin":"tī","meaning":"đá (to kick)"},{"hanzi":"海邊","pinyin":"hǎibiān","meaning":"bờ biển, bãi biển (seaside; beach)"},{"hanzi":"海","pinyin":"hǎi","meaning":"biển, đại dương (ocean; sea)"},{"hanzi":"山","pinyin":"shān","meaning":"núi (mountain)"},{"hanzi":"風景","pinyin":"fēngjǐng","meaning":"phong cảnh, cảnh trí (scenery; landscapes)"},{"hanzi":"游泳","pinyin":"yóuyǒng","meaning":"bơi lội (to swim)"},{"hanzi":"會","pinyin":"huì","meaning":"biết, có thể (kỹ năng) (to be able to; can)"},{"hanzi":"得","pinyin":"de","meaning":"trợ từ kết cấu bổ ngữ chỉ trình độ (complement marker)"},{"hanzi":"跑步","pinyin":"pǎobù","meaning":"chạy bộ (to run)"},{"hanzi":"跑","pinyin":"pǎo","meaning":"chạy (to run)"},{"hanzi":"慢","pinyin":"màn","meaning":"chậm, từ từ (slow; slowly)"},{"hanzi":"快","pinyin":"kuài","meaning":"nhanh (fast; quick)"},{"hanzi":"說","pinyin":"shuō","meaning":"nói (to say; to speak; to talk)"},{"hanzi":"說話","pinyin":"shuōhuà","meaning":"nói chuyện, trò chuyện (to talk; to speak)"}],"part2":[{"hanzi":"電影","pinyin":"diànyǐng","meaning":"phim, điện ảnh (movie)"},{"hanzi":"部","pinyin":"bù","meaning":"bộ (lượng từ cho phim) (measure word for movies)"},{"hanzi":"電影院","pinyin":"diànyǐngyuàn","meaning":"rạp chiếu phim (movie theater; cinema)"},{"hanzi":"有趣","pinyin":"yǒuqù","meaning":"thú vị, hay (interesting)"},{"hanzi":"覺得","pinyin":"juéde","meaning":"cảm thấy, nghĩ rằng (to feel; to think)"},{"hanzi":"有（一）點（兒）","pinyin":"yǒu(yì)diǎn(r)","meaning":"hơi, một chút (a little)"},{"hanzi":"休息","pinyin":"xiūxí","meaning":"nghỉ ngơi (to take a rest)"},{"hanzi":"上網","pinyin":"shàngwǎng","meaning":"lên mạng, truy cập internet (to use/surf the internet)"},{"hanzi":"電腦","pinyin":"diànnǎo","meaning":"máy tính (computer)"},{"hanzi":"手機","pinyin":"shǒujī","meaning":"điện thoại di động (cell phone)"},{"hanzi":"支","pinyin":"zhī","meaning":"cái, chiếc (lượng từ cho điện thoại) (measure word for cell phone)"},{"hanzi":"應該","pinyin":"yīnggāi","meaning":"nên, cần phải (should; ought to)"},{"hanzi":"運動","pinyin":"yùndòng","meaning":"tập thể thao, vận động (to exercise)"},{"hanzi":"可以","pinyin":"kěyǐ","meaning":"có thể (đưa ra gợi ý) (can, could)"},{"hanzi":"騎","pinyin":"qí","meaning":"cưỡi, đi (xe đạp, xe máy) (to ride)"},{"hanzi":"腳踏車 / 自行車","pinyin":"jiǎotàchē / zìxíngchē","meaning":"xe đạp (bicycle; bike)"},{"hanzi":"輛","pinyin":"liàng","meaning":"chiếc (lượng từ cho xe cộ) (measure word for vehicles)"},{"hanzi":"只","pinyin":"zhǐ","meaning":"chỉ, chỉ là (only; just)"},{"hanzi":"後天","pinyin":"hòutiān","meaning":"ngày kia (the day after tomorrow)"},{"hanzi":"前天","pinyin":"qiántiān","meaning":"ngày hôm kia (the day before yesterday)"},{"hanzi":"聽說","pinyin":"tīngshuō","meaning":"nghe nói (to hear of)"},{"hanzi":"不要","pinyin":"búyào","meaning":"đừng, không muốn (Don't...)"}],"part3":[{"hanzi":"興趣","pinyin":"xìngqù","meaning":"sở thích, hứng thú (interest; hobby)"},{"hanzi":"幾","pinyin":"jǐ","meaning":"mấy, vài (several; a few)"},{"hanzi":"學 / 學習","pinyin":"xué / xuéxí","meaning":"học, học tập (to learn; to study)"},{"hanzi":"唱歌","pinyin":"chànggē","meaning":"hát (to sing a song)"},{"hanzi":"歌","pinyin":"gē","meaning":"bài hát (song)"},{"hanzi":"首","pinyin":"shǒu","meaning":"bài (lượng từ cho bài hát) (measure word for songs)"},{"hanzi":"跳舞","pinyin":"tiàowǔ","meaning":"khiêu vũ, nhảy múa (to dance)"},{"hanzi":"畫畫","pinyin":"huàhuà","meaning":"vẽ tranh (to draw; to paint)"},{"hanzi":"畫","pinyin":"huà","meaning":"bức tranh (painting)"},{"hanzi":"平常","pinyin":"píngcháng","meaning":"thông thường, bình thường (generally; usually)"},{"hanzi":"有（的）時候","pinyin":"yǒu(de)shíhòu","meaning":"có lúc, đôi khi (sometimes)"},{"hanzi":"比賽","pinyin":"bǐsài","meaning":"cuộc thi, trận đấu (competition; race; game)"},{"hanzi":"真","pinyin":"zhēn","meaning":"thật là, thật sự (really)"},{"hanzi":"高興","pinyin":"gāoxìng","meaning":"vui vẻ, phấn khởi (happy)"}]}},"7":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Phương tiện giao thông, Địa điểm, Hỏi đường & Di chuyển.","parts":{"part1":"Phần 1: Cách thức, Đi đến & Phương tiện","part2":"Phần 2: Đường xá, Địa điểm & Tiện ích","part3":"Phần 3: Tuyến đường, Sân bay & Máy bay","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"怎麼","pinyin":"zěnme","meaning":"làm sao, thế nào (how)"},{"hanzi":"到","pinyin":"dào","meaning":"đến (to)"},{"hanzi":"飯店","pinyin":"fàndiàn","meaning":"khách sạn (hotel [M: 家])"},{"hanzi":"旅館","pinyin":"lǚguǎn","meaning":"nhà khách, khách sạn nhỏ (inn; hotel [M: 家])"},{"hanzi":"找","pinyin":"zhǎo","meaning":"tìm, gặp, thăm (to visit; to see a person)"},{"hanzi":"韓國","pinyin":"Hánguó","meaning":"Hàn Quốc (Korea)"},{"hanzi":"到","pinyin":"dào","meaning":"đến (nơi nào đó) (to arrive a place)"},{"hanzi":"等","pinyin":"děng","meaning":"chờ, đợi (to wait for)"},{"hanzi":"坐","pinyin":"zuò","meaning":"ngồi, đi (phương tiện) (to take transportations)"},{"hanzi":"捷運/地鐵","pinyin":"jiéyùn/dìtiě","meaning":"tàu điện ngầm, MRT (MRT; metro; subway)"},{"hanzi":"公共汽車/公車","pinyin":"gōnggòngqìchē/gōngchē","meaning":"xe buýt (bus [M: 部/輛])"},{"hanzi":"車(子)/汽車","pinyin":"chē(zi)/qìchē","meaning":"xe hơi, ô tô (automobile; car [M: 輛])"},{"hanzi":"計程車","pinyin":"jìchéngchē","meaning":"xe taxi (taxi [M: 輛])"},{"hanzi":"火車","pinyin":"huǒchē","meaning":"tàu hỏa (train)"},{"hanzi":"上車","pinyin":"shàngchē","meaning":"lên xe (to get on a bus; to get in a car)"},{"hanzi":"下車","pinyin":"xiàchē","meaning":"xuống xe (to get off a bus; to get out of a car)"},{"hanzi":"遠","pinyin":"yuǎn","meaning":"xa (far)"},{"hanzi":"近","pinyin":"jìn","meaning":"gần (near)"},{"hanzi":"想","pinyin":"xiǎng","meaning":"nghĩ, nghĩ rằng (to think)"},{"hanzi":"從","pinyin":"cóng","meaning":"từ (địa điểm) (from)"},{"hanzi":"走路","pinyin":"zǒulù","meaning":"đi bộ (to walk on foot)"},{"hanzi":"走","pinyin":"zǒu","meaning":"đi (to walk on foot)"},{"hanzi":"先","pinyin":"xiān","meaning":"trước (first; in advance)"},{"hanzi":"地圖","pinyin":"dìtú","meaning":"bản đồ (map [M: 張])"},{"hanzi":"錶/手錶","pinyin":"biǎo/shǒubiǎo","meaning":"đồng hồ đeo tay (watch [M: 個])"},{"hanzi":"了","pinyin":"le","meaning":"rồi (trợ từ chỉ sự thay đổi) (indicating changed situations)"}],"part2":[{"hanzi":"路/馬路","pinyin":"lù/mǎlù","meaning":"đường, đường lớn (road [M: 條])"},{"hanzi":"條","pinyin":"tiáo","meaning":"con, sợi (lượng từ cho đường, sông, cá...) (measure word for roads, fish, river, etc)"},{"hanzi":"街","pinyin":"jiē","meaning":"phố, đường phố (street [M: 條])"},{"hanzi":"地方","pinyin":"dìfāng","meaning":"nơi, địa điểm (place)"},{"hanzi":"附近","pinyin":"fùjìn","meaning":"phụ cận, gần đây (vicinity)"},{"hanzi":"郵局","pinyin":"yóujú","meaning":"bưu điện (post office [M: 家/間])"},{"hanzi":"寄","pinyin":"jì","meaning":"gửi (thư, bưu phẩm) (to mail)"},{"hanzi":"信","pinyin":"xìn","meaning":"lá thư (letter [M: 封])"},{"hanzi":"封","pinyin":"fēng","meaning":"bức, lá (lượng từ cho thư) (measure word for letters)"},{"hanzi":"信封","pinyin":"xìnfēng","meaning":"bao thư, phong bì (envelope)"},{"hanzi":"超級市場/超市","pinyin":"chāojíshìchǎng/chāoshì","meaning":"siêu thị (supermarket [M: 家])"},{"hanzi":"市場","pinyin":"shìchǎng","meaning":"chợ (market)"},{"hanzi":"一定","pinyin":"yídìng","meaning":"nhất định, chắc chắn (surely; certainly; definitely)"},{"hanzi":"又","pinyin":"yòu","meaning":"vừa... lại... (both...and...)"},{"hanzi":"方便","pinyin":"fāngbiàn","meaning":"thuận tiện, tiện lợi (convenient)"},{"hanzi":"舒服","pinyin":"shūfu","meaning":"thoải mái, dễ chịu (comfortable)"}],"part3":[{"hanzi":"線","pinyin":"xiàn","meaning":"tuyến, đường dây (line [M: 條])"},{"hanzi":"藍","pinyin":"lán","meaning":"xanh lam (blue)"},{"hanzi":"藍色","pinyin":"lánsè","meaning":"màu xanh lam (blue color)"},{"hanzi":"機場/飛機場","pinyin":"jīchǎng/fēijīchǎng","meaning":"sân bay (airport)"},{"hanzi":"開車","pinyin":"kāichē","meaning":"lái xe (to drive a car)"},{"hanzi":"司機","pinyin":"sījī","meaning":"tài xế, bác tài (driver)"},{"hanzi":"車站","pinyin":"chēzhàn","meaning":"trạm xe, bến xe, nhà ga (bus (or rail) station)"},{"hanzi":"站","pinyin":"zhàn","meaning":"trạm, bến, ga (station)"},{"hanzi":"飛機","pinyin":"fēijī","meaning":"máy bay (airplane; aircraft [M: 架])"},{"hanzi":"架","pinyin":"jià","meaning":"chiếc (lượng từ cho máy bay) (measure word for airplanes)"},{"hanzi":"飛","pinyin":"fēi","meaning":"bay (to fly)"},{"hanzi":"起飛","pinyin":"qǐfēi","meaning":"cất cánh (to take off (an airplane))"}]}},"8":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Trang phục, Mua sắm, Thời gian, Tầng lầu & Giao tiếp.","parts":{"part1":"Phần 1: Quần áo, Thời gian & Tính chất (1-15)","part2":"Phần 2: Màu sắc, Giày dép, Tầng lầu & Cụm từ (1-11 + Phrases)","part3":"Phần 3: Tuổi tác, Đồ dùng & Túi xách (1-6)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"裙子","pinyin":"qúnzi","meaning":"váy, chân váy (skirt [M: 條])"},{"hanzi":"去年","pinyin":"qùnián","meaning":"năm ngoái (last year)"},{"hanzi":"年","pinyin":"nián","meaning":"năm (year)"},{"hanzi":"今年","pinyin":"jīnnián","meaning":"năm nay (this year)"},{"hanzi":"明年","pinyin":"míngnián","meaning":"sang năm, năm sau (next year)"},{"hanzi":"牌子","pinyin":"páizi","meaning":"thương hiệu, nhãn hiệu (brand)"},{"hanzi":"因為","pinyin":"yīnwèi","meaning":"bởi vì, vì (because)"},{"hanzi":"有名","pinyin":"yǒumíng","meaning":"nổi tiếng (famous)"},{"hanzi":"褲子","pinyin":"kùzi","meaning":"quần (pants [M: 條])"},{"hanzi":"所以","pinyin":"suǒyǐ","meaning":"cho nên, vì vậy (therefore; so)"},{"hanzi":"為什麼","pinyin":"wèishénme","meaning":"tại sao, vì sao (why)"},{"hanzi":"百貨公司","pinyin":"bǎihuògōngsī","meaning":"bách hóa tổng hợp, trung tâm thương mại (department store)"},{"hanzi":"難","pinyin":"nán","meaning":"khó (difficult; hard)"},{"hanzi":"容易","pinyin":"róngyì","meaning":"dễ, dễ dàng (easy)"},{"hanzi":"最近","pinyin":"zuìjìn","meaning":"dạo này, gần đây (recently; lately)"},{"hanzi":"胖","pinyin":"pàng","meaning":"béo, mập (fat)"},{"hanzi":"瘦","pinyin":"shòu","meaning":"gầy, ốm (thin)"},{"hanzi":"高","pinyin":"gāo","meaning":"cao (tall)"},{"hanzi":"矮","pinyin":"ǎi","meaning":"thấp, lùn (short)"},{"hanzi":"公斤","pinyin":"gōngjīn","meaning":"ki-lô-gam (kilogram)"},{"hanzi":"斤","pinyin":"jīn","meaning":"cân (catty = 0.6 kg ở Đài Loan)"},{"hanzi":"怕","pinyin":"pà","meaning":"sợ, e rằng (to be scared of; to be afraid of)"},{"hanzi":"跟","pinyin":"gēn","meaning":"với, cùng với (with)"},{"hanzi":"時間","pinyin":"shíjiān","meaning":"thời gian (time)"}],"part2":[{"hanzi":"黃色","pinyin":"huángsè","meaning":"màu vàng (yellow color)"},{"hanzi":"黃","pinyin":"huáng","meaning":"vàng (yellow)"},{"hanzi":"吧","pinyin":"ba","meaning":"nhỉ, nhé (trợ từ nghi vấn/gợi ý) (final particle for questions)"},{"hanzi":"流行","pinyin":"liúxíng","meaning":"phổ biến, thịnh hành, thời trang (popular; fashionable; trendy)"},{"hanzi":"短","pinyin":"duǎn","meaning":"ngắn (short (in length))"},{"hanzi":"長","pinyin":"cháng","meaning":"dài (long)"},{"hanzi":"鞋子","pinyin":"xiézi","meaning":"giày (shoes [M: 雙 shuāng])"},{"hanzi":"襪子","pinyin":"wàzi","meaning":"tất, vớ (socks [M: 雙 shuāng])"},{"hanzi":"雙","pinyin":"shuāng","meaning":"đôi (lượng từ cho giày, tất...) (measure word for shoes and socks)"},{"hanzi":"黑色","pinyin":"hēisè","meaning":"màu đen (black color)"},{"hanzi":"黑","pinyin":"hēi","meaning":"đen (black)"},{"hanzi":"樓","pinyin":"lóu","meaning":"tầng, lầu (floor)"},{"hanzi":"樓下","pinyin":"lóuxià","meaning":"tầng dưới, dưới nhà (downstairs)"},{"hanzi":"樓上","pinyin":"lóushàng","meaning":"tầng trên, trên nhà (upstairs)"},{"hanzi":"快要 / 快","pinyin":"kuàiyào / kuài","meaning":"sắp, sắp sửa (to be about to)"},{"hanzi":"關","pinyin":"guān","meaning":"đóng, tắt (to close)"},{"hanzi":"開","pinyin":"kāi","meaning":"mở, bật (to open)"},{"hanzi":"電梯","pinyin":"diàntī","meaning":"thang máy (elevator; lift)"},{"hanzi":"樓梯","pinyin":"lóutī","meaning":"thang bộ, cầu thang (stairs)"},{"hanzi":"沒關係","pinyin":"méiguānxi","meaning":"không sao, không có chi (It's ok.)"},{"hanzi":"對不起","pinyin":"duìbùqǐ","meaning":"xin lỗi (sorry)"},{"hanzi":"對了","pinyin":"duìle","meaning":"đúng rồi, à này (by the way)"}],"part3":[{"hanzi":"年輕","pinyin":"niánqīng","meaning":"trẻ, trẻ tuổi (young)"},{"hanzi":"老","pinyin":"lǎo","meaning":"già, cũ (old)"},{"hanzi":"皮包","pinyin":"píbāo","meaning":"túi xách, ví da (wallet; purse [M: 個])"},{"hanzi":"女生","pinyin":"nǚshēng","meaning":"con gái, nữ sinh (girl)"},{"hanzi":"男生","pinyin":"nánshēng","meaning":"con trai, nam sinh (boy)"},{"hanzi":"雜誌","pinyin":"zázhì","meaning":"tạp chí (magazine [M: 本])"},{"hanzi":"舊","pinyin":"jiù","meaning":"cũ (đồ vật) (old; used)"}]}},"9":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Trường học, Học tập, Ngôn ngữ & Vị trí.","parts":{"part1":"Phần 1: Câu, Hiểu, Dạy & Bài tập (1-14)","part2":"Phần 2: Lớp học, Vị trí & Ngôn ngữ (1-11 + Phrases)","part3":"Phần 3: Học kỳ, Luyện tập & Thi cử (1-12)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"句子","pinyin":"jùzi","meaning":"câu (sentence [M: 個])"},{"hanzi":"意思","pinyin":"yìsi","meaning":"ý nghĩa (meaning)"},{"hanzi":"懂","pinyin":"dǒng","meaning":"hiểu, biết (to understand)"},{"hanzi":"教","pinyin":"jiāo","meaning":"dạy, giảng dạy (to teach)"},{"hanzi":"真的","pinyin":"zhēnde","meaning":"thật sự, quả thực (really; truly)"},{"hanzi":"問","pinyin":"wèn","meaning":"hỏi (to ask [a question])"},{"hanzi":"非常","pinyin":"fēicháng","meaning":"vô cùng, rất (very)"},{"hanzi":"聰明","pinyin":"cōngmíng","meaning":"thông minh (smart)"},{"hanzi":"那（麼）","pinyin":"nà (me)","meaning":"thế thì, vậy thì (then)"},{"hanzi":"在","pinyin":"zài","meaning":"đang (ở trong quá trình làm gì) (in the process of doing something)"},{"hanzi":"書法","pinyin":"shūfǎ","meaning":"thư pháp (calligraphy)"},{"hanzi":"毛筆","pinyin":"máobǐ","meaning":"bút lông (writing brush [M: 枝])"},{"hanzi":"宿舍","pinyin":"sùshè","meaning":"ký túc xá (dorm; dormitory)"},{"hanzi":"功課","pinyin":"gōngkè","meaning":"bài tập về nhà (homework)"},{"hanzi":"作業","pinyin":"zuòyè","meaning":"bài tập (homework)"},{"hanzi":"再","pinyin":"zài","meaning":"sẽ... sau đó... (then [used in 'first..., then...' pattern])"}],"part2":[{"hanzi":"對面","pinyin":"duìmiàn","meaning":"đối diện (across from)"},{"hanzi":"中間","pinyin":"zhōngjiān","meaning":"ở giữa (among; between; middle)"},{"hanzi":"教室","pinyin":"jiàoshì","meaning":"phòng học, lớp học (classroom [M: 間])"},{"hanzi":"能","pinyin":"néng","meaning":"có thể (can; to be able to)"},{"hanzi":"用","pinyin":"yòng","meaning":"dùng, sử dụng (to use)"},{"hanzi":"班","pinyin":"bān","meaning":"lớp, lớp học (class)"},{"hanzi":"禮拜","pinyin":"lǐbài","meaning":"tuần (week)"},{"hanzi":"語言","pinyin":"yǔyán","meaning":"ngôn ngữ (language [M: 種/個])"},{"hanzi":"別的","pinyin":"biéde","meaning":"khác (other; else)"},{"hanzi":"別人","pinyin":"biérén","meaning":"người khác (others)"},{"hanzi":"比較","pinyin":"bǐjiào","meaning":"tương đối, khá là (relatively; comparatively)"},{"hanzi":"也許","pinyin":"yěxǔ","meaning":"có lẽ, có thể (maybe; perhaps)"},{"hanzi":"希望","pinyin":"xīwàng","meaning":"hy vọng (to hope)"},{"hanzi":"期中考","pinyin":"qīzhōngkǎo","meaning":"thi giữa kỳ (midterm test)"},{"hanzi":"語言交換","pinyin":"yǔyán jiāohuàn","meaning":"trao đổi ngôn ngữ (language exchange)"}],"part3":[{"hanzi":"學期","pinyin":"xuéqí","meaning":"học kỳ (semester)"},{"hanzi":"開始","pinyin":"kāishǐ","meaning":"bắt đầu (to start; to begin)"},{"hanzi":"華語","pinyin":"Huáyǔ","meaning":"tiếng Hoa / tiếng Trung (Chinese language)"},{"hanzi":"寫","pinyin":"xiě","meaning":"viết (to write)"},{"hanzi":"練習","pinyin":"liànxí","meaning":"luyện tập, thực hành (to practice)"},{"hanzi":"日文","pinyin":"Rìwén","meaning":"tiếng Nhật (Japanese language)"},{"hanzi":"讀書","pinyin":"dúshū","meaning":"đọc sách, học tập (to study)"},{"hanzi":"讀","pinyin":"dú","meaning":"đọc, học (to study)"},{"hanzi":"進步","pinyin":"jìnbù","meaning":"tiến bộ (to improve)"},{"hanzi":"下","pinyin":"xià","meaning":"sau, tới (next)"},{"hanzi":"上","pinyin":"shàng","meaning":"trước (last)"},{"hanzi":"緊張","pinyin":"jǐnzhāng","meaning":"hồi hộp, lo lắng (nervous)"},{"hanzi":"字","pinyin":"zì","meaning":"chữ, ký tự (character [M: 個])"},{"hanzi":"考試","pinyin":"kǎoshì","meaning":"thi, kiểm tra (to test; to quiz/exam)"},{"hanzi":"考","pinyin":"kǎo","meaning":"thi, kiểm tra (test; quiz)"}]}},"10":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Sức khỏe, Bệnh tật, Cơ thể & Liên lạc.","parts":{"part1":"Phần 1: Bệnh tật, Bệnh viện & Sức khỏe (1-18)","part2":"Phần 2: Triệu chứng, Cơ thể & Thuốc (1-11 + Phrases)","part3":"Phần 3: Gọi điện, Lo lắng & Dặn dò (1-5 + Phrases)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"感冒","pinyin":"gǎnmào","meaning":"cảm cúm, bị cảm (to catch a cold)"},{"hanzi":"請假","pinyin":"qǐngjià","meaning":"xin nghỉ (to ask for leaves)"},{"hanzi":"發燒","pinyin":"fāshāo","meaning":"sốt (to have a fever)"},{"hanzi":"醫生","pinyin":"yīshēng","meaning":"bác sĩ (doctor)"},{"hanzi":"跟","pinyin":"gēn","meaning":"với, cùng ( [talking] to)"},{"hanzi":"醫院","pinyin":"yīyuàn","meaning":"bệnh viện (hospital)"},{"hanzi":"戴","pinyin":"dài","meaning":"đeo, đội, mang (to wear [hat, glasses, accessories, etc.])"},{"hanzi":"口罩","pinyin":"kǒuzhào","meaning":"khẩu trang (surgical mask)"},{"hanzi":"洗","pinyin":"xǐ","meaning":"rửa, giặt (to wash)"},{"hanzi":"手","pinyin":"shǒu","meaning":"tay (hand)"},{"hanzi":"手指","pinyin":"shǒuzhǐ","meaning":"ngón tay (finger)"},{"hanzi":"健康","pinyin":"jiànkāng","meaning":"sức khỏe, khỏe mạnh (health / healthy)"},{"hanzi":"生病","pinyin":"shēngbìng","meaning":"bị bệnh, ốm (to get sick)"},{"hanzi":"注意","pinyin":"zhùyì","meaning":"chú ý (to notice; to pay attention)"},{"hanzi":"對","pinyin":"duì","meaning":"đúng (correct; right)"},{"hanzi":"多","pinyin":"duō","meaning":"nhiều hơn (to do more)"},{"hanzi":"少","pinyin":"shǎo","meaning":"ít hơn (to do less)"},{"hanzi":"身體","pinyin":"shēntǐ","meaning":"cơ thể, sức khỏe (body)"},{"hanzi":"帶","pinyin":"dài","meaning":"mang, đem (to bring; to take)"},{"hanzi":"蘋果","pinyin":"píngguǒ","meaning":"quả táo (apple)"},{"hanzi":"香蕉","pinyin":"xiāngjiāo","meaning":"quả chuối (banana)"}],"part2":[{"hanzi":"咳嗽/咳","pinyin":"késou/ké","meaning":"ho (to cough)"},{"hanzi":"頭","pinyin":"tóu","meaning":"đầu (head)"},{"hanzi":"頭髮","pinyin":"tóufǎ","meaning":"tóc (hair)"},{"hanzi":"痛","pinyin":"tòng","meaning":"đau (painful)"},{"hanzi":"鼻子","pinyin":"bízi","meaning":"mũi (nose)"},{"hanzi":"嘴（巴）","pinyin":"zuǐ (ba)","meaning":"miệng (mouth)"},{"hanzi":"臉","pinyin":"liǎn","meaning":"mặt (face)"},{"hanzi":"耳朵","pinyin":"ěrduo","meaning":"tai (ears)"},{"hanzi":"眼睛","pinyin":"yǎnjīng","meaning":"mắt (eyes)"},{"hanzi":"眼鏡","pinyin":"yǎnjìng","meaning":"kính mắt (glasses)"},{"hanzi":"肚子","pinyin":"dùzi","meaning":"bụng (belly)"},{"hanzi":"乾淨","pinyin":"gānjìng","meaning":"sạch sẽ (clean)"},{"hanzi":"需要","pinyin":"xūyào","meaning":"cần, cần thiết (to need / to need to do something)"},{"hanzi":"藥","pinyin":"yào","meaning":"thuốc (medications)"},{"hanzi":"會","pinyin":"huì","meaning":"sẽ (will; to be going to + V)"},{"hanzi":"記得","pinyin":"jìdé","meaning":"nhớ (to remember)"},{"hanzi":"要是／如果","pinyin":"yàoshi / rúguǒ","meaning":"nếu như (if)"},{"hanzi":"就","pinyin":"jiù","meaning":"thì (then)"},{"hanzi":"不舒服","pinyin":"bù shūfu","meaning":"không khỏe, khó chịu (sick; not feeling well)"}],"part3":[{"hanzi":"打電話","pinyin":"dǎ diànhuà","meaning":"gọi điện thoại (to make a phone call)"},{"hanzi":"接電話","pinyin":"jiē diànhuà","meaning":"nghe điện thoại (to answer a phone)"},{"hanzi":"電話","pinyin":"diànhuà","meaning":"điện thoại (telephone)"},{"hanzi":"號碼","pinyin":"hàomǎ","meaning":"số (number)"},{"hanzi":"擔心","pinyin":"dānxīn","meaning":"lo lắng (to worry)"},{"hanzi":"告訴","pinyin":"gàosù","meaning":"bảo, nói với (to tell)"},{"hanzi":"忘記","pinyin":"wàngjì","meaning":"quên (to forget)"},{"hanzi":"好了","pinyin":"hǎo le","meaning":"đã khỏi, tốt hơn rồi (getting well)"}]}},"11":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Giao tiếp, Kế hoạch, Thời gian & Nhà hàng.","parts":{"part1":"Phần 1: Quen biết, Trò chuyện & Quyết định (1-15)","part2":"Phần 2: Thời gian, Kinh nghiệm & Giúp đỡ (1-11 + Phrases)","part3":"Phần 3: Internet, Gọi món, Chụp ảnh & Tâm trạng (1-10)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"認識","pinyin":"rènshì","meaning":"quen biết, làm quen (to get to know someone)"},{"hanzi":"了","pinyin":"le","meaning":"rồi (trợ từ chỉ hành động đã hoàn thành)"},{"hanzi":"已經","pinyin":"yǐjīng","meaning":"đã, rồi (already)"},{"hanzi":"卡片","pinyin":"kǎpiàn","meaning":"thiệp, thẻ (card)"},{"hanzi":"看到","pinyin":"kàndào","meaning":"nhìn thấy, thấy (to see [by chance])"},{"hanzi":"文章","pinyin":"wénzhāng","meaning":"bài viết, văn章 (article)"},{"hanzi":"然後","pinyin":"ránhòu","meaning":"sau đó, rồi thì (afterward; and then)"},{"hanzi":"留言","pinyin":"liúyán","meaning":"để lại tin nhắn, lời nhắn (to leave a message)"},{"hanzi":"回答","pinyin":"huídá","meaning":"trả lời, đáp (to answer; to reply)"},{"hanzi":"聊天（兒）","pinyin":"liáotiān(r)","meaning":"trò chuyện, tán tán (to chat)"},{"hanzi":"差不多","pinyin":"chàbùduō","meaning":"khoảng, xấp xỉ (about; approximately)"},{"hanzi":"聊","pinyin":"liáo","meaning":"nói chuyện, tán gẫu (to chat)"},{"hanzi":"見面","pinyin":"jiànmiàn","meaning":"gặp mặt (to meet)"},{"hanzi":"還沒 / 還 / 沒","pinyin":"háiméi / hái / méi","meaning":"chưa / vẫn / chưa (not yet / still / not [for completed action])"},{"hanzi":"決定","pinyin":"juédìng","meaning":"quyết định (to decide / decision)"}],"part2":[{"hanzi":"以前 / 以後","pinyin":"yǐqián / yǐhòu","meaning":"trước đây / sau này, về sau (in the past / in the future)"},{"hanzi":"經驗","pinyin":"jīngyàn","meaning":"kinh nghiệm (experience)"},{"hanzi":"這樣","pinyin":"zhèyàng","meaning":"như thế này (like this; this way)"},{"hanzi":"奇怪","pinyin":"qíguài","meaning":"kỳ lạ, lạ (strange; odd)"},{"hanzi":"辦法","pinyin":"bànfǎ","meaning":"biện pháp, cách (method; way)"},{"hanzi":"幫忙","pinyin":"bāngmáng","meaning":"giúp đỡ (to help)"},{"hanzi":"打算","pinyin":"dǎsuàn","meaning":"dự định, tính (to plan to)"},{"hanzi":"可能","pinyin":"kěnéng","meaning":"có thể, có lẽ (maybe; probably)"},{"hanzi":"約","pinyin":"yuē","meaning":"hẹn, đặt hẹn (to make an appointment)"},{"hanzi":"但是","pinyin":"dànshì","meaning":"nhưng, nhưng mà (but)"},{"hanzi":"給","pinyin":"gěi","meaning":"cho, gửi cho (to)"},{"hanzi":"什麼時候","pinyin":"shénme shíhòu","meaning":"khi nào, bao giờ (when...?)"}],"part3":[{"hanzi":"網路","pinyin":"wǎnglù","meaning":"mạng internet (the internet)"},{"hanzi":"菜單","pinyin":"càidān","meaning":"thực đơn, menu (menu)"},{"hanzi":"特別","pinyin":"tèbié","meaning":"đặc biệt (special; particular)"},{"hanzi":"點菜 / 菜","pinyin":"diǎncài / cài","meaning":"gọi món / món ăn (to order dishes / dish)"},{"hanzi":"盤 / 盤子","pinyin":"pán / pánzi","meaning":"dĩa, đĩa (lượng từ) / cái đĩa (plate of / plate)"},{"hanzi":"照相 / 照","pinyin":"zhàoxiàng / zhào","meaning":"chụp ảnh (to take a photo / to take)"},{"hanzi":"照相機","pinyin":"zhàoxiàngjī","meaning":"máy ảnh (camera)"},{"hanzi":"相片 / 照片","pinyin":"xiàngpiàn / zhàopiàn","meaning":"bức ảnh, tấm ảnh (photo)"},{"hanzi":"心情","pinyin":"xīnqíng","meaning":"tâm trạng, cảm xúc (mood)"},{"hanzi":"出去","pinyin":"chūqù","meaning":"đi ra ngoài (to go out)"},{"hanzi":"機會","pinyin":"jīhuì","meaning":"cơ hội (chance)"}]}},"12":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Nghề nghiệp, Công sở, Thời gian & Gia đình.","parts":{"part1":"Phần 1: Công việc, Nghề nghiệp & Môi trường (1-12)","part2":"Phần 2: Môi trường làm việc & Trải nghiệm (1-11)","part3":"Phần 3: Gia đình, Trò chuyện & Cuộc sống (1-11)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"工作","pinyin":"gōngzuò","meaning":"công việc, làm việc (work / to work)"},{"hanzi":"怎麼","pinyin":"zěnme","meaning":"làm sao, thế nào, sao (how come?)"},{"hanzi":"參加","pinyin":"cānjiā","meaning":"tham gia (to participate in)"},{"hanzi":"當","pinyin":"dāng","meaning":"làm (nghề), trở thành (to be; to serve as)"},{"hanzi":"護理師 / 護士","pinyin":"hùlǐshī / hùshì","meaning":"y tá, điều dưỡng (nurse)"},{"hanzi":"用","pinyin":"yòng","meaning":"dùng, bằng (using; with)"},{"hanzi":"記者","pinyin":"jìzhě","meaning":"phóng viên, nhà báo (reporter; correspondent)"},{"hanzi":"銀行","pinyin":"yínháng","meaning":"ngân hàng (bank)"},{"hanzi":"畢業","pinyin":"bìyè","meaning":"tốt nghiệp (to graduate)"},{"hanzi":"以後 / 以前","pinyin":"yǐhòu / yǐqián","meaning":"sau khi / trước khi (after; afterward / before; formerly)"},{"hanzi":"公司","pinyin":"gōngsī","meaning":"công ty (company)"},{"hanzi":"老闆 / 老板","pinyin":"lǎobǎn","meaning":"ông chủ, sếp (boss; business owner)"}],"part2":[{"hanzi":"麵包","pinyin":"miànbāo","meaning":"bánh mì (bread)"},{"hanzi":"辛苦","pinyin":"xīnkǔ","meaning":"vất vả, cực khổ (hard; tough [life, work])"},{"hanzi":"而且","pinyin":"érqiě","meaning":"hơn nữa, vả lại (moreover)"},{"hanzi":"同事","pinyin":"tóngshì","meaning":"đồng nghiệp (colleague)"},{"hanzi":"對","pinyin":"duì","meaning":"đối với, với (to; treating [a person])"},{"hanzi":"成績","pinyin":"chéngjī","meaning":"thành tích, điểm số (grades)"},{"hanzi":"過","pinyin":"guò","meaning":"từng (trợ từ chỉ kinh nghiệm) (particle indicating experience)"},{"hanzi":"夠","pinyin":"gòu","meaning":"đủ (enough)"},{"hanzi":"遲到","pinyin":"chídào","meaning":"đến trễ, đi muộn (to come late)"},{"hanzi":"準備","pinyin":"zhǔnbèi","meaning":"chuẩn bị (to prepare)"},{"hanzi":"小時 / 鐘頭","pinyin":"xiǎoshí / zhōngtóu","meaning":"tiếng đồng hồ, giờ / phút (hour / minute)"}],"part3":[{"hanzi":"節目","pinyin":"jiémù","meaning":"chương trình (TV program or show)"},{"hanzi":"父母 / 父親 / 母親 / 兒子 / 女兒","pinyin":"fùmǔ / fùqīn / mǔqīn / érzi / nǚ'ér","meaning":"cha mẹ / cha / mẹ / con trai / con gái"},{"hanzi":"談","pinyin":"tán","meaning":"nói chuyện, bàn thảo (to talk)"},{"hanzi":"談話","pinyin":"tánhuà","meaning":"trò chuyện, nói chuyện (to have a conversation)"},{"hanzi":"自己","pinyin":"zìjǐ","meaning":"bản thân, tự mình (oneself)"},{"hanzi":"結婚","pinyin":"jiéhūn","meaning":"kết hôn, lấy nhau (to get married)"},{"hanzi":"重要","pinyin":"zhòngyào","meaning":"quan trọng (important)"},{"hanzi":"冷氣（機）","pinyin":"lěngqì(jī)","meaning":"máy điều hòa (air condition(er))"},{"hanzi":"辦公室","pinyin":"bàngōngshì","meaning":"văn phòng (office)"},{"hanzi":"還","pinyin":"hái","meaning":"còn, ngoài ra (also; in addition)"},{"hanzi":"工廠 / 工人","pinyin":"gōngchǎng / gōngrén","meaning":"nhà xưởng, nhà máy / công nhân (factory / worker)"}]}},"13":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Liên lạc, Phương hướng, Triển lãm & Đời sống.","parts":{"part1":"Phần 1: Liên lạc, Địa điểm & Chỉ đường (1-15)","part2":"Phần 2: Mua vé, Trò chuyện & Triển lãm (1-11)","part3":"Phần 3: Toán học, Phương hướng & Cuộc sống (1-11)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"喂","pinyin":"wéi","meaning":"alo (khi nghe điện thoại) (hello in a phone)"},{"hanzi":"電子郵件 / 郵件","pinyin":"diànzǐ yóujiàn / yóujiàn","meaning":"email / thư từ, bưu phẩm (email / mail; post)"},{"hanzi":"剛剛","pinyin":"gānggāng","meaning":"vừa mới, lúc nãy (just now; a moment ago)"},{"hanzi":"博物館","pinyin":"bówùguǎn","meaning":"viện bảo tàng (museum)"},{"hanzi":"網址","pinyin":"wǎngzhǐ","meaning":"địa chỉ trang web, link (web address; link)"},{"hanzi":"帶","pinyin":"dài","meaning":"dẫn, mang, đưa đi (to take a person)"},{"hanzi":"參觀","pinyin":"cānguān","meaning":"tham quan (to visit installations, places)"},{"hanzi":"網站","pinyin":"wǎngzhàn","meaning":"trang web (website)"},{"hanzi":"地址","pinyin":"dìzhǐ","meaning":"địa chỉ (address)"},{"hanzi":"往","pinyin":"wǎng","meaning":"hướng về, đi về phía (towards)"},{"hanzi":"右（邊） / 左（邊）","pinyin":"yòu (biān) / zuǒ (biān)","meaning":"bên phải / bên trái (the right side / the left side)"},{"hanzi":"轉","pinyin":"zhuǎn","meaning":"rẽ, quẹo, chuyển (to turn)"},{"hanzi":"門口","pinyin":"ménkǒu","meaning":"cổng, cửa ra vào (doorway; gate)"},{"hanzi":"見","pinyin":"jiàn","meaning":"gặp, thấy (to see somebody)"},{"hanzi":"晚 / 早 / 不好意思","pinyin":"wǎn / zǎo / bùhǎoyìsi","meaning":"trễ, muộn / sớm / xin lỗi, ngại quá (late / early / excuse me)"}],"part2":[{"hanzi":"就要","pinyin":"jiùyào","meaning":"sắp, sắp sửa (to be about to)"},{"hanzi":"排隊","pinyin":"páiduì","meaning":"xếp hàng (to line up; to get in line)"},{"hanzi":"票","pinyin":"piào","meaning":"vé (ticket)"},{"hanzi":"介紹","pinyin":"jièshào","meaning":"giới thiệu (to introduce)"},{"hanzi":"進去 / 進來","pinyin":"jìnqù / jìnlái","meaning":"đi vào / đi vào đây (to go in / to come in)"},{"hanzi":"安靜","pinyin":"ānjìng","meaning":"yên tĩnh, giữ trật tự (quiet; tranquil)"},{"hanzi":"大聲 / 聲音","pinyin":"dàshēng / shēngyīn","meaning":"lớn tiếng / âm thanh, tiếng nói (loud / sound; voice)"},{"hanzi":"圖片","pinyin":"túpiàn","meaning":"hình ảnh, bức ảnh (picture; photograph)"},{"hanzi":"馬上","pinyin":"mǎshàng","meaning":"ngay lập tức (immediately; right away)"},{"hanzi":"歷史","pinyin":"lìshǐ","meaning":"lịch sử (history)"},{"hanzi":"故事","pinyin":"gùshì","meaning":"câu chuyện (story; tale)"}],"part3":[{"hanzi":"算 / 數學","pinyin":"suàn / shùxué","meaning":"tính toán / môn toán (to calculate / mathematics)"},{"hanzi":"科學","pinyin":"kēxué","meaning":"khoa học (science)"},{"hanzi":"展","pinyin":"zhǎn","meaning":"triển lãm, hội chợ (exhibition)"},{"hanzi":"出","pinyin":"chū","meaning":"đi ra, ra khỏi (to exit)"},{"hanzi":"方向","pinyin":"fāngxiàng","meaning":"phương hướng, hướng đi (direction)"},{"hanzi":"過","pinyin":"guò","meaning":"băng qua, đi qua (to go across; to pass)"},{"hanzi":"第","pinyin":"dì","meaning":"thứ (số thứ tự) (ordinal number prefix)"},{"hanzi":"十字路口 / 路口","pinyin":"shízì lùkǒu / lùkǒu","meaning":"ngã tư / giao lộ (intersection / crossroad)"},{"hanzi":"壞","pinyin":"huài","meaning":"hư, hỏng, xấu (bad; broken; out of order)"},{"hanzi":"世界 / 世界上","pinyin":"shìjiè / shìjiè shàng","meaning":"thế giới / trên thế giới (the world / in the world)"},{"hanzi":"生活 / 忘了","pinyin":"shēnghuó / wàngle","meaning":"cuộc sống / quên (life / to forget)"}]}},"14":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về Lễ hội, Đồ ăn, Thiên nhiên & Giao thông.","parts":{"part1":"Phần 1: Năm mới, Đêm ca nhạc & Địa điểm (1-17)","part2":"Phần 2: Công viên, Đồ ăn & Đồ uống (1-11)","part3":"Phần 3: So sánh, Lịch sử, Giao thông & An toàn (1-12)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"跨年","pinyin":"kuànián","meaning":"đón giao thừa, đón năm mới (to celebrate New Year's Eve)"},{"hanzi":"活動","pinyin":"huódòng","meaning":"hoạt động, sự kiện (activity; event)"},{"hanzi":"住","pinyin":"zhù","meaning":"sống, ở, trú ngụ (to live; to reside; to stay)"},{"hanzi":"新年","pinyin":"xīnnián","meaning":"Năm mới (New Year)"},{"hanzi":"次","pinyin":"cì","meaning":"lần (lượng từ) (measure word for times; occurrence)"},{"hanzi":"過","pinyin":"guò","meaning":"đón (lễ), trải qua (to celebrate; to spend)"},{"hanzi":"最後","pinyin":"zuìhòu","meaning":"cuối cùng (the last)"},{"hanzi":"城市","pinyin":"chéngshì","meaning":"thành phố, đô thị (city; town)"},{"hanzi":"晚會","pinyin":"wǎnhuì","meaning":"buổi dạ tiệc, dạ hội tối (evening event of entertainment)"},{"hanzi":"演唱會 / 演唱 / 場","pinyin":"yǎnchànghuì / yǎnchàng / chǎng","meaning":"buổi hòa nhạc / biểu diễn hát / lượng từ buổi (concert / to sing in a performance / measure word for concerts)"},{"hanzi":"表演","pinyin":"biǎoyǎn","meaning":"biểu diễn, tiết mục (performance; act; play)"},{"hanzi":"熱鬧","pinyin":"rènào","meaning":"sôi nổi, nhộn nhịp (lively; bustling with noise and excitement)"},{"hanzi":"意思 / 有意思","pinyin":"yìsi / yǒu yìsi","meaning":"ý nghĩa / thú vị (meaning / interesting)"},{"hanzi":"站","pinyin":"zhàn","meaning":"đứng (to stand)"},{"hanzi":"坐","pinyin":"zuò","meaning":"ngồi (to sit)"},{"hanzi":"晚 / 久 / 多久","pinyin":"wǎn / jiǔ / duōjiǔ","meaning":"đêm, tối / lâu / bao lâu (evening / long time / how long)"},{"hanzi":"大樓 / 台北101 / 台北","pinyin":"dàlóu / Táiběi Yīlíngyī / Táiběi","meaning":"tòa nhà lớn / Đài Bắc 101 / Đài Bắc (building / Taipei 101 / Taipei)"}],"part2":[{"hanzi":"歡迎","pinyin":"huānyíng","meaning":"hoan nghênh, chào mừng (welcome)"},{"hanzi":"進","pinyin":"jìn","meaning":"vào, đi vào (to get in; to enter)"},{"hanzi":"公園","pinyin":"gōngyuán","meaning":"công viên (park)"},{"hanzi":"樹 / 棵","pinyin":"shù / kē","meaning":"cây / cây (lượng từ) (tree / measure word for trees)"},{"hanzi":"環境","pinyin":"huánjìng","meaning":"môi trường, xung quanh (environment; surroundings; circumstances)"},{"hanzi":"酒","pinyin":"jiǔ","meaning":"rượu, đồ uống có cồn (alcohol; wine)"},{"hanzi":"餃子","pinyin":"jiǎozi","meaning":"bánh sủi cáo, há cảo (dumpling)"},{"hanzi":"包子","pinyin":"bāozi","meaning":"bánh bao (baozi)"},{"hanzi":"牛","pinyin":"niú","meaning":"con bò, trâu (cattle; ox; cow)"},{"hanzi":"肉 / 魚","pinyin":"ròu / yú","meaning":"thịt / cá (meat / fish)"},{"hanzi":"湯","pinyin":"tāng","meaning":"canh, súp (soup)"}],"part3":[{"hanzi":"這麼 / 那麼","pinyin":"zhème / nàme","meaning":"như thế này / như thế đó (so; like this / like that)"},{"hanzi":"重","pinyin":"zhòng","meaning":"nặng (heavy)"},{"hanzi":"拿","pinyin":"ná","meaning":"cầm, nắm, xách (to take; to hold; to carry)"},{"hanzi":"日出","pinyin":"rìchū","meaning":"bình minh, mặt trời mọc (sunrise)"},{"hanzi":"教堂","pinyin":"jiàotáng","meaning":"nhà thờ (church)"},{"hanzi":"比","pinyin":"bǐ","meaning":"so với (more...) than"},{"hanzi":"同意","pinyin":"tóngyì","meaning":"đồng ý (to agree)"},{"hanzi":"國家","pinyin":"guójiā","meaning":"quốc gia, đất nước (country; state; nation)"},{"hanzi":"慶祝","pinyin":"qìngzhù","meaning":"chúc mừng, ăn mừng (to celebrate)"},{"hanzi":"交通","pinyin":"jiāotōng","meaning":"giao thông (traffic; transportation)"},{"hanzi":"警察","pinyin":"jǐngchá","meaning":"cảnh sát (police; policeman)"},{"hanzi":"小心 / 受傷","pinyin":"xiǎoxīn / shòushāng","meaning":"cẩn thận / bị thương (careful / to be injured; to be wounded)"}]}},"15":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Bài học về 12 Sinh Tiêu (Con giáp), Lớp học & Đời sống.","parts":{"part1":"Phần 1: Sinh tiêu, Lớp học & Từ căn bản (1-16)","part2":"Phần 2: Hành động, Đèn lồng & Lễ hội (1-6)","part3":"Phần 3: Đồ dùng, Thi đấu & Cụm từ (1-8)","zodiac":"Chuyên đề: 12 Con Giáp (12 Sinh Tiêu)","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"生肖","pinyin":"shēngxiào","meaning":"12 con giáp (The Chinese animal zodiac)"},{"hanzi":"課","pinyin":"kè","meaning":"bài học (lượng từ) (measure word for lessons)"},{"hanzi":"剛才","pinyin":"gāngcái","meaning":"vừa mới, lúc nãy (just now; a moment ago)"},{"hanzi":"動物","pinyin":"dòngwù","meaning":"động vật (animal)"},{"hanzi":"打開","pinyin":"dǎkāi","meaning":"mở ra, bật (to open; to turn on)"},{"hanzi":"課本 / 課文","pinyin":"kèběn / kèwén","meaning":"sách giáo khoa / bài đọc (textbook / text of a book)"},{"hanzi":"原來","pinyin":"yuánlái","meaning":"hóa ra, thì ra (it turns out that...)"},{"hanzi":"華人","pinyin":"Huárén","meaning":"người Hoa (ethnic Chinese)"},{"hanzi":"一樣","pinyin":"yíyàng","meaning":"giống nhau (the same)"},{"hanzi":"代表","pinyin":"dàibiǎo","meaning":"đại diện, đại biểu (to represent)"},{"hanzi":"越南","pinyin":"Yuènán","meaning":"Việt Nam (Vietnam)"},{"hanzi":"出生","pinyin":"chūshēng","meaning":"sinh ra (to be born)"},{"hanzi":"屬","pinyin":"shǔ","meaning":"cầm tinh, thuộc tuổi (con giáp) (to belong to zodiac sign)"},{"hanzi":"啊","pinyin":"ā","meaning":"trợ từ nghi vấn (chắc chắn đáp án) (interrogative final particle)"},{"hanzi":"簡單","pinyin":"jiǎndān","meaning":"đơn giản (simple)"},{"hanzi":"查","pinyin":"chá","meaning":"tra cứu, kiểm tra (to check; to look up)"}],"part2":[{"hanzi":"著","pinyin":"zhe","meaning":"trợ từ chỉ sự tiếp diễn của hành động (particle indicating progression)"},{"hanzi":"燈籠","pinyin":"dēnglóng","meaning":"đèn lồng (lantern)"},{"hanzi":"講 / 講話","pinyin":"jiǎng / jiǎnghuà","meaning":"nói, giải thích / nói chuyện (to talk; to explain / to talk)"},{"hanzi":"好玩","pinyin":"hǎowán","meaning":"vui, thú vị (interesting; fun)"},{"hanzi":"大人 / 小孩","pinyin":"dàrén / xiǎohái","meaning":"người lớn / trẻ em (adult / child; children)"},{"hanzi":"元宵節 / 燈會","pinyin":"Yuánxiāojié / dēnghuì","meaning":"Tết Nguyên Tiêu / Hội đèn lồng (Lantern Festival / Lantern Carnival)"}],"part3":[{"hanzi":"放","pinyin":"fàng","meaning":"đặt, để (to put)"},{"hanzi":"紙","pinyin":"zhǐ","meaning":"giấy (lượng từ: 張 zhāng) (paper)"},{"hanzi":"黑板","pinyin":"hēibǎn","meaning":"bảng đen (blackboard)"},{"hanzi":"河 / 湖","pinyin":"hé / hú","meaning":"sông / hồ (river / lake)"},{"hanzi":"比賽 / 贏 / 輸","pinyin":"bǐsài / yíng / shū","meaning":"thi đấu / thắng / thua (to compete / to win / to lose)"},{"hanzi":"排","pinyin":"pái","meaning":"sắp xếp, xếp hàng (to line up; to arrange in order)"},{"hanzi":"其他","pinyin":"qítā","meaning":"khác, còn lại (other; the remaining)"},{"hanzi":"受歡迎","pinyin":"shòu huānyíng","meaning":"được yêu thích, phổ biến (well-liked; popular)"}],"zodiac":[{"hanzi":"鼠 / 老鼠","pinyin":"shǔ / lǎoshǔ","meaning":"Tý - Con chuột (rat) [M: 隻 zhī]"},{"hanzi":"牛","pinyin":"niú","meaning":"Sửu - Con trâu/bò (ox; cow) [M: 隻/頭]"},{"hanzi":"虎 / 老虎","pinyin":"hǔ / lǎohǔ","meaning":"Dần - Con hổ (tiger) [M: 隻 zhī]"},{"hanzi":"兔 / 兔子","pinyin":"tù / tùzi","meaning":"Mão - Con thỏ (rabbit) [M: 隻 zhī]"},{"hanzi":"龍","pinyin":"lóng","meaning":"Thìn - Con rồng (dragon) [M: 條 tiáo]"},{"hanzi":"蛇","pinyin":"shé","meaning":"Tỵ - Con rắn (snake) [M: 條 tiáo]"},{"hanzi":"馬","pinyin":"mǎ","meaning":"Ngọ - Con ngựa (horse) [M: 匹 pī]"},{"hanzi":"羊","pinyin":"yáng","meaning":"Mùi - Con dê/cừu (goat; sheep) [M: 隻 zhī]"},{"hanzi":"猴 / 猴子","pinyin":"hóu / hóuzi","meaning":"Thân - Con khỉ (monkey) [M: 隻 zhī]"},{"hanzi":"雞","pinyin":"jī","meaning":"Dậu - Con gà (rooster; chicken) [M: 隻 zhī]"},{"hanzi":"狗","pinyin":"gǒu","meaning":"Tuất - Con chó (dog) [M: 隻 zhī]"},{"hanzi":"豬","pinyin":"zhū","meaning":"Hợi - Con heo/lợn (pig) [M: 隻 zhī]"}]}},"16":{"title":"🃏 Flashcard Từ vựng tiếng Trung","sub":"Chủ đề: Du lịch, Phương hướng, Trường học & Sinh hoạt ngày thường","parts":{"part1":"Phần 1: Du lịch, Kế hoạch & Trường học (1-13)","part2":"Phần 2: Sinh hoạt, Thay đổi & Cảm xúc (1-11)","part3":"Phần 3: Quốc gia, Đơn vị & Chợ đêm (1-10)","names":"Chuyên đề: Địa danh & Tên riêng","all":"Tất cả bài học"},"dataset":{"part1":[{"hanzi":"旅行","pinyin":"lǚxíng","meaning":"du lịch (to travel; to take a trip)"},{"hanzi":"放假","pinyin":"fàngjià","meaning":"nghỉ lễ, nghỉ phép (to have a holiday or vacation)"},{"hanzi":"計畫","pinyin":"jìhuà","meaning":"kế hoạch (plan)"},{"hanzi":"這次","pinyin":"zhè cì / zhèi cì","meaning":"lần này (this time)"},{"hanzi":"上次 / 下次","pinyin":"shàng cì / xià cì","meaning":"lần trước / lần sau (last time / next time)"},{"hanzi":"離","pinyin":"lí","meaning":"cách (khoảng cách) (away from; separated from)"},{"hanzi":"東 / 西 / 南 / 北","pinyin":"dōng / xī / nán / běi","meaning":"Đông / Tây / Nam / Bắc (east / west / south / north)"},{"hanzi":"部 / 中部","pinyin":"bù / zhōngbù","meaning":"bộ phận, vùng / miền Trung (part / central part)"},{"hanzi":"小學 / 中學 / 大學","pinyin":"xiǎoxué / zhōngxué / dàxué","meaning":"Tiểu học / Trung học / Đại học (elementary school / high school / university)"},{"hanzi":"年級","pinyin":"niánjí","meaning":"lớp, khối lớp (grade in school)"},{"hanzi":"報紙 / 份","pinyin":"bàozhǐ / fèn","meaning":"báo chí / tờ, bản (lượng từ) (newspaper / measure word for newspapers)"},{"hanzi":"下雪 / 雪","pinyin":"xiàxuě / xuě","meaning":"tuyết rơi / tuyết (to snow / snow)"},{"hanzi":"下雨 / 雨 / 夜","pinyin":"xiàyǔ / yǔ / yè","meaning":"mưa / mưa / đêm (to rain / rain / night)"}],"part2":[{"hanzi":"本來 / 原來","pinyin":"běnlái / yuánlái","meaning":"vốn dĩ, ban đầu (originally; initially)"},{"hanzi":"後來","pinyin":"hòulái","meaning":"sau đó, về sau (later; afterwards)"},{"hanzi":"搭","pinyin":"dā","meaning":"đi (xe, tàu, máy bay) (to take; to travel by)"},{"hanzi":"更","pinyin":"gèng","meaning":"hơn nữa, càng (even)"},{"hanzi":"浴室 / 廁所 / 洗手間","pinyin":"yùshì / cèsuǒ / xǐshǒujiān","meaning":"phòng tắm / nhà vệ sinh / phòng rửa tay (bathroom / toilet / restroom)"},{"hanzi":"洗澡","pinyin":"xǐzǎo","meaning":"tắm rửa (to take a bath or shower)"},{"hanzi":"換","pinyin":"huàn","meaning":"đổi, thay (to change)"},{"hanzi":"付","pinyin":"fù","meaning":"trả tiền, thanh toán (to pay)"},{"hanzi":"一半 / 一半兒","pinyin":"yíbàn / yíbànr","meaning":"một nửa (one half)"},{"hanzi":"風","pinyin":"fēng","meaning":"gió (wind)"},{"hanzi":"笑","pinyin":"xiào","meaning":"cười (to laugh; to smile)"}],"part3":[{"hanzi":"邊 / 邊兒","pinyin":"biān / biānr","meaning":"bên, phía (side)"},{"hanzi":"中國大陸","pinyin":"Zhōngguó Dàlù","meaning":"Trung Quốc Đại Lục (Mainland China)"},{"hanzi":"菲律賓","pinyin":"Fēilǜbīn","meaning":"Phi-líp-pin (the Philippines)"},{"hanzi":"荷蘭","pinyin":"Hélán","meaning":"Hà Lan (the Netherlands)"},{"hanzi":"公里 / 公尺 / 公分","pinyin":"gōnglǐ / gōngchǐ / gōngfēn","meaning":"Km / Mét / Xentimét (kilometer / meter / centimeter)"},{"hanzi":"外國","pinyin":"wàiguó","meaning":"nước ngoài (foreign country)"},{"hanzi":"上學","pinyin":"shàngxué","meaning":"đi học (to go to school)"},{"hanzi":"夜市","pinyin":"yèshì","meaning":"chợ đêm (night market)"},{"hanzi":"食物","pinyin":"shíwù","meaning":"thức ăn, thực phẩm (food)"},{"hanzi":"遊戲","pinyin":"yóuxì","meaning":"trò chơi, game (games)"}],"names":[{"hanzi":"太魯閣","pinyin":"Tàilǔgé","meaning":"Thái Lỗ Các (Taroko National Park)"},{"hanzi":"花蓮","pinyin":"Huālián","meaning":"Hoa Liên (Hualien city/county)"},{"hanzi":"合歡山","pinyin":"Héhuān Shān","meaning":"Núi Hợp Hoan (Hehuan Mountain)"},{"hanzi":"日月潭","pinyin":"Rìyuè Tán","meaning":"Hồ Nhật Nguyệt (Sun Moon Lake)"},{"hanzi":"高雄","pinyin":"Gāoxióng","meaning":"Cao Hùng (Kaohsiung city)"},{"hanzi":"西子灣","pinyin":"Xīzǐwān","meaning":"Vịnh Tây Tử (Sizihwan Bay)"},{"hanzi":"高鐵 / 台灣高鐵","pinyin":"gāotiě / Táiwān Gāotiě","meaning":"Tàu cao tốc / Tàu cao tốc Đài Loan (Taiwan High Speed Rail)"},{"hanzi":"小籠包","pinyin":"xiǎolóngbāo","meaning":"Bánh tiểu long bao (soup dumplings)"}]}}};
+
+        let currentLesson = null;
+        let currentPart = null;
+        let currentMode = null;
+        let vocabulary = [];
+        let currentIndex = 0;
+        let isAnswered = false;
+        let showMeaning = false;
+        let showOptionLabels = false;   // Bật/tắt nhãn 一、二、三、四
+        const stageSize = 5;
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function createLessonButtons() {
+            const container = document.getElementById('lesson-list');
+            container.innerHTML = '';
+            Object.keys(allLessons).sort((a,b) => +a - +b).forEach(lessonNum => {
+                const btn = document.createElement('button');
+                btn.textContent = `Bài ${lessonNum}`;
+                btn.onclick = () => selectLesson(parseInt(lessonNum));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectLesson(lessonNum) {
+            currentLesson = lessonNum;
+            const lesson = allLessons[lessonNum];
+            document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum}`;
+            document.getElementById('lesson-sub').textContent = lesson.sub || '';
+            
+            const partList = document.getElementById('part-list');
+            partList.innerHTML = '';
+            
+            const parts = lesson.parts;
+            for (const [key, label] of Object.entries(parts)) {
+                if (key === 'all' || (lesson.dataset[key] && lesson.dataset[key].length > 0)) {
+                    const btn = document.createElement('button');
+                    btn.textContent = label;
+                    btn.onclick = () => selectPart(key, label);
+                    partList.appendChild(btn);
+                }
+            }
+            showScreen('part-screen');
+        }
+
+        function selectPart(partKey, partLabel) {
+            currentPart = { key: partKey, label: partLabel };
+            document.getElementById('mode-title').textContent = `Bài ${currentLesson} · ${partLabel}`;
+            
+            let count = 0;
+            if (partKey === 'all') {
+                const ds = allLessons[currentLesson].dataset;
+                for (const k of Object.keys(ds)) {
+                    if (k !== 'all') count += ds[k].length;
+                }
+            } else {
+                count = (allLessons[currentLesson].dataset[partKey] || []).length;
+            }
+            document.getElementById('mode-info').textContent = `Số từ: ${count}`;
+            showScreen('mode-screen');
+        }
+
+        function backToMenu() {
+            showScreen('menu-screen');
+        }
+
+        function backToParts() {
+            showScreen('part-screen');
+        }
+
+        function getPartData(lessonNum, partKey) {
+            const ds = allLessons[lessonNum].dataset;
+            if (partKey === 'all') {
+                let all = [];
+                for (const k of Object.keys(ds)) {
+                    if (k !== 'all') all = all.concat(ds[k]);
+                }
+                return all;
+            }
+            return ds[partKey] || [];
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            const raw = getPartData(currentLesson, currentPart.key);
+            
+            const seen = new Set();
+            vocabulary = [];
+            for (const item of raw) {
+                if (!seen.has(item.hanzi)) {
+                    seen.add(item.hanzi);
+                    vocabulary.push({
+                        hanzi: item.hanzi,
+                        pinyin: item.pinyin,
+                        meaning: item.meaning
+                    });
+                }
+            }
+
+            if (mode === 'shuffle') {
+                for (let i = vocabulary.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [vocabulary[i], vocabulary[j]] = [vocabulary[j], vocabulary[i]];
+                }
+            }
+
+            if (vocabulary.length === 0) {
+                alert('Không có từ vựng trong phần này.');
+                return;
+            }
+
+            currentIndex = 0;
+            showMeaning = false;
+
+            document.getElementById('lesson-num').textContent = currentLesson;
+            document.getElementById('part-label').textContent = currentPart.label;
+            document.getElementById('total').textContent = vocabulary.length;
+
+            showScreen('quiz-container');
+            loadQuestion();
+        }
+
+        function updateStageInfo() {
+            const stage = Math.floor(currentIndex / stageSize) + 1;
+            const totalStages = Math.ceil(vocabulary.length / stageSize);
+            const start = Math.floor(currentIndex / stageSize) * stageSize + 1;
+            const end = Math.min(start + stageSize - 1, vocabulary.length);
+            document.getElementById('stage-info').textContent =
+                `Chặng ${stage}/${totalStages} (từ ${start}–${end})`;
+        }
+
+        function toggleMeaning() {
+            showMeaning = !showMeaning;
+            const meaningEl = document.getElementById('meaning');
+            const btn = document.getElementById('toggle-btn');
+            if (showMeaning) {
+                meaningEl.textContent = vocabulary[currentIndex].meaning;
+                meaningEl.style.display = 'block';
+                btn.textContent = '🙈 Ẩn Nghĩa';
+            } else {
+                meaningEl.style.display = 'none';
+                btn.textContent = '👁️ Hiện Nghĩa';
+            }
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            showMeaning = false;
+            const currentWord = vocabulary[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('hanzi').textContent = currentWord.hanzi;
+            document.getElementById('meaning').textContent = currentWord.meaning;
+            document.getElementById('meaning').style.display = 'none';
+            document.getElementById('toggle-btn').textContent = '👁️ Hiện Nghĩa';
+            document.getElementById('result').textContent = '';
+            updateStageInfo();
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            // Lấy 3 Pinyin sai (ưu tiên khác pinyin)
+            let wrongPool = vocabulary.filter(w => 
+                w.hanzi !== currentWord.hanzi && 
+                w.pinyin !== currentWord.pinyin
+            );
+            if (wrongPool.length < 3) {
+                const allInLesson = getPartData(currentLesson, 'all');
+                const extra = allInLesson.filter(w => 
+                    w.hanzi !== currentWord.hanzi && 
+                    w.pinyin !== currentWord.pinyin &&
+                    !wrongPool.some(x => x.pinyin === w.pinyin)
+                );
+                wrongPool = wrongPool.concat(extra);
+            }
+            // Unique by pinyin
+            const seenPy = new Set();
+            const uniqueWrong = [];
+            for (const w of wrongPool) {
+                if (!seenPy.has(w.pinyin)) {
+                    seenPy.add(w.pinyin);
+                    uniqueWrong.push(w);
+                }
+            }
+            for (let i = uniqueWrong.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [uniqueWrong[i], uniqueWrong[j]] = [uniqueWrong[j], uniqueWrong[i]];
+            }
+            const wrongAnswers = uniqueWrong.slice(0, 3).map(w => w.pinyin);
+
+            let answers = [currentWord.pinyin, ...wrongAnswers];
+            for (let i = answers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [answers[i], answers[j]] = [answers[j], answers[i]];
+            }
+
+            const optionLabels = ['一、', '二、', '三、', '四、'];
+            answers.forEach((answer, idx) => {
+                const btn = document.createElement('button');
+                btn.dataset.meaning = answer;   // lưu nghĩa/pinyin thuần để so sánh
+                btn.textContent = showOptionLabels ? (optionLabels[idx] + answer) : answer;
+                btn.onclick = () => checkAnswer(answer, currentWord.pinyin, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(btn => {
+                const meaning = btn.dataset.meaning || btn.textContent;
+                if (meaning === correct) {
+                    btn.classList.add('correct');
+                } else if (meaning === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+                btn.disabled = true;
+            });
+
+            // Hiện nghĩa để đối chiếu
+            document.getElementById('meaning').textContent = vocabulary[currentIndex].meaning;
+            document.getElementById('meaning').style.display = 'block';
+            document.getElementById('toggle-btn').textContent = '🙈 Ẩn Nghĩa';
+            showMeaning = true;
+
+            const resultDiv = document.getElementById('result');
+            if (selected === correct) {
+                resultDiv.textContent = "✓ Đúng rồi!";
+                resultDiv.style.color = "#4ade80";
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < vocabulary.length) {
+                        loadQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 300);
+            } else {
+                resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+                resultDiv.style.color = "#f87171";
+                
+                const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+                currentIndex = currentStageStart;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 300);
+            }
+        }
+
+        
+        function toggleOptionLabels() {
+            showOptionLabels = !showOptionLabels;
+            const toggleEl = document.getElementById('label-toggle');
+            if (showOptionLabels) {
+                toggleEl.classList.add('on');
+            } else {
+                toggleEl.classList.remove('on');
+            }
+            // Cập nhật lại các nút đáp án đang hiện
+            const buttons = document.querySelectorAll('#options button');
+            if (buttons.length > 0) {
+                const optionLabels = ['一、', '二、', '三、', '四、'];
+                buttons.forEach((btn, idx) => {
+                    const meaning = btn.dataset.meaning;
+                    if (meaning) {
+                        btn.textContent = showOptionLabels ? (optionLabels[idx] + meaning) : meaning;
+                    }
+                });
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('hanzi').innerHTML = `
+                <div style="font-size:52px;">🎉 Hoàn thành!</div>
+                <div style="font-size:22px; margin-top:14px; font-weight:500;">
+                    Bạn đã luyện xong<br>Bài ${currentLesson} · ${currentPart.label}
+                </div>
+            `;
+            document.getElementById('meaning').style.display = 'none';
+            document.getElementById('toggle-btn').style.display = 'none';
+            document.getElementById('stage-info').textContent = '';
+            document.getElementById('result').textContent = '';
+            document.getElementById('options').innerHTML = `
+                <button onclick="restartCurrentQuiz()" style="width:100%; padding:20px; font-size:20px; background:#4ade80; color:white; grid-column:1/-1;">
+                    🔄 Chơi lại phần này
+                </button>
+                <button onclick="backToParts()" style="width:100%; padding:16px; font-size:17px; background:#60a5fa; color:white; grid-column:1/-1;">
+                    ← Chọn phần khác
+                </button>
+            `;
+        }
+
+        function restartCurrentQuiz() {
+            currentIndex = 0;
+            document.getElementById('toggle-btn').style.display = 'block';
+            if (currentMode === 'shuffle') {
+                for (let i = vocabulary.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [vocabulary[i], vocabulary[j]] = [vocabulary[j], vocabulary[i]];
+                }
+            }
+            loadQuestion();
+        }
+
+        function exitQuiz() {
+            document.getElementById('toggle-btn').style.display = 'block';
+            showScreen('menu-screen');
+        }
+
+        window.onload = () => {
+            createLessonButtons();
+        };
+    </script>
+
+
+</body></html>

@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chinese Flashcards - Tất cả 16 bài học</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,"Noto Sans",sans-serif;background:#f3f5f8;color:#18202a}
+.app{max-width:1050px;margin:auto;padding:22px}
+h1{margin:0 0 6px;font-size:28px} .sub{color:#667085;margin-bottom:18px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:white;padding:14px;border-radius:16px;box-shadow:0 3px 15px #00000012}
+select,button{font:inherit;border:1px solid #d0d5dd;border-radius:10px;padding:10px 13px;background:white;cursor:pointer}
+button.primary{background:#111827;color:white;border-color:#111827}
+button:hover{filter:brightness(.97)} label{font-size:14px;color:#475467}
+.stats{margin:15px 0;text-align:center;color:#667085}
+.card-wrap{max-width:720px;margin:0 auto}
+.card{height:430px;position:relative;cursor:pointer}
+.face{position:absolute;inset:0;background:white;border-radius:25px;box-shadow:0 12px 35px #00000018;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;transition:opacity .25s ease, transform .25s ease;overflow:auto}
+.face.fade{opacity:0;transform:scale(.97)}
+.word{font-size:75px;font-weight:700;line-height:1.1;margin:10px}
+.picture{font-size:110px;margin:10px}
+.pinyin{font-size:42px;color:#475467;margin:8px;font-weight:600}
+.meaning{font-size:22px;font-weight:600;margin:6px;padding:0 8px}
+.pos{font-size:14px;color:#98a2b3;margin-bottom:5px;letter-spacing:.4px}
+.example{width:100%;max-width:620px;text-align:left;margin:6px 0;padding:10px 14px;background:#f8fafc;border-radius:12px}
+.cn{font-size:18px} .py{font-size:14px;color:#667085;margin-top:4px}
+.nav{display:flex;justify-content:center;gap:10px;margin:18px 0}
+.hint{font-size:14px;color:#98a2b3;text-align:center}
+.footer{text-align:center;color:#98a2b3;font-size:13px;margin-top:12px}
+.face-dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.dot{width:10px;height:10px;border-radius:50%;background:#d0d5dd;transition:background .2s}
+.dot.active{background:#111827}
+@media(max-width:600px){.app{padding:12px}.card{height:420px}.word{font-size:55px}.picture{font-size:80px}.pinyin{font-size:32px}}
+</style>
+</head>
+<body>
+    <a href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Md1-Mucluc.html" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;  
+          background: #ef4444; color: white; width: 60px; height: 60px; 
+          border-radius: 50%; display: flex; align-items: center; 
+          justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+          text-decoration: none; transition: all 0.3s;">
+    ←</a>
+<div class="app">
+<h1 id="mainTitle">🃏 Flashcard Từ vựng tiếng Trung</h1>
+<div class="sub" id="mainSub">Chọn bài học bên dưới để bắt đầu ôn tập (Bài 1 – 16). 5 mặt thẻ: Giải thích → Pinyin → Hán tự → Hán tự+Hình → Chỉ hình.</div>
+
+<div class="toolbar">
+<label>Chọn Bài học:
+<select id="lesson">
+<option value="1">Bài 1: Giới thiệu bản thân & Quốc gia</option>
+<option value="2">Bài 2: Thời gian, Sinh hoạt & Giao tiếp</option>
+<option value="3">Bài 3: Mua sắm & Đồ vật</option>
+<option value="4">Bài 4: Ăn uống & Thời tiết</option>
+<option value="5">Bài 5: Nhà cửa, Vị trí & Gia đình</option>
+<option value="6">Bài 6: Thể thao, Giải trí & Sở thích</option>
+<option value="7">Bài 7: Phương tiện, Địa điểm & Di chuyển</option>
+<option value="8">Bài 8: Trang phục, Mua sắm & Đời sống</option>
+<option value="9">Bài 9: Học tập, Trường học & Ngôn ngữ</option>
+<option value="10">Bài 10: Sức khỏe, Cơ thể & Liên lạc</option>
+<option value="11">Bài 11: Giao tiếp, Kế hoạch & Nhà hàng</option>
+<option value="12">Bài 12: Nghề nghiệp, Công việc & Gia đình</option>
+<option value="13">Bài 13: Địa điểm, Phương hướng & Đời sống</option>
+<option value="14">Bài 14: Sự kiện, Đồ ăn & Đời sống</option>
+<option value="15">Bài 15: 12 Con Giáp & Từ vựng Lớp học</option>
+<option value="16">Bài 16: Du lịch, Phương hướng & Đời sống</option>
+</select></label>
+
+<label>Chọn Phần:
+<select id="part"></select></label>
+
+<label>Thứ tự:
+<select id="order">
+<option value="normal">Theo thứ tự</option>
+<option value="shuffle">Xáo trộn</option>
+</select></label>
+
+<label>Mặt bắt đầu:
+<select id="front">
+<option value="meaning">Giải thích</option>
+<option value="pinyin">Pinyin</option>
+<option value="hanzi">Chỉ Hán tự</option>
+<option value="hanzi_image">Hán tự và hình</option>
+<option value="image">Chỉ hình</option>
+</select></label>
+
+<button class="primary" onclick="resetDeck()">🔄 Bắt đầu lại</button>
+<button onclick="speak()">🔊 Đọc từ (S)</button>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="card-wrap">
+<div class="card" id="card" onclick="flip()">
+<div class="face" id="cardFace"></div>
+</div>
+</div>
+
+<div class="face-dots" id="faceDots"></div>
+
+<div class="nav">
+<button onclick="prev()">← Trước</button>
+<button class="primary" onclick="flip()">Lật thẻ (Space)</button>
+<button onclick="next()">Sau →</button>
+</div>
+<div class="hint">💡 Nhấp / Space: lật sang mặt tiếp theo · ← → chuyển thẻ · S đọc từ · Mặt bắt đầu chọn ở trên</div>
+<div class="footer">Gộp toàn bộ 16 bài học · 5 mặt thẻ (Giải thích → Pinyin → Hán tự → Hán tự+Hình → Chỉ hình)</div>
+</div>
+
+<script>
+const lessons = {
+
+  1: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Học từ vựng theo phần, tùy chỉnh chế độ xem và xáo trộn thẻ.",
+    parts: {
+      part1: "Phần 1 (Từ 1 - 14)",
+      part2: "Phần 2 (Từ 1 - 5)",
+      part3: "Phần 3 (Từ 1 - 8)",
+      extra: "Bổ sung (Tên & Cụm từ)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "新", "pinyin": "xīn", "meaning": "mới (new)", "examples": [["他是新同學。", "Tā shì xīn tóngxué."]]},
+        {"hanzi": "同學", "pinyin": "tóngxué", "meaning": "bạn học (classmate)", "examples": [["他是新同學。", "Tā shì xīn tóngxué."]]},
+        {"hanzi": "她", "pinyin": "tā", "meaning": "cô ấy, bà ấy (she; her)", "examples": [["她是誰？", "Tā shì shéi?"]]},
+        {"hanzi": "誰", "pinyin": "shéi", "meaning": "ai (who)", "examples": [["她是誰？", "Tā shì shéi?"]]},
+        {"hanzi": "叫", "pinyin": "jiào", "meaning": "tên là, gọi là (to be called)", "examples": [["我叫王宜文。", "Wǒ jiào Wáng Yíwén."]]},
+        {"hanzi": "姓", "pinyin": "xìng", "meaning": "họ là (to be surnamed)", "examples": [["我姓王，叫宜文。", "Wǒ xìng Wáng, jiào Yíwén."]]},
+        {"hanzi": "很", "pinyin": "hěn", "meaning": "Rất (very)", "examples": [["新同學很可愛。", "Xīn tóngxué hěn kě'ài."]]},
+        {"hanzi": "可愛", "pinyin": "kě'ài", "meaning": "đáng yêu, dễ thương (lovely; cute)", "examples": [["新同學很可愛。", "Xīn tóngxué hěn kě'ài."]]},
+        {"hanzi": "哪", "pinyin": "nǎ / něi", "meaning": "nào (which)", "examples": [["他是哪國人？", "Tā shì nǎ guó rén?"]]},
+        {"hanzi": "國", "pinyin": "guó", "meaning": "quốc gia, nước (country)", "examples": [["他是哪國人？", "Tā shì nǎ guó rén?"]]},
+        {"hanzi": "妳", "pinyin": "nǐ", "meaning": "bạn (nữ) (you - female)", "examples": [["他是誰？妳知道嗎？", "Tā shì shéi? Nǐ zhīdào ma?"]]},
+        {"hanzi": "知道", "pinyin": "zhīdào", "meaning": "biết (to know)", "examples": [["妳知道嗎？", "Nǐ zhīdào ma?"]]},
+        {"hanzi": "嗎", "pinyin": "ma", "meaning": "trợ từ nghi vấn (question particle)", "examples": [["妳知道嗎？", "Nǐ zhīdào ma?"]]},
+        {"hanzi": "日本", "pinyin": "Rìběn", "meaning": "Nhật Bản (Japan)", "examples": [["他是日本人。", "Tā shì Rìběn rén."]]},
+        {"hanzi": "臺灣 / 台灣", "pinyin": "Táiwān", "meaning": "Đài Loan (Taiwan)", "examples": [["我是臺灣人。", "Wǒ shì Táiwān rén."]]},
+        {"hanzi": "中國", "pinyin": "Zhōngguó", "meaning": "Trung Quốc (China)", "examples": [["她是中國人。", "Tā shì Zhōngguó rén."]]},
+        {"hanzi": "美國", "pinyin": "Měiguó", "meaning": "Mỹ (the USA)", "examples": [["A: 他是哪國人？\nB: 他是美國人。", "A: Tā shì nǎ guó rén?\nB: Tā shì Měiguó rén."]]},
+        {"hanzi": "英國", "pinyin": "Yīngguó", "meaning": "Anh (the UK)", "examples": [["她是英國人。", "Tā shì Yīngguó rén."]]},
+        {"hanzi": "漂亮", "pinyin": "piàoliang", "meaning": "đẹp, xinh đẹp (pretty; beautiful)", "examples": [["她很漂亮。", "Tā hěn piàoliang."]]}
+      ],
+      part2: [
+        {"hanzi": "什麼", "pinyin": "shénme", "meaning": "cái gì (what)", "examples": [["他叫什麼名字？", "Tā jiào shénme míngzi?"]]},
+        {"hanzi": "名字", "pinyin": "míngzi", "meaning": "tên (first name; full name)", "examples": [["他叫什麼名字？妳知道嗎？", "Tā jiào shénme míngzi? Nǐ zhīdào ma?"]]},
+        {"hanzi": "姓名", "pinyin": "xìngmíng", "meaning": "họ và tên (full name)", "examples": [["請寫姓名。", "Qǐng xiě xìngmíng."]]},
+        {"hanzi": "呢", "pinyin": "ne", "meaning": "thì sao (particle - how about)", "examples": [["我是臺灣人，你呢？", "Wǒ shì Táiwān rén, nǐ ne?"]]},
+        {"hanzi": "印尼", "pinyin": "Yìnní", "meaning": "Indonesia", "examples": [["她是印尼人。", "Tā shì Yìnní rén."]]},
+        {"hanzi": "喜歡", "pinyin": "xǐhuān", "meaning": "thích (to like)", "examples": [["A: 你喜歡臺灣嗎？\nB: 我喜歡臺灣。", "A: Nǐ xǐhuān Táiwān ma?\nB: Wǒ xǐhuān Táiwān."]]}
+      ],
+      part3: [
+        {"hanzi": "大家", "pinyin": "dàjiā", "meaning": "mọi người (everyone)", "examples": [["大家好，我是小林友美。", "Dàjiā hǎo, wǒ shì Xiǎolín Yǒuměi."]]},
+        {"hanzi": "朋友", "pinyin": "péngyǒu", "meaning": "bạn bè (friend)", "examples": [["我們是好朋友。", "Wǒmen shì hǎo péngyǒu."]]},
+        {"hanzi": "愛", "pinyin": "ài", "meaning": "yêu, thích (to love)", "examples": [["我愛你。", "Wǒ ài nǐ."]]},
+        {"hanzi": "吃", "pinyin": "chī", "meaning": "ăn (to eat)", "examples": [["我愛吃水果。", "Wǒ ài chī shuǐguǒ."]]},
+        {"hanzi": "水果", "pinyin": "shuǐguǒ", "meaning": "trái cây, hoa quả (fruit)", "examples": [["我愛吃水果。", "Wǒ ài chī shuǐguǒ."]]},
+        {"hanzi": "水", "pinyin": "shuǐ", "meaning": "nước (water)", "examples": [["喝水", "hē shuǐ"]]},
+        {"hanzi": "喝", "pinyin": "hē", "meaning": "uống (to drink)", "examples": [["我喜歡喝茶。", "Wǒ xǐhuān hē chá."]]},
+        {"hanzi": "茶", "pinyin": "chá", "meaning": "trà (tea)", "examples": [["我喜歡喝茶。", "Wǒ xǐhuān hē chá."]]},
+        {"hanzi": "謝謝", "pinyin": "xièxie", "meaning": "cảm ơn (to thank)", "examples": [["A: 謝謝你。\nB: 不客氣。", "A: Xièxie nǐ.\nB: Bú kèqi."]]},
+        {"hanzi": "不客氣", "pinyin": "bú kèqi", "meaning": "không có gì (you are welcome)", "examples": [["不客氣！", "Bú kèqi!"]]}
+      ],
+      extra: [
+        {"hanzi": "珍珠奶茶", "pinyin": "zhēnzhū nǎichá", "meaning": "trà sữa trân châu (bubble milk tea)", "examples": [["我喜歡喝珍珠奶茶。", "Wǒ xǐhuān hē zhēnzhū nǎichá."]]},
+        {"hanzi": "奶茶", "pinyin": "nǎichá", "meaning": "trà sữa (milk tea)", "examples": [["一杯奶茶", "Yì bēi nǎichá"]]},
+        {"hanzi": "自我介紹", "pinyin": "zìwǒ jièshào", "meaning": "tự giới thiệu (self-introduction)", "examples": [["請自我介紹。", "Qǐng zìwǒ jièshào."]]},
+        {"hanzi": "早安", "pinyin": "zǎo'ān", "meaning": "chào buổi sáng (good morning)", "examples": [["老師，早安！", "Lǎoshī, zǎo'ān!"]]},
+        {"hanzi": "午安", "pinyin": "wǔ'ān", "meaning": "chào buổi trưa/chiều (good afternoon)", "examples": [["大家午安！", "Dàjiā wǔ'ān!"]]},
+        {"hanzi": "晚安", "pinyin": "wǎn'ān", "meaning": "chúc ngủ ngon / chào buổi tối (good night)", "examples": [["爸爸晚安。", "Bàba wǎn'ān."]]}
+      ]
+    },
+    emoji: {
+      "新":"🆕","同學":"🧑‍🎓","她":"👩","誰":"❓","叫":"🗣️","姓":"🏷️","很":"‼️","可愛":"🥰","哪":"🤔","國":"🌐",
+      "妳":"👩","知道":"💡","嗎":"❓","日本":"🗾","臺灣 / 台灣":"🧋","中國":"🇨🇳","美國":"🇺🇸","英國":"🇬🇧","漂亮":"✨",
+      "什麼":"❓","名字":"🪪","姓名":"📝","呢":"❓","印尼":"🇮🇩","喜歡":"❤️",
+      "大家":"👥","朋友":"🤝","愛":"💖","吃":"🍽️","水果":"🍎","水":"💧","喝":"🥤","茶":"🍵","謝謝":"🙏","不客氣":"😊",
+      "珍珠奶茶":"🧋","奶茶":"🥛","自我介紹":"🎤","早安":"🌅","午安":"☀️","晚安":"🌙"
+    }
+  },
+  2: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Thời gian, Sinh hoạt và Giao tiếp hàng ngày.",
+    parts: {
+      part1: "Phần 1 (Từ 1 - 18)",
+      part2: "Phần 2 (Từ 1 - 10)",
+      part3: "Phần 3 (Từ 1 - 7)",
+      extra: "Bổ sung (Cụm từ Giao tiếp)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "幾", "pinyin": "jǐ", "meaning": "mấy, bao nhiêu (how many)", "examples": [["現在幾點鐘？", "Xiànzài jǐ diǎnzhōng?"]]},
+        {"hanzi": "點 / 點鐘", "pinyin": "diǎn / diǎnzhōng", "meaning": "giờ (o'clock)", "examples": [["現在幾點鐘？", "Xiànzài jǐ diǎnzhōng?"]]},
+        {"hanzi": "現在", "pinyin": "xiànzài", "meaning": "bây giờ (now)", "examples": [["現在幾點鐘？", "Xiànzài jǐ diǎnzhōng?"]]},
+        {"hanzi": "去", "pinyin": "qù", "meaning": "đi (to go)", "examples": [["你幾點去學校？", "Nǐ jǐ diǎn qù xuéxiào?"]]},
+        {"hanzi": "學校", "pinyin": "xuéxiào", "meaning": "trường học (school)", "examples": [["你幾點去學校？", "Nǐ jǐ diǎn qù xuéxiào?"]]},
+        {"hanzi": "媽媽", "pinyin": "māma", "meaning": "mẹ (mom)", "examples": [["媽媽忙不忙？", "Māma máng bù máng?"]]},
+        {"hanzi": "爸爸", "pinyin": "bàba", "meaning": "bố, ba (dad)", "examples": [["我爸爸五十歲。", "Wǒ bàba wǔshí suì."]]},
+        {"hanzi": "孩子", "pinyin": "háizi", "meaning": "con, trẻ em (child; children)", "examples": [["他有孩子嗎？", "Tā yǒu háizi ma?"]]},
+        {"hanzi": "今天", "pinyin": "jīntiān", "meaning": "hôm nay (today)", "examples": [["今天是五月十七日，星期一。", "Jīntiān shì wǔ yuè shíqī rì, xīngqí yī."]]},
+        {"hanzi": "星期", "pinyin": "xīngqí", "meaning": "tuần, thứ (week; day of the week)", "examples": [["星期一", "xīngqí yī"]]},
+        {"hanzi": "月", "pinyin": "yuè", "meaning": "tháng (month)", "examples": [["五月", "wǔ yuè"]]},
+        {"hanzi": "號", "pinyin": "hào", "meaning": "ngày (dùng trong văn nói) (date/number)", "examples": [["五月十七號", "wǔ yuè shíqī hào"]]},
+        {"hanzi": "日", "pinyin": "rì", "meaning": "ngày (dùng trong văn viết) (day)", "examples": [["五月十七日", "wǔ yuè shíqī rì"]]},
+        {"hanzi": "星期天", "pinyin": "xīngqí tiān", "meaning": "Chủ Nhật (Sunday)", "examples": [["今天是星期天。", "Jīntiān shì xīngqí tiān."]]},
+        {"hanzi": "早上", "pinyin": "zǎoshàng", "meaning": "buổi sáng (morning)", "examples": [["你今天早上有課嗎？", "Nǐ jīntiān zǎoshàng yǒu kè ma?"]]},
+        {"hanzi": "有", "pinyin": "yǒu", "meaning": "có (to have)", "examples": [["我有課。", "Wǒ yǒu kè."]]},
+        {"hanzi": "沒", "pinyin": "méi", "meaning": "không, chưa (not)", "examples": [["我今天早上沒有課。", "Wǒ jīntiān zǎoshàng méi yǒu kè."]]},
+        {"hanzi": "課", "pinyin": "kè", "meaning": "lớp học, bài học (class)", "examples": [["A: 你今天早上有課嗎？\nB: 我今天早上沒有課。", "A: Nǐ jīntiān zǎoshàng yǒu kè ma?\nB: Wǒ jīntiān zǎoshàng méi yǒu kè."]]},
+        {"hanzi": "圖書館", "pinyin": "túshūguǎn", "meaning": "thư viện (library)", "examples": [["你幾點去圖書館？", "Nǐ jǐ diǎn qù túshūguǎn?"]]},
+        {"hanzi": "中午", "pinyin": "zhōngwǔ", "meaning": "buổi trưa (noon)", "examples": [["你中午回家嗎？", "Nǐ zhōngwǔ huí jiā ma?"]]},
+        {"hanzi": "回", "pinyin": "huí", "meaning": "về, trở về (to return)", "examples": [["回家", "huí jiā"]]},
+        {"hanzi": "家", "pinyin": "jiā", "meaning": "nhà, gia đình (home; house)", "examples": [["你中午回家嗎？", "Nǐ zhōngwǔ huí jiā ma?"]]},
+        {"hanzi": "家人", "pinyin": "jiārén", "meaning": "người nhà, gia đình (family members)", "examples": [["我的家人", "Wǒ de jiārén"]]},
+        {"hanzi": "下午", "pinyin": "xiàwǔ", "meaning": "buổi chiều (afternoon)", "examples": [["下午好", "xiàwǔ hǎo"]]},
+        {"hanzi": "上午", "pinyin": "shàngwǔ", "meaning": "buổi sáng (morning)", "examples": [["上午我有課。", "Shàngwǔ wǒ yǒu kè."]]},
+        {"hanzi": "下課", "pinyin": "xiàkè", "meaning": "tan học, tan lớp (class dismissed)", "examples": [["我們十二點下課。", "Wǒmen shí'èr diǎn xiàkè."]]},
+        {"hanzi": "上課", "pinyin": "shàngkè", "meaning": "đi học, lên lớp (to attend class)", "examples": [["八點上課", "bā diǎn shàngkè"]]},
+        {"hanzi": "分", "pinyin": "fēn", "meaning": "phút (minute)", "examples": [["我八點十分去學校。", "Wǒ bā diǎn shí fēn qù xuéxiào."]]}
+      ],
+      part2: [
+        {"hanzi": "明天", "pinyin": "míngtiān", "meaning": "ngày mai (tomorrow)", "examples": [["明天見！", "Míngtiān jiàn!"]]},
+        {"hanzi": "昨天", "pinyin": "zuótiān", "meaning": "hôm qua (yesterday)", "examples": [["你昨天幾點回家？", "Nǐ zuótiān jǐ diǎn huí jiā?"]]},
+        {"hanzi": "週末", "pinyin": "zhōumò", "meaning": "cuối tuần (weekend)", "examples": [["週末快樂！", "Zhōumò kuàilè!"]]},
+        {"hanzi": "要", "pinyin": "yào", "meaning": "muốn, cần (to want to do something)", "examples": [["你要水嗎？", "Nǐ yào shuǐ ma?"], ["我要喝珍珠奶茶。", "Wǒ yào hē zhēnzhū nǎichá."]]},
+        {"hanzi": "來", "pinyin": "lái", "meaning": "đến, tới (to come)", "examples": [["他今天不來學校嗎？", "Tā jīntiān bù lái xuéxiào ma?"]]},
+        {"hanzi": "啊", "pinyin": "ā", "meaning": "thốt từ 'A!' (interjection of surprise)", "examples": [["啊！今天是你的生日。", "Ā! Jīntiān shì nǐ de shēngrì."]]},
+        {"hanzi": "的", "pinyin": "de", "meaning": "của (trợ từ sở hữu) (possessive particle)", "examples": [["你的生日", "nǐ de shēngrì"]]},
+        {"hanzi": "生日", "pinyin": "shēngrì", "meaning": "sinh nhật (birthday)", "examples": [["生日快樂！", "Shēngrì kuàilè!"]]},
+        {"hanzi": "快樂", "pinyin": "kuàilè", "meaning": "vui vẻ, hạnh phúc (happy)", "examples": [["啊！今天是你的生日。生日快樂！", "Ā! Jīntiān shì nǐ de shēngrì. Shēngrì kuàilè!"]]},
+        {"hanzi": "晚上", "pinyin": "wǎnshàng", "meaning": "buổi tối, ban đêm (evening; night)", "examples": [["晚上好", "wǎnshàng hǎo"]]},
+        {"hanzi": "問題", "pinyin": "wèntí", "meaning": "câu hỏi, vấn đề (question; problem)", "examples": [["老師：你們有問題嗎？\n學生：沒有。謝謝老師。", "Lǎoshī: Nǐmen yǒu wèntí ma?\nXuéshēng: Méi yǒu. Xièxie lǎoshī."]]}
+      ],
+      part3: [
+        {"hanzi": "做", "pinyin": "zuò", "meaning": "làm (to make; to do)", "examples": [["你今天要做什麼？", "Nǐ jīntiān yào zuò shénme?"]]},
+        {"hanzi": "歲", "pinyin": "suì", "meaning": "tuổi (measure word for age)", "examples": [["我爸爸五十歲，我媽媽四十八歲。", "Wǒ bàba wǔshí suì, wǒ māma sìshíbā suì."]]},
+        {"hanzi": "起床", "pinyin": "qǐchuáng", "meaning": "thức dậy (to get up)", "examples": [["我今天七點起床。", "Wǒ jīntiān qī diǎn qǐchuáng."]]},
+        {"hanzi": "午飯", "pinyin": "wǔfàn", "meaning": "bữa trưa (lunch)", "examples": [["吃午飯", "chī wǔfàn"]]},
+        {"hanzi": "早飯", "pinyin": "zǎofàn", "meaning": "bữa sáng (breakfast)", "examples": [["吃早飯", "chī zǎofàn"]]},
+        {"hanzi": "晚飯", "pinyin": "wǎnfàn", "meaning": "bữa tối (dinner)", "examples": [["吃晚飯", "chī wǎnfàn"]]},
+        {"hanzi": "飯", "pinyin": "fàn", "meaning": "cơm, bữa ăn (cooked rice; meal)", "examples": [["吃飯", "chī fàn"]]},
+        {"hanzi": "做飯", "pinyin": "zuòfàn", "meaning": "nấu ăn (to cook)", "examples": [["我很喜歡做飯。", "Wǒ hěn xǐhuān zuòfàn."]]},
+        {"hanzi": "睡覺", "pinyin": "shuìjiào", "meaning": "ngủ (to sleep; to go to bed)", "examples": [["宜文昨天幾點睡覺？", "Yíwén zuótiān jǐ diǎn shuìjiào?"]]},
+        {"hanzi": "忙", "pinyin": "máng", "meaning": "bận rộn (busy)", "examples": [["媽媽忙不忙？", "Māma máng bù máng?"]]},
+        {"hanzi": "累", "pinyin": "lèi", "meaning": "mệt mỏi (tired)", "examples": [["中明今天很累。", "Zhōngmíng jīntiān hěn lèi."]]}
+      ],
+      extra: [
+        {"hanzi": "沒問題", "pinyin": "Méi wèntí.", "meaning": "Không vấn đề / Không sao cả (No problem.)", "examples": [["A: 謝謝你！\nB: 沒問題！", "A: Xièxie nǐ!\nB: Méi wèntí!"]]},
+        {"hanzi": "明天見", "pinyin": "Míngtiān jiàn.", "meaning": "Hẹn gặp lại ngày mai (See you tomorrow.)", "examples": [["再見，明天見！", "Zàijiàn, míngtiān jiàn!"]]},
+        {"hanzi": "再見", "pinyin": "Zàijiàn.", "meaning": "Tạm biệt (Good-bye.)", "examples": [["老師，再見！", "Lǎoshī, zàijiàn!"]]}
+      ]
+    },
+    emoji: {
+      "幾":"❓","點 / 點鐘":"⏰","現在":"⏱️","去":"🚶","學校":"🏫","媽媽":"👩‍👧","爸爸":"👨‍👦","孩子":"🧒",
+      "今天":"📅","星期":"📆","月":"🌙","號":"🔢","日":"☀️","星期天":"🛋️","早上":"🌅","有":"✅",
+      "沒":"❌","課":"📚","圖書館":"📚","中午":"☀️","回":"🏠","家":"🏠","家人":"👨‍👩‍👧‍👦","下午":"🌤️",
+      "上午":"🌄","下課":"🔔","上課":"📖","分":"⏱️","明天":"🔜","昨天":"🔙","週末":"🥳","要":"🙋‍♂️",
+      "來":"🏃‍♂️","啊":"😮","的":"🔗","生日":"🎂","快樂":"🎉","晚上":"🌙","問題":"❓","做":"🛠️",
+      "歲":"🎂","起床":"🌅","午飯":"🍱","早飯":"🥐","晚飯":"🍲","飯":"🍚","做飯":"🍳","睡覺":"🛌",
+      "忙":"💼","累":"😫","沒問題":"👌","明天見":"👋","再見":"👋"
+    }
+  },
+  3: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Mua sắm, Đồ vật, Giá cả, Màu sắc & Mời bạn bè.",
+    parts: {
+      part1: "Phần 1 (Từ 1 - 17: Mua sắm, Quà tặng, Đồ ăn)",
+      part2: "Phần 2 (Từ 1 - 17: Chỉ định, Tiền bạc, Màu sắc)",
+      part3: "Phần 3 (Từ 1 - 5: Mời gọi, Giải trí, Món phụ)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "買", "pinyin": "mǎi", "meaning": "mua (to buy)", "examples": [["你今天要買什麼？", "Nǐ jīntiān yào mǎi shénme?"]]},
+        {"hanzi": "禮物", "pinyin": "lǐwù", "meaning": "quà tặng (gift)", "examples": [["我要去買禮物。", "Wǒ yào qù mǎi lǐwù."]]},
+        {"hanzi": "想（要）", "pinyin": "xiǎng (yào)", "meaning": "muốn, ước muốn (to want to; would like to)", "examples": [["我想喝珍珠奶茶。", "Wǒ xiǎng hē zhēnzhū nǎichá."]]},
+        {"hanzi": "送", "pinyin": "sòng", "meaning": "tặng, biếu (to give as a present)", "examples": [["明天是媽媽的生日，你想送她什麼禮物？", "Míngtiān shì māma de shēngrì, nǐ xiǎng sòng tā shénme lǐwù?"]]},
+        {"hanzi": "個", "pinyin": "ge", "meaning": "cái, con, người (lượng từ chung) (general measure word)", "examples": [["我有一個英國朋友。", "Wǒ yǒu yí ge Yīngguó péngyǒu."]]},
+        {"hanzi": "看", "pinyin": "kàn", "meaning": "xem, nhìn, đọc (to read; to look; to watch)", "examples": [["他很喜歡看書。", "Tā hěn xǐhuān kànshū."]]},
+        {"hanzi": "書", "pinyin": "shū", "meaning": "sách (book)", "examples": [["他很喜歡看書。", "Tā hěn xǐhuān kànshū."]]},
+        {"hanzi": "兩", "pinyin": "liǎng", "meaning": "hai (dùng cho số lượng) (two for quantity)", "examples": [["我想買兩本中文書。", "Wǒ xiǎng mǎi liǎng běn Zhōngwén shū."]]},
+        {"hanzi": "本", "pinyin": "běn", "meaning": "cuốn, quyển (lượng từ cho sách) (measure word for books)", "examples": [["兩本書", "liǎng běn shū"]]},
+        {"hanzi": "中文", "pinyin": "Zhōngwén", "meaning": "tiếng Trung (Chinese)", "examples": [["我想買兩本中文書、一本英文書。", "Wǒ xiǎng mǎi liǎng běn Zhōngwén shū, yì běn Yīngwén shū."]]},
+        {"hanzi": "英文", "pinyin": "Yīngwén", "meaning": "tiếng Anh (English)", "examples": [["一本英文書", "yì běn Yīngwén shū"]]},
+        {"hanzi": "一些", "pinyin": "yìxiē", "meaning": "một vài, một ít (some)", "examples": [["我有一些中文書。", "Wǒ yǒu yìxiē Zhōngwén shū."]]},
+        {"hanzi": "花", "pinyin": "huā", "meaning": "hoa (flower)", "examples": [["我送媽媽一朵花。", "Wǒ sòng māma yì duǒ huā."]]},
+        {"hanzi": "朵", "pinyin": "duǒ", "meaning": "bông, đóa (lượng từ cho hoa) (measure word for flowers)", "examples": [["一朵花", "yì duǒ huā"]]},
+        {"hanzi": "和", "pinyin": "hé / hàn", "meaning": "và, với (and)", "examples": [["他送我花和一本書。", "Tā sòng wǒ huā hé yì běn shū."]]},
+        {"hanzi": "大", "pinyin": "dà", "meaning": "to, lớn (big)", "examples": [["我要買大蛋糕，不要買小蛋糕。", "Wǒ yào mǎi dà dàngāo, bú yào mǎi xiǎo dàngāo."]]},
+        {"hanzi": "小", "pinyin": "xiǎo", "meaning": "nhỏ, bé (small)", "examples": [["小蛋糕", "xiǎo dàngāo"]]},
+        {"hanzi": "蛋糕", "pinyin": "dàngāo", "meaning": "bánh ngọt, bánh kem (cake)", "examples": [["我要買大蛋糕。", "Wǒ yào mǎi dà dàngāo."]]},
+        {"hanzi": "蛋", "pinyin": "dàn", "meaning": "trứng (egg)", "examples": [["我要買蛋。", "Wǒ yào mǎi dàn."]]},
+        {"hanzi": "一起", "pinyin": "yìqǐ", "meaning": "cùng nhau (together)", "examples": [["昨天我們一起去圖書館。", "Zuótiān wǒmen yìqǐ qù túshūguǎn."]]},
+        {"hanzi": "啊", "pinyin": "ā", "meaning": "chà, nhé, à (trợ từ cuối câu) (phrase final particle)", "examples": [["好啊，我們一起吃蛋糕。", "Hǎo ā, wǒmen yìqǐ chī dàngāo."]]}
+      ],
+      part2: [
+        {"hanzi": "這", "pinyin": "zhè / zhèi", "meaning": "đây, này (this)", "examples": [["我要買這本書，不要買那本書。", "Wǒ yào mǎi zhè běn shū, bú yào mǎi nà běn shū."]]},
+        {"hanzi": "那", "pinyin": "nà / nèi", "meaning": "kia, đó (that)", "examples": [["那本書", "nà běn shū"]]},
+        {"hanzi": "種", "pinyin": "zhǒng", "meaning": "loại, thứ (species; kind; sort)", "examples": [["你喜歡喝哪種茶？", "Nǐ xǐhuān hē nǎ zhǒng chá?"]]},
+        {"hanzi": "鉛筆", "pinyin": "qiānbǐ", "meaning": "bút chì (pencil)", "examples": [["A: 你要哪種筆？\nB: 我要鉛筆。", "A: Nǐ yào nǎ zhǒng bǐ?\nB: Wǒ yào qiānbǐ."]]},
+        {"hanzi": "筆", "pinyin": "bǐ", "meaning": "bút (pen)", "examples": [["我要鉛筆。", "Wǒ yào qiānbǐ."]]},
+        {"hanzi": "怎麼樣", "pinyin": "zěnmeyàng", "meaning": "như thế nào, ra sao (How about?)", "examples": [["台灣的珍珠奶茶怎麼樣？", "Táiwān de zhēnzhū nǎichá zěnmeyàng?"]]},
+        {"hanzi": "東西", "pinyin": "dōngxi", "meaning": "đồ đạc, vật dụng (thing; stuff)", "examples": [["你要買什麼東西？", "Nǐ yào mǎi shénme dōngxi?"]]},
+        {"hanzi": "枝", "pinyin": "zhī", "meaning": "cây, chiếc (lượng từ cho bút) (measure word for pens)", "examples": [["我有兩枝鉛筆。", "Wǒ yǒu liǎng zhī qiānbǐ."]]},
+        {"hanzi": "塊", "pinyin": "kuài", "meaning": "đồng (đơn vị tiền tệ văn nói) (measure word for money)", "examples": [["一枝筆幾塊錢？", "Yì zhī bǐ jǐ kuài qián?"]]},
+        {"hanzi": "錢", "pinyin": "qián", "meaning": "tiền (money)", "examples": [["一枝筆幾塊錢？", "Yì zhī bǐ jǐ kuài qián?"]]},
+        {"hanzi": "元", "pinyin": "yuán", "meaning": "đồng (đơn vị tiền tệ văn viết) (unit of money)", "examples": [["這本書八十元。", "Zhè běn shū bāshí yuán."]]},
+        {"hanzi": "便宜", "pinyin": "piányí", "meaning": "rẻ (cheap; inexpensive)", "examples": [["這種蛋糕不便宜。", "Zhè zhǒng dàngāo bù piányí."]]},
+        {"hanzi": "貴", "pinyin": "guì", "meaning": "đắt, quý (expensive)", "examples": [["A: 這種蛋糕很貴嗎？\nB: 是啊，這種蛋糕不便宜。", "A: Zhè zhǒng dàngāo hěn guì ma?\nB: Shì ā, zhè zhǒng dàngāo bù piányí."]]},
+        {"hanzi": "顏色", "pinyin": "yánsè", "meaning": "màu sắc (color)", "examples": [["你喜歡什麼顏色？", "Nǐ xǐhuān shénme yánsè?"]]},
+        {"hanzi": "紅色", "pinyin": "hóngsè", "meaning": "màu đỏ (red color)", "examples": [["你喜歡紅色的筆嗎？", "Nǐ xǐhuān hóngsè de bǐ ma?"]]},
+        {"hanzi": "紅", "pinyin": "hóng", "meaning": "đỏ (red)", "examples": [["紅色的花", "hóngsè de huā"]]},
+        {"hanzi": "白色", "pinyin": "báisè", "meaning": "màu trắng (white color)", "examples": [["我喜歡白的。", "Wǒ xǐhuān bái de."]]},
+        {"hanzi": "白", "pinyin": "bái", "meaning": "trắng (white)", "examples": [["白色的花", "báisè de huā"]]},
+        {"hanzi": "都", "pinyin": "dōu", "meaning": "đều, tất cả (all; both)", "examples": [["紅色的花、白色的花都很漂亮。", "Hóngsè de huā, báisè de huā, dōu hěn piàoliang."]]},
+        {"hanzi": "好看", "pinyin": "hǎokàn", "meaning": "đẹp, dễ nhìn (good-looking; beautiful; pretty)", "examples": [["這朵花很好看。", "Zhè duǒ huā hěn hǎokàn."], ["那個學生很好看。", "Nà ge xuéshēng hěn hǎokàn."]]},
+        {"hanzi": "常（常）", "pinyin": "cháng (cháng)", "meaning": "thường xuyên (often)", "examples": [["我們常常一起去圖書館。", "Wǒmen chángcháng yìqǐ qù túshūguǎn."]]},
+        {"hanzi": "穿", "pinyin": "chuān", "meaning": "mặc, đi (giày/tất) (to wear)", "examples": [["穿衣服", "chuān yīfu"]]},
+        {"hanzi": "衣服", "pinyin": "yīfu", "meaning": "quần áo (clothes)", "examples": [["這件衣服的顏色很漂亮。", "Zhè jiàn yīfu de yánsè hěn piàoliang."]]},
+        {"hanzi": "件", "pinyin": "jiàn", "meaning": "chiếc, cái (lượng từ cho quần áo) (measure word for clothes)", "examples": [["這件衣服", "zhè jiàn yīfu"]]}
+      ],
+      part3: [
+        {"hanzi": "請", "pinyin": "qǐng", "meaning": "mời, đãi (to invite; to treat)", "examples": [["他請我去他家玩。", "Tā qǐng wǒ qù tā jiā wán."], ["我請他喝台灣茶。", "Wǒ qǐng tā hē Táiwān chá."]]},
+        {"hanzi": "玩", "pinyin": "wán", "meaning": "chơi, giải trí (to play)", "examples": [["我今天晚上要去同學家玩。", "Wǒ jīntiān wǎnshàng yào qù tóngxué jiā wán."]]},
+        {"hanzi": "這些", "pinyin": "zhèxiē / zhèixiē", "meaning": "những cái này (these)", "examples": [["這些是中文書，那些是英文書。", "Zhèxiē shì Zhōngwén shū, nàxiē shì Yīngwén shū."]]},
+        {"hanzi": "那些", "pinyin": "nàxiē / nèixiē", "meaning": "những cái kia (those)", "examples": [["那些是英文書。", "Nàxiē shì Yīngwén shū."]]},
+        {"hanzi": "點心", "pinyin": "diǎnxīn", "meaning": "đồ ăn nhẹ, điểm tâm (snack; light refreshments)", "examples": [["甜的點心叫甜點。", "Tián de diǎnxīn jiào tiándiǎn."]]},
+        {"hanzi": "甜點", "pinyin": "tiándiǎn", "meaning": "món tráng miệng (dessert)", "examples": [["甜點很好吃。", "Tiándiǎn hěn hǎochī."]]},
+        {"hanzi": "甜", "pinyin": "tián", "meaning": "ngọt (sweet)", "examples": [["甜的點心", "tián de diǎnxīn"]]},
+        {"hanzi": "開心", "pinyin": "kāixīn", "meaning": "vui vẻ, hân hoan (happy)", "examples": [["他今天很開心。", "Tā jīntiān hěn kāixīn."]]}
+      ]
+    },
+    emoji: {
+      "買":"🛒","禮物":"🎁","想（要）":"💭","送":"🎁","個":"1️⃣","看":"📖","書":"📚","兩":"2️⃣",
+      "本":"📘","中文":"🇨🇳","英文":"🇬🇧","一些":"📦","花":"🌸","朵":"🌺","和":"🔗","大":"🐘",
+      "小":"🐭","蛋糕":"🎂","蛋":"🥚","一起":"👥","啊":"😮","這":"👉","那":"👈","種":"🏷️",
+      "鉛筆":"✏️","筆":"🖊️","怎麼樣":"❓","東西":"🛍️","枝":"✏️","塊":"💵","錢":"💰","元":"🪙",
+      "便宜":"🏷️","貴":"💎","顏色":"🎨","紅色":"🔴","紅":"🔴","白色":"⚪","白":"⚪","都":"💯",
+      "好看":"✨","常（常）":"🔄","穿":"👕","衣服":"👔","件":"👔","請":"🤝","玩":"🎮",
+      "這些":"👇","那些":"👉","點心":"🍰","甜點":"🍮","甜":"🍬","開心":"😀"
+    }
+  },
+  4: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Ăn uống, Gọi món, Cửa hàng & Thời tiết.",
+    parts: {
+      part1: "Phần 1 (1-17: Cà phê, Thời tiết, Đồ ăn & Bán)",
+      part2: "Phần 2 (1-15: Gọi món, Đơn vị đo, Trà & Tiền bạc)",
+      part3: "Phần 3 (1-7: Bốn mùa, Cửa hàng & Thức uống)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "咖啡", "pinyin": "kāfēi", "meaning": "cà phê (coffee)", "examples": []},
+        {"hanzi": "還是", "pinyin": "háishì", "meaning": "hay là (hoặc - dùng trong câu hỏi) (or)", "examples": [["你要喝什麼？咖啡還是茶？", "Nǐ yào hē shénme? Kāfēi háishì chá?"]]},
+        {"hanzi": "天氣", "pinyin": "tiānqì", "meaning": "thời tiết (weather)", "examples": []},
+        {"hanzi": "好", "pinyin": "hǎo", "meaning": "rất (very)", "examples": []},
+        {"hanzi": "熱", "pinyin": "rè", "meaning": "nóng (hot)", "examples": []},
+        {"hanzi": "冷", "pinyin": "lěng", "meaning": "lạnh (cold)", "examples": [["今天天氣好熱。", "Jīntiān tiānqì hǎo rè."]]},
+        {"hanzi": "飲料", "pinyin": "yǐnliào", "meaning": "thức uống, giải khát (beverage)", "examples": []},
+        {"hanzi": "也", "pinyin": "yě", "meaning": "cũng (also; too; as well)", "examples": [["我很忙，也很累。", "Wǒ hěn máng, yě hěn lèi."]]},
+        {"hanzi": "餓", "pinyin": "è", "meaning": "đói (hungry)", "examples": []},
+        {"hanzi": "渴", "pinyin": "kě", "meaning": "khát (thirsty)", "examples": [["現在我不渴，我很餓。", "Xiànzài wǒ bù kě, wǒ hěn è."]]},
+        {"hanzi": "（一）點（兒）", "pinyin": "(yì)diǎn(r)", "meaning": "một chút, một ít (a little; a bit)", "examples": [["我想喝一點兒飲料。", "Wǒ xiǎng hē yìdiǎnr yǐnliào."]]},
+        {"hanzi": "餐廳 / 飯館", "pinyin": "cāntīng / fànguǎn", "meaning": "nhà hàng, quán ăn (restaurant)", "examples": []},
+        {"hanzi": "家", "pinyin": "jiā", "meaning": "quán, nhà hàng (lượng từ cho nhà hàng/cửa hàng) (measure word for restaurants)", "examples": [["你想去哪家餐廳？", "Nǐ xiǎng qù nǎ jiā cāntīng?"]]},
+        {"hanzi": "太", "pinyin": "tài", "meaning": "quá, lắm (too)", "examples": [["天氣太熱，我要喝飲料。", "Tiānqì tài rè, wǒ yào hē yǐnliào."]]},
+        {"hanzi": "多", "pinyin": "duō", "meaning": "nhiều (many; much)", "examples": []},
+        {"hanzi": "少", "pinyin": "shǎo", "meaning": "ít (less; little)", "examples": [["我的中文書很多，你要不要看？", "Wǒ de Zhōngwén shū hěn duō, nǐ yào bú yào kàn?"]]},
+        {"hanzi": "麵", "pinyin": "miàn", "meaning": "mì, bún (noodles)", "examples": [["我爸爸喜歡吃飯，我媽媽喜歡吃麵。", "Wǒ bàba xǐhuān chī fàn, wǒ māma xǐhuān chī miàn."]]},
+        {"hanzi": "好吃", "pinyin": "hǎochī", "meaning": "ngon (đồ ăn) (delicious)", "examples": [["這家餐廳的甜點很好吃。", "Zhè jiā cāntīng de tiándiǎn hěn hǎochī."]]},
+        {"hanzi": "好喝", "pinyin": "hǎohē", "meaning": "ngon (đồ uống) (good to drink)", "examples": [["這種飲料很好喝。", "Zhè zhǒng yǐnliào hěn hǎohē."]]},
+        {"hanzi": "了", "pinyin": "le", "meaning": "trợ từ (dùng sau Vs, đi kèm với 太) (used after a Vs, preceded by 太)", "examples": [["我太累了，不想去玩。", "Wǒ tài lèi le, bù xiǎng qù wán."]]},
+        {"hanzi": "最", "pinyin": "zuì", "meaning": "nhất (most)", "examples": [["我爸爸、媽媽有三個孩子，我最愛看書。", "Wǒ bàba, māma yǒu sān ge háizi, wǒ zuì ài kànshū."]]},
+        {"hanzi": "賣", "pinyin": "mài", "meaning": "bán (to sell)", "examples": [["這家餐廳賣飲料嗎？", "Zhè jiā cāntīng mài yǐnliào ma?"]]},
+        {"hanzi": "牛肉麵", "pinyin": "niúròu miàn", "meaning": "mì bò (beef noodles)", "examples": []}
+      ],
+      part2: [
+        {"hanzi": "點", "pinyin": "diǎn", "meaning": "gọi món, đặt (to order from a menu)", "examples": []},
+        {"hanzi": "碗", "pinyin": "wǎn", "meaning": "bát, tô (lượng từ / danh từ) (bowl)", "examples": [["A: 你想點什麼？\nB: 我想點一碗牛肉麵。", "A: Nǐ xiǎng diǎn shénme?\nB: Wǒ xiǎng diǎn yì wǎn niúròu miàn."]]},
+        {"hanzi": "杯", "pinyin": "bēi", "meaning": "ly, cốc (lượng từ) (cup of)", "examples": []},
+        {"hanzi": "杯子", "pinyin": "bēizi", "meaning": "cái ly, cái cốc (cup)", "examples": [["我要一杯珍珠奶茶。", "Wǒ yào yì bēi zhēnzhū nǎichá."]]},
+        {"hanzi": "瓶子", "pinyin": "píngzi", "meaning": "cái chai, cái bình (bottle)", "examples": []},
+        {"hanzi": "瓶", "pinyin": "píng", "meaning": "chai, bình (lượng từ) (bottle of)", "examples": [["你很渴嗎？我有一瓶飲料，你要不要喝？", "Nǐ hěn kě ma? Wǒ yǒu yì píng yǐnliào, nǐ yào bú yào hē?"]]},
+        {"hanzi": "女", "pinyin": "nǚ", "meaning": "nữ, gái (female)", "examples": []},
+        {"hanzi": "男", "pinyin": "nán", "meaning": "nam, trai (male)", "examples": [["我的女朋友很喜歡喝珍珠奶茶。", "Wǒ de nǚ péngyǒu hěn xǐhuān hē zhēnzhū nǎichá."]]},
+        {"hanzi": "位", "pinyin": "wèi", "meaning": "vị, ngài (lượng từ kính ngữ cho người) (honorific measure word for people)", "examples": [["我有一位英國老師和兩位日本老師。", "Wǒ yǒu yí wèi Yīngguó lǎoshī hé liǎng wèi Rìběn lǎoshī."]]},
+        {"hanzi": "紅茶", "pinyin": "hóngchá", "meaning": "hồng trà, trà đen (black tea)", "examples": []},
+        {"hanzi": "綠茶", "pinyin": "lǜchá", "meaning": "trà xanh (green tea)", "examples": []},
+        {"hanzi": "綠色", "pinyin": "lǜsè", "meaning": "màu xanh lá (green color)", "examples": []},
+        {"hanzi": "綠", "pinyin": "lǜ", "meaning": "xanh lá (green)", "examples": []},
+        {"hanzi": "請", "pinyin": "qǐng", "meaning": "xin, vui lòng (please)", "examples": []},
+        {"hanzi": "給", "pinyin": "gěi", "meaning": "cho, đưa (to give)", "examples": [["請給我一杯綠茶。", "Qǐng gěi wǒ yì bēi lǜchá."]]},
+        {"hanzi": "一共", "pinyin": "yígòng", "meaning": "tổng cộng (altogether; in total)", "examples": []},
+        {"hanzi": "多少", "pinyin": "duōshǎo", "meaning": "bao nhiêu (how many; how much)", "examples": [["這些東西一共多少錢？", "Zhèxiē dōngxi yígòng duōshǎo qián?"]]},
+        {"hanzi": "百", "pinyin": "bǎi", "meaning": "trăm (hundred)", "examples": []},
+        {"hanzi": "千", "pinyin": "qiān", "meaning": "ngàn, nghìn (thousand)", "examples": []},
+        {"hanzi": "萬", "pinyin": "wàn", "meaning": "mười ngàn, vạn (ten thousand)", "examples": []},
+        {"hanzi": "零", "pinyin": "líng", "meaning": "số không (zero)", "examples": [["這些東西一共兩萬三千五百零五塊。", "Zhèxiē dōngxi yígòng liǎng wàn sān qiān wǔ bǎi líng wǔ kuài."]]},
+        {"hanzi": "找錢", "pinyin": "zhǎoqián", "meaning": "thối lại tiền thừa (to give change)", "examples": [["他找你多少錢？", "Tā zhǎo nǐ duōshǎo qián?"]]},
+        {"hanzi": "您", "pinyin": "nín", "meaning": "ngài, ông/bà (kính ngữ của 你) (you - honorific)", "examples": []},
+        {"hanzi": "多", "pinyin": "duō", "meaning": "hơn, trên (more; over)", "examples": [["這個杯子一百多塊錢。", "Zhè ge bēizi yì bǎi duō kuài qián."]]}
+      ],
+      part3: [
+        {"hanzi": "夏天", "pinyin": "xiàtiān", "meaning": "mùa hè (summer)", "examples": []},
+        {"hanzi": "春天", "pinyin": "chūntiān", "meaning": "mùa xuân (spring)", "examples": []},
+        {"hanzi": "秋天", "pinyin": "qiūtiān", "meaning": "mùa thu (autumn; fall)", "examples": []},
+        {"hanzi": "冬天", "pinyin": "dōngtiān", "meaning": "mùa đông (winter)", "examples": [["秋天的天氣最好，不冷也不熱。", "Qiūtiān de tiānqì zuì hǎo, bù lěng yě bú rè."]]},
+        {"hanzi": "店 / 商店", "pinyin": "diàn / shāngdiàn", "meaning": "cửa hàng, tiệm (store; shop)", "examples": [["這家商店的東西很便宜。", "Zhè jiā shāngdiàn de dōngxi hěn piányí."]]},
+        {"hanzi": "果汁", "pinyin": "guǒzhī", "meaning": "nước ép trái cây (juice)", "examples": []},
+        {"hanzi": "牛奶", "pinyin": "niúnǎi", "meaning": "sữa tươi (milk)", "examples": [["你要果汁還是牛奶？", "Nǐ yào guǒzhī háishì niúnǎi?"]]},
+        {"hanzi": "有的", "pinyin": "yǒude", "meaning": "có cái, có người, có những (some; some of)", "examples": [["這些水果，有的不甜， 我不想吃。", "Zhèxiē shuǐguǒ, yǒude bù tián, wǒ bù xiǎng chī."], ["我的同學，有的愛喝咖啡，有的愛喝茶。", "Wǒ de tóngxué, yǒude ài hē kāfēi, yǒude ài hē chá."]]},
+        {"hanzi": "每", "pinyin": "měi", "meaning": "mỗi (every; each; per)", "examples": [["我每個星期都有中文課。", "Wǒ měi ge xīngqí dōu yǒu Zhōngwén kè."]]},
+        {"hanzi": "天", "pinyin": "tiān", "meaning": "ngày (day)", "examples": [["我爸爸每天早上都喝一杯咖啡。", "Wǒ bàba měi tiān zǎoshàng dōu hē yì bēi kāfēi."]]}
+      ]
+    },
+    emoji: {
+      "咖啡":"☕","還是":"❓","天氣":"🌤️","好":"👍","熱":"🥵","冷":"🥶","飲料":"🥤",
+      "也":"➕","餓":"🤤","渴":"🥛","（一）點（兒）":"🤏","餐廳 / 飯館":"🍽️","家":"🏪",
+      "太":"❗️","多":"📈","少":"📉","麵":"🍜","好吃":"😋","好喝":"🥤","了":"✔️","最":"🥇",
+      "賣":"🏷️","牛肉麵":"🍜","點":"📝","碗":"🥣","杯":"🥛","杯子":"🥛","瓶子":"🍾",
+      "瓶":"🍾","女":"👩","男":"👨","位":"👤","紅茶":"🍵","綠茶":"🍵","綠色":"🟢",
+      "綠":"🟢","請":"🙏","給":"🤲","一共":"🧮","多少":"❓","百":"💯","千":"🔢",
+      "萬":"🔢","零":"0️⃣","找錢":"💵","您":"👤","夏天":"☀️","春天":"🌸","秋天":"🍂",
+      "冬天":"❄️","店 / 商店":"🏪","果汁":"🧃","牛奶":"🥛","有的":"🔀","每":"📅","天":"☀️"
+    }
+  },
+  5: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Ví tiền, Vị trí, Đồ đạc, Gia đình & Thú cưng.",
+    parts: {
+      part1: "Phần 1 (1-13 + Phrase 1: Ví tiền, Vị trí, Quán xá, Nhàn rỗi)",
+      part2: "Phần 2 (1-16: Nhà cửa, Phòng khách, Người thân, Vị trí)",
+      part3: "Phần 3 (1-4 + Phrase 1: Đồ nội thất, Thú cưng, Tắm nắng)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "錢包", "pinyin": "qiánbāo", "meaning": "ví tiền (wallet; purse)", "examples": [["李小姐的錢包是紅色的。", "Lǐ xiǎojiě de qiánbāo shì hóngsè de."]]},
+        {"hanzi": "在", "pinyin": "zài", "meaning": "ở, tại (to be located at; in; on)", "examples": [["他在學校，不在家。", "Tā zài xuéxiào, bú zài jiā."], ["我在家看書。", "Wǒ zài jiā kànshū."]]},
+        {"hanzi": "哪裡 / 哪兒", "pinyin": "nǎlǐ / nǎr", "meaning": "đâu, ở đâu (where)", "examples": [["我的錢包在哪裡？", "Wǒ de qiánbāo zài nǎlǐ?"]]},
+        {"hanzi": "聽", "pinyin": "tīng", "meaning": "nghe (to listen)", "examples": []},
+        {"hanzi": "音樂", "pinyin": "yīnyuè", "meaning": "âm nhạc (music)", "examples": [["我喜歡聽音樂。", "Wǒ xǐhuān tīng yīnyuè."]]},
+        {"hanzi": "下午茶", "pinyin": "xiàwǔ chá", "meaning": "trà chiều (afternoon tea)", "examples": []},
+        {"hanzi": "不錯", "pinyin": "búcuò", "meaning": "không tồi, khá tốt (not bad)", "examples": [["這本書不錯。", "Zhè běn shū hěn búcuò."]]},
+        {"hanzi": "咖啡廳", "pinyin": "kāfēitīng", "meaning": "quán cà phê (café)", "examples": [["我喜歡去咖啡廳看書。", "Wǒ xǐhuān qù kāfēitīng kànshū."]]},
+        {"hanzi": "那裡 / 那兒", "pinyin": "nàlǐ / nàr", "meaning": "chỗ đó, kia (there)", "examples": [["那家飲料店的飲料很好喝，我們去那裡買。", "Nà jiā yǐnliào diàn de yǐnliào hěn hǎohē, wǒmen qù nàlǐ mǎi."]]},
+        {"hanzi": "這裡 / 這兒", "pinyin": "zhèlǐ / zhèr", "meaning": "chỗ này, đây (here)", "examples": [["我在學校，你要來這裡嗎？", "Wǒ zài xuéxiào, nǐ yào lái zhèlǐ ma?"]]},
+        {"hanzi": "冰淇淋", "pinyin": "bīngqílín", "meaning": "kem (ice cream)", "examples": [["我和朋友常常一起去吃冰淇淋。", "Wǒ hé péngyǒu chángcháng yìqǐ qù chī bīngqílín."]]},
+        {"hanzi": "巧克力", "pinyin": "qiǎokèlì", "meaning": "sô-cô-la (chocolate)", "examples": [["我很喜歡這家店的巧克力蛋糕。", "Wǒ hěn xǐhuān zhè jiā diàn de qiǎokèlì dàngāo."]]},
+        {"hanzi": "半", "pinyin": "bàn", "meaning": "rưỡi, nửa (half)", "examples": [["現在十二點半。", "Xiànzài shí'èr diǎn bàn."]]},
+        {"hanzi": "吧", "pinyin": "ba", "meaning": "đi, nhé (trợ từ đề xuất) (final particle for suggestion)", "examples": [["這枝筆太貴了，你買便宜的吧。", "Zhè zhī bǐ tài guì le, nǐ mǎi piányí de ba."]]},
+        {"hanzi": "有空", "pinyin": "yǒukòng", "meaning": "có rảnh, có thời gian (free; at leisure; available)", "examples": []},
+        {"hanzi": "沒（有）空", "pinyin": "méi(yǒu)kòng", "meaning": "không rảnh, bận (unavailable; not free)", "examples": [["A: 你下午有空嗎？\nB: 我沒有空，我有中文課。", "A: Nǐ xiàwǔ yǒukòng ma?\nB: Wǒ méiyǒukòng, wǒ yǒu Zhōngwén kè."]]}
+      ],
+      part2: [
+        {"hanzi": "跟", "pinyin": "gēn", "meaning": "và, cùng (and)", "examples": [["這個蛋糕跟這瓶果汁一共多少錢？", "Zhè ge dàngāo gēn zhè píng guǒzhī yígòng duōshǎo qián?"]]},
+        {"hanzi": "可是", "pinyin": "kěshì", "meaning": "nhưng, nhưng mà (but)", "examples": [["我想去朋友家玩，可是沒有空。", "Wǒ xiǎng qù péngyǒu jiā wán, kěshì méi yǒukòng."]]},
+        {"hanzi": "房間", "pinyin": "fángjiān", "meaning": "căn phòng (room)", "examples": []},
+        {"hanzi": "間", "pinyin": "jiān", "meaning": "căn, phòng (lượng từ cho phòng) (measure word for rooms)", "examples": [["我家有三間房間。", "Wǒ jiā yǒu sān jiān fángjiān."]]},
+        {"hanzi": "房子", "pinyin": "fángzi", "meaning": "ngôi nhà, tòa nhà (building; house)", "examples": []},
+        {"hanzi": "棟", "pinyin": "dòng", "meaning": "tòa, căn (lượng từ cho tòa nhà) (measure word for buildings)", "examples": [["這棟房子不大，可是很貴。", "Zhè dòng fángzi bú dà, kěshì hěn guì."]]},
+        {"hanzi": "裡（面）", "pinyin": "lǐ(miàn)", "meaning": "bên trong (inside; in)", "examples": [["你的書在房間裡。", "Nǐ de shū zài fángjiān lǐ."]]},
+        {"hanzi": "外（面）", "pinyin": "wài(miàn)", "meaning": "bên ngoài (outside)", "examples": [["他在房間外面做什麼？", "Tā zài fángjiān wàimiàn zuò shénme?"]]},
+        {"hanzi": "客廳", "pinyin": "kètīng", "meaning": "phòng khách (living room)", "examples": [["爸爸在客廳喝咖啡。", "Bàba zài kètīng hē kāfēi."]]},
+        {"hanzi": "桌子", "pinyin": "zhuōzi", "meaning": "cái bàn (table)", "examples": []},
+        {"hanzi": "椅子", "pinyin": "yǐzi", "meaning": "cái ghế (chair)", "examples": []},
+        {"hanzi": "張", "pinyin": "zhāng", "meaning": "cái, tấm (lượng từ cho bàn, ghế, tờ giấy) (measure word for tables/chairs)", "examples": [["我要買一張桌子跟四張椅子。", "Wǒ yào mǎi yì zhāng zhuōzi gēn sì zhāng yǐzi."]]},
+        {"hanzi": "上（面）", "pinyin": "shàng(miàn)", "meaning": "bên trên (above; over; on top of)", "examples": [["你的筆在那本書上面。", "Nǐ de bǐ zài nà běn shū shàngmiàn."]]},
+        {"hanzi": "有", "pinyin": "yǒu", "meaning": "có, tồn tại (There is/are; to exist)", "examples": [["你的房間裡有幾張椅子？", "Nǐ de fángjiān lǐ yǒu jǐ zhāng yǐzi?"]]},
+        {"hanzi": "哥哥", "pinyin": "gēge", "meaning": "anh trai (elder brother)", "examples": []},
+        {"hanzi": "姐姐 / 姊姊", "pinyin": "jiějie", "meaning": "chị gái (elder sister)", "examples": []},
+        {"hanzi": "弟弟", "pinyin": "dìdi", "meaning": "em trai (younger brother)", "examples": []},
+        {"hanzi": "妹妹", "pinyin": "mèimei", "meaning": "em gái (younger sister)", "examples": [["我媽媽有一個哥哥跟兩個妹妹。", "Wǒ māma yǒu yí ge gēge gēn liǎng ge mèimei."]]},
+        {"hanzi": "沙發", "pinyin": "shāfā", "meaning": "ghế sofa (sofa)", "examples": [["客廳裡面有兩張沙發。", "Kètīng lǐmiàn yǒu liǎng zhāng shāfā."]]},
+        {"hanzi": "下（面）", "pinyin": "xià(miàn)", "meaning": "bên dưới (below; under; underneath)", "examples": [["你的錢包在那件衣服下面。", "Nǐ de qiánbāo zài nà jiàn yīfu xiàmiàn."]]},
+        {"hanzi": "旁邊", "pinyin": "pángbiān", "meaning": "bên cạnh (side; next to)", "examples": []},
+        {"hanzi": "前（面）", "pinyin": "qián(miàn)", "meaning": "phía trước (the front; in front)", "examples": []},
+        {"hanzi": "後（面）", "pinyin": "hòu(miàn)", "meaning": "phía sau (at the back; behind)", "examples": [["我旁邊有日本同學，前面跟後面都有美國同學。", "Wǒ pángbiān yǒu Rìběn tóngxué, qiánmiàn gēn hòumiàn dōu yǒu Měiguó tóngxué."]]},
+        {"hanzi": "幫", "pinyin": "bāng", "meaning": "giúp đỡ (to help)", "examples": [["他常常幫朋友，是一個好人。", "Tā chángcháng bāng péngyǒu, shì yí ge hǎo rén."]]},
+        {"hanzi": "找", "pinyin": "zhǎo", "meaning": "tìm kiếm (to look for)", "examples": [["你要找什麼？我幫你找。", "Nǐ yào zhǎo shénme? Wǒ bāng nǐ zhǎo."]]},
+        {"hanzi": "廚房", "pinyin": "chúfáng", "meaning": "nhà bếp (kitchen)", "examples": [["我家的廚房很大，我常常在家做飯。", "Wǒ jiā de chúfáng hěn dà, wǒ chángcháng zài jiā zuòfàn."]]},
+        {"hanzi": "再", "pinyin": "zài", "meaning": "lại, nữa (again)", "examples": [["那家咖啡廳怎麼樣？你想再去嗎？", "Nà jiā kāfēitīng zěnmeyàng? Nǐ xiǎng zài qù ma?"]]}
+      ],
+      part3: [
+        {"hanzi": "床", "pinyin": "chuáng", "meaning": "cái giường (bed)", "examples": [["哥哥喜歡在床上看書。", "Gēge xǐhuān zài chuáng shàng kànshū."]]},
+        {"hanzi": "家具", "pinyin": "jiājù", "meaning": "đồ nội thất, gia cụ (furniture)", "examples": [["這個新房子沒有很多家具。", "Zhè ge xīn fángzi méi yǒu hěn duō jiājù."]]},
+        {"hanzi": "電視（機）", "pinyin": "diànshì(jī)", "meaning": "tivi, máy truyền hình (TV; television)", "examples": []},
+        {"hanzi": "台", "pinyin": "tái", "meaning": "cái, chiếc (lượng từ cho tivi, máy tính) (measure word for TV/computers)", "examples": [["我想買一台電視機。", "Wǒ xiǎng mǎi yì tái diànshìjī."]]},
+        {"hanzi": "窗戶", "pinyin": "chuānghù", "meaning": "cửa sổ (window)", "examples": [["窗戶前面有很多花，很漂亮。", "Chuānghù qiánmiàn yǒu hěn duō huā, hěn piàoliang."]]},
+        {"hanzi": "門", "pinyin": "mén", "meaning": "cửa ra vào (door)", "examples": [["弟弟在門後面。", "Dìdi zài mén hòumiàn."]]},
+        {"hanzi": "貓", "pinyin": "māo", "meaning": "con mèo (cat)", "examples": []},
+        {"hanzi": "狗", "pinyin": "gǒu", "meaning": "con chó (dog)", "examples": []},
+        {"hanzi": "鳥", "pinyin": "niǎo", "meaning": "con chim (bird)", "examples": []},
+        {"hanzi": "隻", "pinyin": "zhī", "meaning": "con (lượng từ cho động vật) (measure word for animals)", "examples": [["我家有一隻貓、兩隻狗和三隻鳥。", "Wǒ jiā yǒu yì zhī māo, liǎng zhī gǒu hé sān zhī niǎo."]]},
+        {"hanzi": "曬太陽 / 晒太陽", "pinyin": "shài tàiyáng", "meaning": "tắm nắng, phơi nắng (to bask in the sun)", "examples": [["我的貓在房子外面曬太陽。", "Wǒ de māo zài fángzi wàimiàn shài tàiyáng."]]}
+      ]
+    },
+    emoji: {
+      "錢包":"👛","在":"📍","哪裡 / 哪兒":"❓","聽":"🎧","音樂":"🎵","下午茶":"🫖",
+      "不錯":"👍","咖啡廳":"☕","那裡 / 那兒":"👉","這裡 / 這兒":"👈","冰淇淋":"🍦",
+      "巧克力":"🍫","半":"🌓","吧":"💬","有空":"📅","沒（有）空":"🚫",
+      "跟":"🔗","可是":"🛑","房間":"🛏️","間":"🏠","房子":"🏡","棟":"🏢",
+      "裡（面）":"📦","外（面）":"🌳","客廳":"🛋️","桌子":"🪵","椅子":"🪑","張":"📄",
+      "上（面）":"⬆️","有":"✅","哥哥":"👦","姐姐 / 姊姊":"👧","弟弟":"🧒","妹妹":"👶",
+      "沙發":"🛋️","下（面）":"⬇️","旁邊":"➡️","前（面）":"⬆️","後（面）":"⬇️","幫":"🤝",
+      "找":"🔍","廚房":"🍳","再":"🔄","床":"🛏️","家具":"🛋️","電視（機）":"📺",
+      "台":"💻","窗戶":"🪟","門":"🚪","貓":"🐱","狗":"🐶","鳥":"🐦","隻":"🐾","曬太陽 / 晒太陽":"☀️"
+    }
+  },
+  6: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Thể thao, Hoạt động ngoài trời, Giải trí & Sở thích.",
+    parts: {
+      part1: "Phần 1 (1-11: Các môn thể thao & Thiên nhiên)",
+      part2: "Phần 2 (1-15 + Phrases: Giải trí, Thiết bị & Thời gian)",
+      part3: "Phần 3 (1-9: Sở thích, Nghệ thuật & Cảm xúc)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "打", "pinyin": "dǎ", "meaning": "đánh, chơi (môn bóng dùng tay) (to hit; to beat; to play ball games)", "examples": []},
+        {"hanzi": "網球", "pinyin": "wǎngqiú", "meaning": "quần vợt, tennis (tennis)", "examples": [["我跟同學常常一起在學校打網球。", "Wǒ gēn tóngxué chángcháng yìqǐ zài xuéxiào dǎ wǎngqiú."]]},
+        {"hanzi": "球", "pinyin": "qiú", "meaning": "quả bóng (ball)", "examples": []},
+        {"hanzi": "籃球", "pinyin": "lánqiú", "meaning": "bóng rổ (basketball)", "examples": [["我每個週末去學校打籃球。", "Wǒ měi ge zhōumò qù xuéxiào dǎ lánqiú."]]},
+        {"hanzi": "棒球", "pinyin": "bàngqiú", "meaning": "bóng chày (baseball)", "examples": [["我弟弟喜歡打棒球，我想送他一個棒球。", "Wǒ dìdi xǐhuān dǎ bàngqiú, wǒ xiǎng sòng tā yí ge bàngqiú."]]},
+        {"hanzi": "足球", "pinyin": "zúqiú", "meaning": "bóng đá (football; soccer)", "examples": []},
+        {"hanzi": "踢", "pinyin": "tī", "meaning": "đá (to kick)", "examples": [["那個孩子很愛踢足球。", "Nà ge háizi hěn ài tī zúqiú."]]},
+        {"hanzi": "海邊", "pinyin": "hǎibiān", "meaning": "bờ biển, bãi biển (seaside; beach)", "examples": [["今天天氣不錯，我們去海邊曬太陽吧。", "Jīntiān tiānqì búcuò, wǒmen qù hǎibiān shài tàiyáng ba."]]},
+        {"hanzi": "海", "pinyin": "hǎi", "meaning": "biển, đại dương (ocean; sea)", "examples": [["這個週末我們一起去看海，怎麼樣？", "Zhè ge zhōumò wǒmen yìqǐ qù kàn hǎi, zěnmeyàng?"]]},
+        {"hanzi": "山", "pinyin": "shān", "meaning": "núi (mountain)", "examples": []},
+        {"hanzi": "風景", "pinyin": "fēngjǐng", "meaning": "phong cảnh, cảnh trí (scenery; landscapes)", "examples": [["你喜歡山上的風景還是海邊的風景？", "Nǐ xǐhuān shānshàng de fēngjǐng háishì hǎibiān de fēngjǐng?"]]},
+        {"hanzi": "游泳", "pinyin": "yóuyǒng", "meaning": "bơi lội (to swim)", "examples": [["天氣好熱，我們去游泳，好不好？", "Tiānqì hǎo rè, wǒmen qù yóuyǒng, hǎo bù hǎo?"]]},
+        {"hanzi": "會", "pinyin": "huì", "meaning": "biết, có thể (kỹ năng) (to be able to; can)", "examples": [["我不會游泳，你會嗎？", "Wǒ bú huì yóuyǒng, nǐ huì ma?"]]},
+        {"hanzi": "得", "pinyin": "de", "meaning": "trợ từ kết cấu bổ ngữ chỉ trình độ (complement marker)", "examples": [["今天我去朋友家玩得很開心。", "Jīntiān wǒ qù péngyǒu jiā wán de hěn kāixīn."]]},
+        {"hanzi": "跑步", "pinyin": "pǎobù", "meaning": "chạy bộ (to run)", "examples": [["我每個星期都去學校跑步。", "Wǒ měi ge xīngqí dōu qù xuéxiào pǎobù."]]},
+        {"hanzi": "跑", "pinyin": "pǎo", "meaning": "chạy (to run)", "examples": []},
+        {"hanzi": "慢", "pinyin": "màn", "meaning": "chậm, từ từ (slow; slowly)", "examples": [["我妹妹跑得很慢。", "Wǒ mèimei pǎo de hěn màn."]]},
+        {"hanzi": "快", "pinyin": "kuài", "meaning": "nhanh (fast; quick)", "examples": [["她看書看得很快。", "Tā kànshū kàn de hěn kuài."]]},
+        {"hanzi": "說", "pinyin": "shuō", "meaning": "nói (to say; to speak; to talk)", "examples": [["我朋友說這家餐廳的咖啡很好喝。", "Wǒ péngyǒu shuō zhè jiā cāntīng de kāfēi hěn hǎohē."]]},
+        {"hanzi": "說話", "pinyin": "shuōhuà", "meaning": "nói chuyện, trò chuyện (to talk; to speak)", "examples": [["我男朋友不太喜歡說話。", "Wǒ nán péngyǒu bú tài xǐhuān shuōhuà."]]}
+      ],
+      part2: [
+        {"hanzi": "電影", "pinyin": "diànyǐng", "meaning": "phim, điện ảnh (movie)", "examples": []},
+        {"hanzi": "部", "pinyin": "bù", "meaning": "bộ (lượng từ cho phim) (measure word for movies)", "examples": [["我跟媽媽明天下午要一起去看電影。", "Wǒ gēn māma míngtiān xiàwǔ yào yìqǐ qù kàn diànyǐng."]]},
+        {"hanzi": "電影院", "pinyin": "diànyǐngyuàn", "meaning": "rạp chiếu phim (movie theater; cinema)", "examples": [["我們學校旁邊有一家電影院。", "Wǒmen xuéxiào pángbiān yǒu yì jiā diànyǐngyuàn."]]},
+        {"hanzi": "有趣", "pinyin": "yǒuqù", "meaning": "thú vị, hay (interesting)", "examples": [["王老師的課很有趣，每個學生都喜歡她。", "Wáng lǎoshī de kè hěn yǒuqù, měi ge xuéshēng dōu xǐhuān tā."]]},
+        {"hanzi": "覺得", "pinyin": "juéde", "meaning": "cảm thấy, nghĩ rằng (to feel; to think)", "examples": [["我覺得這部電影很有趣，你覺得呢？", "Wǒ juéde zhè bù diànyǐng hěn yǒuqù, nǐ juéde ne?"]]},
+        {"hanzi": "有（一）點（兒）", "pinyin": "yǒu(yì)diǎn(r)", "meaning": "hơi, một chút (a little)", "examples": [["那家店的冰淇淋很好吃，可是有點兒貴。", "Nà jiā diàn de bīngqílín hěn hǎochī, kěshì yǒudiǎnr guì."]]},
+        {"hanzi": "休息", "pinyin": "xiūxí", "meaning": "nghỉ ngơi (to take a rest)", "examples": [["我很累，想在房間休息。", "Wǒ hěn lèi, xiǎng zài fángjiān xiūxí."]]},
+        {"hanzi": "上網", "pinyin": "shàngwǎng", "meaning": "lên mạng, truy cập internet (to use/surf the internet)", "examples": [["我常常在咖啡廳上網、看書。", "Wǒ chángcháng zài kāfēitīng shàngwǎng, kànshū."]]},
+        {"hanzi": "電腦", "pinyin": "diànnǎo", "meaning": "máy tính (computer)", "examples": [["我要買一部新電腦。", "Wǒ yào mǎi yì bù xīn diànnǎo."]]},
+        {"hanzi": "手機", "pinyin": "shǒujī", "meaning": "điện thoại di động (cell phone)", "examples": []},
+        {"hanzi": "支", "pinyin": "zhī", "meaning": "cái, chiếc (lượng từ cho điện thoại) (measure word for cell phone)", "examples": [["我有手機，可是沒有電腦。", "Wǒ yǒu shǒujī, kěshì méi yǒu diànnǎo."]]},
+        {"hanzi": "應該", "pinyin": "yīnggāi", "meaning": "nên, cần phải (should; ought to)", "examples": [["我們應該常常說請、謝謝。", "Wǒmen yīnggāi chángcháng shuō qǐng, xièxie."]]},
+        {"hanzi": "運動", "pinyin": "yùndòng", "meaning": "tập thể thao, vận động (to exercise)", "examples": [["我每天早上七點去學校運動。", "Wǒ měi tiān zǎoshàng qī diǎn qù xuéxiào yùndòng."]]},
+        {"hanzi": "可以", "pinyin": "kěyǐ", "meaning": "có thể (đưa ra gợi ý) (can, could)", "examples": [["她很喜歡花，你可以送她一些漂亮的花。", "Tā hěn xǐhuān huā, nǐ kěyǐ sòng tā yìxiē piàoliang de huā."]]},
+        {"hanzi": "騎", "pinyin": "qí", "meaning": "cưỡi, đi (xe đạp, xe máy) (to ride)", "examples": []},
+        {"hanzi": "腳踏車 / 自行車", "pinyin": "jiǎotàchē / zìxíngchē", "meaning": "xe đạp (bicycle; bike)", "examples": []},
+        {"hanzi": "輛", "pinyin": "liàng", "meaning": "chiếc (lượng từ cho xe cộ) (measure word for vehicles)", "examples": [["這個週末我們要去騎腳踏車/自行車。", "Zhè ge zhōumò wǒmen yào qù qí jiǎotàchē/zìxíngchē."]]},
+        {"hanzi": "只", "pinyin": "zhǐ", "meaning": "chỉ, chỉ là (only; just)", "examples": [["我现在不餓，只想吃一點兒水果。", "Wǒ xiànzài bú è, zhǐ xiǎng chī yìdiǎnr shuǐguǒ."]]},
+        {"hanzi": "後天", "pinyin": "hòutiān", "meaning": "ngày kia (the day after tomorrow)", "examples": [["後天是我朋友的生日，我想送他一個大蛋糕。", "Hòutiān shì wǒ péngyǒu de shēngrì, wǒ xiǎng sòng tā yí ge dà dàngāo."]]},
+        {"hanzi": "前天", "pinyin": "qiántiān", "meaning": "ngày hôm kia (the day before yesterday)", "examples": [["前天下午我在學校的圖書館看書。", "Qiántiān xiàwǔ wǒ zài xuéxiào de túshūguǎn kànshū."]]},
+        {"hanzi": "聽說", "pinyin": "tīngshuō", "meaning": "nghe nói (to hear of)", "examples": []},
+        {"hanzi": "不要", "pinyin": "búyào", "meaning": "đừng, không muốn (Don't...)", "examples": []}
+      ],
+      part3: [
+        {"hanzi": "興趣", "pinyin": "xìngqù", "meaning": "sở thích, hứng thú (interest; hobby)", "examples": [["我的興趣是運動，打網球、游泳，我都喜歡。", "Wǒ de xìngqù shì yùndòng, dǎ wǎngqiú, yóuyǒng, wǒ dōu xǐhuān."]]},
+        {"hanzi": "幾", "pinyin": "jǐ", "meaning": "mấy, vài (several; a few)", "examples": [["我有幾個台灣朋友。", "Wǒ yǒu jǐ ge Táiwān péngyǒu."]]},
+        {"hanzi": "學 / 學習", "pinyin": "xué / xuéxí", "meaning": "học, học tập (to learn; to study)", "examples": [["我們都喜歡學（習）中文。", "Wǒmen dōu xǐhuān xué(xí) Zhōngwén."]]},
+        {"hanzi": "唱歌", "pinyin": "chànggē", "meaning": "hát (to sing a song)", "examples": []},
+        {"hanzi": "歌", "pinyin": "gē", "meaning": "bài hát (song)", "examples": []},
+        {"hanzi": "首", "pinyin": "shǒu", "meaning": "bài (lượng từ cho bài hát) (measure word for songs)", "examples": [["他唱歌唱得很開心。", "Tā chànggē chàng de hěn kāixīn."], ["他會唱很多首中文歌。", "Tā huì chàng hěn duō shǒu Zhōngwén gē."]]},
+        {"hanzi": "跳舞", "pinyin": "tiàowǔ", "meaning": "khiêu vũ, nhảy múa (to dance)", "examples": [["他的舞跳得很好。", "Tā de wǔ tiào de hěn hǎo."]]},
+        {"hanzi": "畫畫", "pinyin": "huàhuà", "meaning": "vẽ tranh (to draw; to paint)", "examples": [["那個孩子很喜歡畫畫，他畫得很好。", "Nà ge háizi hěn xǐhuān huàhuà, tā huà de hěn hǎo."]]},
+        {"hanzi": "畫", "pinyin": "huà", "meaning": "bức tranh (painting)", "examples": [["這張畫很好看，我很喜歡。", "Zhè zhāng huà hěn hǎokàn, wǒ hěn xǐhuān."]]},
+        {"hanzi": "平常", "pinyin": "píngcháng", "meaning": "thông thường, bình thường (generally; usually)", "examples": [["我平常早上七點起床，八點吃早飯。", "Wǒ píngcháng zǎoshàng qī diǎn qǐchuáng, bā diǎn chī zǎofàn."]]},
+        {"hanzi": "有（的）時候", "pinyin": "yǒu(de)shíhòu", "meaning": "có lúc, đôi khi (sometimes)", "examples": [["我平常喜歡喝茶，有（的）時候喝一點兒咖啡。", "Wǒ píngcháng xǐhuān hē chá, yǒu (de) shíhòu hē yìdiǎnr kāfēi."]]},
+        {"hanzi": "比賽", "pinyin": "bǐsài", "meaning": "cuộc thi, trận đấu (competition; race; game)", "examples": [["今天下午學校有籃球比賽，我們去看吧！", "Jīntiān xiàwǔ xuéxiào yǒu lánqiú bǐsài, wǒmen qù kàn ba!"]]},
+        {"hanzi": "真", "pinyin": "zhēn", "meaning": "thật là, thật sự (really)", "examples": [["你媽媽真漂亮！", "Nǐ māma zhēn piàoliang!"]]},
+        {"hanzi": "高興", "pinyin": "gāoxìng", "meaning": "vui vẻ, phấn khởi (happy)", "examples": [["老師說要送我們書，我們很高興。", "Lǎoshī shuō yào sòng wǒmen shū, wǒmen dōu hěn gāoxìng."]]}
+      ]
+    },
+    emoji: {
+      "打":"🏸","網球":"🎾","球":"⚽","籃球":"🏀","棒球":"⚾","足球":"⚽","踢":"🦶",
+      "海邊":"🏖️","海":"🌊","山":"⛰️","風景":"🏞️","游泳":"🏊","會":"💡","得":"🎯",
+      "跑步":"🏃","跑":"🏃","慢":"🐢","快":"🐇","說":"🗣️","說話":"💬",
+      "電影":"🎬","部":"🎞️","電影院":"🍿","有趣":"😄","覺得":"🤔","有（一）點（兒）":"🤏",
+      "休息":"🛋️","上網":"🌐","電腦":"💻","手機":"📱","支":"📱","應該":"⚖️",
+      "運動":"🏋️","可以":"👌","騎":"🚴","腳踏車 / 自行車":"🚲","輛":"🚗",
+      "只":"🎯","後天":"📅","前天":"📆","聽說":"👂","不要":"❌",
+      "興趣":"🎨","幾":"🔢","學 / 學習":"📚","唱歌":"🎤","歌":"🎵","首":"🎼",
+      "跳舞":"💃","畫畫":"🎨","畫":"🖼️","平常":"🗓️","有（的）時候":"⏳","比賽":"🏆",
+      "真":"✨","高興":"😀"
+    }
+  },
+  7: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Phương tiện giao thông, Địa điểm, Hỏi đường & Di chuyển.",
+    parts: {
+      part1: "Phần 1: Cách thức, Đi đến & Phương tiện",
+      part2: "Phần 2: Đường xá, Địa điểm & Tiện ích",
+      part3: "Phần 3: Tuyến đường, Sân bay & Máy bay",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "怎麼", "pinyin": "zěnme", "meaning": "làm sao, thế nào (how)", "examples": [["這首歌怎麼唱？", "Zhè shǒu gē zěnme chàng?"]]},
+        {"hanzi": "到", "pinyin": "dào", "meaning": "đến (to)", "examples": [["我要到他家去。", "Wǒ yào dào tā jiā qù."]]},
+        {"hanzi": "飯店", "pinyin": "fàndiàn", "meaning": "khách sạn (hotel [M: 家])", "examples": [["我後天要到這家飯店去看朋友。", "Wǒ hòutiān yào dào zhè jiā fàndiàn qù kàn péngyǒu."]]},
+        {"hanzi": "旅館", "pinyin": "lǚguǎn", "meaning": "nhà khách, khách sạn nhỏ (inn; hotel [M: 家])", "examples": []},
+        {"hanzi": "找", "pinyin": "zhǎo", "meaning": "tìm, gặp, thăm (to visit; to see a person)", "examples": [["我今天想找朋友去吃飯。", "Wǒ jīntiān xiǎng zhǎo péngyǒu qù chīfàn."]]},
+        {"hanzi": "韓國", "pinyin": "Hánguó", "meaning": "Hàn Quốc (Korea)", "examples": []},
+        {"hanzi": "到", "pinyin": "dào", "meaning": "đến (nơi nào đó) (to arrive a place)", "examples": [["我每天早上八點半到學校。", "Wǒ měi tiān zǎoshàng bā diǎn bàn dào xuéxiào."]]},
+        {"hanzi": "等", "pinyin": "děng", "meaning": "chờ, đợi (to wait for)", "examples": [["我的朋友在那家旅館前面等我。", "Wǒ de péngyǒu zài nà jiā lǚguǎn qiánmiàn děng wǒ."]]},
+        {"hanzi": "坐", "pinyin": "zuò", "meaning": "ngồi, đi (phương tiện) (to take transportations)", "examples": []},
+        {"hanzi": "捷運/地鐵", "pinyin": "jiéyùn/dìtiě", "meaning": "tàu điện ngầm, MRT (MRT; metro; subway)", "examples": []},
+        {"hanzi": "公共汽車/公車", "pinyin": "gōnggòngqìchē/gōngchē", "meaning": "xe buýt (bus [M: 部/輛])", "examples": [["你想坐捷運去，還是坐公車去？", "Nǐ xiǎng zuò jiéyùn qù, háishì zuò gōngchē qù?"]]},
+        {"hanzi": "車(子)/汽車", "pinyin": "chē(zi)/qìchē", "meaning": "xe hơi, ô tô (automobile; car [M: 輛])", "examples": []},
+        {"hanzi": "計程車", "pinyin": "jìchéngchē", "meaning": "xe taxi (taxi [M: 輛])", "examples": []},
+        {"hanzi": "火車", "pinyin": "huǒchē", "meaning": "tàu hỏa (train)", "examples": []},
+        {"hanzi": "上車", "pinyin": "shàngchē", "meaning": "lên xe (to get on a bus; to get in a car)", "examples": []},
+        {"hanzi": "下車", "pinyin": "xiàchē", "meaning": "xuống xe (to get off a bus; to get out of a car)", "examples": [["你要在這裡下車嗎？", "Nǐ yào zài zhèlǐ xiàchē ma?"]]},
+        {"hanzi": "遠", "pinyin": "yuǎn", "meaning": "xa (far)", "examples": [["他家有一點遠，我們可以坐捷運去嗎？", "Tā jiā yǒudiǎnr yuǎn, wǒmen kěyǐ zuò jiéyùn qù ma?"]]},
+        {"hanzi": "近", "pinyin": "jìn", "meaning": "gần (near)", "examples": []},
+        {"hanzi": "想", "pinyin": "xiǎng", "meaning": "nghĩ, nghĩ rằng (to think)", "examples": [["他很喜歡喝茶，我想你可以送他一些台灣茶。", "Tā hěn xǐhuān hē chá, wǒ xiǎng nǐ kěyǐ sòng tā yìxiē Táiwān chá."]]},
+        {"hanzi": "從", "pinyin": "cóng", "meaning": "từ (địa điểm) (from)", "examples": [["他要從他家走路去學校。", "Tā yào cóng tā jiā zǒulù qù xuéxiào."]]},
+        {"hanzi": "走路", "pinyin": "zǒulù", "meaning": "đi bộ (to walk on foot)", "examples": []},
+        {"hanzi": "走", "pinyin": "zǒu", "meaning": "đi (to walk on foot)", "examples": [["那家餐廳很近，我們走路去吧！", "Nà jiā cāntīng hěn jìn, wǒmen zǒulù qù ba!"]]},
+        {"hanzi": "先", "pinyin": "xiān", "meaning": "trước (first; in advance)", "examples": [["我很餓，我們可以先吃飯嗎？", "Wǒ hěn è, wǒmen kěyǐ xiān chīfàn ma?"]]},
+        {"hanzi": "地圖", "pinyin": "dìtú", "meaning": "bản đồ (map [M: 張])", "examples": [["這張地圖上有十多家餐廳，我要去哪一家？", "Zhè zhāng dìtú shàng yǒu shí duō jiā cāntīng, wǒmen yào qù nǎ yì jiā?"]]},
+        {"hanzi": "錶/手錶", "pinyin": "biǎo/shǒubiǎo", "meaning": "đồng hồ đeo tay (watch [M: 個])", "examples": [["明天是爸爸的生日，我要送他一個錶。", "Míngtiān shì bàba de shēngrì, wǒ yào sòng tā yí ge biǎo."]]},
+        {"hanzi": "了", "pinyin": "le", "meaning": "rồi (trợ từ chỉ sự thay đổi) (indicating changed situations)", "examples": [["我累了，不想走了。", "Wǒ lèi le, bù xiǎng zǒu le."]]}
+      ],
+      part2: [
+        {"hanzi": "路/馬路", "pinyin": "lù/mǎlù", "meaning": "đường, đường lớn (road [M: 條])", "examples": [["路上有很多車。", "Lù shàng yǒu hěn duō chē."]]},
+        {"hanzi": "條", "pinyin": "tiáo", "meaning": "con, sợi (lượng từ cho đường, sông, cá...) (measure word for roads, fish, river, etc)", "examples": []},
+        {"hanzi": "街", "pinyin": "jiē", "meaning": "phố, đường phố (street [M: 條])", "examples": [["現在這條街上沒有車。", "Xiànzài zhè tiáo jiē shàng méi yǒu chē."]]},
+        {"hanzi": "地方", "pinyin": "dìfāng", "meaning": "nơi, địa điểm (place)", "examples": [["這個地方好漂亮，我好喜歡。", "Zhè ge dìfāng hǎo piàoliang, wǒ hǎo xǐhuān."]]},
+        {"hanzi": "附近", "pinyin": "fùjìn", "meaning": "phụ cận, gần đây (vicinity)", "examples": [["學校附近有很多飲料店。", "Xuéxiào fùjìn yǒu hěn duō yǐnliào diàn."]]},
+        {"hanzi": "郵局", "pinyin": "yóujú", "meaning": "bưu điện (post office [M: 家/間])", "examples": []},
+        {"hanzi": "寄", "pinyin": "jì", "meaning": "gửi (thư, bưu phẩm) (to mail)", "examples": []},
+        {"hanzi": "信", "pinyin": "xìn", "meaning": "lá thư (letter [M: 封])", "examples": []},
+        {"hanzi": "封", "pinyin": "fēng", "meaning": "bức, lá (lượng từ cho thư) (measure word for letters)", "examples": []},
+        {"hanzi": "信封", "pinyin": "xìnfēng", "meaning": "bao thư, phong bì (envelope)", "examples": [["我要到郵局去寄信，也要買一些信封。", "Wǒ yào dào yóujú qù jì xìn, yě yào mǎi yìxiē xìnfēng."]]},
+        {"hanzi": "超級市場/超市", "pinyin": "chāojíshìchǎng/chāoshì", "meaning": "siêu thị (supermarket [M: 家])", "examples": []},
+        {"hanzi": "市場", "pinyin": "shìchǎng", "meaning": "chợ (market)", "examples": [["我要到超級市場去買蛋。", "Wǒ yào dào chāojíshìchǎng qù mǎi dàn."]]},
+        {"hanzi": "一定", "pinyin": "yídìng", "meaning": "nhất định, chắc chắn (surely; certainly; definitely)", "examples": [["我明天有空，一定可以去。", "Wǒ míngtiān yǒu kòng, yídìng kěyǐ qù."]]},
+        {"hanzi": "又", "pinyin": "yòu", "meaning": "vừa... lại... (both...and...)", "examples": [["這種巧克力冰淇淋又便宜又好吃。", "Zhè zhǒng qiǎokèlì bīngqílín yòu piányí yòu hǎochī."]]},
+        {"hanzi": "方便", "pinyin": "fāngbiàn", "meaning": "thuận tiện, tiện lợi (convenient)", "examples": [["我每天坐捷運去上課，我覺得很方便。", "Wǒ měi tiān zuò jiéyùn qù shàngkè, wǒ juéde hěn fāngbiàn."]]},
+        {"hanzi": "舒服", "pinyin": "shūfu", "meaning": "thoải mái, dễ chịu (comfortable)", "examples": [["今天天氣不冷也不熱，很舒服。", "Jīntiān tiānqì bù lěng yě bú rè, hěn shūfu."]]}
+      ],
+      part3: [
+        {"hanzi": "線", "pinyin": "xiàn", "meaning": "tuyến, đường dây (line [M: 條])", "examples": [["我家附近有兩條捷運線。", "Wǒ jiā fùjìn yǒu liǎng tiáo jiéyùn xiàn."]]},
+        {"hanzi": "藍", "pinyin": "lán", "meaning": "xanh lam (blue)", "examples": []},
+        {"hanzi": "藍色", "pinyin": "lánsè", "meaning": "màu xanh lam (blue color)", "examples": []},
+        {"hanzi": "機場/飛機場", "pinyin": "jīchǎng/fēijīchǎng", "meaning": "sân bay (airport)", "examples": [["我明天早上九點要到機場。", "Wǒ míngtiān zǎoshàng jiǔ diǎn yào dào jīchǎng."]]},
+        {"hanzi": "開車", "pinyin": "kāichē", "meaning": "lái xe (to drive a car)", "examples": []},
+        {"hanzi": "司機", "pinyin": "sījī", "meaning": "tài xế, bác tài (driver)", "examples": [["那位司機開車開得很好。", "Nà wèi sījī kāichē kāi de hěn hǎo."]]},
+        {"hanzi": "車站", "pinyin": "chēzhàn", "meaning": "trạm xe, bến xe, nhà ga (bus (or rail) station)", "examples": [["在這個大車站，坐公車、捷運、火車都很方便。", "Zài zhè ge dà chēzhàn, zuò gōngchē, jiéyùn, huǒchē dōu hěn fāngbiàn."]]},
+        {"hanzi": "站", "pinyin": "zhàn", "meaning": "trạm, bến, ga (station)", "examples": [["你家附近有捷運站嗎？", "Nǐ jiā fùjìn yǒu jiéyùn zhàn ma?"]]},
+        {"hanzi": "飛機", "pinyin": "fēijī", "meaning": "máy bay (airplane; aircraft [M: 架])", "examples": []},
+        {"hanzi": "架", "pinyin": "jià", "meaning": "chiếc (lượng từ cho máy bay) (measure word for airplanes)", "examples": [["我要坐飛機到英國去。", "Wǒ yào zuò fēijī dào Yīngguó qù."]]},
+        {"hanzi": "飛", "pinyin": "fēi", "meaning": "bay (to fly)", "examples": [["這隻小鳥會飛嗎？", "Zhè zhī xiǎo niǎo huì fēi ma?"]]},
+        {"hanzi": "起飛", "pinyin": "qǐfēi", "meaning": "cất cánh (to take off (an airplane))", "examples": [["你看，飛機起飛了！", "Nǐ kàn, fēijī qǐfēi le!"]]}
+      ]
+    },
+    emoji: {
+      "怎麼":"❓","到":"🎯","飯店":"🏨","旅館":"🛋️","找":"🔎","韓國":"🇰🇷","等":"⏳",
+      "坐":"🪑","捷運/地鐵":"🚇","公共汽車/公車":"🚌","車(子)/汽車":"🚗","計程車":"🚕",
+      "火車":"🚆","上車":"🧗","下車":"🚶","遠":"🔭","近":"🔍","想":"💭",
+      "從":"🏹","走路":"🚶","走":"🚶‍♂️","先":"1️⃣","地圖":"🗺️","錶/手錶":"⌚","了":"✅",
+      "路/馬路":"🛣️","條":"📏","街":"🏙️","地方":"📍","附近":"🏡","郵局":"🏣",
+      "寄":"✉️","信":"✉️","封":"✉️","信封":"✉️","超級市場/超市":"🛒","市場":"🧺",
+      "一定":"💯","又":"➕","方便":"👌","舒服":"😌","線":"🧵","藍":"🔵","藍色":"🟦",
+      "機場/飛機場":"✈️","開車":"🚗","司機":"👨‍✈️","車站":"🚉","站":"🏣","飛機":"✈️",
+      "架":"✈️","飛":"🕊️","起飛":"🛫"
+    }
+  },
+  8: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Trang phục, Mua sắm, Thời gian, Tầng lầu & Giao tiếp.",
+    parts: {
+      part1: "Phần 1: Quần áo, Thời gian & Tính chất (1-15)",
+      part2: "Phần 2: Màu sắc, Giày dép, Tầng lầu & Cụm từ (1-11 + Phrases)",
+      part3: "Phần 3: Tuổi tác, Đồ dùng & Túi xách (1-6)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "裙子", "pinyin": "qúnzi", "meaning": "váy, chân váy (skirt [M: 條])", "examples": [["我不太喜歡這條裙子的顏色。", "Wǒ bú tài xǐhuān zhè tiáo qúnzi de yánsè."]]},
+        {"hanzi": "去年", "pinyin": "qùnián", "meaning": "năm ngoái (last year)", "examples": []},
+        {"hanzi": "年", "pinyin": "nián", "meaning": "năm (year)", "examples": []},
+        {"hanzi": "今年", "pinyin": "jīnnián", "meaning": "năm nay (this year)", "examples": []},
+        {"hanzi": "明年", "pinyin": "míngnián", "meaning": "sang năm, năm sau (next year)", "examples": [["去年她送我一本書，今年我要送她一件衣服。", "Qùnián tā sòng wǒ yì běn shū, jīnnián wǒ yào sòng tā yí jiàn yīfu."]]},
+        {"hanzi": "牌子", "pinyin": "páizi", "meaning": "thương hiệu, nhãn hiệu (brand)", "examples": [["這個牌子的衣服又便宜又好看。", "Zhè ge páizi de yīfu yòu piányí yòu hǎokàn."]]},
+        {"hanzi": "因為", "pinyin": "yīnwèi", "meaning": "bởi vì, vì (because)", "examples": [["今天大家都穿很多衣服，因為天氣太冷了。", "Jīntiān dàjiā dōu chuān hěn duō yīfu, yīnwèi tiānqì tài lěng le."]]},
+        {"hanzi": "有名", "pinyin": "yǒumíng", "meaning": "nổi tiếng (famous)", "examples": [["這家餐廳很有名，我們常常來這裡吃飯。", "Zhè jiā cāntīng hěn yǒumíng, wǒmen chángcháng lái zhèlǐ chīfàn."]]},
+        {"hanzi": "褲子", "pinyin": "kùzi", "meaning": "quần (pants [M: 條])", "examples": [["那個牌子的褲子都不便宜。", "Nà ge páizi de kùzi dōu bù piányí."]]},
+        {"hanzi": "所以", "pinyin": "suǒyǐ", "meaning": "cho nên, vì vậy (therefore; so)", "examples": []},
+        {"hanzi": "為什麼", "pinyin": "wèishénme", "meaning": "tại sao, vì sao (why)", "examples": [["A：為什麼你不吃冰淇淋？\nB：因為天氣有點兒冷，所以我想吃一點兒熱的。", "A: Wèishénme nǐ bù chī bīngqílín?\nB: Yīnwèi tiānqì yǒudiǎnr lěng, suǒyǐ wǒ xiǎng chī yìdiǎnr rè de."]]},
+        {"hanzi": "百貨公司", "pinyin": "bǎihuògōngsī", "meaning": "bách hóa tổng hợp, trung tâm thương mại (department store)", "examples": [["我家附近有百貨公司，你想去看嗎？", "Wǒ jiā fùjìn yǒu bǎihuògōngsī, nǐ xiǎng qù kàn ma?"]]},
+        {"hanzi": "難", "pinyin": "nán", "meaning": "khó (difficult; hard)", "examples": []},
+        {"hanzi": "容易", "pinyin": "róngyì", "meaning": "dễ, dễ dàng (easy)", "examples": [["說中文容易，唱中文歌也不難。", "Shuō Zhōngwén róngyì, chàng Zhōngwén gē yě bù nán."]]},
+        {"hanzi": "最近", "pinyin": "zuìjìn", "meaning": "dạo này, gần đây (recently; lately)", "examples": [["他最近很忙，所以每天都很累。", "Tā zuìjìn hěn máng, suǒyǐ měi tiān dōu hěn lèi."]]},
+        {"hanzi": "胖", "pinyin": "pàng", "meaning": "béo, mập (fat)", "examples": []},
+        {"hanzi": "瘦", "pinyin": "shòu", "meaning": "gầy, ốm (thin)", "examples": []},
+        {"hanzi": "高", "pinyin": "gāo", "meaning": "cao (tall)", "examples": []},
+        {"hanzi": "矮", "pinyin": "ǎi", "meaning": "thấp, lùn (short)", "examples": [["因為他每天都跑步，所以瘦了。", "Yīnwèi tā měi tiān dōu pǎobù, suǒyǐ shòu le."]]},
+        {"hanzi": "公斤", "pinyin": "gōngjīn", "meaning": "ki-lô-gam (kilogram)", "examples": [["爸爸很喜歡吃蛋糕，所以胖了三公斤。", "Bàba hěn xǐhuān chī dàngāo, suǒyǐ pàng le sān gōngjīn."]]},
+        {"hanzi": "斤", "pinyin": "jīn", "meaning": "cân (catty = 0.6 kg ở Đài Loan)", "examples": []},
+        {"hanzi": "怕", "pinyin": "pà", "meaning": "sợ, e rằng (to be scared of; to be afraid of)", "examples": [["弟弟不喜歡唱歌，因為怕唱得不好。", "Dìdi bù xǐhuān chànggē, yīnwèi pà chàng de bù hǎo."]]},
+        {"hanzi": "跟", "pinyin": "gēn", "meaning": "với, cùng với (with)", "examples": [["他最近常常跟朋友一起玩。", "Tā zuìjìn chángcháng gēn péngyǒu yìqǐ wán."]]},
+        {"hanzi": "時間", "pinyin": "shíjiān", "meaning": "thời gian (time)", "examples": [["我最近沒有時間看電影。", "Wǒ zuìjìn méi yǒu shíjiān kàn diànyǐng."]]}
+      ],
+      part2: [
+        {"hanzi": "黃色", "pinyin": "huángsè", "meaning": "màu vàng (yellow color)", "examples": []},
+        {"hanzi": "黃", "pinyin": "huáng", "meaning": "vàng (yellow)", "examples": [["姊姊喜歡穿黃色的裙子。", "Jiějie xǐhuān chuān huángsè de qúnzi."]]},
+        {"hanzi": "吧", "pinyin": "ba", "meaning": "nhỉ, nhé (trợ từ nghi vấn/gợi ý) (final particle for questions)", "examples": [["好多人來這家店買蛋糕，他們的蛋糕一定很好吃吧？", "Hǎo duō rén lái zhè jiā diàn mǎi dàngāo, tāmen de dàngāo yídìng hěn hǎochī ba?"]]},
+        {"hanzi": "流行", "pinyin": "liúxíng", "meaning": "phổ biến, thịnh hành, thời trang (popular; fashionable; trendy)", "examples": [["白色是今年很流行的顏色。", "Báisè shì jīnnián hěn liúxíng de yánsè."]]},
+        {"hanzi": "短", "pinyin": "duǎn", "meaning": "ngắn (short (in length))", "examples": []},
+        {"hanzi": "長", "pinyin": "cháng", "meaning": "dài (long)", "examples": [["弟弟愛穿短褲，不愛穿長褲。", "Dìdi ài chuān duǎnkù, bú ài chuān chángkù."]]},
+        {"hanzi": "鞋子", "pinyin": "xiézi", "meaning": "giày (shoes [M: 雙 shuāng])", "examples": []},
+        {"hanzi": "襪子", "pinyin": "wàzi", "meaning": "tất, vớ (socks [M: 雙 shuāng])", "examples": []},
+        {"hanzi": "雙", "pinyin": "shuāng", "meaning": "đôi (lượng từ cho giày, tất...) (measure word for shoes and socks)", "examples": []},
+        {"hanzi": "黑色", "pinyin": "hēisè", "meaning": "màu đen (black color)", "examples": []},
+        {"hanzi": "黑", "pinyin": "hēi", "meaning": "đen (black)", "examples": [["我想買一雙黑色的鞋子和一雙白色的襪子。", "Wǒ xiǎng mǎi yì shuāng hēisè de xiézi hé yì shuāng báisè de wàzi."]]},
+        {"hanzi": "樓", "pinyin": "lóu", "meaning": "tầng, lầu (floor)", "examples": [["你家在幾樓？", "Nǐ jiā zài jǐ lóu?"]]},
+        {"hanzi": "樓下", "pinyin": "lóuxià", "meaning": "tầng dưới, dưới nhà (downstairs)", "examples": []},
+        {"hanzi": "樓上", "pinyin": "lóushàng", "meaning": "tầng trên, trên nhà (upstairs)", "examples": [["A：你要不要去樓下的客廳看電視？\nB：謝謝，我想先去樓上的房間休息。", "A: Nǐ yào bú yào qù lóuxià de kètīng kàn diànshì?\nB: Xièxie, wǒ xiǎng xiān qù lóushàng de fángjiān xiūxí."]]},
+        {"hanzi": "快要 / 快", "pinyin": "kuàiyào / kuài", "meaning": "sắp, sắp sửa (to be about to)", "examples": [["十點了，飛機快（要）起飛了。", "Shí diǎn le, fēijī kuài (yào) qǐfēi le."]]},
+        {"hanzi": "關", "pinyin": "guān", "meaning": "đóng, tắt (to close)", "examples": []},
+        {"hanzi": "開", "pinyin": "kāi", "meaning": "mở, bật (to open)", "examples": [["學校的圖書館早上八點開，晚上九點關。", "Xuéxiào de túshūguǎn zǎoshàng bā diǎn kāi, wǎnshàng jiǔ diǎn guān."]]},
+        {"hanzi": "電梯", "pinyin": "diàntī", "meaning": "thang máy (elevator; lift)", "examples": []},
+        {"hanzi": "樓梯", "pinyin": "lóutī", "meaning": "thang bộ, cầu thang (stairs)", "examples": [["我要坐電梯，不要走樓梯。", "Wǒ yào zuò diàntī, bú yào zǒu lóutī."]]},
+        {"hanzi": "沒關係", "pinyin": "méiguānxi", "meaning": "không sao, không có chi (It's ok.)", "examples": []},
+        {"hanzi": "對不起", "pinyin": "duìbùqǐ", "meaning": "xin lỗi (sorry)", "examples": [["A：對不起。\nB：沒關係。", "A: Duìbùqǐ.\nB: Méiguānxi."]]},
+        {"hanzi": "對了", "pinyin": "duìle", "meaning": "đúng rồi, à này (by the way)", "examples": [["A：我要去三樓找友美。\nB：好。對了，這杯咖啡請你給她，好嗎？", "A: Wǒ yào qù sān lóu zhǎo Yǒuměi.\nB: Hǎo. Duìle, zhè bēi kāfēi qǐng nǐ gěi tā, hǎo ma?"]]}
+      ],
+      part3: [
+        {"hanzi": "年輕", "pinyin": "niánqīng", "meaning": "trẻ, trẻ tuổi (young)", "examples": []},
+        {"hanzi": "老", "pinyin": "lǎo", "meaning": "già, cũ (old)", "examples": [["很多年輕人喜歡聽流行音樂。", "Hěn duō niánqīng rén xǐhuān tīng liúxíng yīnyuè."]]},
+        {"hanzi": "皮包", "pinyin": "píbāo", "meaning": "túi xách, ví da (wallet; purse [M: 個])", "examples": [["明天我有空，我想去買皮包。", "Míngtiān wǒ yǒu kòng, wǒ xiǎng qù mǎi píbāo."]]},
+        {"hanzi": "女生", "pinyin": "nǚshēng", "meaning": "con gái, nữ sinh (girl)", "examples": []},
+        {"hanzi": "男生", "pinyin": "nánshēng", "meaning": "con trai, nam sinh (boy)", "examples": [["女生和男生都喜歡去百貨公司買東西。", "Nǚshēng hé nánshēng dōu xǐhuān qù bǎihuògōngsī mǎi dōngxi."]]},
+        {"hanzi": "雜誌", "pinyin": "zázhì", "meaning": "tạp chí (magazine [M: 本])", "examples": []},
+        {"hanzi": "舊", "pinyin": "jiù", "meaning": "cũ (đồ vật) (old; used)", "examples": [["這本雜誌有一點兒舊，我幫你買一本新的吧。", "Zhè běn zázhì yǒudiǎnr jiù, wǒ bāng nǐ mǎi yì běn xīn de ba."]]}
+      ]
+    },
+    emoji: {
+      "裙子":"👗","去年":"📅","年":"📅","今年":"📆","明年":"🗓️","牌子":"🏷️","因為":"❓",
+      "有名":"🌟","褲子":"👖","所以":"👉","為什麼":"❓","百貨公司":"🏬","難":"🧩","容易":"👌",
+      "最近":"⌛","胖":"🍕","瘦":"🏃","高":"🦒","矮":"🍄","公斤":"⚖️","斤":"⚖️",
+      "怕":"😨","跟":"👫","時間":"⏰","黃色":"🟡","黃":"🟡","吧":"💬","流行":"🕶️",
+      "短":"🩳","長":"📏","鞋子":"👟","襪子":"🧦","雙":"👟","黑色":"⚫","黑":"🖤",
+      "樓":"🏢","樓下":"👇","樓上":"👆","快要 / 快":"⏳","關":"🚪","開":"🔓","電梯":"🛗",
+      "樓梯":"🪜","沒關係":"👌","對不起":"🙏","對了":"💡","年輕":"🧑","老":"👴","皮包":"👜",
+      "女生":"👧","男生":"👦","雜誌":"📰","舊":"📜"
+    }
+  },
+
+  9: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Trường học, Học tập, Ngôn ngữ & Vị trí.",
+    parts: {
+      part1: "Phần 1: Câu, Hiểu, Dạy & Bài tập (1-14)",
+      part2: "Phần 2: Lớp học, Vị trí & Ngôn ngữ (1-11 + Phrases)",
+      part3: "Phần 3: Học kỳ, Luyện tập & Thi cử (1-12)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "句子", "pinyin": "jùzi", "meaning": "câu (sentence [M: 個])", "examples": []},
+        {"hanzi": "意思", "pinyin": "yìsi", "meaning": "ý nghĩa (meaning)", "examples": [["這個句子的意思是什麼？妳知道嗎？", "Zhège jùzi de yìsi shì shénme? Nǐ zhīdào ma?"]]},
+        {"hanzi": "懂", "pinyin": "dǒng", "meaning": "hiểu, biết (to understand)", "examples": [["這些中文句子不難，我都懂。", "Zhèxiē Zhōngwén jùzi bù nán, wǒ dōu dǒng."]]},
+        {"hanzi": "教", "pinyin": "jiāo", "meaning": "dạy, giảng dạy (to teach)", "examples": [["張老師教我們中文。", "Zhāng lǎoshī jiāo wǒmen Zhōngwén."]]},
+        {"hanzi": "真的", "pinyin": "zhēnde", "meaning": "thật sự, quả thực (really; truly)", "examples": [["A：我妹妹說這件衣服很好看，你覺得呢？\nB：這件衣服真的很好看！", "A: Wǒ mèimei shuō zhè jiàn yīfu hěn hǎokàn, nǐ juéde ne?\nB: Zhè jiàn yīfu zhēnde hěn hǎokàn!"]]},
+        {"hanzi": "問", "pinyin": "wèn", "meaning": "hỏi (to ask [a question])", "examples": [["這個問題太難，我要去問老師。", "Zhège wèntí tài nán, wǒ yào qù wèn lǎoshī."]]},
+        {"hanzi": "非常", "pinyin": "fēicháng", "meaning": "vô cùng, rất (very)", "examples": [["那條裙子很漂亮，可是非常貴。", "Nà tiáo qúnzi hěn piàoliang, kěshì fēicháng guì."]]},
+        {"hanzi": "聰明", "pinyin": "cōngmíng", "meaning": "thông minh (smart)", "examples": [["我弟弟很聰明，學電腦學得非常快。", "Wǒ dìdi hěn cōngmíng, xué diànnǎo xué de fēicháng kuài."]]},
+        {"hanzi": "那（麼）", "pinyin": "nà (me)", "meaning": "thế thì, vậy thì (then)", "examples": [["你不想坐公車，那（麼）我們坐計程車吧。", "Nǐ bù xiǎng zuò gōngchē, nà (me) wǒmen zuò jìchéngchē ba."]]},
+        {"hanzi": "在", "pinyin": "zài", "meaning": "đang (ở trong quá trình làm gì) (in the process of doing something)", "examples": [["你看，他們在跳舞，跳得真好看！", "Nǐ kàn, tāmen zài tiàowǔ, tiào de zhēn hǎokàn!"]]},
+        {"hanzi": "書法", "pinyin": "shūfǎ", "meaning": "thư pháp (calligraphy)", "examples": []},
+        {"hanzi": "毛筆", "pinyin": "máobǐ", "meaning": "bút lông (writing brush [M: 枝])", "examples": [["我明天要上書法課，現在要去買毛筆。", "Wǒ míngtiān yào shàng shūfǎ kè, xiànzài yào qù mǎi máobǐ."]]},
+        {"hanzi": "宿舍", "pinyin": "sùshè", "meaning": "ký túc xá (dorm; dormitory)", "examples": [["我很累，想回宿舍休息。", "Wǒ hěn lèi, xiǎng huí sùshè xiūxí."]]},
+        {"hanzi": "功課", "pinyin": "gōngkè", "meaning": "bài tập về nhà (homework)", "examples": []},
+        {"hanzi": "作業", "pinyin": "zuòyè", "meaning": "bài tập (homework)", "examples": [["中文老師每天都給我們作業。", "Zhōngwén lǎoshī měitiān dōu gěi wǒmen zuòyè."]]},
+        {"hanzi": "再", "pinyin": "zài", "meaning": "sẽ... sau đó... (then [used in 'first..., then...' pattern])", "examples": [["我要先回家，再去圖書館。", "Wǒ yào xiān huí jiā, zài qù túshūguǎn."]]}
+      ],
+      part2: [
+        {"hanzi": "對面", "pinyin": "duìmiàn", "meaning": "đối diện (across from)", "examples": [["那家咖啡廳在郵局對面。", "Nà jiā kāfēitīng zài yóujú duìmiàn."]]},
+        {"hanzi": "中間", "pinyin": "zhōngjiān", "meaning": "ở giữa (among; between; middle)", "examples": [["我媽媽的花店在百貨公司和超級市場中間。", "Wǒ māma de huādiàn zài bǎihuògōngsī hé chāojí shìchǎng zhōngjiān."]]},
+        {"hanzi": "教室", "pinyin": "jiàoshì", "meaning": "phòng học, lớp học (classroom [M: 間])", "examples": [["他不在教室裡上課，那他在哪裡？", "Tā bù zài jiàoshì lǐ shàngkè, nà tā zài nǎlǐ?"]]},
+        {"hanzi": "能", "pinyin": "néng", "meaning": "có thể (can; to be able to)", "examples": [["我現在有課，不能去他家。", "Wǒ xiànzài yǒu kè, bù néng qù tā jiā."]]},
+        {"hanzi": "用", "pinyin": "yòng", "meaning": "dùng, sử dụng (to use)", "examples": [["我不太會用這個牌子的電腦，你可以教我嗎？", "Wǒ bú tài huì yòng zhège páizi de diànnǎo, nǐ kěyǐ jiāo wǒ ma?"]]},
+        {"hanzi": "班", "pinyin": "bān", "meaning": "lớp, lớp học (class)", "examples": [["我們班有十個學生。", "Wǒmen bān yǒu shí ge xuésheng."]]},
+        {"hanzi": "禮拜", "pinyin": "lǐbài", "meaning": "tuần (week)", "examples": [["這個禮拜有很多功課，不能跟你去玩。", "Zhège lǐbài wǒ yǒu hěn duō gōngkè, bù néng gēn nǐ qù wán."]]},
+        {"hanzi": "語言", "pinyin": "yǔyán", "meaning": "ngôn ngữ (language [M: 種/個])", "examples": [["你會說幾種語言？", "Nǐ huì shuō jǐ zhǒng yǔyán?"]]},
+        {"hanzi": "別的", "pinyin": "biéde", "meaning": "khác (other; else)", "examples": []},
+        {"hanzi": "別人", "pinyin": "biérén", "meaning": "người khác (others)", "examples": [["我想喝茶，別的飲料我都不想喝。", "Wǒ zhǐ xiǎng hē chá, biéde yǐnliào wǒ dōu bù xiǎng hē."], ["這裡只有我，沒有別人。", "Zhèlǐ zhǐyǒu wǒ, méiyǒu biérén."]]},
+        {"hanzi": "比較", "pinyin": "bǐjiào", "meaning": "tương đối, khá là (relatively; comparatively)", "examples": [["最近天氣比較熱，我不常去運動。", "Zuìjìn tiānqì bǐjiào rè, wǒ bù cháng qù yùndòng."]]},
+        {"hanzi": "也許", "pinyin": "yěxǔ", "meaning": "có lẽ, có thể (maybe; perhaps)", "examples": [["她明天也許有空，我們可以請她一起來喝咖啡。", "Tā míngtiān yěxǔ yǒu kòng, wǒmen kěyǐ qǐng tā yìqǐ lái hē kāfēi."]]},
+        {"hanzi": "希望", "pinyin": "xīwàng", "meaning": "hy vọng (to hope)", "examples": [["我希望明年可以去英國學英文。", "Wǒ xīwàng míngnián kěyǐ qù Yīngguó xué Yīngwén."]]},
+        {"hanzi": "期中考", "pinyin": "qīzhōngkǎo", "meaning": "thi giữa kỳ (midterm test)", "examples": []},
+        {"hanzi": "語言交換", "pinyin": "yǔyán jiāohuàn", "meaning": "trao đổi ngôn ngữ (language exchange)", "examples": []}
+      ],
+      part3: [
+        {"hanzi": "學期", "pinyin": "xuéqí", "meaning": "học kỳ (semester)", "examples": []},
+        {"hanzi": "開始", "pinyin": "kāishǐ", "meaning": "bắt đầu (to start; to begin)", "examples": [["新學期快要開始了。", "Xīn xuéqí kuàiyào kāishǐ le."], ["我們每天八點四十開始上課。", "Wǒmen měitiān bā diǎn sìshí kāishǐ shàngkè."]]},
+        {"hanzi": "華語", "pinyin": "Huáyǔ", "meaning": "tiếng Hoa / tiếng Trung (Chinese language)", "examples": [["你覺得華語好學嗎？", "Nǐ juéde Huáyǔ hǎoxué ma?"]]},
+        {"hanzi": "寫", "pinyin": "xiě", "meaning": "viết (to write)", "examples": [["我每天下午一點開始寫功課。", "Wǒ měitiān xiàwǔ yì diǎn kāishǐ xiě gōngkè."]]},
+        {"hanzi": "練習", "pinyin": "liànxí", "meaning": "luyện tập, thực hành (to practice)", "examples": []},
+        {"hanzi": "日文", "pinyin": "Rìwén", "meaning": "tiếng Nhật (Japanese language)", "examples": [["我常常跟日本朋友練習說日文。", "Wǒ chángcháng gēn Rìběn péngyǒu liànxí shuō Rìwén."]]},
+        {"hanzi": "讀書", "pinyin": "dúshū", "meaning": "đọc sách, học tập (to study)", "examples": []},
+        {"hanzi": "讀", "pinyin": "dú", "meaning": "đọc, học (to study)", "examples": []},
+        {"hanzi": "進步", "pinyin": "jìnbù", "meaning": "tiến bộ (to improve)", "examples": [["姐姐每天晚上都讀書，她進步了很多。", "Jiějie měitiān wǎnshàng dōu dúshū, tā jìnbù le hěn duō."]]},
+        {"hanzi": "下", "pinyin": "xià", "meaning": "sau, tới (next)", "examples": []},
+        {"hanzi": "上", "pinyin": "shàng", "meaning": "trước (last)", "examples": [["聽說下星期一我們要用別的教室，你知道是哪間教室嗎？", "Tīngshuō xià xīngqīyī wǒmen yào yòng biéde jiàoshì, nǐ zhīdào shì nǎ jiān jiàoshì ma?"]]},
+        {"hanzi": "緊張", "pinyin": "jǐnzhāng", "meaning": "hồi hộp, lo lắng (nervous)", "examples": [["我不懂他的意思，不知道應該說什麼，所以有點兒緊張。", "Wǒ bù dǒng tā de yìsi, bù zhīdào yīnggāi shuō shénme, suǒyǐ yǒudiǎnr jǐnzhāng."]]},
+        {"hanzi": "字", "pinyin": "zì", "meaning": "chữ, ký tự (character [M: 個])", "examples": [["我會寫三百多個中國字。", "Wǒ huì xiě sānbǎi duō ge Zhōngguó zì."]]},
+        {"hanzi": "考試", "pinyin": "kǎoshì", "meaning": "thi, kiểm tra (to test; to quiz/exam)", "examples": [["明天要考試，每個學生都很緊張。", "Míngtiān yào kǎoshì, měi ge xuésheng dōu hěn jǐnzhāng."], ["今天的考試不難，大家都考得不錯。", "Jīntiān de kǎoshì bù nán, dàjiā dōu kǎo de búcuò."]]},
+        {"hanzi": "考", "pinyin": "kǎo", "meaning": "thi, kiểm tra (test; quiz)", "examples": [["老師明天要考三十個中國字，我應該開始練習了。", "Lǎoshī míngtiān yào kǎo sānshí ge Zhōngguó zì, wǒ yīnggāi kāishǐ liànxí le."]]}
+      ]
+    },
+    emoji: {
+      "句子":"📝","意思":"💡","懂":"💡","教":"👨‍🏫","真的":"💯","問":"❓","非常":"🔥","聰明":"🧠",
+      "那（麼）":"👉","在":"⏳","書法":"🖌️","毛筆":"🖌️","宿舍":"🏢","功課":"📚","作業":"📝","再":"🔄",
+      "對面":"↔️","中間":"↔️","教室":"🏫","能":"💪","用":"💻","班":"👥","禮拜":"📅","語言":"🗣️",
+      "別的":"🔄","別人":"👥","比較":"⚖️","也許":"🤔","希望":"🌟","期中考":"📝","語言交換":"🗣️",
+      "學期":"📅","開始":"🏁","華語":"🈳","寫":"✍️","練習":"🏋️","日文":"⛩️","讀書":"📖","讀":"📖",
+      "進步":"📈","下":"⬇️","上":"⬆️","緊張":"😰","字":"🔤","考試":"💯","考":"📝"
+    }
+  },
+  10: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Sức khỏe, Bệnh tật, Cơ thể & Liên lạc.",
+    parts: {
+      part1: "Phần 1: Bệnh tật, Bệnh viện & Sức khỏe (1-18)",
+      part2: "Phần 2: Triệu chứng, Cơ thể & Thuốc (1-11 + Phrases)",
+      part3: "Phần 3: Gọi điện, Lo lắng & Dặn dò (1-5 + Phrases)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "感冒", "pinyin": "gǎnmào", "meaning": "cảm cúm, bị cảm (to catch a cold)", "examples": [["我感冒了，想在家休息。", "Wǒ gǎnmào le, xiǎng zài jiā xiūxí."]]},
+        {"hanzi": "請假", "pinyin": "qǐngjià", "meaning": "xin nghỉ (to ask for leaves)", "examples": []},
+        {"hanzi": "發燒", "pinyin": "fāshāo", "meaning": "sốt (to have a fever)", "examples": [["弟弟發燒了，他要請假。", "Dìdi fāshāo le, tā yào qǐngjià."]]},
+        {"hanzi": "醫生", "pinyin": "yīshēng", "meaning": "bác sĩ (doctor)", "examples": []},
+        {"hanzi": "跟", "pinyin": "gēn", "meaning": "với, cùng ( [talking] to)", "examples": [["他跟我說，他感冒了，要去看醫生。", "Tā gēn wǒ shuō, tā gǎnmào le, yào qù kàn yīshēng."]]},
+        {"hanzi": "醫院", "pinyin": "yīyuàn", "meaning": "bệnh viện (hospital)", "examples": []},
+        {"hanzi": "戴", "pinyin": "dài", "meaning": "đeo, đội, mang (to wear [hat, glasses, accessories, etc.])", "examples": []},
+        {"hanzi": "口罩", "pinyin": "kǒuzhào", "meaning": "khẩu trang (surgical mask)", "examples": []},
+        {"hanzi": "洗", "pinyin": "xǐ", "meaning": "rửa, giặt (to wash)", "examples": []},
+        {"hanzi": "手", "pinyin": "shǒu", "meaning": "tay (hand)", "examples": []},
+        {"hanzi": "手指", "pinyin": "shǒuzhǐ", "meaning": "ngón tay (finger)", "examples": [["最近很多人感冒，你要戴口罩、常洗手。", "Zuìjìn hěn duō rén gǎnmào, nǐ yào dài kǒuzhào, cháng xǐ shǒu."]]},
+        {"hanzi": "健康", "pinyin": "jiànkāng", "meaning": "sức khỏe, khỏe mạnh (health / healthy)", "examples": []},
+        {"hanzi": "生病", "pinyin": "shēngbìng", "meaning": "bị bệnh, ốm (to get sick)", "examples": [["我爸爸很健康，不常生病。", "Wǒ bàba hěn jiànkāng, bù cháng shēngbìng."]]},
+        {"hanzi": "注意", "pinyin": "zhùyì", "meaning": "chú ý (to notice; to pay attention)", "examples": []},
+        {"hanzi": "對", "pinyin": "duì", "meaning": "đúng (correct; right)", "examples": [["他說：「你唱得很好。」這個中文句子對嗎？", "Tā shuō: \"Nǐ chàng de hěn hǎo.\" Zhège Zhōngwén jùzi duì ma?"]]},
+        {"hanzi": "多", "pinyin": "duō", "meaning": "nhiều hơn (to do more)", "examples": []},
+        {"hanzi": "少", "pinyin": "shǎo", "meaning": "ít hơn (to do less)", "examples": [["我最近太胖了，應該多運動，少吃一點飯。", "Wǒ zuìjìn tài pàng le, yīnggāi duō yùndòng, shǎo chī yìdiǎn fàn."]]},
+        {"hanzi": "身體", "pinyin": "shēntǐ", "meaning": "cơ thể, sức khỏe (body)", "examples": [["最近很多人感冒，大家應該注意身體健康。", "Zuìjìn hěn duō rén gǎnmào, dàjiā yīnggāi zhùyì shēntǐ jiànkāng."]]},
+        {"hanzi": "帶", "pinyin": "dài", "meaning": "mang, đem (to bring; to take)", "examples": [["明天有書法課，我要帶毛筆去學校。", "Míngtiān yǒu shūfǎ kè, wǒ yào dài máobǐ qù xuéxiào."]]},
+        {"hanzi": "蘋果", "pinyin": "píngguǒ", "meaning": "quả táo (apple)", "examples": []},
+        {"hanzi": "香蕉", "pinyin": "xiāngjiāo", "meaning": "quả chuối (banana)", "examples": [["我最愛吃蘋果跟香蕉。", "Wǒ zuì ài chī píngguǒ gēn xiāngjiāo."]]}
+      ],
+      part2: [
+        {"hanzi": "咳嗽/咳", "pinyin": "késou/ké", "meaning": "ho (to cough)", "examples": [["我昨天開始咳嗽，現在想去看醫生。", "Wǒ zuótiān kāishǐ késou, xiànzài xiǎng qù kàn yīshēng."]]},
+        {"hanzi": "頭", "pinyin": "tóu", "meaning": "đầu (head)", "examples": []},
+        {"hanzi": "頭髮", "pinyin": "tóufǎ", "meaning": "tóc (hair)", "examples": []},
+        {"hanzi": "痛", "pinyin": "tòng", "meaning": "đau (painful)", "examples": []},
+        {"hanzi": "鼻子", "pinyin": "bízi", "meaning": "mũi (nose)", "examples": []},
+        {"hanzi": "嘴（巴）", "pinyin": "zuǐ (ba)", "meaning": "miệng (mouth)", "examples": []},
+        {"hanzi": "臉", "pinyin": "liǎn", "meaning": "mặt (face)", "examples": []},
+        {"hanzi": "耳朵", "pinyin": "ěrduo", "meaning": "tai (ears)", "examples": []},
+        {"hanzi": "眼睛", "pinyin": "yǎnjīng", "meaning": "mắt (eyes)", "examples": [["我感冒了，頭很痛，眼睛、耳朵也不舒服。", "Wǒ gǎnmào le, tóu hěn tòng, yǎnjīng, ěrduo yě bù shūfu."]]},
+        {"hanzi": "眼鏡", "pinyin": "yǎnjìng", "meaning": "kính mắt (glasses)", "examples": [["這個孩子眼睛不太好，所以每天都戴眼鏡。", "Zhège háizi yǎnjīng bú tài hǎo, suǒyǐ měitiān dōu dài yǎnjìng."]]},
+        {"hanzi": "肚子", "pinyin": "dùzi", "meaning": "bụng (belly)", "examples": [["我肚子餓了，想吃點兒東西。", "Wǒ dùzi è le, xiǎng chī diǎnr dōngxi."]]},
+        {"hanzi": "乾淨", "pinyin": "gānjìng", "meaning": "sạch sẽ (clean)", "examples": [["這張椅子不太乾淨，我要那張。", "Zhè zhāng yǐzi bú tài gānjìng, wǒ yào nà zhāng."]]},
+        {"hanzi": "需要", "pinyin": "xūyào", "meaning": "cần, cần thiết (to need / to need to do something)", "examples": [["每個人都需要朋友。", "Měi ge rén dōu xūyào péngyǒu."], ["我累了，需要回家休息。", "Wǒ lèi le, xūyào huí jiā xiūxí."]]},
+        {"hanzi": "藥", "pinyin": "yào", "meaning": "thuốc (medications)", "examples": [["醫生說，我應該多喝水，不需要吃藥。", "Yīshēng shuō, wǒ yīnggāi duō hē shuǐ, bù xūyào chī yào."]]},
+        {"hanzi": "會", "pinyin": "huì", "meaning": "sẽ (will; to be going to + V)", "examples": [["他明天沒有空，不會來我們家。", "Tā míngtiān méiyǒu kòng, bú huì lái wǒmen jiā."]]},
+        {"hanzi": "記得", "pinyin": "jìdé", "meaning": "nhớ (to remember)", "examples": [["我只記得明天有考試，不記得有功課。", "Wǒ zhǐ jìdé míngtiān yǒu kǎoshì, bù jìdé yǒu gōngkè."]]},
+        {"hanzi": "要是／如果", "pinyin": "yàoshi / rúguǒ", "meaning": "nếu như (if)", "examples": []},
+        {"hanzi": "就", "pinyin": "jiù", "meaning": "thì (then)", "examples": [["如果明天天氣好，我就去打球。", "Rúguǒ míngtiān tiānqì hǎo, wǒ jiù qù dǎqiú."]]},
+        {"hanzi": "不舒服", "pinyin": "bù shūfu", "meaning": "không khỏe, khó chịu (sick; not feeling well)", "examples": [["我身體不舒服，所以不能跟你們去打球。", "Wǒ shēntǐ bù shūfu, suǒyǐ bù néng gēn nǐmen qù dǎqiú."]]}
+      ],
+      part3: [
+        {"hanzi": "打電話", "pinyin": "dǎ diànhuà", "meaning": "gọi điện thoại (to make a phone call)", "examples": []},
+        {"hanzi": "接電話", "pinyin": "jiē diànhuà", "meaning": "nghe điện thoại (to answer a phone)", "examples": [["我打電話去他家，可是沒人接電話。", "Wǒ dǎ diànhuà qù tā jiā, kěshì méi rén jiē diànhuà."]]},
+        {"hanzi": "電話", "pinyin": "diànhuà", "meaning": "điện thoại (telephone)", "examples": []},
+        {"hanzi": "號碼", "pinyin": "hàomǎ", "meaning": "số (number)", "examples": [["你記不記得張老師的電話號碼？", "Nǐ jì bu jìdé Zhāng lǎoshī de diànhuà hàomǎ?"]]},
+        {"hanzi": "擔心", "pinyin": "dānxīn", "meaning": "lo lắng (to worry)", "examples": [["國安發燒了，不能來上課，我有點兒擔心他。", "Guó'ān fāshāo le, bù néng lái shàngkè, wǒ yǒudiǎnr dānxīn tā."]]},
+        {"hanzi": "告訴", "pinyin": "gàosù", "meaning": "bảo, nói với (to tell)", "examples": []},
+        {"hanzi": "忘記", "pinyin": "wàngjì", "meaning": "quên (to forget)", "examples": [["媽媽告訴我，不要忘記去超級市場買飲料。", "Māma gàosù wǒ, bú yào wàngjì qù chāojí shìchǎng mǎi yǐnliào."]]},
+        {"hanzi": "好了", "pinyin": "hǎo le", "meaning": "đã khỏi, tốt hơn rồi (getting well)", "examples": [["A：聽說你弟弟生病了，他現在怎麼樣？\nB：他好了，明天可以去學校了。", "A: Tīngshuō nǐ dìdi shēngbìng le, tā xiànzài zěnmeyàng?\nB: Tā hǎo le, míngtiān kěyǐ qù xuéxiào le."]]}
+      ]
+    },
+    emoji: {
+      "感冒":"🤒","請假":"📄","發燒":"🌡️","醫生":"👨‍⚕️","跟":"🗣️","醫院":"🏥","戴":"👓","口罩":"😷",
+      "洗":"🧼","手":"✋","手指":"👆","健康":"💪","生病":"🤢","注意":"⚠️","對":"✅","多":"➕",
+      "少":"➖","身體":"🧍","帶":"🎒","蘋果":"🍎","香蕉":"🍌","咳嗽/咳":"😷","頭":"🗣️","頭髮":"💇",
+      "痛":"😣","鼻子":"👃","嘴（巴）":"👄","臉":"😊","耳朵":"👂","眼睛":"👁️","眼鏡":"👓","肚子":"🤰",
+      "乾淨":"✨","需要":"🆘","藥":"💊","會":"🔮","記得":"🧠","要是／如果":"❓","就":"👉","不舒服":"🤒",
+      "打電話":"📞","接電話":"📲","電話":"☎️","號碼":"🔢","擔心":"😟","告訴":"🗣️","忘記":"🤷","好了":"🎉"
+    }
+  },
+  11: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Giao tiếp, Kế hoạch, Thời gian & Nhà hàng.",
+    parts: {
+      part1: "Phần 1: Quen biết, Trò chuyện & Quyết định (1-15)",
+      part2: "Phần 2: Thời gian, Kinh nghiệm & Giúp đỡ (1-11 + Phrases)",
+      part3: "Phần 3: Internet, Gọi món, Chụp ảnh & Tâm trạng (1-10)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "認識", "pinyin": "rènshì", "meaning": "quen biết, làm quen (to get to know someone)", "examples": [["我上個禮拜認識了一位中文老師。", "Wǒ shàng ge lǐbài rènshì le yí wèi Zhōngwén lǎoshī."]]},
+        {"hanzi": "了", "pinyin": "le", "meaning": "rồi (trợ từ chỉ hành động đã hoàn thành)", "examples": [["我昨天跟朋友說了很多話，我們都很開心。", "Wǒ zuótiān gēn péngyǒu shuō le hěn duō huà, wǒmen dōu hěn kāixīn."]]},
+        {"hanzi": "已經", "pinyin": "yǐjīng", "meaning": "đã, rồi (already)", "examples": [["A：你寫功課了嗎？\nB：我已經寫了。", "A: Nǐ xiě gōngkè le ma?\nB: Wǒ yǐjīng xiě le."]]},
+        {"hanzi": "卡片", "pinyin": "kǎpiàn", "meaning": "thiệp, thẻ (card)", "examples": [["這是朋友送我的生日卡片。", "Zhè shì péngyǒu sòng wǒ de shēngrì kǎpiàn."]]},
+        {"hanzi": "看到", "pinyin": "kàndào", "meaning": "nhìn thấy, thấy (to see [by chance])", "examples": [["我常常在電視上看到那位有名的醫生。", "Wǒ chángcháng zài diànshì shàng kàndào nà wèi yǒumíng de yīshēng."]]},
+        {"hanzi": "文章", "pinyin": "wénzhāng", "meaning": "bài viết, văn章 (article)", "examples": [["他寫的文章都很有趣，我很喜歡看。", "Tā xiě de wénzhāng dōu hěn yǒuqù, wǒ hěn xǐhuān kàn."]]},
+        {"hanzi": "然後", "pinyin": "ránhòu", "meaning": "sau đó, rồi thì (afterward; and then)", "examples": [["我們先游泳，然後再去吃飯，好不好？", "Wǒmen xiān yóuyǒng, ránhòu zài qù chīfàn, hǎo bù hǎo?"]]},
+        {"hanzi": "留言", "pinyin": "liúyán", "meaning": "để lại tin nhắn, lời nhắn (to leave a message)", "examples": [["如果他不能接電話，你就留言吧！", "Rúguǒ tā bù néng jiē diànhuà, nǐ jiù liúyán ba!"]]},
+        {"hanzi": "回答", "pinyin": "huídá", "meaning": "trả lời, đáp (to answer; to reply)", "examples": [["我不知道怎麼回答他的問題。", "Wǒ bù zhīdào zěnme huídá tā de wèntí."]]},
+        {"hanzi": "聊天（兒）", "pinyin": "liáotiān(r)", "meaning": "trò chuyện, tán tán (to chat)", "examples": [["他說話很有趣，所以每個人都喜歡跟他聊天。", "Tā shuōhuà hěn yǒuqù, suǒyǐ měi ge rén dōu xǐhuān gēn tā liáotiān."]]},
+        {"hanzi": "差不多", "pinyin": "chàbùduō", "meaning": "khoảng, xấp xỉ (about; approximately)", "examples": [["A：你每天幾點起床？\nB：差不多七點。", "A: Nǐ měitiān jǐ diǎn qǐchuáng?\nB: Chàbùduō qī diǎn."]]},
+        {"hanzi": "聊", "pinyin": "liáo", "meaning": "nói chuyện, tán gẫu (to chat)", "examples": [["你們在聊什麼？聊得好開心。", "Nǐmen zài liáo shénme? Liáo de hǎo kāixīn."]]},
+        {"hanzi": "見面", "pinyin": "jiànmiàn", "meaning": "gặp mặt (to meet)", "examples": [["你這個週末有空嗎？我想跟你見面。", "Nǐ zhège zhōumò yǒu kòng ma? Wǒ xiǎng gēn nǐ jiànmiàn."]]},
+        {"hanzi": "還沒 / 還 / 沒", "pinyin": "háiméi / hái / méi", "meaning": "chưa / vẫn / chưa (not yet / still / not [for completed action])", "examples": [["A：你現在要回宿舍嗎？\nB：還沒，我要先去吃飯再回宿舍。", "A: Nǐ xiànzài yào huí sùshè ma?\nB: Háiméi, wǒ yào xiān qù chīfàn zài huí sùshè."], ["他上個禮拜生病了，現在還在咳嗽。", "Tā shàng ge lǐbài shēngbìng le, xiànzài hái zài késou."], ["A：昨天你去運動了嗎？\nB：我沒去運動，我去朋友家玩。", "A: Zuótiān nǐ qù yùndòng le ma?\nB: Wǒ méi qù yùndòng, wǒ qù péngyǒu jiā wán."]]},
+        {"hanzi": "決定", "pinyin": "juédìng", "meaning": "quyết định (to decide / decision)", "examples": [["A：你已經決定明年去英國了嗎？\nB：我還沒做決定。", "A: Nǐ yǐjīng juédìng míngnián qù Yīngguó le ma?\nB: Wǒ háiméi zuò juédìng."]]}
+      ],
+      part2: [
+        {"hanzi": "以前 / 以後", "pinyin": "yǐqián / yǐhòu", "meaning": "trước đây / sau này, về sau (in the past / in the future)", "examples": [["以前妹妹很不喜歡穿裙子，現在她覺得穿裙子很舒服。", "Yǐqián mèimei hěn bù xǐhuān chuān qúnzi, xiànzài tā juéde chuān qúnzi hěn shūfu."], ["我希望以後可以去他家玩。", "Wǒ xīwàng yǐhòu kěyǐ qù tā jiā wán."]]},
+        {"hanzi": "經驗", "pinyin": "jīngyàn", "meaning": "kinh nghiệm (experience)", "examples": [["你可以告訴我學中文的經驗嗎？", "Nǐ kěyǐ gàosù wǒ xué Zhōngwén de jīngyàn ma?"]]},
+        {"hanzi": "這樣", "pinyin": "zhèyàng", "meaning": "như thế này (like this; this way)", "examples": [["這家餐廳賣很多蛋糕和冰淇淋，這樣的甜點我都很喜歡。", "Zhè jiā cāntīng mài hěn duō dàngāo hé bīngqílín, zhèyàng de tiándiǎn wǒ dōu hěn xǐhuān."]]},
+        {"hanzi": "奇怪", "pinyin": "qíguài", "meaning": "kỳ lạ, lạ (strange; odd)", "examples": [["老師為什麼還沒來？大家都覺得奇怪。", "Lǎoshī wèi shénme háiméi lái? Dàjiā dōu juéde qíguài."]]},
+        {"hanzi": "辦法", "pinyin": "bànfǎ", "meaning": "biện pháp, cách (method; way)", "examples": [["這個孩子飯吃得太少了，你有什麼好辦法？", "Zhège háizi fàn chī de tài shǎo le, nǐ yǒu shénme hǎo bànfǎ?"]]},
+        {"hanzi": "幫忙", "pinyin": "bāngmáng", "meaning": "giúp đỡ (to help)", "examples": [["可以請你幫我一個忙嗎？", "Kěyǐ qǐng nǐ bāng wǒ yí ge máng ma?"]]},
+        {"hanzi": "打算", "pinyin": "dǎsuàn", "meaning": "dự định, tính (to plan to)", "examples": [["他打算坐捷運去看朋友。", "Tā dǎsuàn zuò jiéyùn qù kàn péngyǒu."]]},
+        {"hanzi": "可能", "pinyin": "kěnéng", "meaning": "có thể, có lẽ (maybe; probably)", "examples": [["我打電話給她，她沒接，可能在睡覺。", "Wǒ dǎ diànhuà gěi tā, tā méi jiē, kěnéng zài shuìjiào."]]},
+        {"hanzi": "約", "pinyin": "yuē", "meaning": "hẹn, đặt hẹn (to make an appointment)", "examples": [["週末我有空，要約朋友一起去玩。", "Zhōumò wǒ yǒu kòng, yào yuē péngyǒu yìqǐ qù wán."]]},
+        {"hanzi": "但是", "pinyin": "dànshì", "meaning": "nhưng, nhưng mà (but)", "examples": [["這個香蕉蛋糕不好看，但是很好吃。", "Zhège xiāngjiāo dàngāo bù hǎokàn, dànshì hěn hǎochī."]]},
+        {"hanzi": "給", "pinyin": "gěi", "meaning": "cho, gửi cho (to)", "examples": [["我感冒了，想給老師打電話，跟他說我不能去上課。", "Wǒ gǎnmào le, xiǎng gěi lǎoshī dǎ diànhuà, gēn tā shuō wǒ bù néng qù shàngkè."]]},
+        {"hanzi": "什麼時候", "pinyin": "shénme shíhòu", "meaning": "khi nào, bao giờ (when...?)", "examples": [["A：你什麼時候有空？要不要跟我去唱歌？\nB：我今天下午有空。", "A: Nǐ shénme shíhòu yǒu kòng? Yào bú yào gēn wǒ qù chànggē?\nB: Wǒ jīntiān xiàwǔ yǒu kòng."]]}
+      ],
+      part3: [
+        {"hanzi": "網路", "pinyin": "wǎnglù", "meaning": "mạng internet (the internet)", "examples": [["我常在網路上聽我喜歡的音樂。", "Wǒ cháng zài wǎnglù shàng tīng wǒ xǐhuān de yīnyuè."]]},
+        {"hanzi": "菜單", "pinyin": "càidān", "meaning": "thực đơn, menu (menu)", "examples": [["A：請問你們有英文菜單嗎？\nB：對不起，我們沒有。", "A: Qǐngwèn nǐmen yǒu Yīngwén càidān ma?\nB: Duìbùqǐ, wǒmen méiyǒu."]]},
+        {"hanzi": "特別", "pinyin": "tèbié", "meaning": "đặc biệt (special; particular)", "examples": [["這家餐廳很特別，沒有菜單。", "Zhè jiā cāntīng hěn tèbié, méiyǒu càidān."]]},
+        {"hanzi": "點菜 / 菜", "pinyin": "diǎncài / cài", "meaning": "gọi món / món ăn (to order dishes / dish)", "examples": [["A：我們要點幾盤菜？\nB：今天是你的生日，我們多點幾盤吧。", "A: Wǒmen yào diǎn jǐ pán cài?\nB: Jīntiān shì nǐ de shēngrì, wǒmen duō diǎn jǐ pán ba."]]},
+        {"hanzi": "盤 / 盤子", "pinyin": "pán / pánzi", "meaning": "dĩa, đĩa (lượng từ) / cái đĩa (plate of / plate)", "examples": [["這幾盤菜都是我媽媽做的。", "Zhè jǐ pán cài dōu shì wǒ māma zuò de."]]},
+        {"hanzi": "照相 / 照", "pinyin": "zhàoxiàng / zhào", "meaning": "chụp ảnh (to take a photo / to take)", "examples": [["我弟弟很喜歡幫人照相。", "Wǒ dìdi hěn xǐhuān bāng rén zhàoxiàng."]]},
+        {"hanzi": "照相機", "pinyin": "zhàoxiàngjī", "meaning": "máy ảnh (camera)", "examples": [["A：這個照相機是誰的？\nB：是我爸爸的。", "A: Zhège zhàoxiàngjī shì shéi de?\nB: Shì wǒ bàba de."]]},
+        {"hanzi": "相片 / 照片", "pinyin": "xiàngpiàn / zhàopiàn", "meaning": "bức ảnh, tấm ảnh (photo)", "examples": [["A：這些相片是在哪裡照的？\nB：花蓮。", "A: Zhèxiē xiàngpiàn shì zài nǎlǐ zhào de?\nB: Huālián."]]},
+        {"hanzi": "心情", "pinyin": "xīnqíng", "meaning": "tâm trạng, cảm xúc (mood)", "examples": [["A：你今天唱歌唱得真好聽。\nB：因為我心情很好。", "A: Nǐ jīntiān chànggē chàng de zhēn hǎotīng.\nB: Yīnwèi wǒ xīnqíng hěn hǎo."]]},
+        {"hanzi": "出去", "pinyin": "chūqù", "meaning": "đi ra ngoài (to go out)", "examples": [["A：你現在有空嗎？\nB：我現在要跟太太出去，晚上再給你打電話。", "A: Nǐ xiànzài yǒu kòng ma?\nB: Wǒ xiànzài yào gēn tàitai chūqù, wǎnshàng zài gěi nǐ dǎ diànhuà."]]},
+        {"hanzi": "機會", "pinyin": "jīhuì", "meaning": "cơ hội (chance)", "examples": [["我有一些台灣朋友，所以說中文的機會很多。", "Wǒ yǒu yìxiē Táiwān péngyǒu, suǒyǐ shuō Zhōngwén de jīhuì hěn duō."]]}
+      ]
+    },
+    emoji: {
+      "認識":"🤝","了":"✅","已經":"⌛","卡片":"🃏","看到":"👀","文章":"📰","然後":"➡️","留言":"💬",
+      "回答":"🗣️","聊天（兒）":"💬","差不多":"🎯","聊":"🗣️","見面":"🤝","還沒 / 還 / 沒":"⏳","決定":"📌",
+      "以前 / 以後":"⏳","經驗":"🧠","這樣":"👉","奇怪":"❓","辦法":"💡","幫忙":"🤲","打算":"🗓️",
+      "可能":"🤔","約":"📅","但是":"⚖️","給":"🎁","什麼時候":"⏰","網路":"🌐","菜單":"📜","特別":"⭐",
+      "點菜 / 菜":"🍲","盤 / 盤子":"🍽️","照相 / 照":"📸","照相機":"📷","相片 / 照片":"🖼️","心情":"😊",
+      "出去":"🚶","機會":"🍀"
+    }
+  },
+  12: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Nghề nghiệp, Công sở, Thời gian & Gia đình.",
+    parts: {
+      part1: "Phần 1: Công việc, Nghề nghiệp & Môi trường (1-12)",
+      part2: "Phần 2: Môi trường làm việc & Trải nghiệm (1-11)",
+      part3: "Phần 3: Gia đình, Trò chuyện & Cuộc sống (1-11)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "工作", "pinyin": "gōngzuò", "meaning": "công việc, làm việc (work / to work)", "examples": [["我爸爸是老師，他很喜歡他的工作。", "Wǒ bàba shì lǎoshī, tā hěn xǐhuān tā de gōngzuò."], ["他在餐廳工作，每天差不多都晚上十點回家。", "Tā zài cāntīng gōngzuò, měitiān chàbùduō dōu wǎnshàng shí diǎn huíjiā."]]},
+        {"hanzi": "怎麼", "pinyin": "zěnme", "meaning": "làm sao, thế nào, sao (how come?)", "examples": [["A：今天天氣很好，你怎麼沒出去？\nB：今天我有很多功課，不能出去玩。", "A: Jīntiān tiānqì hěn hǎo, nǐ zěnme méi chūqù?\nB: Jīntiān wǒ yǒu hěn duō gōngkè, bù néng chūqù wán."]]},
+        {"hanzi": "參加", "pinyin": "cānjiā", "meaning": "tham gia (to participate in)", "examples": [["你要參加學校的游泳比賽嗎？", "Nǐ yào cānjiā xuéxiào de yóuyǒng bǐsài ma?"]]},
+        {"hanzi": "當", "pinyin": "dāng", "meaning": "làm (nghề), trở thành (to be; to serve as)", "examples": [["A：你覺得我可以當老師嗎？\nB：如果你想當，一定有機會。", "A: Nǐ juéde wǒ kěyǐ dāng lǎoshī ma?\nB: Rúguǒ nǐ xiǎng dāng, yídìng yǒu jīhuì."]]},
+        {"hanzi": "護理師 / 護士", "pinyin": "hùlǐshī / hùshì", "meaning": "y tá, điều dưỡng (nurse)", "examples": [["我姊姊是這家醫院的護理師。", "Wǒ jiějie shì zhè jiā yīyuàn de hùlǐshī."]]},
+        {"hanzi": "用", "pinyin": "yòng", "meaning": "dùng, bằng (using; with)", "examples": [["我常常用中文給台灣朋友寫信。", "Wǒ chángcháng yòng Zhōngwén gěi Táiwān péngyǒu xiěxìn."]]},
+        {"hanzi": "記者", "pinyin": "jìzhě", "meaning": "phóng viên, nhà báo (reporter; correspondent)", "examples": [["我覺得當記者不容易，週末常常不能休息。", "Wǒ juéde dāng jìzhě bù róngyì, zhōumò chángcháng bù néng xiūxí."]]},
+        {"hanzi": "銀行", "pinyin": "yínháng", "meaning": "ngân hàng (bank)", "examples": []},
+        {"hanzi": "畢業", "pinyin": "bìyè", "meaning": "tốt nghiệp (to graduate)", "examples": [["哥哥畢業了，下個月要去銀行工作。", "Gēge bìyè le, xià ge yuè yào qù yínháng gōngzuò."]]},
+        {"hanzi": "以後 / 以前", "pinyin": "yǐhòu / yǐqián", "meaning": "sau khi / trước khi (after; afterward / before; formerly)", "examples": [["考試開始以後，我們不可以跟同學說話。", "Kǎoshì kāishǐ yǐhòu, wǒmen bù kěyǐ gēn tóngxué shuōhuà."], ["我去上課以前，一定會先在家吃早飯。", "Wǒ qù shàngkè yǐqián, yídìng huì xiān zài jiā chī zǎofàn."]]},
+        {"hanzi": "公司", "pinyin": "gōngsī", "meaning": "công ty (company)", "examples": [["我們公司附近有很多餐廳和飲料店。", "Wǒmen gōngsī fùjìn yǒu hěn duō cāntīng hé yǐnliàodiàn."]]},
+        {"hanzi": "老闆 / 老板", "pinyin": "lǎobǎn", "meaning": "ông chủ, sếp (boss; business owner)", "examples": [["在台灣，很多年輕人喜歡當咖啡店的老闆。", "Zài Táiwān, hěn duō niánqīngrén xǐhuān dāng kāfēidiàn de lǎobǎn."]]}
+      ],
+      part2: [
+        {"hanzi": "麵包", "pinyin": "miànbāo", "meaning": "bánh mì (bread)", "examples": [["那家有名的麵包店賣很多種麵包，都很好吃。", "Nà jiā yǒumíng de miànbāodiàn mài hěn duō zhǒng miànbāo, dōu hěn hǎochī."]]},
+        {"hanzi": "辛苦", "pinyin": "xīnkǔ", "meaning": "vất vả, cực khổ (hard; tough [life, work])", "examples": [["他每天早上去上班，晚上去上課，真辛苦！", "Tā měitiān zǎoshàng qù shàngbān, wǎnshàng qù shàngkè, zhēn xīnkǔ!"]]},
+        {"hanzi": "而且", "pinyin": "érqiě", "meaning": "hơn nữa, vả lại (moreover)", "examples": [["這家飯店又方便又乾淨，而且不貴。", "Zhè jiā fàndiàn yòu fāngbiàn yòu gānjìng, érqiě bú guì."]]},
+        {"hanzi": "同事", "pinyin": "tóngshì", "meaning": "đồng nghiệp (colleague)", "examples": [["下班以後，我常跟同事一起去吃晚飯。", "Xiàbān yǐhòu, wǒ cháng gēn tóngshì yìqǐ qù chī wǎnfàn."]]},
+        {"hanzi": "對", "pinyin": "duì", "meaning": "đối với, với (to; treating [a person])", "examples": [["如果我們對別人好，別人也會對我們好。", "Rúguǒ wǒmen duì biérén hǎo, biérén yě huì duì wǒmen hǎo."]]},
+        {"hanzi": "成績", "pinyin": "chéngjī", "meaning": "thành tích, điểm số (grades)", "examples": [["你這學期的成績進步了，太好了！", "Nǐ zhè xuéqī de chéngjī jìnbù le, tài hǎo le!"]]},
+        {"hanzi": "過", "pinyin": "guò", "meaning": "từng (trợ từ chỉ kinh nghiệm) (particle indicating experience)", "examples": [["我還沒去過日本，今年可能有機會去。", "Wǒ háiméi qù guò Rìběn, jīnnián kěnéng yǒu jīhuì qù."]]},
+        {"hanzi": "夠", "pinyin": "gòu", "meaning": "đủ (enough)", "examples": [["A：這些點心夠不夠？\nB：夠了，夠了，我們已經吃過午飯了。", "A: Zhèxiē diǎnxīn gòu bù gòu?\nB: Gòu le, gòu le, wǒmen yǐjīng chī guò wǔfàn le."]]},
+        {"hanzi": "遲到", "pinyin": "chídào", "meaning": "đến trễ, đi muộn (to come late)", "examples": [["他今天上班遲到了，老闆不太高興。", "Tā jīntiān shàngbān chídào le, lǎobǎn bú tài gāoxìng."]]},
+        {"hanzi": "準備", "pinyin": "zhǔnbèi", "meaning": "chuẩn bị (to prepare)", "examples": [["今天是我的生日，媽媽準備了很多我愛吃的菜。", "Jīntiān shì wǒ de shēngrì, māma zhǔnbèi le hěn duō wǒ ài chī de cài."]]},
+        {"hanzi": "小時 / 鐘頭", "pinyin": "xiǎoshí / zhōngtóu", "meaning": "tiếng đồng hồ, giờ / phút (hour / minute)", "examples": [["一個小時以前，他還在這裡。", "Yí ge xiǎoshí yǐqián, tā hái zài zhèlǐ."], ["十分鐘以前我給他打了一個電話。", "Shí fēnzhōng yǐqián wǒ gěi tā dǎ le yí ge diànhuà."]]}
+      ],
+      part3: [
+        {"hanzi": "節目", "pinyin": "jiémù", "meaning": "chương trình (TV program or show)", "examples": [["最近有什麼好看的電視節目？", "Zuìjìn yǒu shénme hǎokàn de diànshì jiémù?"]]},
+        {"hanzi": "父母 / 父親 / 母親 / 兒子 / 女兒", "pinyin": "fùmǔ / fùqīn / mǔqīn / érzi / nǚ'ér", "meaning": "cha mẹ / cha / mẹ / con trai / con gái", "examples": [["她的父母都在學校當老師。", "Tā de fùmǔ dōu zài xuéxiào dāng lǎoshī."], ["我父親文章寫得很好，而且他的字也很漂亮。", "Wǒ fùqīn wénzhāng xiě de hěn hǎo, érqiě tā de zì yě hěn piàoliang."], ["我母親常對我說：「你要多看書，少玩手機。」", "Wǒ mǔqīn cháng duì wǒ shuō: \"Nǐ yào duō kànshū, shǎo wán shǒujī.\""], ["李先生有三個孩子，一個兒子，兩個女兒。", "Lǐ xiānsheng yǒu sān ge háizi, yí ge érzi, liǎng ge nǚ'ér."]]},
+        {"hanzi": "談", "pinyin": "tán", "meaning": "nói chuyện, bàn thảo (to talk)", "examples": [["現在我沒有時間，明天再跟你談這個問題。", "Xiànzài wǒ méiyǒu shíjiān, míngtiān zài gēn nǐ tán zhège wèntí."]]},
+        {"hanzi": "談話", "pinyin": "tánhuà", "meaning": "trò chuyện, nói chuyện (to have a conversation)", "examples": [["老闆要跟我們談話，想知道我們工作做得怎麼樣。", "Lǎobǎn yào gēn wǒmen tánhuà, xiǎng zhīdào wǒmen gōngzuò zuò de zěnmeyàng."]]},
+        {"hanzi": "自己", "pinyin": "zìjǐ", "meaning": "bản thân, tự mình (oneself)", "examples": [["這件事情他自己可以做，不需要我們幫忙。", "Zhè jiàn shìqíng tā zìjǐ kěyǐ zuò, bù xūyào wǒmen bāngmáng."]]},
+        {"hanzi": "結婚", "pinyin": "jiéhūn", "meaning": "kết hôn, lấy nhau (to get married)", "examples": []},
+        {"hanzi": "重要", "pinyin": "zhòngyào", "meaning": "quan trọng (important)", "examples": [["結婚以前，他覺得工作最重要，現在他覺得家人最重要。", "Jiéhūn yǐqián, tā juéde gōngzuò zuì zhòngyào, xiànzài tā juéde jiārén zuì zhòngyào."]]},
+        {"hanzi": "冷氣（機）", "pinyin": "lěngqì(jī)", "meaning": "máy điều hòa (air condition(er))", "examples": []},
+        {"hanzi": "辦公室", "pinyin": "bàngōngshì", "meaning": "văn phòng (office)", "examples": [["今天辦公室的冷氣不冷，可能冷氣機有問題。", "Jīntiān bàngōngshì de lěngqì bù lěng, kěnéng lěngqìjī yǒu wèntí."]]},
+        {"hanzi": "還", "pinyin": "hái", "meaning": "còn, ngoài ra (also; in addition)", "examples": [["在這家咖啡廳，可以上網還可以看雜誌。", "Zài zhè jiā kāfēitiān, kěyǐ shàngwǎng hái kěyǐ kàn zázhì."]]},
+        {"hanzi": "工廠 / 工人", "pinyin": "gōngchǎng / gōngrén", "meaning": "nhà xưởng, nhà máy / công nhân (factory / worker)", "examples": [["聽說這家工廠的工人都很辛苦，可是老闆給的錢不多。", "Tīngshuō zhè jiā gōngchǎng de gōngrén dōu hěn xīnkǔ, kěshì lǎobǎn gěi de qián bù duō."]]}
+      ]
+    },
+    emoji: {
+      "工作":"💼","怎麼":"❓","參加":"🏊","當":"👨‍🏫","護理師 / 護士":"👩‍⚕️","用":"✍️",
+      "記者":"🎙️","銀行":"🏦","畢業":"🎓","以後 / 以前":"⏳","公司":"🏢","老闆 / 老板":"👨‍💼",
+      "麵包":"🍞","辛苦":"💦","而且":"➕","同事":"👥","對":"🤝","成績":"💯",
+      "過":"✈️","夠":"👍","遲到":"⏰","準備":"🎂","小時 / 鐘頭":"⏳","節目":"📺",
+      "父母 / 父親 / 母親 / 兒子 / 女兒":"👨‍👩‍👧‍👦","談":"💬","談話":"🗣️","自己":"🙋","結婚":"💍",
+      "重要":"💎","冷氣（機）":"❄️","辦公室":"🏢","還":"➕","工廠 / 工人":"🏭"
+    }
+  },
+  13: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Liên lạc, Phương hướng, Triển lãm & Đời sống.",
+    parts: {
+      part1: "Phần 1: Liên lạc, Địa điểm & Chỉ đường (1-15)",
+      part2: "Phần 2: Mua vé, Trò chuyện & Triển lãm (1-11)",
+      part3: "Phần 3: Toán học, Phương hướng & Cuộc sống (1-11)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "喂", "pinyin": "wéi", "meaning": "alo (khi nghe điện thoại) (hello in a phone)", "examples": [["喂，請問王宜文小姐在嗎？", "Wéi, qǐngwèn Wáng Yíwén xiǎojiě zài ma?"]]},
+        {"hanzi": "電子郵件 / 郵件", "pinyin": "diànzǐ yóujiàn / yóujiàn", "meaning": "email / thư từ, bưu phẩm (email / mail; post)", "examples": []},
+        {"hanzi": "剛剛", "pinyin": "gānggāng", "meaning": "vừa mới, lúc nãy (just now; a moment ago)", "examples": [["我剛剛在學校附近看到中明。", "Wǒ gānggāng zài xuéxiào fùjìn kàndào Zhōngmíng."]]},
+        {"hanzi": "博物館", "pinyin": "bówùguǎn", "meaning": "viện bảo tàng (museum)", "examples": []},
+        {"hanzi": "網址", "pinyin": "wǎngzhǐ", "meaning": "địa chỉ trang web, link (web address; link)", "examples": [["這是博物館的網址，你可以先看看。", "Zhè shì bówùguǎn de wǎngzhǐ, nǐ kěyǐ xiān kànkan."]]},
+        {"hanzi": "帶", "pinyin": "dài", "meaning": "dẫn, mang, đưa đi (to take a person)", "examples": [["我生病了，媽媽今天要帶我去醫院看醫生。", "Wǒ shēngbìng le, māma jīntiān yào dài wǒ qù yīyuàn kàn yīshēng."]]},
+        {"hanzi": "參觀", "pinyin": "cānguān", "meaning": "tham quan (to visit installations, places)", "examples": [["老闆今天帶我去參觀了一家工廠。", "Lǎobǎn jīntiān dài wǒ qù cānguān le yì jiā gōngchǎng."]]},
+        {"hanzi": "網站", "pinyin": "wǎngzhàn", "meaning": "trang web (website)", "examples": [["學校的網站上有很多學生寫的文章。", "Xuéxiào de wǎngzhàn shàng yǒu hěn duō xuéshēng xiě de wénzhāng."]]},
+        {"hanzi": "地址", "pinyin": "dìzhǐ", "meaning": "địa chỉ (address)", "examples": [["你知道他家的地址嗎？", "Nǐ zhīdào tā jiā de dìzhǐ ma?"]]},
+        {"hanzi": "往", "pinyin": "wǎng", "meaning": "hướng về, đi về phía (towards)", "examples": []},
+        {"hanzi": "右（邊） / 左（邊）", "pinyin": "yòu (biān) / zuǒ (biān)", "meaning": "bên phải / bên trái (the right side / the left side)", "examples": [["我往右看，看到了一間很漂亮的房子。", "Wǒ wǎng yòu kàn, kàndào le yì jiān hěn piàoliang de fángzi."]]},
+        {"hanzi": "轉", "pinyin": "zhuǎn", "meaning": "rẽ, quẹo, chuyển (to turn)", "examples": [["你先往左轉，再往右轉，就到那家餐廳了。", "Nǐ xiān wǎng zuǒ zhuǎn, zài wǎng yòu zhuǎn, jiù dào nà jiā cāntīng le."]]},
+        {"hanzi": "門口", "pinyin": "ménkǒu", "meaning": "cổng, cửa ra vào (doorway; gate)", "examples": [["我明天早上十點會在學校門口等你。", "Wǒ míngtiān zǎoshàng shí diǎn huì zài xuéxiào ménkǒu děng nǐ."]]},
+        {"hanzi": "見", "pinyin": "jiàn", "meaning": "gặp, thấy (to see somebody)", "examples": [["A：我們明天晚上八點見。\nB：好，沒問題。", "A: Wǒmen míngtiān wǎnshàng bā diǎn jiàn.\nB: Hǎo, méi wèntí."]]},
+        {"hanzi": "晚 / 早 / 不好意思", "pinyin": "wǎn / zǎo / bùhǎoyìsi", "meaning": "trễ, muộn / sớm / xin lỗi, ngại quá (late / early / excuse me)", "examples": [["現在很晚了，你應該去睡覺了。", "Xiànzài hěn wǎn le, nǐ yīnggāi qù shuìjiào le."], ["現在十點了，不早了，我想回家了。", "Xiànzài shí diǎn le, bù zǎo le, wǒ xiǎng huíjiā le."], ["不好意思，我遲到了。", "Bùhǎoyìsi, wǒ chídào le."]]}
+      ],
+      part2: [
+        {"hanzi": "就要", "pinyin": "jiùyào", "meaning": "sắp, sắp sửa (to be about to)", "examples": [["他下個月就要回國了，我想送他一些小禮物。", "Tā xià ge yuè jiùyào huíguó le, wǒ xiǎng sòng tā yìxiē xiǎo lǐwù."]]},
+        {"hanzi": "排隊", "pinyin": "páiduì", "meaning": "xếp hàng (to line up; to get in line)", "examples": [["現在坐捷運的人很多，我們需要排隊。", "Xiànzài zuò jiéyùn de rén hěn duō, wǒmen xūyào páiduì."]]},
+        {"hanzi": "票", "pinyin": "piào", "meaning": "vé (ticket)", "examples": [["我同學送了我一張電影票，可是我沒有空去看。", "Wǒ tóngxué sòng le wǒ yì zhāng diànyǐngpiào, kěshì wǒ méiyǒu kòng qù kàn."]]},
+        {"hanzi": "介紹", "pinyin": "jièshào", "meaning": "giới thiệu (to introduce)", "examples": [["他今天給我介紹了一個新朋友。", "Tā jīntiān gěi wǒ jièshào le yí ge xīn péngyǒu."]]},
+        {"hanzi": "進去 / 進來", "pinyin": "jìnqù / jìnlái", "meaning": "đi vào / đi vào đây (to go in / to come in)", "examples": [["他們在裡面談話，你現在不要進去。", "Tāmen zài lǐmiàn tánhuà, nǐ xiànzài búyào jìnqù."], ["外面很冷，請進來吧！", "Wàimiàn hěn lěng, qǐng jìnlái ba!"]]},
+        {"hanzi": "安靜", "pinyin": "ānjìng", "meaning": "yên tĩnh, giữ trật tự (quiet; tranquil)", "examples": [["圖書館裡的人都在看書，很安靜。", "Túshūguǎn lǐ de rén dōu zài kànshū, hěn ānjìng."]]},
+        {"hanzi": "大聲 / 聲音", "pinyin": "dàshēng / shēngyīn", "meaning": "lớn tiếng / âm thanh, tiếng nói (loud / sound; voice)", "examples": [["兒子跟女兒都在睡覺，你不要說得太大聲。", "Érzi gēn nǚ'ér dōu zài shuìjiào, nǐ búyào shuō de tài dàshēng."], ["你聽，這是什麼聲音？", "Nǐ tīng, zhè shì shénme shēngyīn?"]]},
+        {"hanzi": "圖片", "pinyin": "túpiàn", "meaning": "hình ảnh, bức ảnh (picture; photograph)", "examples": [["這個網站上的圖片很多，而且都很好看。", "Zhège wǎngzhàn shàng de túpiàn hěn duō, érqiě dōu hěn hǎokàn."]]},
+        {"hanzi": "馬上", "pinyin": "mǎshàng", "meaning": "ngay lập tức (immediately; right away)", "examples": [["我問了他一個問題，他馬上就回答了。", "Wǒ wèn le tā yí ge wèntí, tā mǎshàng jiù huídá le."]]},
+        {"hanzi": "歷史", "pinyin": "lìshǐ", "meaning": "lịch sử (history)", "examples": []},
+        {"hanzi": "故事", "pinyin": "gùshì", "meaning": "câu chuyện (story; tale)", "examples": [["我看過很多有趣的歷史故事。", "Wǒ kàn guò hěn duō yǒuqù de lìshǐ gùshì."]]}
+      ],
+      part3: [
+        {"hanzi": "算 / 數學", "pinyin": "suàn / shùxué", "meaning": "tính toán / môn toán (to calculate / mathematics)", "examples": [["請你先算一算，然後告訴我這裡一共有多少人。", "Qǐng nǐ xiān suàn yí suàn, ránhòu gàosù wǒ zhèlǐ yígòng yǒu duōshǎo rén."], ["這幾個數學問題我都不懂，不知道怎麼算。", "Zhè jǐ ge shùxué wèntí wǒ dōu bù dǒng, bù zhīdào zěnmeyàng suàn."]]},
+        {"hanzi": "科學", "pinyin": "kēxué", "meaning": "khoa học (science)", "examples": [["語言和科學我都很喜歡。", "Yǔyán hé kēxué wǒ dōu hěn xǐhuān."]]},
+        {"hanzi": "展", "pinyin": "zhǎn", "meaning": "triển lãm, hội chợ (exhibition)", "examples": [["下個月有個很大的電腦展，你要跟我去看嗎？", "Xià ge yuè yǒu ge hěn dà de diànnǎozhǎn, nǐ yào gēn wǒ qù kàn ma?"]]},
+        {"hanzi": "出", "pinyin": "chū", "meaning": "đi ra, ra khỏi (to exit)", "examples": [["我出了捷運站，就看到那家銀行了。", "Wǒ chū le jiéyùnzhàn, jiù kàndào nà jiā yínháng le."]]},
+        {"hanzi": "方向", "pinyin": "fāngxiàng", "meaning": "phương hướng, hướng đi (direction)", "examples": [["這是往博物館的方向嗎？", "Zhè shì wǎng bówùguǎn de fāngxiàng ma?"]]},
+        {"hanzi": "過", "pinyin": "guò", "meaning": "băng qua, đi qua (to go across; to pass)", "examples": [["我們要過馬路，到對面去坐公車。", "Wǒmen yào guò mǎlù, dào duìmiàn qù zuò gōngchē."]]},
+        {"hanzi": "第", "pinyin": "dì", "meaning": "thứ (số thứ tự) (ordinal number prefix)", "examples": []},
+        {"hanzi": "十字路口 / 路口", "pinyin": "shízì lùkǒu / lùkǒu", "meaning": "ngã tư / giao lộ (intersection / crossroad)", "examples": [["你往前走，過第二個十字路口，就到了。", "Nǐ wǎng qián zǒu, guò dì èr ge shízì lùkǒu, jiù dào le."]]},
+        {"hanzi": "壞", "pinyin": "huài", "meaning": "hư, hỏng, xấu (bad; broken; out of order)", "examples": [["他不是壞人，你不要怕他。", "Tā bú shì huàirén, nǐ búyào pà tā."], ["我的舊電腦壞了，我打算買一部新的。", "Wǒ de jiù diànnǎo huài le, wǒ dǎsuàn mǎi yí bù xīn de."]]},
+        {"hanzi": "世界 / 世界上", "pinyin": "shìjiè / shìjiè shàng", "meaning": "thế giới / trên thế giới (the world / in the world)", "examples": [["世界很大，沒去過的地方我都想去。", "Shìjiè hěn dà, méi qù guò de dìfāng wǒ dōu xiǎng qù."], ["你知道現在世界上有多少人嗎？", "Nǐ zhīdào xiànzài shìjiè shàng yǒu duōshǎo rén ma?"]]},
+        {"hanzi": "生活 / 忘了", "pinyin": "shēnghuó / wàngle", "meaning": "cuộc sống / quên (life / to forget)", "examples": [["我在台灣的生活不錯，很喜歡這裡，也有很多好朋友。", "Wǒ zài Táiwān de shēnghuó búcuò, hěn xǐhuān zhèlǐ, yě yǒu hěn duō hǎo péngyǒu."], ["你不要忘了告訴他明天有考試。", "Nǐ búyào wàng le gàosù tā míngtiān yǒu kǎoshì."]]}
+      ]
+    },
+    emoji: {
+      "喂":"📞","電子郵件 / 郵件":"📧","剛剛":"⏱️","博物館":"🏛️","網址":"🔗","帶":"🤝",
+      "參觀":"🖼️","網站":"🌐","地址":"📍","往":"➡️","右（邊） / 左（邊）":"↔️","轉":"🔄",
+      "門口":"🚪","見":"🤝","晚 / 早 / 不好意思":"⏳","就要":"⚡","排隊":"🧍‍♂️🧍‍♀️","票":"🎟️",
+      "介紹":"🤝","進去 / 進來":"🚪","安靜":"🤫","大聲 / 聲音":"🔊","圖片":"🖼️","馬上":"⚡",
+      "歷史":"📜","故事":"📖","算 / 數學":"🔢","科學":"🔬","展":"🏛️","出":"🚪",
+      "方向":"🧭","過":"🚶‍♂️","第":"🔢","十字路口 / 路口":"🚦","壞":"🛠️","世界 / 世界上":"🌍",
+      "生活 / 忘了":"🌱"
+    }
+  },
+  14: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về Lễ hội, Đồ ăn, Thiên nhiên & Giao thông.",
+    parts: {
+      part1: "Phần 1: Năm mới, Đêm ca nhạc & Địa điểm (1-17)",
+      part2: "Phần 2: Công viên, Đồ ăn & Đồ uống (1-11)",
+      part3: "Phần 3: So sánh, Lịch sử, Giao thông & An toàn (1-12)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "跨年", "pinyin": "kuànián", "meaning": "đón giao thừa, đón năm mới (to celebrate New Year's Eve)", "examples": [["今年你想跟誰一起跨年？", "Jīnnián nǐ xiǎng gēn shéi yìqǐ kuànián?"]]},
+        {"hanzi": "活動", "pinyin": "huódòng", "meaning": "hoạt động, sự kiện (activity; event)", "examples": [["來台灣以後，每個週末我都有很多活動，覺得很開心。", "Lái Táiwān yǐhòu, měi ge zhōumò wǒ dōu yǒu hěn duō huódòng, juéde hěn kāixīn."]]},
+        {"hanzi": "住", "pinyin": "zhù", "meaning": "sống, ở, trú ngụ (to live; to reside; to stay)", "examples": [["我在台灣住了三十年了。", "Wǒ yǐjīng zài Táiwān zhù le sānshí nián le."]]},
+        {"hanzi": "新年", "pinyin": "xīnnián", "meaning": "Năm mới (New Year)", "examples": [["你參加過什麼有趣的新年活動？", "Nǐ cānjiā guò shénme yǒuqù de xīnnián huódòng?"]]},
+        {"hanzi": "次", "pinyin": "cì", "meaning": "lần (lượng từ) (measure word for times; occurrence)", "examples": [["這是第一次來台灣，我覺得好開心。", "Zhè shì wǒ dì-yī cì lái Táiwān, wǒ juéde hǎo kāixīn."]]},
+        {"hanzi": "過", "pinyin": "guò", "meaning": "đón (lễ), trải qua (to celebrate; to spend)", "examples": [["明天是老師的生日，我們要送他一個大蛋糕，給他過生日。", "Míngtiān shì lǎoshī de shēngrì, wǒmen yào sòng tā yí ge dà dàngāo, gěi tā guò shēngrì."]]},
+        {"hanzi": "最後", "pinyin": "zuìhòu", "meaning": "cuối cùng (the last)", "examples": [["我買了三個麵包，吃了兩個，最後一個明天再吃。", "Wǒ mǎi le sān ge miànbāo, chī le liǎng ge, zuìhòu yí ge míngtiān zài chī."]]},
+        {"hanzi": "城市", "pinyin": "chéngshì", "meaning": "thành phố, đô thị (city; town)", "examples": []},
+        {"hanzi": "晚會", "pinyin": "wǎnhuì", "meaning": "buổi dạ tiệc, dạ hội tối (evening event of entertainment)", "examples": [["明天晚上學校有一個新年晚會，你會去參加嗎？", "Míngtiān wǎnshàng xuéxiào yǒu yí ge xīnnián wǎnhuì, nǐ huì qù cānjiā ma?"]]},
+        {"hanzi": "演唱會 / 演唱 / 場", "pinyin": "yǎnchànghuì / yǎnchàng / chǎng", "meaning": "buổi hòa nhạc / biểu diễn hát / lượng từ buổi (concert / to sing in a performance / measure word for concerts)", "examples": [["這個週末有一場演唱會，你要不要跟我一起去看？", "Zhège zhōumò yǒu yì chǎng yǎnchànghuì, nǐ yào bú yào gēn wǒ yìqǐ qù kàn?"]]},
+        {"hanzi": "表演", "pinyin": "biǎoyǎn", "meaning": "biểu diễn, tiết mục (performance; act; play)", "examples": [["今天晚會上的表演都非常好看。", "Jīntiān wǎnhuì shàng de biǎoyǎn dōu fēicháng hǎokàn."]]},
+        {"hanzi": "熱鬧", "pinyin": "rènào", "meaning": "sôi nổi, nhộn nhịp (lively; bustling with noise and excitement)", "examples": [["每天早上這裡都有很多人在運動，非常熱鬧。", "Měitiān zǎoshàng zhèlǐ dōu yǒu hěn duō rén zài yùndòng, fēicháng rènào."]]},
+        {"hanzi": "意思 / 有意思", "pinyin": "yìsi / yǒu yìsi", "meaning": "ý nghĩa / thú vị (meaning / interesting)", "examples": [["他的表演很有意思，我們大家看得很高興。", "Tā de biǎoyǎn hěn yǒu yìsi, wǒmen dàjiā kàn de hěn kāixīn."]]},
+        {"hanzi": "站", "pinyin": "zhàn", "meaning": "đứng (to stand)", "examples": [["我站了兩個小時了，好累！", "Wǒ zhàn le liǎng ge xiǎoshí le, hǎo lèi!"]]},
+        {"hanzi": "坐", "pinyin": "zuò", "meaning": "ngồi (to sit)", "examples": [["我已經坐了四、五個小時了，想出去走走！", "Wǒ yǐjīng zuò le sì, wǔ ge xiǎoshí le, xiǎng chūqù zǒuzǒu!"]]},
+        {"hanzi": "晚 / 久 / 多久", "pinyin": "wǎn / jiǔ / duōjiǔ", "meaning": "đêm, tối / lâu / bao lâu (evening / long time / how long)", "examples": [["我在客廳等了他一晚，真累！", "Wǒ zài kètīng děng le tā yì wǎn, zhēn lèi!"], ["那件衣服有一點兒舊，可是還可以穿很久。", "Nà jiàn yīfú yǒu yìdiǎnr jiù, kěshì hái kěyǐ chuān hěn jiǔ."], ["你看書看了多久了？不累嗎？", "Nǐ kànshū kàn le duōjiǔ le? Bù lèi ma?"]]},
+        {"hanzi": "大樓 / 台北101 / 台北", "pinyin": "dàlóu / Táiběi Yīlíngyī / Táiběi", "meaning": "tòa nhà lớn / Đài Bắc 101 / Đài Bắc (building / Taipei 101 / Taipei)", "examples": [["他住的那棟大樓附近有學校，也有餐廳。", "Tā zhù de nà dòng dàlóu fùjìn yǒu xuéxiào, yě yǒu cāntīng."], ["台北是一個又熱鬧又方便的城市。", "Táiběi shì yí ge yòu rènào yòu fāngbiàn de chéngshì."]]}
+      ],
+      part2: [
+        {"hanzi": "歡迎", "pinyin": "huānyíng", "meaning": "hoan nghênh, chào mừng (welcome)", "examples": [["大家都歡迎新老師到我們學校來。", "Dàjiā dōu huānyíng xīn lǎoshī dào wǒmen xuéxiào lái."]]},
+        {"hanzi": "進", "pinyin": "jìn", "meaning": "vào, đi vào (to get in; to enter)", "examples": [["歡迎你們到我家來，請進。", "Huānyíng nǐmen dào wǒ jiā lái, qǐng jìn."]]},
+        {"hanzi": "公園", "pinyin": "gōngyuán", "meaning": "công viên (park)", "examples": [["我們往前走，很快就到公園了。", "Wǒmen wǎng qián zǒu, hěn kuài jiù dào gōngyuán le."]]},
+        {"hanzi": "樹 / 棵", "pinyin": "shù / kē", "meaning": "cây / cây (lượng từ) (tree / measure word for trees)", "examples": [["這個公園裡有幾棵又高又大的樹。", "Zhège gōngyuán lǐ yǒu jǐ kē yòu gāo yòu dà de shù."]]},
+        {"hanzi": "環境", "pinyin": "huánjìng", "meaning": "môi trường, xung quanh (environment; surroundings; circumstances)", "examples": [["這裡的環境不錯，可是附近沒有捷運站，交通不方便。", "Zhèlǐ de huánjìng búcuò, kěshì fùjìn méiyǒu jiéyùnzhàn, jiāotōng bù fāngbiàn."]]},
+        {"hanzi": "酒", "pinyin": "jiǔ", "meaning": "rượu, đồ uống có cồn (alcohol; wine)", "examples": [["這個孩子還太小，不能喝酒。", "Zhège háizi hái tài xiǎo, bù néng hējiǔ."]]},
+        {"hanzi": "餃子", "pinyin": "jiǎozi", "meaning": "bánh sủi cáo, há cảo (dumpling)", "examples": [["如果你不想吃飯，可以只吃幾個餃子。", "Rúguǒ nǐ bù xiǎng chīfàn, kěyǐ zhǐ chī jǐ ge jiǎozi."]]},
+        {"hanzi": "包子", "pinyin": "bāozi", "meaning": "bánh bao (baozi)", "examples": [["這是媽媽做的包子，你吃吃看。", "Zhè shì wǒ māma zuò de bāozi, nǐ chīchī kàn."]]},
+        {"hanzi": "牛", "pinyin": "niú", "meaning": "con bò, trâu (cattle; ox; cow)", "examples": [["從這裡往山上走，你就會看到很多牛。", "Cóng zhèlǐ wǎng shān shàng zǒu, nǐ jiù huì kàndào hěn duō niú."]]},
+        {"hanzi": "肉 / 魚", "pinyin": "ròu / yú", "meaning": "thịt / cá (meat / fish)", "examples": [["我喜歡吃肉，可是我吃得不多。", "Wǒ xǐhuān chī ròu, kěshì wǒ chī de bù duō."], ["這條魚很好吃，你多吃點兒。", "Zhè tiáo yú hěn hǎochī, nǐ duō chī diǎnr."]]},
+        {"hanzi": "湯", "pinyin": "tāng", "meaning": "canh, súp (soup)", "examples": [["天氣熱的時候，我不喜歡喝熱湯。", "Tiānqì rè de shíhòu, wǒ bù xǐhuān hē rè tāng."]]}
+      ],
+      part3: [
+        {"hanzi": "這麼 / 那麼", "pinyin": "zhème / nàme", "meaning": "như thế này / như thế đó (so; like this / like that)", "examples": [["你很餓嗎？為什麼吃得這麼快？", "Nǐ hěn è ma? Wèishénme chī de zhème kuài?"]]},
+        {"hanzi": "重", "pinyin": "zhòng", "meaning": "nặng (heavy)", "examples": [["帶這麼重的東西，走了兩個小時，我覺得很累。", "Dài zhème zhòng de dōngxī, zǒu le liǎng ge xiǎoshí, wǒ juéde hěn lèi."]]},
+        {"hanzi": "拿", "pinyin": "ná", "meaning": "cầm, nắm, xách (to take; to hold; to carry)", "examples": [["你手裡拿的東西是什麼？", "Nǐ shǒu lǐ ná de dōngxī shì shénme?"]]},
+        {"hanzi": "日出", "pinyin": "rìchū", "meaning": "bình minh, mặt trời mọc (sunrise)", "examples": [["我們上禮拜到山上去看日出了，好漂亮！", "Wǒmen shàng lǐbài dào shān shàng qù kàn rìchū le, hǎo piàoliang!"]]},
+        {"hanzi": "教堂", "pinyin": "jiàotáng", "meaning": "nhà thờ (church)", "examples": [["我每個星期天早上都跟家人去教堂。", "Wǒ měi ge xīngqītiān zǎoshàng dōu gēn jiārén qù jiàotáng."]]},
+        {"hanzi": "比", "pinyin": "bǐ", "meaning": "so với (more...) than", "examples": [["我覺得打球比跑步有意思，我常跟朋友一起打籃球。", "Wǒ juéde dǎqiú bǐ pǎobù yǒu yìsi, wǒ cháng gēn péngyǒu yìqǐ dǎ lánqiú."]]},
+        {"hanzi": "同意", "pinyin": "tóngyì", "meaning": "đồng ý (to agree)", "examples": [["A：我覺得語言比數學有趣多了。\nB：我同意你說的。", "A: Wǒ juéde yǔyán bǐ shùxué yǒu yìsi duō le.\nB: Wǒ tóngyì nǐ shuō de."]]},
+        {"hanzi": "國家", "pinyin": "guójiā", "meaning": "quốc gia, đất nước (country; state; nation)", "examples": [["來台灣以後，我認識了很多國家的新朋友。", "Lái Táiwān yǐhòu, wǒ rènshì le hěn duō guójiā de xīn péngyǒu."]]},
+        {"hanzi": "慶祝", "pinyin": "qìngzhù", "meaning": "chúc mừng, ăn mừng (to celebrate)", "examples": [["你知道台灣人怎麼慶祝新年嗎？", "Nǐ zhīdào Táiwānrén zěnmeyàng qìngzhù xīnnián ma?"]]},
+        {"hanzi": "交通", "pinyin": "jiāotōng", "meaning": "giao thông (traffic; transportation)", "examples": [["從我家去捷運站，過一條街就到了，交通很方便。", "Cóng wǒ jiā qù jiéyùnzhàn, guò yì tiáo jiē jiù dào le, jiāotōng hěn fāngbiàn."]]},
+        {"hanzi": "警察", "pinyin": "jǐngchá", "meaning": "cảnh sát (police; policeman)", "examples": [["我哥哥是警察，他每天工作十個小時。", "Wǒ gēge shì jǐngchá, tā měitiān gōngzuò shí ge xiǎoshí."]]},
+        {"hanzi": "小心 / 受傷", "pinyin": "xiǎoxīn / shòushāng", "meaning": "cẩn thận / bị thương (careful / to be injured; to be wounded)", "examples": [["走路跟騎腳踏車的時候，我們都要小心。", "Zǒulù gēn qí jiǎotàchē de shíhòu, wǒmen dōu yào xiǎoxīn."], ["他因為打籃球的時候不小心，所以手受傷了。", "Tā yīnwèi dǎ lánqiú de shíhòu bù xiǎoxīn, suǒyǐ shǒu shòushāng le."]]}
+      ]
+    },
+    emoji: {
+      "跨年":"🎆","活動":"🎈","住":"🏡","新年":"🧧","次":"🔢","過":"🎂",
+      "最後":"🏁","城市":"🏙️","晚會":"🎉","演唱會 / 演唱 / 場":"🎤","表演":"🎭",
+      "熱鬧":"🥳","意思 / 有意思":"💡","站":"🧍","坐":"🪑","晚 / 久 / 多久":"⏳",
+      "大樓 / 台北101 / 台北":"🏙️","歡迎":"👏","進":"🚪","公園":"🏞️","樹 / 棵":"🌳",
+      "環境":"🍃","酒":"🍺","餃子":"🥟","包子":"🥟","牛":"🐮","肉 / 魚":"🥩",
+      "湯":"🥣","這麼 / 那麼":"👉","重":"🏋️","拿":"🤲","日出":"🌅","教堂":"⛪",
+      "比":"⚖️","同意":"🤝","國家":"🌐","慶祝":"🎊","交通":"🚦","警察":"👮",
+      "小心 / 受傷":"⚠️"
+    }
+  },
+  15: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Bài học về 12 Sinh Tiêu (Con giáp), Lớp học & Đời sống.",
+    parts: {
+      part1: "Phần 1: Sinh tiêu, Lớp học & Từ căn bản (1-16)",
+      part2: "Phần 2: Hành động, Đèn lồng & Lễ hội (1-6)",
+      part3: "Phần 3: Đồ dùng, Thi đấu & Cụm từ (1-8)",
+      zodiac: "Chuyên đề: 12 Con Giáp (12 Sinh Tiêu)",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "生肖", "pinyin": "shēngxiào", "meaning": "12 con giáp (The Chinese animal zodiac)", "examples": []},
+        {"hanzi": "課", "pinyin": "kè", "meaning": "bài học (lượng từ) (measure word for lessons)", "examples": [["我們今天要學第十五課，老師會給我們介紹十二生肖。", "Wǒmen jīntiān yào xué dì-shíwǔ kè, lǎoshī huì gěi wǒmen jièshào shí'èr shēngxiào."]]},
+        {"hanzi": "剛才", "pinyin": "gāngcái", "meaning": "vừa mới, lúc nãy (just now; a moment ago)", "examples": []},
+        {"hanzi": "動物", "pinyin": "dòngwù", "meaning": "động vật (animal)", "examples": [["她很喜歡小動物，想要有一隻小狗。", "Tā hěn xǐhuān xiǎo dòngwù, xiǎng yào yǒu yì zhī xiǎogǒu."]]},
+        {"hanzi": "打開", "pinyin": "dǎkāi", "meaning": "mở ra, bật (to open; to turn on)", "examples": []},
+        {"hanzi": "課本 / 課文", "pinyin": "kèběn / kèwén", "meaning": "sách giáo khoa / bài đọc (textbook / text of a book)", "examples": [["同學們，現在請打開課本，我們看第十五課。", "Tóngxuémen, xiànzài qǐng dǎkāi kèběn, wǒmen kàn dì-shíwǔ kè."], ["這課的課文很有意思，我很喜歡。", "Zhè kè de kèwén hěn yǒu yìsi, wǒ hěn xǐhuān."]]},
+        {"hanzi": "原來", "pinyin": "yuánlái", "meaning": "hóa ra, thì ra (it turns out that...)", "examples": [["A：對不起，我不小心拿了你的書。\nB：原來書在你這裡，我剛才在教室裡找了好久。", "A: Duìbùqǐ, wǒ bù xiǎoxīn ná le nǐ de shū.\nB: Yuánlái shū zài nǐ zhèlǐ, wǒ gāngcái zài jiàoshì lǐ zhǎo le hǎojiǔ."]]},
+        {"hanzi": "華人", "pinyin": "Huárén", "meaning": "người Hoa (ethnic Chinese)", "examples": []},
+        {"hanzi": "一樣", "pinyin": "yíyàng", "meaning": "giống nhau (the same)", "examples": [["華人和日本人都有十二生肖，十二生肖的動物也一樣嗎？", "Huárén hé Rìběnrén dōu yǒu shí'èr shēngxiào, shí'èr shēngxiào de dòngwù yě yíyàng ma?"]]},
+        {"hanzi": "代表", "pinyin": "dàibiǎo", "meaning": "đại diện, đại biểu (to represent)", "examples": [["華人用十二生肖代表每一年。", "Huárén yòng shí'èr shēngxiào dàibiǎo měi yì nián."], ["他常常代表學校去參加游泳比賽，所以在學校非常有名。", "Tā chángcháng dàibiǎo xuéxiào qù cānjiā yóuyǒng bǐsài, suǒyǐ zài xuéxiào fēicháng yǒumíng."]]},
+        {"hanzi": "越南", "pinyin": "Yuènán", "meaning": "Việt Nam (Vietnam)", "examples": []},
+        {"hanzi": "出生", "pinyin": "chūshēng", "meaning": "sinh ra (to be born)", "examples": [["我是2005年七月在越南出生的。", "Wǒ shì 2005 nián qī yuè zài Yuènán chūshēng de."]]},
+        {"hanzi": "屬", "pinyin": "shǔ", "meaning": "cầm tinh, thuộc tuổi (con giáp) (to belong to zodiac sign)", "examples": [["1997年出生的人屬什麼生肖？", "1997 nián chūshēng de rén shǔ shénme shēngxiào?"]]},
+        {"hanzi": "啊", "pinyin": "ā", "meaning": "trợ từ nghi vấn (chắc chắn đáp án) (interrogative final particle)", "examples": [["A：中明，請問學校圖書館幾點關？\nB：你不知道啊？圖書館晚上九點關。", "A: Zhōngmíng, qǐngwèn xuéxiào túshūguǎn jǐ diǎn guān?\nB: Nǐ bù zhīdào ā? Túshūguǎn wǎnshàng jiǔ diǎn guān."]]},
+        {"hanzi": "簡單", "pinyin": "jiǎndān", "meaning": "đơn giản (simple)", "examples": [["大家都覺得做這個菜不難，很簡單。", "Dàjiā dōu juéde zuò zhège cài bù nán, hěn jiǎndān."]]},
+        {"hanzi": "查", "pinyin": "chá", "meaning": "tra cứu, kiểm tra (to check; to look up)", "examples": [["我不知道那個地方怎麼去，所以應該先查查地圖。", "Wǒ bù zhīdào nàge dìfāng zěnme qù, suǒyǐ yīnggāi xiān cháchá dìtú."]]}
+      ],
+      part2: [
+        {"hanzi": "著", "pinyin": "zhe", "meaning": "trợ từ chỉ sự tiếp diễn của hành động (particle indicating progression)", "examples": [["他手裡拿著禮物，在學校門口等著女朋友。", "Tā shǒu lǐ ná zhe lǐwù, zài xuéxiào ménkǒu děng zhe nǚpéngyǒu."]]},
+        {"hanzi": "燈籠", "pinyin": "dēnglóng", "meaning": "đèn lồng (lantern)", "examples": []},
+        {"hanzi": "講 / 講話", "pinyin": "jiǎng / jiǎnghuà", "meaning": "nói, giải thích / nói chuyện (to talk; to explain / to talk)", "examples": [["明天我要跟朋友去參加跨年活動，我還沒跟父母講這件事。", "Míngtiān wǒ yào gēn péngyǒu qù cānjiā kuànián huódòng, wǒ hái méi gēn fùmǔ jiǎng zhè jiàn shì."], ["他在跟家人談事情，已經講了三十分鐘的話了。", "Tā zài gēn jiārén tán shìqíng, yǐjīng jiǎng le sānshí fēnzhōng de huà le."]]},
+        {"hanzi": "好玩", "pinyin": "hǎowán", "meaning": "vui, thú vị (interesting; fun)", "examples": [["我記得去年跟幾個朋友一起打過籃球，真好玩。", "Wǒ jìde qùnián gēn jǐ ge péngyǒu yìqǐ dǎ guò lánqiú, zhēn hǎowán."]]},
+        {"hanzi": "大人 / 小孩", "pinyin": "dàrén / xiǎohái", "meaning": "người lớn / trẻ em (adult / child; children)", "examples": [["最近感冒的人很多，大人、小孩都應該多注意身體。", "Zuìjìn gǎnmào de rén hěn duō, dàrén, xiǎohái dōu yīnggāi duō zhùyì shēntǐ."]]},
+        {"hanzi": "元宵節 / 燈會", "pinyin": "Yuánxiāojié / dēnghuì", "meaning": "Tết Nguyên Tiêu / Hội đèn lồng (Lantern Festival / Lantern Carnival)", "examples": [["元宵節燈會是華人新年的重要活動。", "Yuánxiāojié dēnghuì shì Huárén xīnnián de zhòngyào huódòng."]]}
+      ],
+      part3: [
+        {"hanzi": "放", "pinyin": "fàng", "meaning": "đặt, để (to put)", "examples": []},
+        {"hanzi": "紙", "pinyin": "zhǐ", "meaning": "giấy (lượng từ: 張 zhāng) (paper)", "examples": [["桌子上放著很多張紙，都是弟弟要寫的書法作業。", "Zhuōzi shàng fàng zhe hěn duō zhāng zhǐ, dōu shì dìdi yào xiě de shūfǎ zuòyè."]]},
+        {"hanzi": "黑板", "pinyin": "hēibǎn", "meaning": "bảng đen (blackboard)", "examples": []},
+        {"hanzi": "河 / 湖", "pinyin": "hé / hú", "meaning": "sông / hồ (river / lake)", "examples": [["黑板上畫著一條河、一個湖，學生們還想畫一些山和房子。", "Hēibǎn shàng huà zhe yì tiáo hé, yí ge hú, xuéshēngmen hái xiǎng huà yìxiē shān hé fángzi."]]},
+        {"hanzi": "比賽 / 贏 / 輸", "pinyin": "bǐsài / yíng / shū", "meaning": "thi đấu / thắng / thua (to compete / to win / to lose)", "examples": [["他跑得很快，如果跟他比賽，我沒有機會贏，一定會輸。", "Tā pǎo de hěn kuài, rúguǒ gēn tā bǐsài, wǒ méiyǒu jīhuì yíng, yídìng huì shū."]]},
+        {"hanzi": "排", "pinyin": "pái", "meaning": "sắp xếp, xếp hàng (to line up; to arrange in order)", "examples": [["公園的音樂晚會快要開始了，可不可以請你們幫我排那些椅子？", "Gōngyuán de yīnyuè wǎnhuì kuàyào kāishǐ le, kě bù kěyǐ qǐng nǐmen bāng wǒ pái nàxiē yǐzi?"]]},
+        {"hanzi": "其他", "pinyin": "qítā", "meaning": "khác, còn lại (other; the remaining)", "examples": [["我只參加過籃球比賽，其他運動比賽我都沒有經驗。", "Wǒ zhǐ cānjiā guò lánqiú bǐsài, qítā yùndòng bǐsài wǒ dōu méiyǒu jīngyàn."]]},
+        {"hanzi": "受歡迎", "pinyin": "shòu huānyíng", "meaning": "được yêu thích, phổ biến (well-liked; popular)", "examples": [["我同事說那家店的麵包很好吃，大人、小孩都喜歡，很受歡迎。", "Wǒ tóngshì shuō nà jiā diàn de miànbāo hěn hǎochī, dàrén, xiǎohái dōu xǐhuān, hěn shòu huānyíng."]]}
+      ],
+      zodiac: [
+        {"hanzi": "鼠 / 老鼠", "pinyin": "shǔ / lǎoshǔ", "meaning": "Tý - Con chuột (rat) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "牛", "pinyin": "niú", "meaning": "Sửu - Con trâu/bò (ox; cow) [M: 隻/頭]", "examples": []},
+        {"hanzi": "虎 / 老虎", "pinyin": "hǔ / lǎohǔ", "meaning": "Dần - Con hổ (tiger) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "兔 / 兔子", "pinyin": "tù / tùzi", "meaning": "Mão - Con thỏ (rabbit) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "龍", "pinyin": "lóng", "meaning": "Thìn - Con rồng (dragon) [M: 條 tiáo]", "examples": []},
+        {"hanzi": "蛇", "pinyin": "shé", "meaning": "Tỵ - Con rắn (snake) [M: 條 tiáo]", "examples": []},
+        {"hanzi": "馬", "pinyin": "mǎ", "meaning": "Ngọ - Con ngựa (horse) [M: 匹 pī]", "examples": []},
+        {"hanzi": "羊", "pinyin": "yáng", "meaning": "Mùi - Con dê/cừu (goat; sheep) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "猴 / 猴子", "pinyin": "hóu / hóuzi", "meaning": "Thân - Con khỉ (monkey) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "雞", "pinyin": "jī", "meaning": "Dậu - Con gà (rooster; chicken) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "狗", "pinyin": "gǒu", "meaning": "Tuất - Con chó (dog) [M: 隻 zhī]", "examples": []},
+        {"hanzi": "豬", "pinyin": "zhū", "meaning": "Hợi - Con heo/lợn (pig) [M: 隻 zhī]", "examples": []}
+      ]
+    },
+    emoji: {
+      "生肖":"🗓️","課":"📖","剛才":"⏱️","動物":"🐾","打開":"📂","課本 / 課文":"📚",
+      "原來":"💡","華人":"👲","一樣":"👥","代表":"🏛️","越南":"🇻🇳","出生":"👶",
+      "屬":"🔮","啊":"❓","簡單":"🧩","查":"🔍","著":"⏳","燈籠":"🏮",
+      "講 / 講話":"🗣️","好玩":"🎮","大人 / 小孩":"👨‍👩‍👧","元宵節 / 燈會":"🎆",
+      "放":"📥","紙":"📄","黑板":"⬛","河 / 湖":"🌊","比賽 / 贏 / 輸":"🏆",
+      "排":"🪑","其他":"🔄","受歡迎":"🌟",
+      "鼠 / 老鼠":"🐭","牛":"🐂","虎 / 老虎":"🐯","兔 / 兔子":"🐰","龍":"🐲","蛇":"🐍",
+      "馬":"🐴","羊":"🐑","猴 / 猴子":"🐒","雞":"🐓","狗":"🐕","豬":"🐖"
+    }
+  },
+  16: {
+    title: "🃏 Flashcard Từ vựng tiếng Trung",
+    sub: "Chủ đề: Du lịch, Phương hướng, Trường học & Sinh hoạt ngày thường",
+    parts: {
+      part1: "Phần 1: Du lịch, Kế hoạch & Trường học (1-13)",
+      part2: "Phần 2: Sinh hoạt, Thay đổi & Cảm xúc (1-11)",
+      part3: "Phần 3: Quốc gia, Đơn vị & Chợ đêm (1-10)",
+      names: "Chuyên đề: Địa danh & Tên riêng",
+      all: "Tất cả bài học"
+    },
+    dataset: {
+      part1: [
+        {"hanzi": "旅行", "pinyin": "lǚxíng", "meaning": "du lịch (to travel; to take a trip)", "examples": [["我喜歡去旅行，因為可以認識很多有趣的人。", "Wǒ xǐhuān qù lǚxíng, yīnwèi kěyǐ rènshì hěn duō yǒuqù de rén."]]},
+        {"hanzi": "放假", "pinyin": "fàngjià", "meaning": "nghỉ lễ, nghỉ phép (to have a holiday or vacation)", "examples": [["下個月放四天假，我打算帶家人去日本玩。", "Xià gè yuè fàng sì tiān jià, wǒ dǎsuàn dài jiārén qù Rìběn wán."]]},
+        {"hanzi": "計畫", "pinyin": "jìhuà", "meaning": "kế hoạch (plan)", "examples": [["他的計畫是畢業以後到美國去工作。", "Tā de jìhuà shì bìyè yǐhòu dào Měiguó qù gōngzuò."]]},
+        {"hanzi": "這次", "pinyin": "zhè cì / zhèi cì", "meaning": "lần này (this time)", "examples": []},
+        {"hanzi": "上次 / 下次", "pinyin": "shàng cì / xià cì", "meaning": "lần trước / lần sau (last time / next time)", "examples": [["上次我們吃牛肉麵，這次也吃牛肉麵，下次吃別的吧。", "Shàng cì wǒmen chī niúròumiàn, zhè cì yě chī niúròumiàn, xià cì chī bié de ba."]]},
+        {"hanzi": "離", "pinyin": "lí", "meaning": "cách (khoảng cách) (away from; separated from)", "examples": [["那家新的百貨公司離這裡遠嗎？", "Nà jiā xīn de bǎihuò gōngsī lí zhèlǐ yuǎn ma?"]]},
+        {"hanzi": "東 / 西 / 南 / 北", "pinyin": "dōng / xī / nán / běi", "meaning": "Đông / Tây / Nam / Bắc (east / west / south / north)", "examples": [["A：從學校到博物館去，應該往哪個方向走？\nB：看過地圖，應該往南走。", "A: Cóng xuéxiào dào bówùguǎn qù, yīnggāi wǎng nǎge fāngxiàng zǒu?\nB: Kàn guò dìtú, yīnggāi wǎng nán zǒu."]]},
+        {"hanzi": "部 / 中部", "pinyin": "bù / zhōngbù", "meaning": "bộ phận, vùng / miền Trung (part / central part)", "examples": [["放假的時候，很多台灣人喜歡到東部去玩。", "Fàngjià de shíhòu, hěn duō Táiwānrén xǐhuān dào dōngbù qù wán."], ["從中部坐車到南部去，差不多要兩個小時。", "Cóng zhōngbù zuòchē dào nánbù qù, chàbuduō yào liǎng gè xiǎoshí."]]},
+        {"hanzi": "小學 / 中學 / 大學", "pinyin": "xiǎoxué / zhōngxué / dàxué", "meaning": "Tiểu học / Trung học / Đại học (elementary school / high school / university)", "examples": [["我們從小學到大學都是同學，也是很好的朋友。", "Wǒmen cóng xiǎoxué dào dàxué dōu shì tóngxué, yě shì hěn hǎo de péngyǒu."]]},
+        {"hanzi": "年級", "pinyin": "niánjí", "meaning": "lớp, khối lớp (grade in school)", "examples": [["我弟弟是小學四年級的學生。", "Wǒ dìdi shì xiǎoxué sì niánjí de xuéshēng."]]},
+        {"hanzi": "報紙 / 份", "pinyin": "bàozhǐ / fèn", "meaning": "báo chí / tờ, bản (lượng từ) (newspaper / measure word for newspapers)", "examples": [["爸爸每天早上一起床就看報紙。", "Bàba měitiān zǎoshang yì qǐchuáng jiù kàn bàozhǐ."]]},
+        {"hanzi": "下雪 / 雪", "pinyin": "xiàxuě / xuě", "meaning": "tuyết rơi / tuyết (to snow / snow)", "examples": [["因為最近常常下雪，所以交通很不方便。", "Yīnwèi zuìjìn chángcháng xiàxuě, suǒyǐ jiāotōng hěn bù fāngbiàn."]]},
+        {"hanzi": "下雨 / 雨 / 夜", "pinyin": "xiàyǔ / yǔ / yè", "meaning": "mưa / mưa / đêm (to rain / rain / night)", "examples": [["從昨天晚上到現在，已經下了十個小時的雨了。", "Cóng zuótiān wǎnshàng dào xiànzài, yǐjīng xià le shí gè xiǎoshí de yǔ le."], ["我跟朋友這次去英國玩了八天七夜。", "Wǒ gēn péngyǒu zhè cì qù Yīngguó wán le bā tiān qī yè."]]}
+      ],
+      part2: [
+        {"hanzi": "本來 / 原來", "pinyin": "běnlái / yuánlái", "meaning": "vốn dĩ, ban đầu (originally; initially)", "examples": []},
+        {"hanzi": "後來", "pinyin": "hòulái", "meaning": "sau đó, về sau (later; afterwards)", "examples": [["我今天本來想去看電影，後來下雨就沒去了。", "Wǒ jīntiān běnlái xiǎng qù kàn diànyǐng, hòulái xiàyǔ jiù méi qù le."]]},
+        {"hanzi": "搭", "pinyin": "dā", "meaning": "đi (xe, tàu, máy bay) (to take; to travel by)", "examples": [["聽說高鐵很快，你搭過沒有？", "Tīngshuō gāotiě hěn kuài, nǐ dā guò méiyǒu?"]]},
+        {"hanzi": "更", "pinyin": "gèng", "meaning": "hơn nữa, càng (even)", "examples": [["今年的表演比去年的更有意思，我覺得你應該來看。", "Jīnnián de biǎoyǎn bǐ qùnián de gèng yǒu yìsi, wǒ juéde nǐ yīnggāi lái kàn."]]},
+        {"hanzi": "浴室 / 廁所 / 洗手間", "pinyin": "yùshì / cèsuǒ / xǐshǒujiān", "meaning": "phòng tắm / nhà vệ sinh / phòng rửa tay (bathroom / toilet / restroom)", "examples": [["捷運站的洗手間外面很多人在排隊，你要去嗎？", "Jiéyùn zhàn de xǐshǒujiān wàimiàn hěn duō rén zài pái duì, nǐ yào qù ma?"]]},
+        {"hanzi": "洗澡", "pinyin": "xǐzǎo", "meaning": "tắm rửa (to take a bath or shower)", "examples": [["哥哥洗澡以後都先喝一瓶牛奶再睡覺。", "Gēge xǐzǎo yǐhòu dōu xiān hē yì píng niúnǎi zài shuìjiào."]]},
+        {"hanzi": "換", "pinyin": "huàn", "meaning": "đổi, thay (to change)", "examples": [["我想先換衣服再去運動。", "Wǒ xiǎng xiān huàn yīfú zài qù yùndòng."]]},
+        {"hanzi": "付", "pinyin": "fù", "meaning": "trả tiền, thanh toán (to pay)", "examples": [["你先幫我付，我明天再給你錢。", "Nǐ xiān bāng wǒ fù, wǒ míngtiān zài gěi nǐ qián."]]},
+        {"hanzi": "一半 / 一半兒", "pinyin": "yíbàn / yíbànr", "meaning": "một nửa (one half)", "examples": [["為什麼她咖啡喝了一半就不喝了？", "Wèishénme tā kāfēi hē le yíbàn jiù bù hē le?"]]},
+        {"hanzi": "風", "pinyin": "fēng", "meaning": "gió (wind)", "examples": [["晚上的風很舒服，我們一起出去走走吧。", "Wǎnshàng de fēng hěn shūfú, wǒmen yìqǐ chūqù zǒuzǒu ba."]]},
+        {"hanzi": "笑", "pinyin": "xiào", "meaning": "cười (to laugh; to smile)", "examples": [["這張照片裡的人都笑得很開心。", "Zhè zhāng zhàopiàn lǐ de rén dōu xiào de hěn kāixīn."]]}
+      ],
+      part3: [
+        {"hanzi": "邊 / 邊兒", "pinyin": "biān / biānr", "meaning": "bên, phía (side)", "examples": [["左邊的照片比右邊的好看。", "Zuǒbiān de zhàopiàn bǐ yòubiān de hǎokàn."]]},
+        {"hanzi": "中國大陸", "pinyin": "Zhōngguó Dàlù", "meaning": "Trung Quốc Đại Lục (Mainland China)", "examples": []},
+        {"hanzi": "菲律賓", "pinyin": "Fēilǜbīn", "meaning": "Phi-líp-pin (the Philippines)", "examples": []},
+        {"hanzi": "荷蘭", "pinyin": "Hélán", "meaning": "Hà Lan (the Netherlands)", "examples": []},
+        {"hanzi": "公里 / 公尺 / 公分", "pinyin": "gōnglǐ / gōngchǐ / gōngfēn", "meaning": "Km / Mét / Xentimét (kilometer / meter / centimeter)", "examples": [["台灣從北到南有三百八十五公里。", "Táiwān cóng běi dào nán yǒu sān bǎi bāshí wǔ gōnglǐ."]]},
+        {"hanzi": "外國", "pinyin": "wàiguó", "meaning": "nước ngoài (foreign country)", "examples": [["在外國跟在自己國家的生活一定不太一樣。", "Zài wàiguó gēn zài zìjǐ guójiā de shēnghuó yídìng bú tài yíyàng."]]},
+        {"hanzi": "上學", "pinyin": "shàngxué", "meaning": "đi học (to go to school)", "examples": [["我每天上學以前，一定先在家吃早飯。", "Wǒ měitiān shàngxué yǐqián, yídìng xiān zài jiā chī zǎofàn."]]},
+        {"hanzi": "夜市", "pinyin": "yèshì", "meaning": "chợ đêm (night market)", "examples": [["夜市裡有很多有名的食物，又便宜又好吃。", "Yèshì lǐ yǒu hěn duō yǒumíng de shíwù, yòu piányí yòu hǎochī."]]},
+        {"hanzi": "食物", "pinyin": "shíwù", "meaning": "thức ăn, thực phẩm (food)", "examples": [["夏天的時候，食物不能在外面放太久。", "Xiàtiān de shíhòu, shíwù bùnéng zài wàimiàn fàng tài jiǔ."]]},
+        {"hanzi": "遊戲", "pinyin": "yóuxì", "meaning": "trò chơi, game (games)", "examples": [["他喜歡玩手機遊戲，差不多每天玩兩個小時。", "Tā xǐhuān wán shǒujī yóuxì, chàbuduō měitiān wán liǎng gè xiǎoshí."]]}
+      ],
+      names: [
+        {"hanzi": "太魯閣", "pinyin": "Tàilǔgé", "meaning": "Thái Lỗ Các (Taroko National Park)", "examples": []},
+        {"hanzi": "花蓮", "pinyin": "Huālián", "meaning": "Hoa Liên (Hualien city/county)", "examples": []},
+        {"hanzi": "合歡山", "pinyin": "Héhuān Shān", "meaning": "Núi Hợp Hoan (Hehuan Mountain)", "examples": []},
+        {"hanzi": "日月潭", "pinyin": "Rìyuè Tán", "meaning": "Hồ Nhật Nguyệt (Sun Moon Lake)", "examples": []},
+        {"hanzi": "高雄", "pinyin": "Gāoxióng", "meaning": "Cao Hùng (Kaohsiung city)", "examples": []},
+        {"hanzi": "西子灣", "pinyin": "Xīzǐwān", "meaning": "Vịnh Tây Tử (Sizihwan Bay)", "examples": []},
+        {"hanzi": "高鐵 / 台灣高鐵", "pinyin": "gāotiě / Táiwān Gāotiě", "meaning": "Tàu cao tốc / Tàu cao tốc Đài Loan (Taiwan High Speed Rail)", "examples": []},
+        {"hanzi": "小籠包", "pinyin": "xiǎolóngbāo", "meaning": "Bánh tiểu long bao (soup dumplings)", "examples": []}
+      ]
+    },
+    emoji: {
+      "旅行":"🧳","放假":"🏖️","計畫":"📋","這次":"👉","上次 / 下次":"🔄",
+      "離":"📏","東 / 西 / 南 / 北":"🧭","部 / 中部":"🗺️","小學 / 中學 / 大學":"🎓",
+      "年級":"🏫","報紙 / 份":"📰","下雪 / 雪":"❄️","下雨 / 雨 / 夜":"🌧️",
+      "本來 / 原來":"⏮️","後來":"⏭️","搭":"🚆","更":"📈","浴室 / 廁所 / 洗手間":"🚿",
+      "洗澡":"🛁","換":"👕","付":"💳","一半 / 一半兒":"🌓","風":"🍃","笑":"😊",
+      "邊 / 邊兒":"↔️","中國大陸":"🇨🇳","菲律賓":"🇵🇭","荷蘭":"🇳🇱",
+      "公里 / 公尺 / 公分":"📐","外國":"✈️","上學":"🎒","夜市":"🍧","食物":"🍱",
+      "遊戲":"🎮","太魯閣":"🏞️","花蓮":"🌊","合歡山":"⛰️","日月潭":"🏞️",
+      "高雄":"🏙️","西子灣":"🌅","高鐵 / 台灣高鐵":"🚄","小籠包":"🥟"
+    }
+  }
+};
+
+const faceOrder = ['meaning', 'pinyin', 'hanzi', 'hanzi_image', 'image'];
+const faceLabels = {
+  meaning: 'GIẢI THÍCH',
+  pinyin: 'PINYIN',
+  hanzi: 'HÁN TỰ',
+  hanzi_image: 'HÁN TỰ + HÌNH',
+  image: 'HÌNH GỢI NHỚ'
+};
+
+let currentLesson = 1;
+let deck = [], index = 0, currentFaceIdx = 0;
+
+function updatePartOptions() {
+  const partSelect = document.getElementById('part');
+  const lessonData = lessons[currentLesson];
+  partSelect.innerHTML = '';
+  for (const [key, label] of Object.entries(lessonData.parts)) {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = label;
+    partSelect.appendChild(opt);
+  }
+}
+
+function getSelectedData() {
+  const part = document.getElementById('part').value;
+  const ds = lessons[currentLesson].dataset;
+  if (part === 'all') {
+    let all = [];
+    for (const key of Object.keys(ds)) {
+      if (key !== 'all') all = all.concat(ds[key]);
+    }
+    return all;
+  }
+  return ds[part] || [];
+}
+
+function shuffle(a) {
+  a = [...a];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function setStartFaceFromSelect() {
+  const val = document.getElementById('front').value;
+  currentFaceIdx = faceOrder.indexOf(val);
+  if (currentFaceIdx < 0) currentFaceIdx = 0;
+}
+
+function resetDeck() {
+  const rawData = getSelectedData();
+  deck = document.getElementById('order').value === 'shuffle' ? shuffle(rawData) : [...rawData];
+  index = 0;
+  setStartFaceFromSelect();
+  render();
+}
+
+function flip() {
+  currentFaceIdx = (currentFaceIdx + 1) % faceOrder.length;
+  render(true);
+}
+
+function next() {
+  if (index < deck.length - 1) {
+    index++;
+    setStartFaceFromSelect();
+    render();
+  }
+}
+
+function prev() {
+  if (index > 0) {
+    index--;
+    setStartFaceFromSelect();
+    render();
+  }
+}
+
+function emojiFor(w) {
+  const m = lessons[currentLesson].emoji || {};
+  return m[w] || "🖼️";
+}
+
+function renderDots() {
+  const dots = document.getElementById('faceDots');
+  dots.innerHTML = faceOrder.map((_, i) =>
+    `<div class="dot${i === currentFaceIdx ? ' active' : ''}" title="${faceLabels[faceOrder[i]]}"></div>`
+  ).join('');
+}
+
+function render(withAnim) {
+  if (!deck.length) {
+    document.getElementById('stats').textContent = 'Không có thẻ';
+    document.getElementById('cardFace').innerHTML = '';
+    renderDots();
+    return;
+  }
+  const x = deck[index];
+  const face = faceOrder[currentFaceIdx];
+  const faceEl = document.getElementById('cardFace');
+
+  document.getElementById('stats').textContent =
+    `Thẻ ${index + 1} / ${deck.length} · Mặt: ${faceLabels[face]} (${currentFaceIdx + 1}/5)`;
+
+  let html = '';
+  const hanziSize = x.hanzi.length > 6 ? 36 : (x.hanzi.length > 3 ? 52 : 72);
+
+  if (face === 'meaning') {
+    let exHtml = '';
+    if (x.examples && x.examples.length > 0) {
+      x.examples.forEach(ex => {
+        const cn = (ex[0] || '').replace(/\n/g, '<br>');
+        const py = (ex[1] || '').replace(/\n/g, '<br>');
+        if (cn || py) {
+          exHtml += `<div class="example"><div class="cn">${cn}</div><div class="py">${py}</div></div>`;
+        }
+      });
+    }
+    html = `
+      <div class="pos">${faceLabels.meaning}</div>
+      <div class="meaning">${x.meaning}</div>
+      ${exHtml || '<div class="hint" style="margin-top:16px;color:#98a2b3">Không có ví dụ</div>'}
+    `;
+  } else if (face === 'pinyin') {
+    html = `
+      <div class="pos">${faceLabels.pinyin}</div>
+      <div class="pinyin">${x.pinyin}</div>
+      <div class="hint" style="margin-top:20px;color:#98a2b3">Nhấp / Space để lật tiếp</div>
+    `;
+  } else if (face === 'hanzi') {
+    html = `
+      <div class="pos">${faceLabels.hanzi}</div>
+      <div class="word" style="font-size:${hanziSize}px">${x.hanzi}</div>
+      <div class="hint" style="margin-top:12px;color:#98a2b3">Nhấp / Space để lật tiếp</div>
+    `;
+  } else if (face === 'hanzi_image') {
+    html = `
+      <div class="pos">${faceLabels.hanzi_image}</div>
+      <div class="word" style="font-size:${hanziSize}px;margin-bottom:6px">${x.hanzi}</div>
+      <div class="picture" style="font-size:80px;margin:6px">${emojiFor(x.hanzi)}</div>
+    `;
+  } else if (face === 'image') {
+    html = `
+      <div class="pos">${faceLabels.image}</div>
+      <div class="picture">${emojiFor(x.hanzi)}</div>
+      <div class="hint" style="margin-top:12px;color:#98a2b3">Nhấp / Space để lật tiếp</div>
+    `;
+  }
+
+  if (withAnim) {
+    faceEl.classList.add('fade');
+    setTimeout(() => {
+      faceEl.innerHTML = html;
+      faceEl.classList.remove('fade');
+    }, 120);
+  } else {
+    faceEl.innerHTML = html;
+  }
+
+  renderDots();
+}
+
+function speak() {
+  if (!deck.length) return;
+  const x = deck[index];
+  const text = x.hanzi.split('/')[0].split(' ')[0].trim();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW';
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function changeLesson() {
+  currentLesson = parseInt(document.getElementById('lesson').value);
+  const lessonData = lessons[currentLesson];
+  document.getElementById('mainTitle').textContent = lessonData.title;
+  document.getElementById('mainSub').textContent = lessonData.sub;
+  updatePartOptions();
+  resetDeck();
+}
+
+document.getElementById('lesson').addEventListener('change', changeLesson);
+document.getElementById('part').addEventListener('change', resetDeck);
+document.getElementById('order').addEventListener('change', resetDeck);
+document.getElementById('front').addEventListener('change', () => {
+  setStartFaceFromSelect();
+  render();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'ArrowRight') next();
+  if (e.code === 'ArrowLeft') prev();
+  if (e.code === 'Space') { e.preventDefault(); flip(); }
+  if (e.key.toLowerCase() === 's') { e.preventDefault(); speak(); }
+});
+
+// Khởi tạo
+updatePartOptions();
+resetDeck();
+</script>
+</body>
+</html>
+
