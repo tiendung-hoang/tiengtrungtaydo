@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTENSE Md1 Tiếng Trung • 16 Bài học</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, 'Noto Sans SC', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1b4b, #4c1d95, #7c3aed);
+      color: #fff;
+    }
+    .home {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+    .home h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+    .home .sub {
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .act-card {
+      border-radius: 20px;
+      padding: 24px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(8px);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .act-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+    /* Nhóm trên: Flashcard + Hỏi đáp + Nghe dịch câu dài (màu ấm) */
+    .group-top {
+      background: rgba(251, 146, 60, 0.18);
+      border-color: rgba(251, 146, 60, 0.35);
+    }
+    .group-top:hover {
+      background: rgba(251, 146, 60, 0.28);
+    }
+    /* Nhóm dưới: 3 quiz từ vựng (màu tím gốc) */
+    .group-bottom {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .group-bottom:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .act-card .emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    .act-card h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+    .act-card p {
+      font-size: 13px;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+    .footer-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    @media (max-width: 700px) {
+      .activity-grid {
+        grid-template-columns: 1fr;
+      }
+      .home h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="home">
+    <h1>🎯 Modern Chinese 1 時代華語 1</h1>
+    <div class="sub">Tiếng Trung · 16 Bài học · Chọn hoạt động bên dưới</div>
 
+    <div class="activity-grid">
+      <!-- Hàng trên -->
+      <a class="act-card group-top" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-Flashcard.html">
+        <div class="emoji">🃏</div>
+        <h3>Flashcards</h3>
+        <p>5 mặt thẻ: Nghĩa → Pinyin → Hán tự → Hán tự+Hình → Chỉ hình</p>
+      </a>
+
+      <a class="act-card group-top" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-HoiDap.html">
+        <div class="emoji">💬</div>
+        <h3>Luyện Hỏi Đáp</h3>
+        <p>A hỏi – B trả lời · Mẫu câu theo từng bài</p>
+      </a>
+
+      <a class="act-card group-top" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-NgheDichCauDai.html">
+        <div class="emoji">📝</div>
+        <h3>Quiz Nghe Dịch Câu Dài</h3>
+        <p>Nghe câu dài → Dịch nghĩa · Luyện nghe hiểu nâng cao</p>
+      </a>
+
+      <!-- Hàng dưới -->
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-PinyinTuVung.html">
+        <div class="emoji">🔤</div>
+        <h3>Quiz Từ vựng – Pinyin</h3>
+        <p>Nhìn Hán tự → Chọn Pinyin đúng · Luyện phát âm</p>
+      </a>
+
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-MeaningTuVung.html">
+        <div class="emoji">📚</div>
+        <h3>Quiz Từ vựng – Nghĩa</h3>
+        <p>Nhìn Hán tự → Chọn nghĩa đúng · Sai quay đầu chặng</p>
+      </a>
+
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE1/Quiz-Md1-NgheTuVung.html">
+        <div class="emoji">🎧</div>
+        <h3>Quiz Từ vựng – Nghe</h3>
+        <p>Nghe từ → Chọn nghĩa · Có thể hiện chữ khi cần</p>
+      </a>
+    </div>
+
+    <div class="footer-note">Gộp từ 6 công cụ luyện tập · Dữ liệu 16 bài học đầy đủ</div>
+  </div>
+</body>
+</html>
