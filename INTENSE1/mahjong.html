@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahjong vs Bots – Clear Layout</title>
+<style>
+  :root {
+    --bg: #122412;
+    --felt: #0e4a0e;
+    --tile-face: #faf6eb;
+    --tile-edge: #c4a35a;
+    --accent: #f0c040;
+    --text: #f0ead8;
+    --human: #3b82f6;
+    --bot: #78716c;
+    --east-c: #ef4444;
+    --south-c: #3b82f6;
+    --west-c: #22c55e;
+    --north-c: #a855f7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(165deg, #0a1a0a, #143014 40%, #0c220c);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 8px 20px;
+  }
+
+  h1 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
+  }
+  .subtitle {
+    font-size: 0.82rem;
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+
+  /* ========== MAIN TABLE ========== */
+  .table {
+    width: min(920px, 98vw);
+    background: radial-gradient(ellipse at 50% 45%, #166316 0%, #0a3a0a 75%);
+    border: 8px solid #5c4030;
+    border-radius: 18px;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.55);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Player rows */
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .row.top, .row.bottom { justify-content: center; }
+  .row.middle { justify-content: space-between; align-items: stretch; }
+
+  /* Player card */
+  .player {
+    background: rgba(0,0,0,0.28);
+    border-radius: 12px;
+    padding: 8px 10px;
+    min-width: 0;
+  }
+  .player.north, .player.south { flex: 1; max-width: 100%; }
+  .player.west, .player.east {
+    width: 150px;
+    flex-shrink: 0;
+  }
+
+  .player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+  .player-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+  }
+  .player-name.east  { background: var(--east-c); color: #fff; }
+  .player-name.south { background: var(--south-c); color: #fff; }
+  .player-name.west  { background: var(--west-c); color: #fff; }
+  .player-name.north { background: var(--north-c); color: #fff; }
+  .player-name.turn  { outline: 3px solid var(--accent); outline-offset: 1px; }
+
+  .dealer-badge {
+    font-size: 0.7rem;
+    background: var(--accent);
+    color: #1a1a1a;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+
+  /* Hands */
+  .hand {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    justify-content: center;
+    min-height: 48px;
+  }
+  .player.west .hand, .player.east .hand {
+    flex-direction: column;
+    align-items: center;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  /* Melds */
+  .melds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .meld {
+    display: flex;
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    padding: 2px;
+    border-radius: 4px;
+  }
+
+  /* Per-player discards – KEY for readability */
+  .discards-box {
+    margin-top: 6px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 4px 6px;
+    min-height: 36px;
+  }
+  .discards-label {
+    font-size: 0.68rem;
+    opacity: 0.65;
+    margin-bottom: 3px;
+    text-align: center;
+  }
+  .discards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    justify-content: center;
+  }
+
+  /* Center info */
+  .center-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    min-width: 160px;
+  }
+  .info-box {
+    background: rgba(0,0,0,0.45);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    width: 100%;
+  }
+  .status { font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
+  .wall-count { font-size: 0.8rem; opacity: 0.8; }
+  .last-discard-box {
+    background: rgba(0,0,0,0.35);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .last-discard-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .last-discard-tile {
+    display: inline-flex;
+  }
+
+  /* ========== TILES ========== */
+  .tile {
+    width: 36px;
+    height: 50px;
+    background: linear-gradient(160deg, #fffef8, #f0e8d4);
+    border: 2px solid var(--tile-edge);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #1a1a1a;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.3);
+    user-select: none;
+    position: relative;
+    transition: transform 0.12s, box-shadow 0.12s;
+    line-height: 1.1;
+  }
+  .tile .num {
+    font-size: 1.15rem;
+  }
+  .tile .suit {
+    font-size: 0.62rem;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: -1px;
+  }
+
+  .tile.back {
+    background: linear-gradient(160deg, #1e4a1e, #143014);
+    border-color: #2d6a2d;
+    color: transparent;
+  }
+  .tile.back::after {
+    content: '🀫';
+    position: absolute;
+    color: #4a8a4a;
+    font-size: 1.3rem;
+  }
+
+  .tile.red   .num, .tile.red   .suit { color: #c41e3a; }
+  .tile.green .num, .tile.green .suit { color: #1a7a3a; }
+  .tile.blue  .num, .tile.blue  .suit { color: #1a4a9a; }
+  .tile.honor .num { color: #1a1a1a; font-size: 1.05rem; }
+
+  .tile.selectable { cursor: pointer; }
+  .tile.selectable:hover {
+    transform: translateY(-8px);
+    box-shadow: 2px 6px 10px rgba(0,0,0,0.35);
+    z-index: 5;
+  }
+  .tile.selected {
+    transform: translateY(-12px);
+    box-shadow: 0 0 0 3px var(--accent), 2px 6px 10px rgba(0,0,0,0.35);
+    z-index: 6;
+  }
+  .tile.just-drawn {
+    box-shadow: 0 0 0 3px #22c55e, 2px 4px 8px rgba(0,0,0,0.3);
+    animation: pop 0.4s ease;
+  }
+  @keyframes pop {
+    0% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+  }
+
+  /* Smaller tiles for discards & melds */
+  .discards .tile, .meld .tile, .last-discard-tile .tile {
+    width: 28px;
+    height: 38px;
+  }
+  .discards .tile .num, .meld .tile .num, .last-discard-tile .tile .num {
+    font-size: 0.9rem;
+  }
+  .discards .tile .suit, .meld .tile .suit, .last-discard-tile .tile .suit {
+    font-size: 0.5rem;
+  }
+
+  /* Side players – slightly smaller hand tiles */
+  .player.west .hand .tile,
+  .player.east .hand .tile {
+    width: 32px;
+    height: 44px;
+  }
+  .player.west .hand .tile .num,
+  .player.east .hand .tile .num { font-size: 1rem; }
+
+  /* ========== CONTROLS & LOG ========== */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+    max-width: 920px;
+  }
+  button {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-start {
+    background: linear-gradient(135deg, #f0c040, #d4a017);
+    color: #1a1a1a;
+    font-size: 1.05rem;
+    padding: 11px 26px;
+  }
+  .btn-start100 {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    font-size: 1.0rem;
+    padding: 11px 20px;
+  }
+  .btn-start80 {
+    background: linear-gradient(135deg, #f0c040, #d4a017);
+    color: #1a1a1a;
+    font-size: 1.0rem;
+    padding: 11px 20px;
+  }
+  .btn-start50 {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    font-size: 1.0rem;
+    padding: 11px 20px;
+  }
+  .btn-restart {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #1a1a1a;
+  }
+  .btn-action { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
+  .btn-claim  { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+  .btn-win    { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; animation: pulse 1.2s infinite; }
+  .btn-pass   { background: linear-gradient(135deg, #6b7280, #4b5563); color: #fff; }
+
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+  }
+
+  .message {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: rgba(0,0,0,0.45);
+    border-radius: 9px;
+    font-size: 0.9rem;
+    max-width: 700px;
+    text-align: center;
+    min-height: 38px;
+  }
+
+  .log {
+    margin-top: 8px;
+    width: min(920px, 98vw);
+    max-height: 110px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.35);
+    border-radius: 9px;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    justify-content: center;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+
+  @media (max-width: 700px) {
+    .player.west, .player.east { width: 110px; }
+    .tile { width: 30px; height: 42px; }
+    .tile .num { font-size: 0.95rem; }
+    .discards .tile, .meld .tile { width: 24px; height: 32px; }
+    h1 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+  <h1>🀄 Mahjong vs Bots</h1>
+  <p class="subtitle">You = South (blue) • Choose difficulty • Arabic numbers • Clear discards per player</p>
+
+  <div class="table" id="table">
+    <!-- NORTH -->
+    <div class="row top">
+      <div class="player north" id="area-north">
+        <div class="player-header">
+          <span class="player-name north" id="label-north">North (Bot)</span>
+          <span class="dealer-badge" id="dealer-north" style="display:none">Dealer</span>
+        </div>
+        <div class="hand" id="hand-north"></div>
+        <div class="melds" id="melds-north"></div>
+        <div class="discards-box">
+          <div class="discards-label">North discards</div>
+          <div class="discards" id="discards-north"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIDDLE: West | Center | East -->
+    <div class="row middle">
+      <div class="player west" id="area-west">
+        <div class="player-header">
+          <span class="player-name west" id="label-west">West</span>
+          <span class="dealer-badge" id="dealer-west" style="display:none">Dealer</span>
+        </div>
+        <div class="hand" id="hand-west"></div>
+        <div class="melds" id="melds-west"></div>
+        <div class="discards-box">
+          <div class="discards-label">West discards</div>
+          <div class="discards" id="discards-west"></div>
+        </div>
+      </div>
+
+      <div class="center-panel">
+        <div class="info-box">
+          <div class="status" id="status">Click a Start button to begin</div>
+          <div class="wall-count" id="wall-count">Wall: —</div>
+        </div>
+        <div class="last-discard-box" id="last-box" style="display:none">
+          <div class="last-discard-label">Last discard by <span id="last-by">—</span></div>
+          <div class="last-discard-tile" id="last-tile"></div>
+        </div>
+      </div>
+
+      <div class="player east" id="area-east">
+        <div class="player-header">
+          <span class="player-name east" id="label-east">East</span>
+          <span class="dealer-badge" id="dealer-east" style="display:none">Dealer</span>
+        </div>
+        <div class="hand" id="hand-east"></div>
+        <div class="melds" id="melds-east"></div>
+        <div class="discards-box">
+          <div class="discards-label">East discards</div>
+          <div class="discards" id="discards-east"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUTH (You) -->
+    <div class="row bottom">
+      <div class="player south" id="area-south">
+        <div class="player-header">
+          <span class="player-name south" id="label-south">South (You)</span>
+          <span class="dealer-badge" id="dealer-south" style="display:none">Dealer</span>
+        </div>
+        <div class="hand" id="hand-south"></div>
+        <div class="melds" id="melds-south"></div>
+        <div class="discards-box">
+          <div class="discards-label">Your discards</div>
+          <div class="discards" id="discards-south"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls" id="controls">
+    <!-- buttons injected by JS -->
+  </div>
+
+  <div class="message" id="message">Welcome! Choose a starting difficulty. Arabic numbers • Each player’s discards are shown under their name.</div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:#ef4444"></span> East</span>
+    <span><span class="dot" style="background:#3b82f6"></span> South (You)</span>
+    <span><span class="dot" style="background:#22c55e"></span> West</span>
+    <span><span class="dot" style="background:#a855f7"></span> North</span>
+    <span>Green glow = just drawn</span>
+    <span>Gold outline = your selected tile</span>
+  </div>
+
+  <div class="log" id="log"></div>
+
+<script>
+/* ============================================================
+   MAHJONG vs BOTS – Three difficulty levels
+   100%  : two straights + 5p triplet + East pair + 2 random junk
+   80%   : one straight + four pairs + two fixed junk
+   50%   : randomized straight + four pairs + two junk each game
+   ============================================================ */
+
+const PLAYERS = ['east', 'south', 'west', 'north'];
+const NAMES = {
+  east: 'East (Bot)',
+  south: 'South (You)',
+  west: 'West (Bot)',
+  north: 'North (Bot)'
+};
+const SHORT = { east: 'East', south: 'You', west: 'West', north: 'North' };
+
+function tileParts(t) {
+  if (!t) return { num: '?', suit: '' };
+  const s = t[0], v = t.slice(1);
+  if (s === 'm') return { num: v, suit: 'Man', color: 'red' };
+  if (s === 'p') return { num: v, suit: 'Pin', color: 'blue' };
+  if (s === 's') return { num: v, suit: 'Sou', color: 'green' };
+  if (s === 'w') {
+    const map = { e: 'E', s: 'S', w: 'W', n: 'N' };
+    return { num: map[v] || v, suit: 'Wind', color: 'honor' };
+  }
+  if (s === 'd') {
+    const map = { r: 'Red', g: 'Grn', w: 'Wht' };
+    return { num: map[v] || v, suit: 'Drag', color: v === 'r' ? 'red' : v === 'g' ? 'green' : 'honor' };
+  }
+  return { num: t, suit: '', color: '' };
+}
+
+function tileLabel(t) {
+  const p = tileParts(t);
+  if (p.suit === 'Wind' || p.suit === 'Drag') return p.num;
+  return p.num + p.suit.charAt(0);
+}
+
+function createWall() {
+  const wall = [];
+  for (const s of ['m', 'p', 's']) {
+    for (let v = 1; v <= 9; v++) {
+      for (let i = 0; i < 4; i++) wall.push(s + v);
+    }
+  }
+  for (const w of ['e', 's', 'w', 'n']) {
+    for (let i = 0; i < 4; i++) wall.push('w' + w);
+  }
+  for (const d of ['r', 'g', 'w']) {
+    for (let i = 0; i < 4; i++) wall.push('d' + d);
+  }
+  return wall;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function sortHand(hand) {
+  const order = { m: 0, p: 1, s: 2, w: 3, d: 4 };
+  const windO = { e: 0, s: 1, w: 2, n: 3 };
+  const dragO = { r: 0, g: 1, w: 2 };
+  return hand.slice().sort((a, b) => {
+    if (a[0] !== b[0]) return order[a[0]] - order[b[0]];
+    if (a[0] === 'w') return windO[a[1]] - windO[b[1]];
+    if (a[0] === 'd') return dragO[a[1]] - dragO[b[1]];
+    return +a.slice(1) - +b.slice(1);
+  });
+}
+
+/* ---- All possible tile types ---- */
+function allTileTypes() {
+  const list = [];
+  for (const s of ['m', 'p', 's']) for (let v = 1; v <= 9; v++) list.push(s + v);
+  for (const w of ['e', 's', 'w', 'n']) list.push('w' + w);
+  for (const d of ['r', 'g', 'w']) list.push('d' + d);
+  return list;
+}
+
+/* ---- Generate a random "1 straight + 4 pairs + 2 junk" hand ---- */
+function generate50Hand() {
+  const used = {};
+  function canTake(t, n) { return (used[t] || 0) + n <= 4; }
+  function take(t, n) { used[t] = (used[t] || 0) + n; }
+
+  // Random straight
+  const suits = ['m', 'p', 's'];
+  const chiSuit = suits[Math.floor(Math.random() * 3)];
+  const start = Math.floor(Math.random() * 7) + 1;
+  const chi = [chiSuit + start, chiSuit + (start + 1), chiSuit + (start + 2)];
+  chi.forEach(t => take(t, 1));
+
+  // Four pairs
+  const possible = allTileTypes();
+  const pairs = [];
+  let attempts = 0;
+  while (pairs.length < 8 && attempts < 200) {
+    attempts++;
+    const t = possible[Math.floor(Math.random() * possible.length)];
+    if (canTake(t, 2)) {
+      pairs.push(t, t);
+      take(t, 2);
+    }
+  }
+
+  // Two junk singles
+  const junk = [];
+  attempts = 0;
+  while (junk.length < 2 && attempts < 200) {
+    attempts++;
+    const t = possible[Math.floor(Math.random() * possible.length)];
+    if (canTake(t, 1)) {
+      junk.push(t);
+      take(t, 1);
+    }
+  }
+
+  return [...chi, ...pairs, ...junk];
+}
+
+/* ---- Generate the 100% near-perfect hand (fixed core + 2 random junk) ---- */
+function generate100Hand() {
+  const used = {};
+  function canTake(t, n) { return (used[t] || 0) + n <= 4; }
+  function take(t, n) { used[t] = (used[t] || 0) + n; }
+
+  const core = [
+    'm1', 'm2', 'm3',          // straight Man
+    's1', 's2', 's3',          // straight Sou
+    'p5', 'p5', 'p5',          // triplet 5-Pin
+    'we', 'we'                 // pair East
+  ];
+  core.forEach(t => take(t, 1));
+
+  // two random junk
+  const possible = allTileTypes();
+  const junk = [];
+  let attempts = 0;
+  while (junk.length < 2 && attempts < 100) {
+    attempts++;
+    const t = possible[Math.floor(Math.random() * possible.length)];
+    if (canTake(t, 1)) {
+      junk.push(t);
+      take(t, 1);
+    }
+  }
+
+  return [...core, ...junk];
+}
+
+/* ---- State ---- */
+let state = {
+  wall: [],
+  players: {
+    east:  { hand: [], melds: [], discards: [], isBot: true, justDrawn: null },
+    south: { hand: [], melds: [], discards: [], isBot: false, justDrawn: null },
+    west:  { hand: [], melds: [], discards: [], isBot: true, justDrawn: null },
+    north: { hand: [], melds: [], discards: [], isBot: true, justDrawn: null }
+  },
+  current: null,
+  dealer: 'east',
+  phase: 'idle',
+  lastDiscard: null,
+  lastDiscarder: null,
+  claimOptions: [],
+  selectedTile: null,
+  message: '',
+  log: []
+};
+
+function log(msg) {
+  state.log.unshift(msg);
+  if (state.log.length > 50) state.log.pop();
+  document.getElementById('log').innerHTML = state.log.map(m => `<div>${m}</div>`).join('');
+}
+
+/* ---- Tile element ---- */
+function createTileEl(t, opts = {}) {
+  const el = document.createElement('div');
+  const p = tileParts(t);
+  el.className = 'tile' +
+    (opts.back ? ' back' : '') +
+    (opts.selectable ? ' selectable' : '') +
+    (opts.selected ? ' selected' : '') +
+    (opts.justDrawn ? ' just-drawn' : '') +
+    (p.color ? ' ' + p.color : '');
+
+  if (!opts.back) {
+    const num = document.createElement('span');
+    num.className = 'num';
+    num.textContent = p.num;
+    el.appendChild(num);
+    if (p.suit && p.suit !== 'Wind' && p.suit !== 'Drag') {
+      const suit = document.createElement('span');
+      suit.className = 'suit';
+      suit.textContent = p.suit;
+      el.appendChild(suit);
+    } else if (p.suit === 'Wind' || p.suit === 'Drag') {
+      const suit = document.createElement('span');
+      suit.className = 'suit';
+      suit.textContent = p.suit;
+      el.appendChild(suit);
+    }
+  }
+  if (opts.onclick) el.onclick = opts.onclick;
+  el.title = tileLabel(t);
+  return el;
+}
+
+/* ---- Render ---- */
+function renderHand(seat) {
+  const area = document.getElementById('hand-' + seat);
+  area.innerHTML = '';
+  const p = state.players[seat];
+  const isHuman = seat === 'south';
+  const showFace = isHuman || state.phase === 'end';
+  const hand = sortHand(p.hand);
+
+  hand.forEach(t => {
+    const selectable = isHuman && state.phase === 'turn' && state.current === 'south' && !state.claimOptions.length;
+    const selected = state.selectedTile === t && selectable;
+    const justDrawn = p.justDrawn === t;
+    const el = createTileEl(t, {
+      back: !showFace,
+      selectable,
+      selected,
+      justDrawn: justDrawn && showFace,
+      onclick: selectable ? () => selectTile(t) : null
+    });
+    area.appendChild(el);
+  });
+}
+
+function renderMelds(seat) {
+  const area = document.getElementById('melds-' + seat);
+  area.innerHTML = '';
+  state.players[seat].melds.forEach(meld => {
+    const div = document.createElement('div');
+    div.className = 'meld';
+    meld.tiles.forEach(t => div.appendChild(createTileEl(t)));
+    area.appendChild(div);
+  });
+}
+
+function renderDiscards(seat) {
+  const area = document.getElementById('discards-' + seat);
+  area.innerHTML = '';
+  state.players[seat].discards.forEach(t => {
+    area.appendChild(createTileEl(t));
+  });
+}
+
+function renderLabels() {
+  PLAYERS.forEach(s => {
+    const lab = document.getElementById('label-' + s);
+    lab.className = 'player-name ' + s;
+    if (state.current === s && (state.phase === 'turn' || state.phase === 'claim')) {
+      lab.classList.add('turn');
+    }
+    lab.textContent = NAMES[s];
+
+    const badge = document.getElementById('dealer-' + s);
+    badge.style.display = (s === state.dealer && state.phase !== 'idle') ? 'inline' : 'none';
+  });
+}
+
+function renderLastDiscard() {
+  const box = document.getElementById('last-box');
+  const tileArea = document.getElementById('last-tile');
+  const by = document.getElementById('last-by');
+  if (state.lastDiscard && state.phase !== 'idle') {
+    box.style.display = 'block';
+    by.textContent = SHORT[state.lastDiscarder] || '—';
+    tileArea.innerHTML = '';
+    tileArea.appendChild(createTileEl(state.lastDiscard));
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function renderStatus() {
+  const st = document.getElementById('status');
+  const wc = document.getElementById('wall-count');
+  if (state.phase === 'idle') {
+    st.textContent = 'Choose a difficulty to begin';
+    wc.textContent = 'Wall: —';
+  } else if (state.phase === 'end') {
+    st.textContent = state.message || 'Game over';
+    wc.textContent = 'Wall: ' + state.wall.length;
+  } else {
+    st.textContent = SHORT[state.current] + "'s turn";
+    wc.textContent = 'Wall: ' + state.wall.length + ' left';
+  }
+  document.getElementById('message').textContent = state.message || '';
+}
+
+function renderControls() {
+  const c = document.getElementById('controls');
+  c.innerHTML = '';
+
+  // Restart always available
+  const restartBtn = document.createElement('button');
+  restartBtn.className = 'btn-restart';
+  restartBtn.textContent = '🔄 Restart / Menu';
+  restartBtn.onclick = () => {
+    if (state.phase !== 'idle' && state.phase !== 'end') {
+      if (!confirm('Return to menu? Current progress will be lost.')) return;
+    }
+    // go back to idle so the three Start buttons reappear
+    state.phase = 'idle';
+    state.message = 'Choose a starting difficulty.';
+    state.claimOptions = [];
+    state.selectedTile = null;
+    state.lastDiscard = null;
+    state.lastDiscarder = null;
+    PLAYERS.forEach(s => {
+      state.players[s].hand = [];
+      state.players[s].melds = [];
+      state.players[s].discards = [];
+      state.players[s].justDrawn = null;
+    });
+    state.wall = [];
+    renderAll();
+  };
+  c.appendChild(restartBtn);
+
+  if (state.phase === 'idle' || state.phase === 'end') {
+    // Three difficulty buttons
+    const b100 = document.createElement('button');
+    b100.className = 'btn-start100';
+    b100.textContent = '▶ Start Game (100%)';
+    b100.title = 'Two straights + 5-Pin triplet + East pair + 2 random junk – almost guaranteed win';
+    b100.onclick = () => startGame('100');
+    c.appendChild(b100);
+
+    const b80 = document.createElement('button');
+    b80.className = 'btn-start80';
+    b80.textContent = '▶ Start Game (80% Pre-arranged)';
+    b80.title = 'One straight + four pairs + two junk – strong but needs a little thought';
+    b80.onclick = () => startGame('80');
+    c.appendChild(b80);
+
+    const b50 = document.createElement('button');
+    b50.className = 'btn-start50';
+    b50.textContent = '▶ Start Game (50% Pre-arranged)';
+    b50.title = 'Fresh random straight + four pairs + two junk every game';
+    b50.onclick = () => startGame('50');
+    c.appendChild(b50);
+    return;
+  }
+
+  if (state.claimOptions.length) {
+    state.claimOptions.forEach(opt => {
+      if (opt.seat !== 'south') return;
+      const btn = document.createElement('button');
+      btn.className = (opt.type === 'ron' || opt.type === 'tsumo') ? 'btn-win' : 'btn-claim';
+      btn.textContent = opt.label;
+      btn.onclick = () => executeClaim(opt);
+      c.appendChild(btn);
+    });
+    const pass = document.createElement('button');
+    pass.className = 'btn-pass';
+    pass.textContent = 'Pass';
+    pass.onclick = passClaim;
+    c.appendChild(pass);
+    return;
+  }
+
+  if (state.current === 'south' && state.phase === 'turn') {
+    const disc = document.createElement('button');
+    disc.className = 'btn-action';
+    disc.textContent = state.selectedTile
+      ? 'Discard  ' + tileLabel(state.selectedTile)
+      : 'Select a tile, then discard';
+    disc.disabled = !state.selectedTile;
+    disc.onclick = discardSelected;
+    c.appendChild(disc);
+
+    if (canWin(state.players.south)) {
+      const winBtn = document.createElement('button');
+      winBtn.className = 'btn-win';
+      winBtn.textContent = '🏆 Tsumo (Self-draw Win)';
+      winBtn.onclick = () => declareWin('south', 'tsumo');
+      c.appendChild(winBtn);
+    }
+  }
+}
+
+function renderAll() {
+  PLAYERS.forEach(s => {
+    renderHand(s);
+    renderMelds(s);
+    renderDiscards(s);
+  });
+  renderLabels();
+  renderLastDiscard();
+  renderStatus();
+  renderControls();
+}
+
+/* ---- Game logic ---- */
+function startGame(mode) {
+  state.wall = shuffle(createWall());
+  PLAYERS.forEach(s => {
+    state.players[s].hand = [];
+    state.players[s].melds = [];
+    state.players[s].discards = [];
+    state.players[s].justDrawn = null;
+  });
+  state.dealer = 'east';
+  state.current = 'east';
+  state.phase = 'deal';
+  state.lastDiscard = null;
+  state.lastDiscarder = null;
+  state.claimOptions = [];
+  state.selectedTile = null;
+  state.log = [];
+  state.message = 'Dealing...';
+
+  let goodHand;
+  let modeLabel;
+
+  if (mode === '100') {
+    goodHand = generate100Hand();
+    modeLabel = '100% (near-perfect)';
+  } else if (mode === '50') {
+    goodHand = generate50Hand();
+    modeLabel = '50% (randomized)';
+  } else {
+    // 80% – fixed hand from before
+    goodHand = [
+      'm1', 'm2', 'm3',          // straight
+      'p5', 'p5',                // pair
+      's7', 's7',                // pair
+      'we', 'we',                // pair East
+      'dg', 'dg',                // pair Green dragon
+      'm9', 'p4'                 // two junk
+    ];
+    modeLabel = '80% Pre-arranged';
+  }
+
+  // Remove the exact tiles from the wall
+  goodHand.forEach(t => {
+    const idx = state.wall.indexOf(t);
+    if (idx !== -1) state.wall.splice(idx, 1);
+  });
+
+  // Give South the prepared hand
+  state.players.south.hand = sortHand(goodHand);
+
+  // Deal 13 tiles each to the three bots
+  for (let i = 0; i < 13; i++) {
+    ['east', 'west', 'north'].forEach(s => {
+      state.players[s].hand.push(state.wall.pop());
+    });
+  }
+  // East (dealer) gets the extra 14th tile
+  state.players.east.hand.push(state.wall.pop());
+
+  PLAYERS.forEach(s => {
+    state.players[s].hand = sortHand(state.players[s].hand);
+  });
+
+  log('Game started (' + modeLabel + '). East is dealer.');
+  state.phase = 'turn';
+  state.message = 'East starts. You have a ' + modeLabel + ' hand!';
+  renderAll();
+  setTimeout(() => doTurn(), 500);
+}
+
+function nextPlayer(seat) {
+  return PLAYERS[(PLAYERS.indexOf(seat) + 1) % 4];
+}
+
+function doTurn() {
+  if (state.phase !== 'turn') return;
+  const seat = state.current;
+  const p = state.players[seat];
+  p.justDrawn = null;
+
+  const free = p.hand.length;
+  if (free % 3 !== 2) {
+    if (state.wall.length === 0) {
+      endGame('Draw – wall empty');
+      return;
+    }
+    const drawn = state.wall.pop();
+    p.hand.push(drawn);
+    p.hand = sortHand(p.hand);
+    p.justDrawn = drawn;
+    log(SHORT[seat] + ' draws → ' + tileLabel(drawn));
+    if (seat === 'south') {
+      state.message = 'You drew ' + tileLabel(drawn) + ' (green glow). Select a tile to discard.';
+    }
+  }
+
+  renderAll();
+
+  if (canWin(p)) {
+    if (p.isBot) {
+      if (Math.random() < 0.8) {
+        declareWin(seat, 'tsumo');
+        return;
+      }
+    } else {
+      state.message = 'You can Tsumo! Or discard.';
+      renderControls();
+      return;
+    }
+  }
+
+  if (p.isBot) {
+    setTimeout(() => botDiscard(seat), 600 + Math.random() * 500);
+  } else {
+    state.selectedTile = null;
+    if (!state.message.includes('drew')) {
+      state.message = 'Your turn – click a tile, then Discard.';
+    }
+    renderAll();
+  }
+}
+
+function selectTile(t) {
+  state.selectedTile = t;
+  state.players.south.justDrawn = null;
+  renderAll();
+}
+
+function discardSelected() {
+  if (!state.selectedTile || state.current !== 'south') return;
+  doDiscard('south', state.selectedTile);
+}
+
+function doDiscard(seat, tile) {
+  const p = state.players[seat];
+  const idx = p.hand.indexOf(tile);
+  if (idx === -1) return;
+  p.hand.splice(idx, 1);
+  p.hand = sortHand(p.hand);
+  p.discards.push(tile);
+  p.justDrawn = null;
+  state.lastDiscard = tile;
+  state.lastDiscarder = seat;
+  state.selectedTile = null;
+
+  log(SHORT[seat] + ' discards ' + tileLabel(tile));
+  state.message = SHORT[seat] + ' discarded ' + tileLabel(tile);
+
+  renderAll();
+
+  const claimers = getClaimOptions(tile, seat);
+  if (claimers.length) {
+    state.claimOptions = claimers;
+    state.phase = 'claim';
+    const humanHas = claimers.some(c => c.seat === 'south');
+    if (humanHas) {
+      state.message = 'You can claim this discard! Choose or Pass.';
+      renderAll();
+      return;
+    } else {
+      setTimeout(() => botDecideClaim(claimers), 450);
+      return;
+    }
+  }
+  advanceToNext();
+}
+
+function getClaimOptions(tile, discarder) {
+  const options = [];
+  const others = PLAYERS.filter(s => s !== discarder);
+
+  // Ron
+  others.forEach(s => {
+    const p = state.players[s];
+    p.hand.push(tile);
+    if (canWin(p)) {
+      options.push({
+        type: 'ron', seat: s, tile,
+        label: s === 'south' ? '🏆 Ron (Win on this discard!)' : 'Ron'
+      });
+    }
+    p.hand.pop();
+  });
+  if (options.some(o => o.type === 'ron')) {
+    return options.filter(o => o.type === 'ron');
+  }
+
+  // Pong / Kong
+  others.forEach(s => {
+    const count = state.players[s].hand.filter(t => t === tile).length;
+    if (count >= 2) {
+      options.push({
+        type: 'pong', seat: s, tile,
+        label: s === 'south' ? 'Pong (take 3 of a kind)' : 'Pong'
+      });
+    }
+    if (count >= 3) {
+      options.push({
+        type: 'kong', seat: s, tile,
+        label: s === 'south' ? 'Kong (take 4 of a kind)' : 'Kong'
+      });
+    }
+  });
+
+  // Chi – only next player
+  const next = nextPlayer(discarder);
+  getChiOptions(state.players[next].hand, tile).forEach(combo => {
+    options.push({
+      type: 'chi', seat: next, tile, tiles: combo,
+      label: next === 'south'
+        ? 'Chi (' + combo.map(tileLabel).join(' ') + ')'
+        : 'Chi'
+    });
+  });
+
+  return options;
+}
+
+function getChiOptions(hand, tile) {
+  if (!'mps'.includes(tile[0])) return [];
+  const suit = tile[0];
+  const v = +tile.slice(1);
+  const opts = [];
+  const candidates = [[v-2,v-1,v], [v-1,v,v+1], [v,v+1,v+2]];
+  candidates.forEach(seq => {
+    if (seq[0] < 1 || seq[2] > 9) return;
+    const needed = seq.filter(n => n !== v).map(n => suit + n);
+    const temp = hand.slice();
+    let ok = true;
+    needed.forEach(n => {
+      const i = temp.indexOf(n);
+      if (i === -1) ok = false;
+      else temp.splice(i, 1);
+    });
+    if (ok) opts.push(seq.map(n => suit + n));
+  });
+  return opts;
+}
+
+function executeClaim(opt) {
+  const { type, seat, tile } = opt;
+  const p = state.players[seat];
+  const discarder = state.lastDiscarder;
+
+  const dIdx = state.players[discarder].discards.lastIndexOf(tile);
+  if (dIdx !== -1) state.players[discarder].discards.splice(dIdx, 1);
+
+  if (type === 'ron') {
+    p.hand.push(tile);
+    declareWin(seat, 'ron');
+    return;
+  }
+
+  if (type === 'pong' || type === 'kong') {
+    const need = type === 'pong' ? 2 : 3;
+    for (let i = 0; i < need; i++) {
+      const idx = p.hand.indexOf(tile);
+      p.hand.splice(idx, 1);
+    }
+    p.melds.push({ type, tiles: Array(need + 1).fill(tile) });
+    log(SHORT[seat] + ' calls ' + type.toUpperCase() + ' on ' + tileLabel(tile));
+    state.current = seat;
+    state.phase = 'turn';
+    state.claimOptions = [];
+    state.message = SHORT[seat] + ' claimed ' + type + ' – must discard.';
+    p.justDrawn = null;
+    renderAll();
+    if (p.isBot) setTimeout(() => botDiscard(seat), 500);
+    else {
+      state.selectedTile = null;
+      renderControls();
+    }
+    return;
+  }
+
+  if (type === 'chi') {
+    const others = opt.tiles.filter(t => t !== tile);
+    others.forEach(t => {
+      const idx = p.hand.indexOf(t);
+      p.hand.splice(idx, 1);
+    });
+    p.melds.push({ type: 'chi', tiles: opt.tiles });
+    log(SHORT[seat] + ' calls CHI ' + opt.tiles.map(tileLabel).join(' '));
+    state.current = seat;
+    state.phase = 'turn';
+    state.claimOptions = [];
+    state.message = SHORT[seat] + ' claimed Chi – must discard.';
+    p.justDrawn = null;
+    renderAll();
+    if (p.isBot) setTimeout(() => botDiscard(seat), 500);
+    else {
+      state.selectedTile = null;
+      renderControls();
+    }
+  }
+}
+
+function passClaim() {
+  state.claimOptions = [];
+  state.phase = 'turn';
+  advanceToNext();
+}
+
+function botDecideClaim(options) {
+  const ron = options.filter(o => o.type === 'ron');
+  if (ron.length) {
+    executeClaim(ron[0]);
+    return;
+  }
+  const claimable = options.filter(o => o.seat !== 'south');
+  if (claimable.length && Math.random() < 0.5) {
+    const pongs = claimable.filter(o => o.type === 'pong' || o.type === 'kong');
+    executeClaim(pongs.length ? pongs[0] : claimable[0]);
+    return;
+  }
+  state.claimOptions = [];
+  advanceToNext();
+}
+
+function advanceToNext() {
+  state.current = nextPlayer(state.lastDiscarder);
+  state.phase = 'turn';
+  state.claimOptions = [];
+  state.message = SHORT[state.current] + "'s turn";
+  renderAll();
+  setTimeout(() => doTurn(), 350);
+}
+
+function botDiscard(seat) {
+  const p = state.players[seat];
+  if (!p.hand.length) return;
+
+  const counts = {};
+  p.hand.forEach(t => counts[t] = (counts[t] || 0) + 1);
+
+  let best = p.hand[0], bestScore = -999;
+  p.hand.forEach(t => {
+    let score = 0;
+    if (counts[t] === 1) score += 12;
+    if (counts[t] === 2) score -= 6;
+    if (counts[t] >= 3) score -= 18;
+    if ('wd'.includes(t[0]) && counts[t] === 1) score += 9;
+    if ('mps'.includes(t[0])) {
+      const v = +t.slice(1);
+      if (counts[t[0] + (v - 1)] || counts[t[0] + (v + 1)]) score -= 4;
+    }
+    score += Math.random() * 4;
+    if (score > bestScore) {
+      bestScore = score;
+      best = t;
+    }
+  });
+  doDiscard(seat, best);
+}
+
+/* ---- Win check ---- */
+function canWin(player) {
+  const free = player.hand.slice();
+  const setsNeeded = 4 - player.melds.length;
+  if (setsNeeded < 0) return false;
+  if (free.length !== setsNeeded * 3 + 2) return false;
+  return canForm(free, setsNeeded);
+}
+
+function canForm(tiles, setsNeeded) {
+  if (setsNeeded === 0) {
+    return tiles.length === 2 && tiles[0] === tiles[1];
+  }
+  if (tiles.length < 3) return false;
+  tiles = tiles.slice().sort();
+
+  // Pongs
+  for (let i = 0; i < tiles.length - 2; i++) {
+    if (tiles[i] === tiles[i + 1] && tiles[i] === tiles[i + 2]) {
+      const next = tiles.slice(0, i).concat(tiles.slice(i + 3));
+      if (canForm(next, setsNeeded - 1)) return true;
+    }
+  }
+  // Chis
+  for (let i = 0; i < tiles.length; i++) {
+    const t = tiles[i];
+    if (!'mps'.includes(t[0])) continue;
+    const suit = t[0], v = +t.slice(1);
+    if (v > 7) continue;
+    const t2 = suit + (v + 1), t3 = suit + (v + 2);
+    const i2 = tiles.indexOf(t2, i + 1);
+    const i3 = tiles.indexOf(t3, i + 1);
+    if (i2 !== -1 && i3 !== -1) {
+      const next = tiles.slice();
+      next.splice(i3, 1);
+      next.splice(i2, 1);
+      next.splice(i, 1);
+      if (canForm(next, setsNeeded - 1)) return true;
+    }
+  }
+  return false;
+}
+
+function declareWin(seat, how) {
+  state.phase = 'end';
+  const msg = '🏆 ' + NAMES[seat] + ' wins by ' + (how === 'tsumo' ? 'Tsumo' : 'Ron') + '!';
+  state.message = msg;
+  log(msg);
+  renderAll();
+}
+
+function endGame(reason) {
+  state.phase = 'end';
+  state.message = reason;
+  log(reason);
+  renderAll();
+}
+
+renderAll();
+</script>
+</body>
+</html>

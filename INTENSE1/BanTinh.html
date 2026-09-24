@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bàn tính 9 hạt mỗi cột</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, #1a120b 0%, #2c1e14 50%, #1a120b 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #f0e6d2;
+    }
+    h1 {
+      font-size: 1.7rem;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 18px;
+    }
+    .problem-box {
+      background: rgba(0,0,0,0.45);
+      border: 2px solid #c9a227;
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 18px;
+      min-width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .problem-box .label {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    .problem-box .expr {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f1c40f;
+      letter-spacing: 1px;
+    }
+    .problem-box .result-msg {
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      min-height: 1.4em;
+    }
+    .problem-box .result-msg.ok { color: #2ecc71; }
+    .problem-box .result-msg.fail { color: #e74c3c; }
+    .abacus {
+      background: linear-gradient(to bottom, #7a4a28, #5a3418);
+      border: 14px solid #3d2312;
+      border-radius: 14px;
+      padding: 24px 20px 18px;
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.55),
+        inset 0 3px 10px rgba(255,255,255,0.12);
+      position: relative;
+    }
+    .beam {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      height: 12px;
+      background: linear-gradient(to bottom, #4a2e16, #2e1a0c);
+      top: 22px;
+      border-radius: 4px;
+      z-index: 5;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    }
+    .rods {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+      margin-top: 28px;
+    }
+    .rod {
+      width: 46px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .beads {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 260px;
+      justify-content: flex-end;
+      gap: 5px;
+      padding-bottom: 4px;
+    }
+    .bead {
+      width: 40px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.3, 0.64, 1),
+                  filter 0.15s ease,
+                  box-shadow 0.15s ease;
+      position: relative;
+      background: radial-gradient(circle at 30% 25%, #4a5568, #1a202c 60%, #0d1117);
+      box-shadow:
+        inset 0 -4px 6px rgba(0,0,0,0.45),
+        0 4px 6px rgba(0,0,0,0.35);
+    }
+    .bead::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 7px;
+      width: 11px;
+      height: 7px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 50%;
+    }
+    .bead:hover {
+      filter: brightness(1.55) saturate(1.2);
+      box-shadow:
+        inset 0 -4px 6px rgba(0,0,0,0.35),
+        0 0 12px rgba(241, 196, 15, 0.45),
+        0 4px 8px rgba(0,0,0,0.4);
+    }
+    .bead.active {
+      transform: translateY(-28px);
+    }
+    .bead.active:hover {
+      filter: brightness(1.55) saturate(1.2);
+    }
+    .digit {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f1c40f;
+      height: 26px;
+      text-align: center;
+    }
+    .place {
+      font-size: 0.68rem;
+      opacity: 0.7;
+      margin-top: 2px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .total-box {
+      margin-top: 24px;
+      background: rgba(0,0,0,0.4);
+      border: 2px solid #7a4a28;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-size: 1.7rem;
+      font-weight: 700;
+      min-width: 240px;
+      text-align: center;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .total-box span {
+      color: #f1c40f;
+      letter-spacing: 1px;
+    }
+    .controls {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: linear-gradient(to bottom, #8B5A2B, #5D3A1A);
+      color: #f5e6c8;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+    button:hover {
+      background: linear-gradient(to bottom, #a06b35, #6e4522);
+      transform: translateY(-1px);
+    }
+    button.primary {
+      background: linear-gradient(to bottom, #c9a227, #8a7019);
+      color: #1a120b;
+      font-weight: 600;
+    }
+    button.primary:hover {
+      background: linear-gradient(to bottom, #e0b82e, #a08a22);
+    }
+    .hint {
+      margin-top: 18px;
+      font-size: 0.82rem;
+      opacity: 0.75;
+      text-align: center;
+      max-width: 540px;
+      line-height: 1.5;
+    }
+    @media (max-width: 640px) {
+      .rods { gap: 8px; }
+      .rod { width: 36px; }
+      .bead { width: 32px; height: 22px; }
+      .beads { height: 220px; gap: 4px; }
+      .bead.active { transform: translateY(-24px); }
+      h1 { font-size: 1.35rem; }
+      .problem-box .expr { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🧮 Bàn tính 9 hạt mỗi cột</h1>
+  <p class="subtitle">Mỗi cột 9 hạt • Đơn giản • Tính đến hàng triệu</p>
+
+  <div class="problem-box" id="problemBox">
+    <div class="label">Bài toán thử thách</div>
+    <div class="expr" id="problemExpr">Nhấn nút bên dưới để bắt đầu</div>
+    <div class="result-msg" id="resultMsg"></div>
+  </div>
+
+  <div class="abacus">
+    <div class="beam"></div>
+    <div class="rods" id="rods"></div>
+  </div>
+  <div class="total-box">
+    Giá trị: <span id="total">0</span>
+  </div>
+  <div class="controls">
+    <button class="primary" onclick="randomProblem()">Ngẫu nhiên 1 phép toán</button>
+    <button onclick="checkAnswer()">Kiểm tra</button>
+    <button onclick="resetAbacus()">Đặt lại</button>
+    <button onclick="setNumber(6)">Số 6</button>
+    <button onclick="setNumber(1234567)">1.234.567</button>
+    <button onclick="setNumber(9999999)">9.999.999</button>
+  </div>
+  <p class="hint">
+    • Rê chuột vào hạt → hạt sáng lên.<br>
+    • Click hạt đang ở dưới → đẩy tất cả hạt từ trên xuống đến hạt đó lên thanh ngang.<br>
+    • Click hạt đang ở trên (đã đẩy) → hạ hạt đó và tất cả hạt phía dưới nó xuống.<br>
+    • Ví dụ: đang 9 hạt lên, muốn hạ 2 hạt → click hạt thứ 2 từ dưới lên.<br>
+    • <strong>Phép toán ngẫu nhiên</strong>: chỉ cộng/trừ không nhớ/không vay (mỗi cột độc lập). Bàn tính được đặt sẵn số đầu, bạn chỉ việc gảy thêm hoặc bớt trong từng cột.
+  </p>
+  <script>
+    const places = [1000000, 100000, 10000, 1000, 100, 10, 1];
+    const placeNames = ['Triệu', 'Trăm nghìn', 'Chục nghìn', 'Nghìn', 'Trăm', 'Chục', 'Đơn vị'];
+    const rodsEl = document.getElementById('rods');
+    const totalEl = document.getElementById('total');
+    const problemExpr = document.getElementById('problemExpr');
+    const resultMsg = document.getElementById('resultMsg');
+
+    // Mỗi cột chỉ cần số hạt đang active (0 → 9)
+    const state = places.map(() => 0);
+
+    // Lưu bài toán hiện tại
+    let currentAnswer = null;
+    let currentExpr = '';
+
+    // Tạo các cột
+    places.forEach((_, index) => {
+      const rod = document.createElement('div');
+      rod.className = 'rod';
+      const beads = document.createElement('div');
+      beads.className = 'beads';
+      for (let i = 0; i < 9; i++) {
+        const bead = document.createElement('div');
+        bead.className = 'bead';
+        bead.addEventListener('click', () => clickBead(index, i));
+        beads.appendChild(bead);
+      }
+      const digit = document.createElement('div');
+      digit.className = 'digit';
+      digit.id = `digit-${index}`;
+      digit.textContent = '0';
+      const place = document.createElement('div');
+      place.className = 'place';
+      place.textContent = placeNames[index];
+      rod.append(beads, digit, place);
+      rodsEl.appendChild(rod);
+    });
+
+    function clickBead(rodIdx, pos) {
+      const cur = state[rodIdx];
+      let target;
+      if (pos < cur) {
+        target = pos;               // hạ từ hạt này trở xuống
+      } else {
+        target = pos + 1;           // đẩy lên đến hạt này
+      }
+      state[rodIdx] = target;
+      render(rodIdx);
+      updateTotal();
+      // Xóa thông báo kiểm tra cũ khi người chơi thay đổi
+      resultMsg.textContent = '';
+      resultMsg.className = 'result-msg';
+    }
+
+    function render(rodIdx) {
+      const rod = rodsEl.children[rodIdx];
+      const beads = rod.querySelectorAll('.bead');
+      const active = state[rodIdx];
+      beads.forEach((b, i) => {
+        b.classList.toggle('active', i < active);
+      });
+      document.getElementById(`digit-${rodIdx}`).textContent = active;
+    }
+
+    function updateTotal() {
+      let sum = 0;
+      state.forEach((count, i) => {
+        sum += count * places[i];
+      });
+      totalEl.textContent = sum.toLocaleString('vi-VN');
+    }
+
+    function resetAbacus() {
+      state.fill(0);
+      state.forEach((_, i) => render(i));
+      updateTotal();
+      resultMsg.textContent = '';
+      resultMsg.className = 'result-msg';
+    }
+
+    function setNumber(n) {
+      if (n < 0 || n > 9999999) {
+        alert('Chỉ hỗ trợ từ 0 đến 9.999.999');
+        return;
+      }
+      resetAbacus();
+      const digits = String(n).padStart(7, '0').split('').map(Number);
+      digits.forEach((d, i) => {
+        state[i] = d;
+        render(i);
+      });
+      updateTotal();
+    }
+
+    // ========== Sinh phép toán không nhớ / không vay ==========
+    function randomProblem() {
+      // Chọn độ dài 2–5 chữ số cho đẹp
+      const len = 2 + Math.floor(Math.random() * 4); // 2..5
+      const isAdd = Math.random() < 0.5;
+
+      const digitsA = [];
+      const digitsB = [];
+
+      for (let i = 0; i < len; i++) {
+        if (isAdd) {
+          // Cộng: a + b <= 9
+          const a = Math.floor(Math.random() * 10);
+          const b = Math.floor(Math.random() * (10 - a));
+          digitsA.push(a);
+          digitsB.push(b);
+        } else {
+          // Trừ: a >= b
+          const a = Math.floor(Math.random() * 10);
+          const b = Math.floor(Math.random() * (a + 1));
+          digitsA.push(a);
+          digitsB.push(b);
+        }
+      }
+
+      // Tránh số có chữ số đầu = 0
+      if (digitsA[0] === 0) digitsA[0] = 1 + Math.floor(Math.random() * 9);
+      if (digitsB[0] === 0 && len > 1) {
+        // Cho B có thể nhỏ hơn, nhưng nếu muốn đẹp thì cũng tránh 0 ở đầu
+        digitsB[0] = 1 + Math.floor(Math.random() * 9);
+        // Đảm bảo vẫn thỏa điều kiện
+        if (isAdd && digitsA[0] + digitsB[0] > 9) {
+          digitsB[0] = 9 - digitsA[0];
+        } else if (!isAdd && digitsB[0] > digitsA[0]) {
+          digitsB[0] = digitsA[0];
+        }
+      }
+
+      // Tạo số
+      const numA = parseInt(digitsA.join(''), 10);
+      const numB = parseInt(digitsB.join(''), 10);
+      const answer = isAdd ? numA + numB : numA - numB;
+
+      // Hiển thị
+      const op = isAdd ? '+' : '−';
+      currentExpr = `${numA.toLocaleString('vi-VN')} ${op} ${numB.toLocaleString('vi-VN')}`;
+      currentAnswer = answer;
+
+      problemExpr.textContent = currentExpr + ' = ?';
+      resultMsg.textContent = '';
+      resultMsg.className = 'result-msg';
+
+      // Đặt bàn tính sẵn số đầu tiên để người chơi chỉ việc cộng/trừ thêm
+      setNumber(numA);
+    }
+
+    function checkAnswer() {
+      if (currentAnswer === null) {
+        resultMsg.textContent = 'Hãy tạo một bài toán trước!';
+        resultMsg.className = 'result-msg';
+        return;
+      }
+      let sum = 0;
+      state.forEach((count, i) => {
+        sum += count * places[i];
+      });
+      if (sum === currentAnswer) {
+        resultMsg.textContent = '✅ Chính xác! Giỏi lắm!';
+        resultMsg.className = 'result-msg ok';
+      } else {
+        resultMsg.textContent = `❌ Chưa đúng. Kết quả đúng là ${currentAnswer.toLocaleString('vi-VN')}`;
+        resultMsg.className = 'result-msg fail';
+      }
+    }
+
+    // Khởi tạo
+    updateTotal();
+  </script>
+</body>
+</html>
