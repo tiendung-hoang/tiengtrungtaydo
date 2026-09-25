@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bộ thủ & Bộ phận chỉ âm - Từ vựng Bài 1-4</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #0d47a1;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #202124;
+      --muted: #5f6368;
+      --border: #dadce0;
+      --accent: #e8f0fe;
+      --success: #34a853;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 12px 24px;
+      border: none;
+      background: transparent;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .tab-btn:hover { color: var(--primary); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Radical grid */
+    .radical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .rad-btn {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 1.55rem;
+      font-weight: 500;
+      padding: 6px;
+    }
+    .rad-btn:hover, .rad-btn.active {
+      border-color: var(--primary);
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26,115,232,0.15);
+    }
+    .rad-btn .count {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      min-height: 160px;
+    }
+    .detail-panel h2 {
+      font-size: 2.1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .detail-panel .rad-name {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .char-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .char-item {
+      background: var(--accent);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 1.45rem;
+      border: 1px solid #c2d7f7;
+      min-width: 48px;
+      text-align: center;
+      transition: transform 0.15s;
+    }
+    .char-item:hover { transform: scale(1.08); }
+    .empty-state {
+      color: var(--muted);
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 1.1rem;
+    }
+
+    /* Phonetic section */
+    .phonetic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 12px;
+    }
+    .phon-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .phon-card:hover, .phon-card.active {
+      border-color: var(--success);
+      background: #e6f4ea;
+      box-shadow: 0 4px 12px rgba(52,168,83,0.12);
+    }
+    .phon-card .phon {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .phon-card .examples {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .note {
+      background: #fff8e1;
+      border-left: 4px solid #f9a825;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+    .search-box {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--primary); }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 600px) {
+      .radical-grid { grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); }
+      .rad-btn { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Bộ thủ & Bộ phận chỉ âm</h1>
+  <p class="subtitle">Từ vựng đã dạy (Bài 1–4) · Nhấn vào từng bộ để xem chi tiết</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="radical">Bộ thủ (部首)</button>
+    <button class="tab-btn" data-tab="phonetic">Bộ phận chỉ âm (mượn âm)</button>
+  </div>
+
+  <!-- ========== BỘ THỦ ========== -->
+  <div id="radical" class="tab-content active">
+    <input type="text" class="search-box" id="radSearch" placeholder="Tìm bộ thủ hoặc chữ Hán…">
+    <div class="radical-grid" id="radGrid"></div>
+    <div class="detail-panel" id="radDetail">
+      <div class="empty-state">👆 Chọn một bộ thủ ở trên để xem các chữ có bộ đó</div>
+    </div>
+  </div>
+
+  <!-- ========== MƯỢN ÂM ========== -->
+  <div id="phonetic" class="tab-content">
+    <div class="note">
+      <strong>Đúng rồi!</strong> Bộ phận chỉ âm (thành phần mượn âm) có rất nhiều vì phần lớn chữ Hán là <em>hình thanh tự</em> (形聲字). 
+      Phần chỉ âm thường nằm bên phải hoặc phía dưới chữ. Dưới đây là <strong>hơn 50 thành phần</strong> rõ ràng xuất hiện trong từ vựng Bài 1–4.
+    </div>
+    <div class="phonetic-grid" id="phonGrid"></div>
+    <div class="detail-panel" id="phonDetail" style="margin-top:20px;">
+      <div class="empty-state">👆 Chọn một thành phần chỉ âm để xem chi tiết</div>
+    </div>
+  </div>
+
+  <footer>
+    Dữ liệu dựa trên bộ thủ từ điển tiêu chuẩn · Phần chỉ âm mang tính tham khảo giảng dạy (có thể có biến thể phân tích)
+  </footer>
+
+  <script>
+    // ========== DATA: Bộ thủ → chữ ==========
+    const radicalData = {
+      "一": ["一","上","下","不","兩"],
+      "丨": ["中"],
+      "乙": ["也"],
+      "亅": ["了"],
+      "二": ["些"],
+      "亠": ["亮"],
+      "人": ["人","什","今","介","件","位","你","來","便","個","做"],
+      "儿": ["元","兒"],
+      "八": ["共"],
+      "冂": ["再"],
+      "冫": ["冬","冷"],
+      "刀": ["分"],
+      "十": ["千","午"],
+      "卩": ["印"],
+      "厶": ["去"],
+      "又": ["友"],
+      "口": ["叫","可","台","吃","同","名","呢","和","咖","哪","商","啊","問","啡","喜","喝","嗎"],
+      "囗": ["回","國","圖"],
+      "土": ["在","塊"],
+      "夂": ["夏"],
+      "夕": ["多"],
+      "大": ["大","天","太"],
+      "女": ["女","奶","她","好","妳","姓","媽"],
+      "子": ["子","字","孩","學"],
+      "宀": ["安","宜","客","家"],
+      "小": ["小","少"],
+      "尸": ["尼"],
+      "巾": ["常"],
+      "幺": ["幾"],
+      "广": ["床","店","廳"],
+      "彳": ["很"],
+      "心": ["心","忙","快","怎","您","想","愛"],
+      "戈": ["我"],
+      "手": ["找"],
+      "文": ["文"],
+      "斗": ["料"],
+      "斤": ["新"],
+      "日": ["日","早","明","星","春","昨","是","晚"],
+      "曰": ["書","最"],
+      "月": ["月","有","朋","服","期"],
+      "木": ["末","本","朵","杯","東","果","枝","校","樂","樣"],
+      "欠": ["歡"],
+      "止": ["歲"],
+      "母": ["每"],
+      "气": ["氣"],
+      "水": ["水","汁","沒","渴","漂","灣"],
+      "火": ["熱"],
+      "父": ["爸"],
+      "牛": ["牛","物"],
+      "玉": ["玩","珍","珠","現"],
+      "瓦": ["瓶"],
+      "甘": ["甜"],
+      "生": ["生"],
+      "田": ["男"],
+      "白": ["白","百","的"],
+      "目": ["看","睡"],
+      "矢": ["知"],
+      "石": ["碗"],
+      "示": ["禮"],
+      "禾": ["秋","種"],
+      "穴": ["穿"],
+      "竹": ["筆"],
+      "米": ["糕"],
+      "糸": ["紅","累","紹","給","綠"],
+      "羊": ["美"],
+      "肉": ["肉"],
+      "自": ["自"],
+      "至": ["臺"],
+      "色": ["色"],
+      "艸": ["花","英","茶","萬"],
+      "虍": ["號"],
+      "虫": ["蛋"],
+      "衣": ["衣"],
+      "西": ["西","要"],
+      "見": ["見","覺"],
+      "言": ["誰","課","請","謝"],
+      "貝": ["貴","買","賣"],
+      "走": ["起"],
+      "辵": ["送","這","週","道","還"],
+      "邑": ["那","都"],
+      "金": ["鉛","錢","鐘"],
+      "門": ["開"],
+      "雨": ["零"],
+      "頁": ["題","顏"],
+      "食": ["飯","飲","餐","餓","館"],
+      "麥": ["麵"],
+      "麻": ["麼"],
+      "黑": ["點"]
+    };
+
+    const radNames = {
+      "一": "Nhất", "丨": "Cổn", "乙": "Ất", "亅": "Quyết", "二": "Nhị",
+      "亠": "Đầu", "人": "Nhân", "儿": "Nhi", "八": "Bát", "冂": "Quynh",
+      "冫": "Băng", "刀": "Đao", "十": "Thập", "卩": "Tiết", "厶": "Tư",
+      "又": "Hựu", "口": "Khẩu", "囗": "Vi", "土": "Thổ", "夂": "Truy",
+      "夕": "Tịch", "大": "Đại", "女": "Nữ", "子": "Tử", "宀": "Miên",
+      "小": "Tiểu", "尸": "Thi", "巾": "Cân", "幺": "Yêu", "广": "Nghiễm",
+      "彳": "Xích", "心": "Tâm", "戈": "Qua", "手": "Thủ", "文": "Văn",
+      "斗": "Đẩu", "斤": "Cân", "日": "Nhật", "曰": "Viết", "月": "Nguyệt",
+      "木": "Mộc", "欠": "Khiếm", "止": "Chỉ", "母": "Mẫu", "气": "Khí",
+      "水": "Thủy", "火": "Hỏa", "父": "Phụ", "牛": "Ngưu", "玉": "Ngọc",
+      "瓦": "Ngõa", "甘": "Cam", "生": "Sinh", "田": "Điền", "白": "Bạch",
+      "目": "Mục", "矢": "Thỉ", "石": "Thạch", "示": "Thị", "禾": "Hòa",
+      "穴": "Huyệt", "竹": "Trúc", "米": "Mễ", "糸": "Mịch", "羊": "Dương",
+      "肉": "Nhục", "自": "Tự", "至": "Chí", "色": "Sắc", "艸": "Thảo",
+      "虍": "Hô", "虫": "Trùng", "衣": "Y", "西": "Tây", "見": "Kiến",
+      "言": "Ngôn", "貝": "Bối", "走": "Tẩu", "辵": "Sước", "邑": "Ấp",
+      "金": "Kim", "門": "Môn", "雨": "Vũ", "頁": "Hiệt", "食": "Thực",
+      "麥": "Mạch", "麻": "Ma", "黑": "Hắc"
+    };
+
+    // ========== DATA: Bộ phận chỉ âm (đã mở rộng) ==========
+    const phoneticData = {
+      "也": { examples: ["她"], note: "yě → tā (cô ấy)" },
+      "生": { examples: ["姓","星"], note: "shēng (họ · ngôi sao)" },
+      "艮": { examples: ["很"], note: "gěn → hěn (rất)" },
+      "隹": { examples: ["誰"], note: "zhuī → shéi (ai)" },
+      "果": { examples: ["課"], note: "guǒ → kè (bài học)" },
+      "見": { examples: ["現","覺"], note: "jiàn (hiện · giác)" },
+      "朱": { examples: ["珠"], note: "zhū (hạt châu)" },
+      "其": { examples: ["期"], note: "qí (kỳ · thời hạn)" },
+      "勺": { examples: ["的"], note: "sháo → de (của)" },
+      "白": { examples: ["百","的"], note: "bái (trăm · của)" },
+      "羊": { examples: ["美","樣"], note: "yáng (đẹp · dạng)" },
+      "尔": { examples: ["你","妳"], note: "ěr → nǐ (bạn)" },
+      "可": { examples: ["啊"], note: "kě (à · và nhiều chữ khác)" },
+      "馬": { examples: ["嗎"], note: "mǎ → ma (hạt nghi vấn)" },
+      "尼": { examples: ["呢"], note: "ní → ne" },
+      "禾": { examples: ["和"], note: "hé (và · hòa)" },
+      "非": { examples: ["啡"], note: "fēi (trong cà phê)" },
+      "加": { examples: ["咖"], note: "jiā (trong cà phê)" },
+      "或": { examples: ["國"], note: "huò → guó (nước)" },
+      "才": { examples: ["在"], note: "cái → zài (ở)" },
+      "乃": { examples: ["奶"], note: "nǎi (sữa)" },
+      "亥": { examples: ["孩"], note: "hài (trẻ con)" },
+      "各": { examples: ["客"], note: "gè → kè (khách)" },
+      "豕": { examples: ["家"], note: "shǐ → jiā (nhà)" },
+      "尚": { examples: ["常"], note: "shàng → cháng (thường)" },
+      "占": { examples: ["店"], note: "zhān → diàn (cửa hàng)" },
+      "亡": { examples: ["忙"], note: "wáng → máng (bận)" },
+      "夬": { examples: ["快"], note: "guài → kuài (nhanh · vui)" },
+      "乍": { examples: ["怎","昨"], note: "zhà (thế nào · hôm qua)" },
+      "相": { examples: ["想"], note: "xiāng → xiǎng (muốn · nghĩ)" },
+      "亲": { examples: ["新"], note: "qīn → xīn (mới)" },
+      "屯": { examples: ["春"], note: "tún → chūn (mùa xuân)" },
+      "免": { examples: ["晚"], note: "miǎn → wǎn (buổi tối)" },
+      "取": { examples: ["最"], note: "qǔ → zuì (nhất)" },
+      "支": { examples: ["枝"], note: "zhī (cành)" },
+      "交": { examples: ["校"], note: "jiāo → xiào (trường)" },
+      "不": { examples: ["杯"], note: "bù → bēi (cốc)" },
+      "曷": { examples: ["喝","渴"], note: "hé (uống · khát)" },
+      "票": { examples: ["漂"], note: "piào → piāo (trôi)" },
+      "巴": { examples: ["爸"], note: "bā → bà (bố)" },
+      "勿": { examples: ["物"], note: "wù (vật)" },
+      "元": { examples: ["玩"], note: "yuán → wán (chơi)" },
+      "并": { examples: ["瓶"], note: "bìng → píng (chai)" },
+      "垂": { examples: ["睡"], note: "chuí → shuì (ngủ)" },
+      "宛": { examples: ["碗"], note: "wǎn (bát)" },
+      "重": { examples: ["種"], note: "zhòng → zhǒng (loại)" },
+      "工": { examples: ["紅"], note: "gōng → hóng (đỏ)" },
+      "召": { examples: ["紹"], note: "zhào → shào (giới thiệu)" },
+      "合": { examples: ["給"], note: "hé → gěi (cho)" },
+      "录": { examples: ["綠"], note: "lù → lǜ (xanh lá)" },
+      "化": { examples: ["花"], note: "huà → huā (hoa)" },
+      "央": { examples: ["英"], note: "yāng → yīng (Anh)" },
+      "青": { examples: ["請"], note: "qīng → qǐng (xin · mời)" },
+      "射": { examples: ["謝"], note: "shè → xiè (cảm ơn)" },
+      "己": { examples: ["起"], note: "jǐ → qǐ (thức dậy)" },
+      "門": { examples: ["問","開"], note: "mén (hỏi · mở)" },
+      "十": { examples: ["汁"], note: "shí → zhī (nước ép)" },
+      "且": { examples: ["宜"], note: "qiě → yí (thích hợp)" },
+      "余": { examples: ["茶"], note: "yú → chá (trà) — phân tích phổ biến" },
+      "羔": { examples: ["糕"], note: "gāo (bánh ngọt)" },
+      "聿": { examples: ["筆","書"], note: "yù (bút · sách)" },
+      "豊": { examples: ["禮"], note: "lǐ (lễ)" },
+      "出": { examples: ["賣"], note: "chū (bán)" },
+      "关": { examples: ["送"], note: "guān → sòng (tặng · tiễn)" },
+      "言": { examples: ["這"], note: "yán (này — trong chữ phồn thể)" },
+      "虎": { examples: ["號"], note: "hǔ (hiệu · số)" },
+      "延": { examples: ["蛋"], note: "yán → dàn (trứng)" },
+      "牙": { examples: ["穿"], note: "yá → chuān (mặc · xuyên)" },
+      "女": { examples: ["安","要"], note: "nǚ (an · muốn) — một số phân tích" },
+      "木": { examples: ["床"], note: "mù (giường)" },
+      "心": { examples: ["您"], note: "xīn (ngài — từ 你 + 心)" },
+      "米": { examples: ["氣","料"], note: "mǐ (khí · liệu)" },
+      "网": { examples: ["買"], note: "wǎng (mua)" },
+      "正": { examples: ["是"], note: "zhèng → shì (là)" },
+      "又": { examples: ["有","友"], note: "yòu (có · bạn)" }
+    };
+
+    // ========== RENDER BỘ THỦ ==========
+    const radGrid = document.getElementById("radGrid");
+    const radDetail = document.getElementById("radDetail");
+    let currentRad = null;
+
+    function renderRadGrid(filter = "") {
+      radGrid.innerHTML = "";
+      const keys = Object.keys(radicalData).sort((a,b) => {
+        return radicalData[b].length - radicalData[a].length || a.localeCompare(b);
+      });
+      keys.forEach(rad => {
+        const chars = radicalData[rad];
+        const name = radNames[rad] || "";
+        if (filter) {
+          const f = filter.toLowerCase();
+          if (!rad.includes(filter) && !chars.some(c => c.includes(filter)) && !name.toLowerCase().includes(f)) return;
+        }
+        const btn = document.createElement("button");
+        btn.className = "rad-btn" + (currentRad === rad ? " active" : "");
+        btn.innerHTML = `${rad}<span class="count">${chars.length}</span>`;
+        btn.onclick = () => showRadical(rad);
+        radGrid.appendChild(btn);
+      });
+    }
+
+    function showRadical(rad) {
+      currentRad = rad;
+      renderRadGrid(document.getElementById("radSearch").value);
+      const chars = radicalData[rad];
+      const name = radNames[rad] || "";
+      radDetail.innerHTML = `
+        <h2>${rad} <span class="rad-name">${name ? "· " + name : ""} · ${chars.length} chữ</span></h2>
+        <p style="color:var(--muted);margin-bottom:8px;">Các chữ có bộ thủ này trong từ vựng đã dạy:</p>
+        <div class="char-list">
+          ${chars.map(c => `<div class="char-item">${c}</div>`).join("")}
+        </div>
+      `;
+    }
+
+    document.getElementById("radSearch").addEventListener("input", e => {
+      renderRadGrid(e.target.value.trim());
+    });
+
+    renderRadGrid();
+
+    // ========== RENDER MƯỢN ÂM ==========
+    const phonGrid = document.getElementById("phonGrid");
+    const phonDetail = document.getElementById("phonDetail");
+    let currentPhon = null;
+
+    function renderPhonGrid() {
+      phonGrid.innerHTML = "";
+      Object.entries(phoneticData).forEach(([phon, data]) => {
+        const card = document.createElement("div");
+        card.className = "phon-card" + (currentPhon === phon ? " active" : "");
+        const ex = data.examples.filter(e => !e.includes("không")).join("、");
+        card.innerHTML = `
+          <div class="phon">${phon}</div>
+          <div class="examples">${ex}</div>
+        `;
+        card.onclick = () => showPhonetic(phon);
+        phonGrid.appendChild(card);
+      });
+    }
+
+    function showPhonetic(phon) {
+      currentPhon = phon;
+      renderPhonGrid();
+      const data = phoneticData[phon];
+      const exs = data.examples.filter(e => !e.includes("không"));
+      phonDetail.innerHTML = `
+        <h2>${phon}</h2>
+        <p style="margin:8px 0 12px;color:var(--muted);">${data.note}</p>
+        <p><strong>Xuất hiện trong chữ:</strong></p>
+        <div class="char-list">
+          ${exs.map(c => `<div class="char-item">${c}</div>`).join("")}
+        </div>
+      `;
+    }
+
+    renderPhonGrid();
+
+    // ========== TAB SWITCH ==========
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
