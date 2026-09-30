@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的房間 - Vị trí đồ vật | Lesson 5</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(135deg, #e8f4f8 0%, #f5e6d3 100%);
+      min-height: 100vh;
+      padding: 16px;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c5aa0;
+      margin-bottom: 4px;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .main {
+      display: flex;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: calc(100vh - 140px);
+      min-height: 520px;
+    }
+
+    /* ===== Khu vực bên trái (phòng) ===== */
+    .room-panel {
+      flex: 1;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .room-header {
+      background: #2c5aa0;
+      color: white;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .room-header button {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .room-header button:hover {
+      background: #c0392b;
+    }
+
+    #drop-zone {
+      flex: 1;
+      position: relative;
+      background: 
+        linear-gradient(90deg, #f0f7ff 1px, transparent 1px),
+        linear-gradient(#f0f7ff 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-color: #fafcff;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    #drop-zone.drag-over {
+      background-color: #e3f2fd;
+      outline: 3px dashed #2c5aa0;
+      outline-offset: -6px;
+    }
+
+    /* Đồ vật đã thả */
+    .placed-item {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.15s, transform 0.15s;
+      z-index: 10;
+      border: 2px solid #e0e0e0;
+    }
+
+    .placed-item:hover {
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      transform: scale(1.05);
+      z-index: 20;
+    }
+
+    .placed-item.dragging {
+      opacity: 0.7;
+      cursor: grabbing;
+      z-index: 100;
+    }
+
+    .placed-item .emoji {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .placed-item .label {
+      font-size: 0.65rem;
+      color: #555;
+      margin-top: 2px;
+      text-align: center;
+      max-width: 66px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Nút xóa từng món */
+    .placed-item .delete-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 22px;
+      height: 22px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .placed-item:hover .delete-btn {
+      display: flex;
+    }
+
+    /* ===== Khu vực bên phải (palette) ===== */
+    .palette-panel {
+      width: 280px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .palette-header {
+      background: #27ae60;
+      color: white;
+      padding: 12px 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .palette-hint {
+      font-size: 0.8rem;
+      color: #666;
+      padding: 8px 12px;
+      background: #f0fdf4;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .palette-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .palette-item {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: grab;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .palette-item:hover {
+      border-color: #27ae60;
+      background: #e8f8ef;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(39,174,96,0.2);
+    }
+
+    .palette-item:active {
+      cursor: grabbing;
+    }
+
+    .palette-item .emoji {
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .palette-item .cn {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #2c5aa0;
+    }
+
+    .palette-item .py {
+      font-size: 0.7rem;
+      color: #888;
+    }
+
+    /* Hướng dẫn ở dưới */
+    .guide {
+      max-width: 1200px;
+      margin: 16px auto 0;
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .guide strong {
+      color: #2c5aa0;
+    }
+
+    .guide .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .guide .ex {
+      background: #eef5ff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .main {
+        flex-direction: column;
+        height: auto;
+      }
+      .palette-panel {
+        width: 100%;
+        max-height: 280px;
+      }
+      #drop-zone {
+        min-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>我的房間 · Vị trí đồ vật</h1>
+    <p>Kéo đồ vật vào phòng → sau đó nói: 「…在…上面 / 下面 / 旁邊」</p>
+  </header>
+
+  <div class="main">
+    <!-- Bên trái: phòng -->
+    <div class="room-panel">
+      <div class="room-header">
+        <span>🏠 房間 (phòng)</span>
+        <button onclick="clearAll()" title="Xóa tất cả">🗑️ Xóa hết</button>
+      </div>
+      <div id="drop-zone"></div>
+    </div>
+
+    <!-- Bên phải: palette -->
+    <div class="palette-panel">
+      <div class="palette-header">📦 Đồ vật</div>
+      <div class="palette-hint">Kéo đồ vật vào phòng bên trái</div>
+      <div class="palette-items" id="palette">
+        <!-- Items sẽ được tạo bằng JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="guide">
+    <strong>💡 Gợi ý nói:</strong>
+    <div class="examples">
+      <span class="ex">貓在桌子上面。</span>
+      <span class="ex">書在沙發旁邊。</span>
+      <span class="ex">筆在椅子下面。</span>
+      <span class="ex">狗在床前面。</span>
+      <span class="ex">鳥在窗戶旁邊。</span>
+    </div>
+  </div>
+
+  <script>
+    // Danh sách đồ vật
+    const items = [
+      { emoji: "🐴", cn: "馬", py: "mǎ", vi: "ngựa" },
+      { emoji: "🐱", cn: "貓", py: "māo", vi: "mèo" },
+      { emoji: "🐶", cn: "狗", py: "gǒu", vi: "chó" },
+      { emoji: "🐦", cn: "鳥", py: "niǎo", vi: "chim" },
+      { emoji: "🐮", cn: "牛", py: "niú", vi: "bò" },
+      { emoji: "🪑", cn: "桌子", py: "zhuōzi", vi: "bàn" },
+      { emoji: "💺", cn: "椅子", py: "yǐzi", vi: "ghế" },
+      { emoji: "🛋️", cn: "沙發", py: "shāfā", vi: "sofa" },
+      { emoji: "🧋", cn: "奶茶", py: "nǎichá", vi: "trà sữa" },
+      { emoji: "📖", cn: "書", py: "shū", vi: "sách" },
+      { emoji: "✏️", cn: "筆", py: "bǐ", vi: "bút" },
+      { emoji: "🍜", cn: "牛肉麵", py: "niúròumiàn", vi: "mì bò" },
+      { emoji: "🛏️", cn: "床", py: "chuáng", vi: "giường" },
+    ];
+
+    // Tạo palette
+    const palette = document.getElementById("palette");
+    items.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "palette-item";
+      div.draggable = true;
+      div.dataset.index = index;
+      div.innerHTML = `
+        <span class="emoji">${item.emoji}</span>
+        <span class="cn">${item.cn}</span>
+        <span class="py">${item.py}</span>
+      `;
+      div.title = item.vi;
+
+      div.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", JSON.stringify({
+          type: "new",
+          index: index
+        }));
+        e.dataTransfer.effectAllowed = "copy";
+      });
+
+      palette.appendChild(div);
+    });
+
+    // Drop zone
+    const dropZone = document.getElementById("drop-zone");
+    let placedCount = 0;
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
+      dropZone.classList.add("drag-over");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("drag-over");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+
+      const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+      const rect = dropZone.getBoundingClientRect();
+      let x = e.clientX - rect.left - 35;
+      let y = e.clientY - rect.top - 35;
+
+      // Giữ trong biên
+      x = Math.max(0, Math.min(x, rect.width - 70));
+      y = Math.max(0, Math.min(y, rect.height - 70));
+
+      if (data.type === "new") {
+        createPlacedItem(items[data.index], x, y);
+      } else if (data.type === "move") {
+        const el = document.getElementById(data.id);
+        if (el) {
+          el.style.left = x + "px";
+          el.style.top = y + "px";
+        }
+      }
+    });
+
+    function createPlacedItem(item, x, y) {
+      placedCount++;
+      const id = "placed-" + placedCount;
+      const div = document.createElement("div");
+      div.className = "placed-item";
+      div.id = id;
+      div.style.left = x + "px";
+      div.style.top = y + "px";
+      div.draggable = true;
+      div.innerHTML = `
+        <span class="emoji">${item.emoji}</span>
+        <span class="label">${item.cn}</span>
+        <button class="delete-btn" title="Xóa">×</button>
+      `;
+
+      // Kéo lại trong phòng
+      div.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", JSON.stringify({
+          type: "move",
+          id: id
+        }));
+        e.dataTransfer.effectAllowed = "move";
+        div.classList.add("dragging");
+      });
+
+      div.addEventListener("dragend", () => {
+        div.classList.remove("dragging");
+      });
+
+      // Xóa
+      div.querySelector(".delete-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        div.remove();
+      });
+
+      dropZone.appendChild(div);
+    }
+
+    function clearAll() {
+      dropZone.innerHTML = "";
+      placedCount = 0;
+    }
+
+    // Hỗ trợ touch (mobile) đơn giản – dùng pointer events
+    // (HTML5 drag-drop native trên mobile còn hạn chế, nhưng desktop ổn)
+  </script>
+</body>
+</html>
