@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏥 Trò chơi Bác sĩ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 40%, #80deea 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #1a237e;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #00695c;
+      text-shadow: 2px 2px 0 #fff;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      color: #455a64;
+      font-weight: 600;
+    }
+
+    .game-container {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 105, 92, 0.2);
+      padding: 32px 28px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #26a69a, #00bcd4, #4dd0e1);
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #e0f2f1;
+      color: #00695c;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .symptom-card {
+      background: linear-gradient(145deg, #fff8e1, #ffecb3);
+      border: 3px solid #ffb300;
+      border-radius: 20px;
+      padding: 28px 20px;
+      margin: 20px 0;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .symptom-card.empty {
+      background: #f5f5f5;
+      border-color: #bdbdbd;
+      color: #9e9e9e;
+    }
+
+    .symptom-emoji {
+      font-size: 4.2rem;
+      margin-bottom: 12px;
+      animation: bounce 0.6s ease;
+    }
+
+    .symptom-text {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #e65100;
+      letter-spacing: 1px;
+    }
+
+    .advice-box {
+      background: linear-gradient(145deg, #e8f5e9, #c8e6c9);
+      border: 3px solid #43a047;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 16px;
+      display: none;
+      animation: slideUp 0.4s ease;
+    }
+
+    .advice-box.show {
+      display: block;
+    }
+
+    .advice-label {
+      font-size: 0.9rem;
+      color: #2e7d32;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .advice-emoji {
+      font-size: 2.4rem;
+      margin-bottom: 6px;
+    }
+
+    .advice-text {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1b5e20;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    button {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 26px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #26a69a, #00897b);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2bbbad, #00796b);
+    }
+
+    .btn-reveal {
+      background: linear-gradient(135deg, #ff7043, #f4511e);
+      color: white;
+    }
+
+    .btn-reveal:hover {
+      background: linear-gradient(135deg, #ff8a65, #e64a19);
+    }
+
+    .btn-secondary {
+      background: #eceff1;
+      color: #455a64;
+    }
+
+    .btn-secondary:hover {
+      background: #cfd8dc;
+    }
+
+    .btn-hint {
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      color: white;
+    }
+
+    .btn-hint:hover {
+      background: linear-gradient(135deg, #9575cd, #7e57c2);
+    }
+
+    /* Bảng gợi ý ẩn */
+    .cheat-sheet {
+      margin-top: 28px;
+      background: #fafafa;
+      border-radius: 16px;
+      border: 2px dashed #90a4ae;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.45s ease, padding 0.3s ease;
+    }
+
+    .cheat-sheet.open {
+      max-height: 600px;
+      padding: 16px;
+    }
+
+    .cheat-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #37474f;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .cheat-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .cheat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      font-weight: 600;
+    }
+
+    .cheat-symptom {
+      color: #e65100;
+      font-size: 1.05rem;
+    }
+
+    .cheat-arrow {
+      color: #90a4ae;
+      font-size: 1.2rem;
+    }
+
+    .cheat-advice {
+      color: #2e7d32;
+      font-size: 1.05rem;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #607d8b;
+      max-width: 480px;
+      line-height: 1.5;
+    }
+
+    .counter {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #546e7a;
+      font-weight: 600;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      60% { transform: translateY(-6px); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.9rem; }
+      .symptom-text { font-size: 1.6rem; }
+      .advice-text { font-size: 1.35rem; }
+      button { padding: 12px 18px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🏥 Trò chơi Bác sĩ</h1>
+    <p>1 bạn bệnh nhân • 1 bạn bác sĩ • Bác sĩ nhớ lời khuyên nhé!</p>
+  </div>
+
+  <div class="game-container">
+    <div class="role-badge">
+      <span>🩺</span> Bệnh nhân nói triệu chứng • Bác sĩ đưa lời khuyên
+    </div>
+
+    <div class="symptom-card empty" id="symptomCard">
+      <div class="symptom-emoji" id="symptomEmoji">🤒</div>
+      <div class="symptom-text" id="symptomText">Bấm nút để bắt đầu!</div>
+    </div>
+
+    <div class="advice-box" id="adviceBox">
+      <div class="advice-label">💊 Lời khuyên của bác sĩ:</div>
+      <div class="advice-emoji" id="adviceEmoji"></div>
+      <div class="advice-text" id="adviceText"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-primary" onclick="nextSymptom()">
+        🎲 Triệu chứng mới
+      </button>
+      <button class="btn-reveal" onclick="revealAdvice()" id="btnReveal" disabled>
+        💡 Xem lời khuyên
+      </button>
+    </div>
+
+    <div class="btn-group" style="margin-top: 14px;">
+      <button class="btn-hint" onclick="toggleCheat()">
+        📋 Bảng gợi ý (ẩn/hiện)
+      </button>
+    </div>
+
+    <div class="counter" id="counter">Đã chơi: 0 lần</div>
+
+    <!-- Bảng gợi ý (mặc định ẩn) -->
+    <div class="cheat-sheet" id="cheatSheet">
+      <div class="cheat-title">📋 Bảng gợi ý cho bác sĩ</div>
+      <div class="cheat-list" id="cheatList"></div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    💡 Cách chơi: Bệnh nhân bấm «Triệu chứng mới» rồi nói to triệu chứng.<br>
+    Bác sĩ phải nhớ và nói lời khuyên. Sau đó bấm «Xem lời khuyên» để kiểm tra!
+  </div>
+
+  <script>
+    const data = [
+      { symptom: "發燒", emoji: "🤒", advice: "多休息", adviceEmoji: "😴" },
+      { symptom: "感冒", emoji: "🤧", advice: "多吃水果", adviceEmoji: "🍎" },
+      { symptom: "生病", emoji: "😷", advice: "少運動", adviceEmoji: "🚫🏃" },
+      { symptom: "咳嗽", emoji: "😷", advice: "多喝熱水", adviceEmoji: "🍵" },
+      { symptom: "頭痛", emoji: "🤕", advice: "多睡覺", adviceEmoji: "😴" },
+      { symptom: "鼻子不舒服", emoji: "👃", advice: "戴口罩", adviceEmoji: "😷" },
+      { symptom: "肚子痛", emoji: "🤢", advice: "吃藥", adviceEmoji: "💊" },
+      { symptom: "眼睛通", emoji: "👀", advice: "戴眼鏡", adviceEmoji: "👓" }
+    ];
+
+    let currentIndex = -1;
+    let playCount = 0;
+    let adviceRevealed = false;
+
+    // Tạo bảng gợi ý
+    function buildCheatSheet() {
+      const list = document.getElementById('cheatList');
+      list.innerHTML = data.map(item => `
+        <div class="cheat-item">
+          <span class="cheat-symptom">${item.emoji} ${item.symptom}</span>
+          <span class="cheat-arrow">→</span>
+          <span class="cheat-advice">${item.adviceEmoji} ${item.advice}</span>
+        </div>
+      `).join('');
+    }
+
+    function nextSymptom() {
+      // Chọn ngẫu nhiên, tránh trùng liên tiếp
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * data.length);
+      } while (newIndex === currentIndex && data.length > 1);
+      
+      currentIndex = newIndex;
+      const item = data[currentIndex];
+      adviceRevealed = false;
+
+      const card = document.getElementById('symptomCard');
+      card.classList.remove('empty');
+      
+      document.getElementById('symptomEmoji').textContent = item.emoji;
+      document.getElementById('symptomText').textContent = item.symptom;
+      
+      // Ẩn lời khuyên
+      document.getElementById('adviceBox').classList.remove('show');
+      document.getElementById('btnReveal').disabled = false;
+
+      playCount++;
+      document.getElementById('counter').textContent = `Đã chơi: ${playCount} lần`;
+
+      // Hiệu ứng bounce lại
+      const emojiEl = document.getElementById('symptomEmoji');
+      emojiEl.style.animation = 'none';
+      void emojiEl.offsetWidth; // trigger reflow
+      emojiEl.style.animation = 'bounce 0.6s ease';
+    }
+
+    function revealAdvice() {
+      if (currentIndex < 0) return;
+      
+      const item = data[currentIndex];
+      document.getElementById('adviceEmoji').textContent = item.adviceEmoji;
+      document.getElementById('adviceText').textContent = item.advice;
+      document.getElementById('adviceBox').classList.add('show');
+      adviceRevealed = true;
+    }
+
+    function toggleCheat() {
+      document.getElementById('cheatSheet').classList.toggle('open');
+    }
+
+    // Khởi tạo
+    buildCheatSheet();
+  </script>
+</body>
+</html>
