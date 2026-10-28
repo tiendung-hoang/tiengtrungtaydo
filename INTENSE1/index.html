@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mục lục INTENSE1</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #0d1117;
+      color: #e6edf3;
+    }
+    h1 { margin-bottom: 8px; }
+    .meta { color: #8b949e; margin-bottom: 24px; font-size: 14px; }
+    ul { list-style: none; padding: 0; }
+    li {
+      margin: 6px 0;
+      padding: 10px 14px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    li:hover { background: #21262d; }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover { text-decoration: underline; }
+    .loading { color: #8b949e; }
+    .error { color: #f85149; }
+  </style>
+</head>
+<body>
+  <h1>Mục lục INTENSE1</h1>
+  <div class="meta" id="meta">Đang tải danh sách...</div>
+  <ul id="list"></ul>
 
+  <script>
+    // ========== CẤU HÌNH ==========
+    const OWNER = "tiengtrungtaydo";   // username GitHub
+    const REPO  = "INTENSE1";         // tên repo
+    const PATH  = "";                 // để trống nếu các file nằm ở root, hoặc "folder-name" nếu nằm trong thư mục con
+    // ==============================
+
+    const listEl = document.getElementById("list");
+    const metaEl = document.getElementById("meta");
+
+    async function loadFiles() {
+      try {
+        const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
+        const res = await fetch(url);
+        
+        if (!res.ok) {
+          throw new Error(`Không lấy được dữ liệu (${res.status}). Repo private hoặc sai tên?`);
+        }
+
+        const files = await res.json();
+        
+        // Chỉ lấy file .html, bỏ qua thư mục và file khác
+        const htmlFiles = files
+          .filter(f => f.type === "file" && f.name.toLowerCase().endsWith(".html"))
+          .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+
+        metaEl.textContent = `${htmlFiles.length} file HTML`;
+
+        listEl.innerHTML = htmlFiles.map(f => `
+          <li>
+            <a href="${f.name}" target="_blank">${f.name}</a>
+          </li>
+        `).join("");
+
+      } catch (err) {
+        metaEl.innerHTML = `<span class="error">${err.message}</span>`;
+        listEl.innerHTML = "";
+      }
+    }
+
+    loadFiles();
+  </script>
+</body>
+</html>
