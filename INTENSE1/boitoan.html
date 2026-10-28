@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bói Toán - Con Giáp trên Đốt Ngón Tay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Times New Roman', 'Noto Serif', serif;
+      background: #2c1810;
+      min-height: 100vh;
+      color: #f5e6c8;
+      padding: 18px 12px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.55rem;
+      color: #e8c872;
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #c9a86c;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+    }
+
+    /* ===== NHÓM NÚT ===== */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn {
+      background: #3e2412;
+      border: 1.5px solid #8b5a2b;
+      color: #e8d5b5;
+      padding: 7px 11px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background: #5a351c;
+      border-color: #c9a86c;
+    }
+
+    .btn.active {
+      background: #6b3e1f;
+      border-color: #e8c872;
+      color: #fff8e7;
+      box-shadow: 0 0 8px rgba(232, 200, 114, 0.35);
+    }
+
+    .btn.random {
+      background: #5c2e0e;
+      border-color: #d4a017;
+      color: #ffe9a0;
+      font-weight: bold;
+      padding: 8px 16px;
+    }
+
+    .btn.random:hover {
+      background: #7a3f14;
+      box-shadow: 0 0 10px rgba(212, 160, 23, 0.4);
+    }
+
+    /* ===== BÀN TAY ===== */
+    .hand {
+      position: relative;
+      width: 340px;
+      height: 420px;
+      margin-bottom: 18px;
+    }
+
+    .palm {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 210px;
+      height: 180px;
+      background: linear-gradient(160deg, #5c3317, #3e2210);
+      border-radius: 40% 40% 35% 35%;
+      border: 3px solid #8b5a2b;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+
+    .finger {
+      position: absolute;
+      bottom: 155px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .finger-name {
+      font-size: 0.72rem;
+      color: #e8c872;
+      margin-bottom: 4px;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px #000;
+    }
+
+    .joint {
+      width: 52px;
+      height: 48px;
+      background: linear-gradient(145deg, #6b3e1f, #4a2a12);
+      border: 2px solid #c9a86c;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.45);
+      transition: all 0.25s;
+      overflow: hidden;
+    }
+
+    .joint:hover {
+      transform: scale(1.05);
+      border-color: #f0d78c;
+    }
+
+    .joint.highlight {
+      border-color: #ffd700 !important;
+      background: linear-gradient(145deg, #8b5a2b, #6b3e1f) !important;
+      box-shadow: 0 0 16px rgba(255, 215, 0, 0.65);
+      transform: scale(1.12);
+      z-index: 10;
+    }
+
+    .joint .content {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #fff8e7;
+      line-height: 1.15;
+      padding: 2px;
+    }
+
+    .joint .content.emoji { font-size: 1.55rem; line-height: 1; }
+    .joint .content.chinese { font-size: 1.25rem; font-weight: normal; }
+    .joint .content.viet { font-size: 0.82rem; font-weight: 600; }
+
+    /* Vị trí ngón */
+    .pinky { left: 18px; }
+    .pinky .joint { width: 46px; height: 44px; }
+    .ring { left: 72px; }
+    .middle { left: 138px; }
+    .middle .joint { height: 52px; }
+    .index { left: 204px; }
+
+    .thumb {
+      left: 265px;
+      bottom: 130px;
+      transform: rotate(-28deg);
+    }
+    .thumb .joint {
+      width: 48px;
+      height: 42px;
+      background: linear-gradient(145deg, #4a2f18, #3a2412);
+      border-color: #8b6914;
+      opacity: 0.7;
+    }
+    .thumb .finger-name { transform: rotate(28deg); }
+
+    /* Kết quả random */
+    .random-result {
+      background: #3a2415;
+      border: 2px solid #d4a017;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 14px;
+      text-align: center;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 340px;
+      width: 100%;
+    }
+
+    .random-result.empty {
+      border-style: dashed;
+      border-color: #6b4c2a;
+      color: #a08050;
+      font-size: 0.9rem;
+    }
+
+    .random-result .big {
+      font-size: 1.4rem;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .note-box {
+      background: #3a2415;
+      border: 1px solid #8b5a2b;
+      border-left: 5px solid #c9a86c;
+      padding: 13px 15px;
+      border-radius: 6px;
+      max-width: 380px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #e8d5b5;
+    }
+
+    .note-box strong { color: #e8c872; }
+
+    .legend {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: #c9a86c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Con Giáp trên Đốt Ngón Tay</h1>
+  <p class="subtitle">Nhìn lòng bàn tay phải • Bắt đầu từ <strong>Ngón Út</strong></p>
+
+  <div class="controls">
+    <!-- Chọn loại ma trận -->
+    <div class="btn-group">
+      <button class="btn active" id="btn-xung" onclick="setLayout('xung')">Tứ Hành Xung</button>
+      <button class="btn" id="btn-hop" onclick="setLayout('hop')">Tam Hạp</button>
+    </div>
+
+    <!-- Chế độ hiển thị -->
+    <div class="btn-group">
+      <button class="btn active" onclick="setMode('short')">Tý – Sửu…</button>
+      <button class="btn" onclick="setMode('emoji')">Hình</button>
+      <button class="btn" onclick="setMode('chinese')">Hán (phồn thể)</button>
+      <button class="btn" onclick="setMode('viet')">Tiếng Việt</button>
+    </div>
+
+    <!-- Nút ngẫu nhiên -->
+    <button class="btn random" onclick="randomZodiac()">🎲 Ngẫu nhiên con giáp</button>
+  </div>
+
+  <!-- Kết quả random -->
+  <div class="random-result empty" id="randomResult">
+    Nhấn nút để chọn ngẫu nhiên 1 con giáp
+  </div>
+
+  <div class="hand">
+    <!-- Ngón Út -->
+    <div class="finger pinky">
+      <div class="finger-name">Ngón Út</div>
+      <div class="joint" data-pos="0"></div>
+      <div class="joint" data-pos="1"></div>
+      <div class="joint" data-pos="2"></div>
+    </div>
+
+    <!-- Ngón Nhẫn -->
+    <div class="finger ring">
+      <div class="finger-name">Ngón Nhẫn</div>
+      <div class="joint" data-pos="3"></div>
+      <div class="joint" data-pos="4"></div>
+      <div class="joint" data-pos="5"></div>
+    </div>
+
+    <!-- Ngón Giữa -->
+    <div class="finger middle">
+      <div class="finger-name">Ngón Giữa</div>
+      <div class="joint" data-pos="6"></div>
+      <div class="joint" data-pos="7"></div>
+      <div class="joint" data-pos="8"></div>
+    </div>
+
+    <!-- Ngón Trỏ -->
+    <div class="finger index">
+      <div class="finger-name">Ngón Trỏ</div>
+      <div class="joint" data-pos="9"></div>
+      <div class="joint" data-pos="10"></div>
+      <div class="joint" data-pos="11"></div>
+    </div>
+
+    <!-- Ngón Cái -->
+    <div class="finger thumb">
+      <div class="finger-name">Ngón Cái</div>
+      <div class="joint"><div class="content" style="color:#aaa; font-size:0.85rem;">—</div></div>
+      <div class="joint"><div class="content" style="color:#aaa; font-size:0.85rem;">—</div></div>
+    </div>
+
+    <div class="palm"></div>
+  </div>
+
+  <div class="note-box">
+    <strong>Cách đọc:</strong><br>
+    • <strong>Tứ Hành Xung</strong>: đếm hàng dọc - đọc hàng ngang<br>
+    • <strong>Tam Hạp</strong>: đếm hàng ngang - đọc hàng dọc<br>
+    • Ngón cái không dùng
+  </div>
+
+  <p class="legend" id="layoutLegend">Đang dùng: Tứ Hành Xung</p>
+
+  <script>
+    const zodiac = [
+      { short: "Tý",   emoji: "🐭", chinese: "鼠", viet: "Chuột" },
+      { short: "Sửu",  emoji: "🐂", chinese: "牛", viet: "Trâu" },
+      { short: "Dần",  emoji: "🐅", chinese: "虎", viet: "Hổ" },
+      { short: "Mão",  emoji: "🐇", chinese: "兔", viet: "Mèo" },
+      { short: "Thìn", emoji: "🐉", chinese: "龍", viet: "Rồng" },
+      { short: "Tỵ",   emoji: "🐍", chinese: "蛇", viet: "Rắn" },
+      { short: "Ngọ",  emoji: "🐴", chinese: "馬", viet: "Ngựa" },
+      { short: "Mùi",  emoji: "🐐", chinese: "羊", viet: "Dê" },
+      { short: "Thân", emoji: "🐒", chinese: "猴", viet: "Khỉ" },
+      { short: "Dậu",  emoji: "🐓", chinese: "雞", viet: "Gà" },
+      { short: "Tuất", emoji: "🐕", chinese: "狗", viet: "Chó" },
+      { short: "Hợi",  emoji: "🐖", chinese: "豬", viet: "Lợn" }
+    ];
+
+    // Mapping vị trí → index con giáp
+    // Tứ Hành Xung (cột dọc từ út)
+    const mapXung = [0,1,2, 3,4,5, 6,7,8, 9,10,11];
+
+    // Tam Hạp (hàng ngang)
+    // Hàng trên: Tý Sửu Dần Mão
+    // Hàng giữa: Thìn Tỵ Ngọ Mùi
+    // Hàng dưới: Thân Dậu Tuất Hợi
+    const mapHop  = [0,4,8, 1,5,9, 2,6,10, 3,7,11];
+
+    let currentLayout = 'xung';
+    let currentMode = 'short';
+    let currentMap = mapXung;
+
+    function setLayout(type) {
+      currentLayout = type;
+      currentMap = (type === 'xung') ? mapXung : mapHop;
+
+      document.getElementById('btn-xung').classList.toggle('active', type === 'xung');
+      document.getElementById('btn-hop').classList.toggle('active', type === 'hop');
+      document.getElementById('layoutLegend').textContent =
+        'Đang dùng: ' + (type === 'xung' ? 'Tứ Hành Xung' : 'Tam Hạp');
+
+      clearHighlight();
+      render();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.btn-group:nth-child(2) .btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      render();
+    }
+
+    function render() {
+      document.querySelectorAll('.joint[data-pos]').forEach(joint => {
+        const pos = parseInt(joint.dataset.pos);
+        const id = currentMap[pos];
+        const item = zodiac[id];
+        let html = '';
+
+        if (currentMode === 'short') {
+          html = `<div class="content">${item.short}</div>`;
+        } else if (currentMode === 'emoji') {
+          html = `<div class="content emoji">${item.emoji}</div>`;
+        } else if (currentMode === 'chinese') {
+          html = `<div class="content chinese">${item.chinese}</div>`;
+        } else if (currentMode === 'viet') {
+          html = `<div class="content viet">${item.viet}</div>`;
+        }
+        joint.innerHTML = html;
+      });
+    }
+
+    function clearHighlight() {
+      document.querySelectorAll('.joint').forEach(j => j.classList.remove('highlight'));
+    }
+
+    function randomZodiac() {
+      clearHighlight();
+      const randomId = Math.floor(Math.random() * 12);
+      const item = zodiac[randomId];
+
+      // Tìm vị trí trên bàn tay theo layout hiện tại
+      const pos = currentMap.indexOf(randomId);
+      const joint = document.querySelector(`.joint[data-pos="${pos}"]`);
+      if (joint) joint.classList.add('highlight');
+
+      // Hiển thị kết quả
+      const resultBox = document.getElementById('randomResult');
+      resultBox.classList.remove('empty');
+      resultBox.innerHTML = `
+        <div>
+          <div class="big">${item.emoji} ${item.short} – ${item.viet}</div>
+          <div style="font-size:0.95rem; margin-top:4px; color:#e8c872;">${item.chinese}</div>
+        </div>
+      `;
+    }
+
+    // Khởi tạo
+    render();
+  </script>
+</body>
+</html>
