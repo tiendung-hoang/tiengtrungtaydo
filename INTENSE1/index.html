@@ -31,7 +31,6 @@
       font-weight: 500;
     }
     a:hover { text-decoration: underline; }
-    .loading { color: #8b949e; }
     .error { color: #f85149; }
   </style>
 </head>
@@ -41,11 +40,11 @@
   <ul id="list"></ul>
 
   <script>
-    // ========== CẤU HÌNH ==========
-    const OWNER = "tiengtrungtaydo";   // username GitHub
-    const REPO  = "INTENSE1";         // tên repo
-    const PATH  = "";                 // để trống nếu các file nằm ở root, hoặc "folder-name" nếu nằm trong thư mục con
-    // ==============================
+    // ========== CẤU HÌNH ĐÚNG ==========
+    const OWNER = "tiendung-hoang";
+    const REPO  = "tiengtrungtaydo";
+    const PATH  = "INTENSE1";          // thư mục chứa các file html
+    // ==================================
 
     const listEl = document.getElementById("list");
     const metaEl = document.getElementById("meta");
@@ -61,7 +60,7 @@
 
         const files = await res.json();
         
-        // Chỉ lấy file .html, bỏ qua thư mục và file khác
+        // Chỉ lấy file .html
         const htmlFiles = files
           .filter(f => f.type === "file" && f.name.toLowerCase().endsWith(".html"))
           .sort((a, b) => a.name.localeCompare(b.name, "vi"));
