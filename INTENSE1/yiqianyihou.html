@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>以前 / 以後 Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 16px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* ===== HOME ===== */
+    #home {
+      justify-content: center;
+      gap: 24px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.8rem;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .role-btn {
+      width: 85%;
+      max-width: 320px;
+      padding: 26px 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-btn:active { transform: scale(0.96); }
+
+    #btnA { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+    #btnB { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+
+    .role-btn small {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* ===== CHUNG ===== */
+    .header {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .role-label {
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    /* ===== NGƯỜI A ===== */
+    #screenA {
+      background: linear-gradient(160deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+
+    .card-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 24px 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      margin-bottom: 22px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .visual-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 18px;
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;
+    }
+
+    .arrow-down {
+      font-size: 1.8rem;
+      color: #ee5a24;
+      height: 32px;
+      line-height: 32px;
+      visibility: hidden;
+    }
+
+    .arrow-down.show {
+      visibility: visible;
+    }
+
+    .action-box {
+      background: #f8f9fa;
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      width: 100%;
+      border: 2px solid #e9ecef;
+    }
+
+    .action-emoji {
+      font-size: 2.3rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .action-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .full-sentence {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .full-sentence .hl {
+      color: #ee5a24;
+    }
+
+    .shake-btn {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      background: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ee5a24;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .shake-btn:active { transform: scale(0.97); }
+
+    .hint {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* ===== NGƯỜI B ===== */
+    #screenB {
+      background: linear-gradient(160deg, #1dd1a1 0%, #10ac84 100%);
+    }
+
+    .select-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 20px 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    /* Vùng kéo thả */
+    .drop-zone-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .drop-slot {
+      width: 135px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== MŨI TÊN NGƯỜI B (đã làm rõ hơn) ===== */
+    .drop-arrow {
+      width: 52px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #adb5bd;
+      background: #f1f3f5;
+      border: 2px dashed #ced4da;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .drop-arrow.active {
+      color: white;
+      background: #10ac84;
+      border: 2px solid #0b9b74;
+      box-shadow: 0 4px 12px rgba(16, 172, 132, 0.35);
+      transform: scale(1.08);
+    }
+
+    .drop-box {
+      width: 100%;
+      height: 105px;
+      border: 3px dashed #ced4da;
+      border-radius: 16px;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .drop-box.drag-over {
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box.filled {
+      border-style: solid;
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box .placeholder {
+      font-size: 0.85rem;
+      color: #adb5bd;
+    }
+
+    .drop-box .emoji {
+      font-size: 2.2rem;
+    }
+
+    .drop-box .text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    /* Kho hành động */
+    .pool-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #666;
+      margin: 16px 0 10px;
+      text-align: center;
+    }
+
+    .action-pool {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .pool-item {
+      background: #f1f3f5;
+      border: 2px solid #e9ecef;
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: grab;
+      transition: transform 0.15s, opacity 0.2s;
+    }
+
+    .pool-item:active {
+      cursor: grabbing;
+      transform: scale(1.05);
+    }
+
+    .pool-item.used {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .pool-item .emoji {
+      font-size: 1.8rem;
+      display: block;
+    }
+
+    .pool-item .text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .result-preview {
+      margin-top: 18px;
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .result-preview.empty {
+      color: #adb5bd;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .reset-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .instruction {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.88rem;
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.45;
+      max-width: 420px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <h1>以前 / 以後</h1>
+    <p class="subtitle">Trò chơi ngữ pháp · 2 người chơi</p>
+
+    <button class="role-btn" id="btnA" onclick="showScreen('A')">
+      🅰️ Người A
+      <small>Người nói · Random đề</small>
+    </button>
+
+    <button class="role-btn" id="btnB" onclick="showScreen('B')">
+      🅱️ Người B
+      <small>Người nghe · Kéo thả đáp án</small>
+    </button>
+  </div>
+
+  <!-- NGƯỜI A -->
+  <div id="screenA" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người A · Nói</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="card-area" id="cardArea">
+      <div style="color:#adb5bd; font-size:1.05rem; text-align:center; line-height:1.5;">
+        Bấm nút bên dưới<br>hoặc lắc điện thoại
+      </div>
+    </div>
+
+    <button class="shake-btn" onclick="generatePrompt()">
+      🎲 Lắc / Random đề
+    </button>
+
+    <p class="hint">Lắc điện thoại cũng được</p>
+  </div>
+
+  <!-- NGƯỜI B -->
+  <div id="screenB" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người B · Nghe</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="select-area">
+      <div class="section-title">Kéo hành động vào ô · Chạm mũi tên để chọn vế chính</div>
+
+      <div class="drop-zone-row">
+        <!-- Ô trái -->
+        <div class="drop-slot">
+          <div class="drop-arrow" id="arrowLeft" onclick="setArrow('left')">↓</div>
+          <div class="drop-box" id="dropLeft"
+               ondragover="allowDrop(event)"
+               ondragleave="dragLeave(event)"
+               ondrop="drop(event, 'left')"
+               onclick="clearSlot('left')">
+            <span class="placeholder">Ô trái</span>
+          </div>
+        </div>
+
+        <!-- Ô phải -->
+        <div class="drop-slot">
+          <div class="drop-arrow" id="arrowRight" onclick="setArrow('right')">↓</div>
+          <div class="drop-box" id="dropRight"
+               ondragover="allowDrop(event)"
+               ondragleave="dragLeave(event)"
+               ondrop="drop(event, 'right')"
+               onclick="clearSlot('right')">
+            <span class="placeholder">Ô phải</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pool-title">Kho hành động (kéo hoặc chạm)</div>
+      <div class="action-pool" id="actionPool"></div>
+
+      <div class="result-preview empty" id="resultPreview">
+        Chưa đủ thông tin
+      </div>
+
+      <div class="btn-row">
+        <button class="reset-btn" onclick="resetB()">Xóa hết</button>
+      </div>
+    </div>
+
+    <p class="instruction">
+      Nghe Người A nói → Kéo đúng 2 hành động vào 2 ô<br>
+      và chọn mũi tên chỉ vào vế chính · Sau đó đối chiếu hình với Người A
+    </p>
+  </div>
+
+  <script>
+    const actions = [
+      { text: "吃飯", emoji: "🍚" },
+      { text: "回家", emoji: "🏠" },
+      { text: "喝茶", emoji: "🍵" },
+      { text: "游泳", emoji: "🏊" },
+      { text: "打球", emoji: "🏀" },
+      { text: "工作", emoji: "💼" }
+    ];
+
+    let leftAction = null;
+    let rightAction = null;
+    let mainSide = null;
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      if (name === 'home') {
+        document.getElementById('home').classList.add('active');
+      } else if (name === 'A') {
+        document.getElementById('screenA').classList.add('active');
+      } else if (name === 'B') {
+        document.getElementById('screenB').classList.add('active');
+        buildPool();
+        resetB();
+      }
+    }
+
+    // ===== NGƯỜI A =====
+    function generatePrompt() {
+      let i1 = Math.floor(Math.random() * actions.length);
+      let i2;
+      do { i2 = Math.floor(Math.random() * actions.length); } while (i2 === i1);
+
+      const actA = actions[i1];
+      const actB = actions[i2];
+      const conn = Math.random() < 0.5 ? "以前" : "以後";
+
+      const xIsFirst = Math.random() < 0.5;
+      const X = xIsFirst ? actA : actB;
+      const Y = xIsFirst ? actB : actA;
+
+      let left, right;
+      if (conn === "以前") {
+        left = Y;
+        right = X;
+      } else {
+        left = X;
+        right = Y;
+      }
+
+      const cardArea = document.getElementById('cardArea');
+      cardArea.innerHTML = `
+        <div class="visual-row">
+          <div class="slot">
+            <div class="arrow-down ${conn === '以前' ? 'show' : ''}">↓</div>
+            <div class="action-box">
+              <span class="action-emoji">${left.emoji}</span>
+              <span class="action-text">${left.text}</span>
+            </div>
+          </div>
+          <div class="slot">
+            <div class="arrow-down ${conn === '以後' ? 'show' : ''}">↓</div>
+            <div class="action-box">
+              <span class="action-emoji">${right.emoji}</span>
+              <span class="action-text">${right.text}</span>
+            </div>
+          </div>
+        </div>
+        <div class="full-sentence">
+          <span class="hl">${X.text}</span>${conn}，<span class="hl">${Y.text}</span>
+        </div>
+      `;
+    }
+
+    // ===== NGƯỜI B =====
+    function buildPool() {
+      const pool = document.getElementById('actionPool');
+      pool.innerHTML = '';
+      actions.forEach((act, idx) => {
+        const item = document.createElement('div');
+        item.className = 'pool-item';
+        item.draggable = true;
+        item.dataset.idx = idx;
+        item.innerHTML = `
+          <span class="emoji">${act.emoji}</span>
+          <span class="text">${act.text}</span>
+        `;
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', idx);
+          item.style.opacity = '0.5';
+        });
+        item.addEventListener('dragend', () => {
+          item.style.opacity = '';
+        });
+        item.addEventListener('click', () => {
+          if (!leftAction) {
+            placeAction('left', act, idx);
+          } else if (!rightAction) {
+            placeAction('right', act, idx);
+          }
+        });
+        pool.appendChild(item);
+      });
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function dragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function drop(e, side) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      const idx = e.dataTransfer.getData('text/plain');
+      if (idx === '') return;
+      const act = actions[idx];
+      placeAction(side, act, idx);
+    }
+
+    function placeAction(side, act, idx) {
+      if (side === 'left' && rightAction && rightAction.text === act.text) {
+        clearSlot('right', false);
+      }
+      if (side === 'right' && leftAction && leftAction.text === act.text) {
+        clearSlot('left', false);
+      }
+
+      if (side === 'left') {
+        leftAction = act;
+        updateDropBox('dropLeft', act);
+      } else {
+        rightAction = act;
+        updateDropBox('dropRight', act);
+      }
+
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    function updateDropBox(id, act) {
+      const box = document.getElementById(id);
+      box.classList.add('filled');
+      box.innerHTML = `
+        <span class="emoji">${act.emoji}</span>
+        <span class="text">${act.text}</span>
+      `;
+    }
+
+    function clearSlot(side, update = true) {
+      if (side === 'left') {
+        leftAction = null;
+        const box = document.getElementById('dropLeft');
+        box.classList.remove('filled');
+        box.innerHTML = `<span class="placeholder">Ô trái</span>`;
+      } else {
+        rightAction = null;
+        const box = document.getElementById('dropRight');
+        box.classList.remove('filled');
+        box.innerHTML = `<span class="placeholder">Ô phải</span>`;
+      }
+      if (update) {
+        updatePoolUsed();
+        updatePreview();
+      }
+    }
+
+    function setArrow(side) {
+      mainSide = side;
+      document.getElementById('arrowLeft').classList.toggle('active', side === 'left');
+      document.getElementById('arrowRight').classList.toggle('active', side === 'right');
+      updatePreview();
+    }
+
+    function updatePoolUsed() {
+      const usedTexts = [];
+      if (leftAction) usedTexts.push(leftAction.text);
+      if (rightAction) usedTexts.push(rightAction.text);
+
+      document.querySelectorAll('.pool-item').forEach(item => {
+        const act = actions[item.dataset.idx];
+        if (usedTexts.includes(act.text)) {
+          item.classList.add('used');
+        } else {
+          item.classList.remove('used');
+        }
+      });
+    }
+
+    function updatePreview() {
+      const preview = document.getElementById('resultPreview');
+      if (leftAction && rightAction && mainSide) {
+        preview.classList.remove('empty');
+        let sentence;
+        if (mainSide === 'left') {
+          sentence = `${rightAction.text}以前，${leftAction.text}`;
+        } else {
+          sentence = `${leftAction.text}以後，${rightAction.text}`;
+        }
+        preview.innerHTML = sentence;
+      } else {
+        preview.classList.add('empty');
+        preview.textContent = 'Chưa đủ thông tin';
+      }
+    }
+
+    function resetB() {
+      leftAction = null;
+      rightAction = null;
+      mainSide = null;
+      clearSlot('left', false);
+      clearSlot('right', false);
+      document.getElementById('arrowLeft').classList.remove('active');
+      document.getElementById('arrowRight').classList.remove('active');
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    // Lắc điện thoại
+    let lastShake = 0;
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', function(e) {
+        const acc = e.accelerationIncludingGravity;
+        if (!acc) return;
+        const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+        const now = Date.now();
+        if (total > 25 && now - lastShake > 1200) {
+          if (document.getElementById('screenA').classList.contains('active')) {
+            lastShake = now;
+            generatePrompt();
+            if (navigator.vibrate) navigator.vibrate(70);
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
