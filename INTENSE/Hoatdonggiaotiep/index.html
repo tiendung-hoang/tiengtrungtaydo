@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>交際練習｜時間華語</title>
+  <style>
+    @font-face {
+      font-family: 'ToneOZ Pinyin Kai';
+      src: url('ToneOZ-Pinyin-Kai-Simplified.ttf') format('truetype');
+      font-display: swap;
+    }
+
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #818cf8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body.mode-kai {
+      --font-main: 'ToneOZ Pinyin Kai', "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 50px;
+      transition: font-family 0.25s ease;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* ========== Persistent Language / Font Switcher ========== */
+    .lang-switcher {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      background: white;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .lang-btn:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 28px 0 16px;
+    }
+
+    header h1 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .lesson-btn {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text);
+      font-family: inherit;
+      white-space: pre-line;
+    }
+
+    .lesson-btn:active,
+    .lesson-btn.selected {
+      border-color: var(--primary);
+      background: #eef2ff;
+      color: var(--primary);
+      transform: scale(0.97);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .role-btn {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .role-btn:active,
+    .role-btn.selected {
+      border-color: var(--primary);
+      background: #eef2ff;
+    }
+
+    .role-btn .emoji {
+      font-size: 1.9rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .role-btn .label {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .role-btn .desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:active {
+      background: #4338ca;
+      transform: scale(0.98);
+    }
+
+    .btn-random {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      font-size: 1.15rem;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-random:active {
+      transform: scale(0.97);
+    }
+
+    .question-item {
+      margin-bottom: 22px;
+    }
+
+    .question-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .q-number {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 26px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .q-text {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: white;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .answer-card {
+      background: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .answer-card .q {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .answer-card .a {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 8px 0;
+      padding-right: 110px; /* chừa chỗ cho switcher */
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .lesson-tag {
+      background: #e0e7ff;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .shake-hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: -6px;
+      margin-bottom: 18px;
+    }
+
+    .shake-hint span {
+      background: #fef3c7;
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #92400e;
+    }
+
+    .compare-box {
+      background: #fefce8;
+      border: 2px dashed #facc15;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .compare-box p {
+      font-size: 0.95rem;
+      color: #854d0e;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Persistent Language Switcher -->
+  <div class="lang-switcher">
+    <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
+    <button class="lang-btn active" data-mode="zh" onclick="setMode('zh')">中</button>
+    <button class="lang-btn" data-mode="kai" onclick="setMode('kai')">楷</button>
+  </div>
+
+  <div class="container">
+
+    <!-- SCREEN 1: HOME -->
+    <div id="screen-home" class="screen active">
+      <header>
+        <h1>交際練習</h1>
+        <p>選擇課程 → 選擇角色 → 開始問答</p>
+      </header>
+
+      <div class="card">
+        <h2 style="font-size:1.1rem; margin-bottom:14px;">① 選擇課程</h2>
+        <div class="lesson-grid" id="lesson-grid"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.1rem; margin-bottom:14px;">② 選擇角色</h2>
+        <div class="role-grid">
+          <div class="role-btn" data-role="A" onclick="selectRole(this)">
+            <span class="emoji">❓</span>
+            <div class="label">角色 A</div>
+            <div class="desc">提問者<br>（有選項可選）</div>
+          </div>
+          <div class="role-btn" data-role="B" onclick="selectRole(this)">
+            <span class="emoji">🎲</span>
+            <div class="label">角色 B</div>
+            <div class="desc">回答者<br>（隨機產生答案）</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="start-btn" onclick="startActivity()" disabled>
+        開始練習
+      </button>
+
+      <p class="footer-note">兩人一組 • 一人當 A，一人當 B</p>
+    </div>
+
+    <!-- SCREEN 2: ROLE A -->
+    <div id="screen-A" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← 返回</button>
+        <span class="lesson-tag" id="lesson-tag-A"></span>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleA-title">你是提問者 (A)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleA-desc">
+          依序問對方，並從選項中選擇你想聽的答案
+        </p>
+        <div id="questions-A"></div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-A">問完後跟對方核對答案，看看有多相似！</p>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: ROLE B -->
+    <div id="screen-B" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← 返回</button>
+        <span class="lesson-tag" id="lesson-tag-B"></span>
+      </div>
+
+      <button class="btn btn-random" onclick="randomizeAnswers()" id="btn-random">
+        🎲 隨機產生答案
+      </button>
+      <p class="shake-hint" id="shake-hint">或 <span>搖一搖手機</span> 也可以重新隨機</p>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleB-title">你是回答者 (B)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleB-desc">
+          根據下面的答案回答對方的問題
+        </p>
+        <div id="answers-B">
+          <p style="text-align:center; color:var(--muted); padding:30px 0;" id="empty-hint">
+            點上面的按鈕產生你的答案吧！
+          </p>
+        </div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-B">回答完後跟對方核對，看看你們的答案有多像！</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==================== DATA (có cả tiếng Việt) ====================
+    const lessons = {
+      1: {
+        title: { zh: "喜歡的對象", vi: "Đối tượng yêu thích" },
+        questions: [
+          {
+            q: { zh: "你喜歡的對象屬什麼？", vi: "Thuộc con gì?" },
+            options: [
+              { zh: "🐉 他屬龍", vi: "🐉 Anh ấy thuộc con Rồng" },
+              { zh: "🐰 她屬兔", vi: "🐰 Cô ấy thuộc con Thỏ" },
+              { zh: "🐯 他屬虎", vi: "🐯 Anh ấy thuộc con Hổ" },
+              { zh: "🐶 她屬狗", vi: "🐶 Cô ấy thuộc con Chó" },
+              { zh: "🐷 他屬豬", vi: "🐷 Anh ấy thuộc con Heo" }
+            ]
+          },
+          {
+            q: { zh: "你喜歡什麼樣的個性？", vi: "Thích tính cách như thế nào?" },
+            options: [
+              { zh: "😊 溫柔、客氣的", vi: "😊 Dịu dàng, lịch sự" },
+              { zh: "😄 開朗、幽默的", vi: "😄 Vui vẻ, hài hước" },
+              { zh: "😌 安靜、害羞的", vi: "😌 Trầm tính, ngại ngùng" },
+              { zh: "💪 有個性、敢說話的", vi: "💪 Có cá tính, dám nói" },
+              { zh: "🥰 很體貼、很溫暖的", vi: "🥰 Rất quan tâm, ấm áp" }
+            ]
+          },
+          {
+            q: { zh: "他／她大概幾歲？", vi: "Bao nhiêu tuổi?" },
+            options: [
+              { zh: "👦 差不多二十歲", vi: "👦 Khoảng 20 tuổi" },
+              { zh: "👨 二十五歲左右", vi: "👨 Khoảng 25 tuổi" },
+              { zh: "👩 大概二十八歲", vi: "👩 Khoảng 28 tuổi" },
+              { zh: "🧓 三十多歲", vi: "🧓 Hơn 30 tuổi" },
+              { zh: "❓ 我不太清楚", vi: "❓ Tôi không rõ lắm" }
+            ]
+          },
+          {
+            q: { zh: "他／她喜歡什麼運動？", vi: "Thích môn thể thao gì?" },
+            options: [
+              { zh: "🏀 打籃球", vi: "🏀 Chơi bóng rổ" },
+              { zh: "🏸 打羽毛球", vi: "🏸 Chơi cầu lông" },
+              { zh: "🏊 游泳", vi: "🏊 Bơi lội" },
+              { zh: "🏃 跑步", vi: "🏃 Chạy bộ" },
+              { zh: "⚽ 踢足球", vi: "⚽ Đá bóng" }
+            ]
+          },
+          {
+            q: { zh: "他／她是哪國人？", vi: "Người nước nào?" },
+            options: [
+              { zh: "🇹🇼 臺灣人", vi: "🇹🇼 Người Đài Loan" },
+              { zh: "🇯🇵 日本人", vi: "🇯🇵 Người Nhật" },
+              { zh: "🇰🇷 韓國人", vi: "🇰🇷 Người Hàn" },
+              { zh: "🇻🇳 越南人", vi: "🇻🇳 Người Việt" },
+              { zh: "🇺🇸 美國人", vi: "🇺🇸 Người Mỹ" }
+            ]
+          },
+          {
+            q: { zh: "他／她喜歡吃什麼？", vi: "Thích ăn gì?" },
+            options: [
+              { zh: "🍜 牛肉麵", vi: "🍜 Mì bò" },
+              { zh: "🥟 水餃", vi: "🥟 Sủi cảo" },
+              { zh: "🍗 鹹酥雞", vi: "🍗 Gà chiên muối" },
+              { zh: "🍣 壽司", vi: "🍣 Sushi" },
+              { zh: "🍕 披薩", vi: "🍕 Pizza" }
+            ]
+          },
+          {
+            q: { zh: "他／她喜歡喝什麼？", vi: "Thích uống gì?" },
+            options: [
+              { zh: "🧋 珍珠奶茶", vi: "🧋 Trà sữa trân châu" },
+              { zh: "☕ 咖啡", vi: "☕ Cà phê" },
+              { zh: "🍵 綠茶", vi: "🍵 Trà xanh" },
+              { zh: "🧃 果汁", vi: "🧃 Nước ép" },
+              { zh: "💧 白開水", vi: "💧 Nước lọc" }
+            ]
+          }
+        ]
+      },
+      2: {
+        title: { zh: "家事", vi: "Việc nhà" },
+        questions: [
+          {
+            q: { zh: "你得做什麼家事？", vi: "Bạn phải làm việc gì?" },
+            options: [
+              { zh: "🧹 掃地、擦地板", vi: "🧹 Quét nhà, lau sàn" },
+              { zh: "🍽️ 洗碗筷", vi: "🍽️ Rửa chén đũa" },
+              { zh: "🧺 洗衣服", vi: "🧺 Giặt quần áo" },
+              { zh: "🗑️ 倒垃圾", vi: "🗑️ Đổ rác" },
+              { zh: "🧼 打掃房間", vi: "🧼 Dọn phòng" }
+            ]
+          },
+          {
+            q: { zh: "你跟誰一起做？", vi: "Làm với ai?" },
+            options: [
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "🧑‍🤝‍🧑 跟室友一起", vi: "🧑‍🤝‍🧑 Với bạn cùng phòng" },
+              { zh: " Alone 自己一個人做", vi: " Alone Một mình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: "👨‍👩‍👧 跟爸媽一起", vi: "👨‍👩‍👧 Với bố mẹ" }
+            ]
+          },
+          {
+            q: { zh: "你什麼時候做家事？", vi: "Làm vào lúc nào?" },
+            options: [
+              { zh: "🌅 早上", vi: "🌅 Buổi sáng" },
+              { zh: "🌇 下午", vi: "🌇 Buổi chiều" },
+              { zh: "🌙 晚上", vi: "🌙 Buổi tối" },
+              { zh: "📅 週末", vi: "📅 Cuối tuần" },
+              { zh: "⏰ 放學／下班以後", vi: "⏰ Sau giờ học/làm" }
+            ]
+          },
+          {
+            q: { zh: "做完以後，你覺得怎麼樣？", vi: "Sau khi làm xong, bạn thấy thế nào?" },
+            options: [
+              { zh: "😌 很輕鬆", vi: "😌 Rất nhẹ nhõm" },
+              { zh: "😫 好累", vi: "😫 Mệt quá" },
+              { zh: "😊 很有成就感", vi: "😊 Rất có thành tựu" },
+              { zh: "😤 有一點煩", vi: "😤 Hơi phiền" },
+              { zh: "👍 覺得家裡乾淨多了", vi: "👍 Nhà sạch hơn nhiều" }
+            ]
+          },
+          {
+            q: { zh: "做之前，你需要準備什麼？", vi: "Trước khi làm, bạn cần chuẩn bị gì?" },
+            options: [
+              { zh: "🧴 清潔劑", vi: "🧴 Chất tẩy rửa" },
+              { zh: "🧹 掃把、拖把", vi: "🧹 Chổi, cây lau nhà" },
+              { zh: "🧤 手套", vi: "🧤 Găng tay" },
+              { zh: "🪣 水桶", vi: "🪣 Xô nước" },
+              { zh: "🧺 洗衣精", vi: "🧺 Nước giặt" }
+            ]
+          },
+          {
+            q: { zh: "誰叫你做的？", vi: "Ai kêu bạn làm?" },
+            options: [
+              { zh: "👩 媽媽叫我做的", vi: "👩 Mẹ kêu tôi làm" },
+              { zh: "👨 爸爸叫我做的", vi: "👨 Bố kêu tôi làm" },
+              { zh: "🏠 房東叫我做的", vi: "🏠 Chủ nhà kêu tôi làm" },
+              { zh: "🧑‍🤝‍🧑 室友叫我做的", vi: "🧑‍🤝‍🧑 Bạn cùng phòng kêu" },
+              { zh: "🙋 我自己想做的", vi: "🙋 Tôi tự muốn làm" }
+            ]
+          },
+          {
+            q: { zh: "為什麼你需要做這件事？", vi: "Tại sao bạn cần làm việc này?" },
+            options: [
+              { zh: "🏠 因為家裡太亂了", vi: "🏠 Vì nhà quá bừa bộn" },
+              { zh: "🧼 因為東西很髒", vi: "🧼 Vì đồ đạc rất bẩn" },
+              { zh: "👨‍👩‍👧 因為爸媽要我幫忙", vi: "👨‍👩‍👧 Vì bố mẹ nhờ tôi giúp" },
+              { zh: "🤝 因為我想幫忙家人", vi: "🤝 Vì tôi muốn giúp gia đình" },
+              { zh: "📅 因為今天是我負責的日子", vi: "📅 Vì hôm nay đến lượt tôi" }
+            ]
+          }
+        ]
+      },
+      3: {
+        title: { zh: "我的房間", vi: "Phòng của tôi" },
+        questions: [
+          {
+            q: { zh: "你的房間在哪裡？", vi: "Phòng của bạn ở đâu?" },
+            options: [
+              { zh: "🏢 在公寓的三樓", vi: "🏢 Tầng 3 của căn hộ" },
+              { zh: "🏠 在宿舍裡", vi: "🏠 Trong ký túc xá" },
+              { zh: "🌆 在市區的一棟大樓", vi: "🌆 Trong một tòa nhà ở trung tâm" },
+              { zh: "🏡 在郊區的房子", vi: "🏡 Nhà ở ngoại ô" },
+              { zh: "🏫 在學校附近", vi: "🏫 Gần trường học" }
+            ]
+          },
+          {
+            q: { zh: "房間裡有什麼家具？", vi: "Trong phòng có đồ đạc gì?" },
+            options: [
+              { zh: "🛏️ 有床、書桌、書架", vi: "🛏️ Có giường, bàn học, kệ sách" },
+              { zh: "🪑 有椅子、桌子、衣櫃", vi: "🪑 Có ghế, bàn, tủ quần áo" },
+              { zh: "📺 有電視、冰箱", vi: "📺 Có TV, tủ lạnh" },
+              { zh: "💻 有電腦、檯燈", vi: "💻 Có máy tính, đèn bàn" },
+              { zh: "🪴 有床、窗戶、植物", vi: "🪴 Có giường, cửa sổ, cây cảnh" }
+            ]
+          },
+          {
+            q: { zh: "每個月房租多少錢？", vi: "Mỗi tháng thuê bao nhiêu tiền?" },
+            options: [
+              { zh: "💰 八千塊左右", vi: "💰 Khoảng 8 nghìn" },
+              { zh: "💵 大概一萬塊", vi: "💵 Khoảng 10 nghìn" },
+              { zh: "💴 六千多塊", vi: "💴 Hơn 6 nghìn" },
+              { zh: "💸 一萬二千塊", vi: "💸 12 nghìn" },
+              { zh: "❓ 我跟室友一起分，一人五千", vi: "❓ Chia với bạn cùng phòng, mỗi người 5 nghìn" }
+            ]
+          },
+          {
+            q: { zh: "為什麼你搬到這裡？", vi: "Tại sao bạn chuyển đến đây?" },
+            options: [
+              { zh: "🏫 因為離學校近", vi: "🏫 Vì gần trường" },
+              { zh: "💰 因為房租比較便宜", vi: "💰 Vì tiền thuê rẻ hơn" },
+              { zh: "🚇 因為交通方便", vi: "🚇 Vì giao thông tiện" },
+              { zh: "🧑‍🤝‍🧑 因為跟朋友住在一起", vi: "🧑‍🤝‍🧑 Vì ở cùng bạn" },
+              { zh: "🌅 因為環境比較安靜", vi: "🌅 Vì môi trường yên tĩnh hơn" }
+            ]
+          },
+          {
+            q: { zh: "你跟誰一起住？", vi: "Bạn ở cùng với ai?" },
+            options: [
+              { zh: " Alone 自己一個人住", vi: " Alone Ở một mình" },
+              { zh: "🧑‍🤝‍🧑 跟室友一起", vi: "🧑‍🤝‍🧑 Với bạn cùng phòng" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          },
+          {
+            q: { zh: "你從什麼時候開始住在這裡？", vi: "Bạn ở đây từ khi nào?" },
+            options: [
+              { zh: "📅 從上個月開始", vi: "📅 Từ tháng trước" },
+              { zh: "🗓️ 從今年九月開始", vi: "🗓️ Từ tháng 9 năm nay" },
+              { zh: "📆 從去年開始", vi: "📆 Từ năm ngoái" },
+              { zh: "🕒 大概住了半年了", vi: "🕒 Khoảng nửa năm rồi" },
+              { zh: "🆕 剛搬來兩個星期", vi: "🆕 Mới chuyển đến 2 tuần" }
+            ]
+          },
+          {
+            q: { zh: "從這裡到學校，你怎麼去？", vi: "Từ đây đến trường bạn đi bằng gì?" },
+            options: [
+              { zh: "🚶 走路", vi: "🚶 Đi bộ" },
+              { zh: "🚌 坐公車", vi: "🚌 Đi xe buýt" },
+              { zh: "🚇 坐捷運", vi: "🚇 Đi tàu điện" },
+              { zh: "🚲 騎腳踏車", vi: "🚲 Đi xe đạp" },
+              { zh: "🛵 騎機車", vi: "🛵 Đi xe máy" }
+            ]
+          }
+        ]
+      },
+      4: {
+        title: { zh: "喜歡的食物", vi: "Món ăn yêu thích" },
+        questions: [
+          {
+            q: { zh: "你最喜歡的食物是什麼？", vi: "Món ăn bạn yêu thích là gì?" },
+            options: [
+              { zh: "🍜 牛肉麵", vi: "🍜 Mì bò" },
+              { zh: "🍗 鹹酥雞", vi: "🍗 Gà chiên muối" },
+              { zh: "🥟 水餃", vi: "🥟 Sủi cảo" },
+              { zh: "🍚 滷肉飯", vi: "🍚 Cơm thịt kho" },
+              { zh: "🍕 披薩", vi: "🍕 Pizza" }
+            ]
+          },
+          {
+            q: { zh: "你一個星期吃幾次？", vi: "Mỗi tuần bạn ăn mấy lần?" },
+            options: [
+              { zh: "1️⃣ 大概一次", vi: "1️⃣ Khoảng 1 lần" },
+              { zh: "2️⃣ 兩三次", vi: "2️⃣ 2-3 lần" },
+              { zh: "4️⃣ 差不多四次", vi: "4️⃣ Khoảng 4 lần" },
+              { zh: "📅 幾乎每天都吃", vi: "📅 Gần như mỗi ngày" },
+              { zh: "❓ 不一定，想吃的時候才吃", vi: "❓ Không nhất định, thích thì ăn" }
+            ]
+          },
+          {
+            q: { zh: "一份大概多少錢？", vi: "Một phần bao nhiêu tiền?" },
+            options: [
+              { zh: "💵 大概一百塊", vi: "💵 Khoảng 100 đồng" },
+              { zh: "💴 八十塊左右", vi: "💴 Khoảng 80 đồng" },
+              { zh: "💰 一百五十塊", vi: "💰 150 đồng" },
+              { zh: "💸 兩百塊以上", vi: "💸 Hơn 200 đồng" },
+              { zh: "❓ 看份量，不一定", vi: "❓ Tùy phần, không cố định" }
+            ]
+          },
+          {
+            q: { zh: "你通常跟誰一起吃？", vi: "Bạn thường ăn cùng với ai?" },
+            options: [
+              { zh: " Alone 自己一個人吃", vi: " Alone Ăn một mình" },
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          },
+          {
+            q: { zh: "為什麼你喜歡吃這個？", vi: "Tại sao bạn thích món này?" },
+            options: [
+              { zh: "😋 因為很好吃", vi: "😋 Vì rất ngon" },
+              { zh: "🥰 因為吃了心情會變好", vi: "🥰 Vì ăn xong tâm trạng vui hơn" },
+              { zh: "🏠 因為是家鄉的味道", vi: "🏠 Vì là hương vị quê nhà" },
+              { zh: "💰 因為很便宜又好吃", vi: "💰 Vì vừa rẻ vừa ngon" },
+              { zh: "🌶️ 因為很香、很特別", vi: "🌶️ Vì thơm và đặc biệt" }
+            ]
+          },
+          {
+            q: { zh: "那個菜是用什麼做的？", vi: "Món đó được làm từ gì?" },
+            options: [
+              { zh: "🥩 用豬肉做的", vi: "🥩 Làm từ thịt heo" },
+              { zh: "🍗 用雞肉做的", vi: "🍗 Làm từ thịt gà" },
+              { zh: "🐟 用魚做的", vi: "🐟 Làm từ cá" },
+              { zh: "🥬 用很多蔬菜做的", vi: "🥬 Làm từ nhiều rau" },
+              { zh: "❓ 我不太清楚", vi: "❓ Tôi không rõ lắm" }
+            ]
+          },
+          {
+            q: { zh: "你在哪裡買／吃？", vi: "Bạn mua/ăn ở đâu?" },
+            options: [
+              { zh: "🏪 在夜市買", vi: "🏪 Mua ở chợ đêm" },
+              { zh: "🏬 在便利商店", vi: "🏬 Ở cửa hàng tiện lợi" },
+              { zh: "🍜 在餐廳吃", vi: "🍜 Ăn ở nhà hàng" },
+              { zh: "🏠 在家自己做", vi: "🏠 Tự nấu ở nhà" },
+              { zh: "🛒 在超市買回家煮", vi: "🛒 Mua ở siêu thị về nấu" }
+            ]
+          }
+        ]
+      },
+      5: {
+        title: { zh: "你的社區", vi: "Khu dân cư của bạn" },
+        questions: [
+          {
+            q: { zh: "你的社區叫什麼名字？", vi: "Khu dân cư của bạn tên gì?" },
+            options: [
+              { zh: "🏘️ 叫「陽光社區」", vi: "🏘️ Tên là «Cộng đồng Ánh Dương»" },
+              { zh: "🏙️ 叫「快樂里」", vi: "🏙️ Tên là «Phố Vui Vẻ»" },
+              { zh: "🏡 叫「綠意社區」", vi: "🏡 Tên là «Cộng đồng Xanh»" },
+              { zh: "🏢 叫「大學城」", vi: "🏢 Tên là «Thành phố Đại học»" },
+              { zh: "❓ 我不太記得名字", vi: "❓ Tôi không nhớ tên" }
+            ]
+          },
+          {
+            q: { zh: "你的社區在哪裡？", vi: "Khu dân cư của bạn ở đâu?" },
+            options: [
+              { zh: "🌆 在市區", vi: "🌆 Ở trung tâm thành phố" },
+              { zh: "🏡 在郊區", vi: "🏡 Ở ngoại ô" },
+              { zh: "🏫 在學校附近", vi: "🏫 Gần trường học" },
+              { zh: "🚇 在捷運站旁邊", vi: "🚇 Bên cạnh ga tàu điện" },
+              { zh: "🌳 在山邊", vi: "🌳 Gần núi" }
+            ]
+          },
+          {
+            q: { zh: "那裡有什麼活動？", vi: "Ở đó có hoạt động gì?" },
+            options: [
+              { zh: "🏃 有運動會", vi: "🏃 Có hội thao" },
+              { zh: "🎉 有中秋節活動", vi: "🎉 Có hoạt động Trung thu" },
+              { zh: "🧺 有野餐", vi: "🧺 Có picnic" },
+              { zh: "🎤 有歌唱比賽", vi: "🎤 Có cuộc thi hát" },
+              { zh: "👨‍👩‍👧 有親子活動", vi: "👨‍👩‍👧 Có hoạt động gia đình" }
+            ]
+          },
+          {
+            q: { zh: "為什麼你喜歡住在那裡？", vi: "Tại sao bạn thích sống ở đó?" },
+            options: [
+              { zh: "😌 因為很安靜", vi: "😌 Vì rất yên tĩnh" },
+              { zh: "🚇 因為交通方便", vi: "🚇 Vì giao thông tiện lợi" },
+              { zh: "🌳 因為環境很漂亮", vi: "🌳 Vì môi trường đẹp" },
+              { zh: "🛒 因為附近很方便", vi: "🛒 Vì xung quanh tiện" },
+              { zh: "🧑‍🤝‍🧑 因為鄰居都很友善", vi: "🧑‍🤝‍🧑 Vì hàng xóm thân thiện" }
+            ]
+          },
+          {
+            q: { zh: "你最喜歡那裡的什麼？", vi: "Bạn thích nhất điều gì ở đó?" },
+            options: [
+              { zh: "🌳 最喜歡公園", vi: "🌳 Thích nhất công viên" },
+              { zh: "🏊 最喜歡游泳池", vi: "🏊 Thích nhất hồ bơi" },
+              { zh: "🛍️ 最喜歡便利商店多", vi: "🛍️ Thích nhất nhiều cửa hàng tiện lợi" },
+              { zh: "😌 最喜歡很安靜", vi: "😌 Thích nhất sự yên tĩnh" },
+              { zh: "👨‍👩‍👧 最喜歡鄰居很好", vi: "👨‍👩‍👧 Thích nhất hàng xóm tốt" }
+            ]
+          },
+          {
+            q: { zh: "怎麼去那裡？", vi: "Làm thế nào để đi đến đó?" },
+            options: [
+              { zh: "🚌 坐公車", vi: "🚌 Đi xe buýt" },
+              { zh: "🚇 坐捷運", vi: "🚇 Đi tàu điện" },
+              { zh: "🚗 開車", vi: "🚗 Lái xe" },
+              { zh: "🚶 走路就可以到", vi: "🚶 Đi bộ là đến" },
+              { zh: "🛵 騎機車", vi: "🛵 Đi xe máy" }
+            ]
+          },
+          {
+            q: { zh: "附近有什麼有趣的地方？", vi: "Gần đó có gì thú vị?" },
+            options: [
+              { zh: "🏪 有夜市", vi: "🏪 Có chợ đêm" },
+              { zh: "🏬 有百貨公司", vi: "🏬 Có trung tâm thương mại" },
+              { zh: "🌳 有很大的公園", vi: "🌳 Có công viên lớn" },
+              { zh: "🎬 有電影院", vi: "🎬 Có rạp chiếu phim" },
+              { zh: "🍜 有很多好吃的餐廳", vi: "🍜 Có nhiều nhà hàng ngon" }
+            ]
+          }
+        ]
+      },
+      6: {
+        title: { zh: "我去KTV", vi: "Tôi đi Karaoke" },
+        questions: [
+          {
+            q: { zh: "你通常跟誰去KTV？", vi: "Bạn thường đi Karaoke với ai?" },
+            options: [
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" },
+              { zh: " Alone 自己一個人去", vi: " Alone Đi một mình" }
+            ]
+          },
+          {
+            q: { zh: "你通常唱什麼語言的歌？", vi: "Bạn thường hát nhạc tiếng gì?" },
+            options: [
+              { zh: "🇨🇳 中文歌", vi: "🇨🇳 Bài tiếng Trung" },
+              { zh: "🇻🇳 越南歌", vi: "🇻🇳 Bài tiếng Việt" },
+              { zh: "🇬🇧 英文歌", vi: "🇬🇧 Bài tiếng Anh" },
+              { zh: "🇰🇷 韓文歌", vi: "🇰🇷 Bài tiếng Hàn" },
+              { zh: "🇯🇵 日文歌", vi: "🇯🇵 Bài tiếng Nhật" }
+            ]
+          },
+          {
+            q: { zh: "你通常去哪裡的KTV？", vi: "Bạn thường đi Karaoke ở đâu?" },
+            options: [
+              { zh: "🏢 去市區的KTV", vi: "🏢 Ở trung tâm thành phố" },
+              { zh: "🏫 去學校附近的", vi: "🏫 Gần trường học" },
+              { zh: "🏠 去家附近的", vi: "🏠 Gần nhà" },
+              { zh: "🏬 去百貨公司裡的", vi: "🏬 Trong trung tâm thương mại" },
+              { zh: "❓ 哪裡便宜就去哪裡", vi: "❓ Chỗ nào rẻ thì đi chỗ đó" }
+            ]
+          },
+          {
+            q: { zh: "最近你什麼時候去KTV？", vi: "Gần đây bạn đi Karaoke lúc nào?" },
+            options: [
+              { zh: "📅 上個週末", vi: "📅 Cuối tuần trước" },
+              { zh: "🗓️ 上個月", vi: "🗓️ Tháng trước" },
+              { zh: "🎉 生日的時候", vi: "🎉 Vào ngày sinh nhật" },
+              { zh: "⏰ 考試結束以後", vi: "⏰ Sau khi thi xong" },
+              { zh: "❓ 好久沒去了", vi: "❓ Lâu rồi chưa đi" }
+            ]
+          },
+          {
+            q: { zh: "為什麼你去KTV？", vi: "Tại sao bạn đi Karaoke?" },
+            options: [
+              { zh: "😌 因為想放鬆", vi: "😌 Vì muốn thư giãn" },
+              { zh: "🎉 因為慶祝生日", vi: "🎉 Vì mừng sinh nhật" },
+              { zh: "🧑‍🤝‍🧑 因為朋友約我", vi: "🧑‍🤝‍🧑 Vì bạn rủ" },
+              { zh: "😫 因為壓力太大，想唱歌", vi: "😫 Vì áp lực lớn, muốn hát" },
+              { zh: "😄 因為很好玩", vi: "😄 Vì rất vui" }
+            ]
+          },
+          {
+            q: { zh: "你喜歡一邊唱歌，一邊做什麼？", vi: "Bạn thích vừa hát vừa làm gì?" },
+            options: [
+              { zh: "🥤 一邊喝飲料", vi: "🥤 Vừa hát vừa uống" },
+              { zh: "🍟 一邊吃零食", vi: "🍟 Vừa hát vừa ăn snack" },
+              { zh: "💃 一邊跳舞", vi: "💃 Vừa hát vừa nhảy" },
+              { zh: "📸 一邊拍照", vi: "📸 Vừa hát vừa chụp ảnh" },
+              { zh: "🗣️ 一邊聊天", vi: "🗣️ Vừa hát vừa trò chuyện" }
+            ]
+          },
+          {
+            q: { zh: "你覺得你唱得怎麼樣？", vi: "Bạn nghĩ mình hát như thế nào?" },
+            options: [
+              { zh: "😊 還不錯", vi: "😊 Cũng ổn" },
+              { zh: "😅 普通而已", vi: "😅 Bình thường thôi" },
+              { zh: "🎤 唱得很好聽", vi: "🎤 Hát rất hay" },
+              { zh: "🙈 不太會唱", vi: "🙈 Không biết hát lắm" },
+              { zh: "😄 雖然不好聽，可是很開心", vi: "😄 Dù không hay nhưng rất vui" }
+            ]
+          }
+        ]
+      },
+      7: {
+        title: { zh: "介紹一個地方", vi: "Giới thiệu một địa điểm" },
+        questions: [
+          {
+            q: { zh: "你想介紹哪個地方？", vi: "Bạn muốn giới thiệu địa điểm nào?" },
+            options: [
+              { zh: "🇹🇼 我想介紹臺北", vi: "🇹🇼 Tôi muốn giới thiệu Đài Bắc" },
+              { zh: "🏞️ 我想介紹太魯閣", vi: "🏞️ Tôi muốn giới thiệu Taroko" },
+              { zh: "🌊 我想介紹墾丁", vi: "🌊 Tôi muốn giới thiệu Kenting" },
+              { zh: "🏯 我想介紹九份", vi: "🏯 Tôi muốn giới thiệu Cửu Phần" },
+              { zh: "🏙️ 我想介紹高雄", vi: "🏙️ Tôi muốn giới thiệu Cao Hùng" }
+            ]
+          },
+          {
+            q: { zh: "那天的天氣怎麼樣？", vi: "Thời tiết hôm đó thế nào?" },
+            options: [
+              { zh: "☀️ 天氣很好，很晴朗", vi: "☀️ Thời tiết đẹp, rất nắng" },
+              { zh: "🌧️ 有一點下雨", vi: "🌧️ Có mưa nhẹ" },
+              { zh: "☁️ 陰天", vi: "☁️ Trời âm u" },
+              { zh: "🌬️ 有風，可是不冷", vi: "🌬️ Có gió nhưng không lạnh" },
+              { zh: "🌡️ 很熱", vi: "🌡️ Rất nóng" }
+            ]
+          },
+          {
+            q: { zh: "你用什麼交通工具？", vi: "Bạn đi bằng phương tiện gì?" },
+            options: [
+              { zh: "🚄 坐高鐵", vi: "🚄 Đi tàu cao tốc" },
+              { zh: "🚌 坐公車", vi: "🚌 Đi xe buýt" },
+              { zh: "🚗 開車", vi: "🚗 Lái xe" },
+              { zh: "🛵 騎機車", vi: "🛵 Đi xe máy" },
+              { zh: "🚶 走路", vi: "🚶 Đi bộ" }
+            ]
+          },
+          {
+            q: { zh: "你做了什麼活動？", vi: "Bạn đã làm hoạt động gì?" },
+            options: [
+              { zh: "📸 拍照", vi: "📸 Chụp ảnh" },
+              { zh: "🛍️ 逛街", vi: "🛍️ Dạo phố" },
+              { zh: "🍜 吃小吃", vi: "🍜 Ăn đồ ăn vặt" },
+              { zh: "🥾 爬山", vi: "🥾 Leo núi" },
+              { zh: "🏊 游泳", vi: "🏊 Bơi lội" }
+            ]
+          },
+          {
+            q: { zh: "你在哪個地方？", vi: "Bạn ở chỗ nào?" },
+            options: [
+              { zh: "🏞️ 在山上", vi: "🏞️ Trên núi" },
+              { zh: "🌊 在海邊", vi: "🌊 Ở biển" },
+              { zh: "🏙️ 在市區", vi: "🏙️ Ở trung tâm" },
+              { zh: "🏯 在老街", vi: "🏯 Ở phố cổ" },
+              { zh: "🌳 在公園", vi: "🌳 Ở công viên" }
+            ]
+          },
+          {
+            q: { zh: "你吃了什麼？", vi: "Bạn đã ăn món gì?" },
+            options: [
+              { zh: "🍜 吃了牛肉麵", vi: "🍜 Ăn mì bò" },
+              { zh: "🍗 吃了鹹酥雞", vi: "🍗 Ăn gà chiên muối" },
+              { zh: "🥟 吃了水餃", vi: "🥟 Ăn sủi cảo" },
+              { zh: "🍦 吃了芒果冰", vi: "🍦 Ăn kem xoài" },
+              { zh: "🍣 吃了壽司", vi: "🍣 Ăn sushi" }
+            ]
+          },
+          {
+            q: { zh: "你跟誰一起去？", vi: "Bạn đi cùng với ai?" },
+            options: [
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: " Alone 自己一個人去", vi: " Alone Đi một mình" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          }
+        ]
+      },
+      8: {
+        title: { zh: "國家的文化", vi: "Văn hóa đất nước" },
+        questions: [
+          {
+            q: { zh: "你想介紹哪個國家的文化？", vi: "Bạn muốn giới thiệu văn hóa nước nào?" },
+            options: [
+              { zh: "🇹🇼 臺灣", vi: "🇹🇼 Đài Loan" },
+              { zh: "🇯🇵 日本", vi: "🇯🇵 Nhật Bản" },
+              { zh: "🇰🇷 韓國", vi: "🇰🇷 Hàn Quốc" },
+              { zh: "🇨🇳 中國", vi: "🇨🇳 Trung Quốc" },
+              { zh: "🇻🇳 越南", vi: "🇻🇳 Việt Nam" }
+            ]
+          },
+          {
+            q: { zh: "這個國家有什麼好吃的？", vi: "Đất nước này có món gì ngon?" },
+            options: [
+              { zh: "🍜 有很多好吃的小吃", vi: "🍜 Có nhiều món ăn vặt ngon" },
+              { zh: "🍣 有壽司、拉麵", vi: "🍣 Có sushi, ramen" },
+              { zh: "🍗 有韓式炸雞", vi: "🍗 Có gà rán Hàn Quốc" },
+              { zh: "🥟 有水餃、小籠包", vi: "🥟 Có sủi cảo, tiểu long bao" },
+              { zh: "🌶️ 有很多辣的食物", vi: "🌶️ Có nhiều món cay" }
+            ]
+          },
+          {
+            q: { zh: "這個國家的首都在哪裡？", vi: "Thủ đô của nước này ở đâu?" },
+            options: [
+              { zh: "🏙️ 在臺北", vi: "🏙️ Ở Đài Bắc" },
+              { zh: "🗼 在東京", vi: "🗼 Ở Tokyo" },
+              { zh: "🏯 在首爾", vi: "🏯 Ở Seoul" },
+              { zh: "🏛️ 在北京", vi: "🏛️ Ở Bắc Kinh" },
+              { zh: "🌆 在河內", vi: "🌆 Ở Hà Nội" }
+            ]
+          },
+          {
+            q: { zh: "這個國家離越南多遠？", vi: "Đất nước này cách Việt Nam bao xa?" },
+            options: [
+              { zh: "✈️ 大概三個小時的飛機", vi: "✈️ Khoảng 3 tiếng máy bay" },
+              { zh: "🛫 差不多四個小時", vi: "🛫 Khoảng 4 tiếng" },
+              { zh: "🌏 很近，兩個多小時就到了", vi: "🌏 Rất gần, hơn 2 tiếng là đến" },
+              { zh: "🗺️ 離越南不遠", vi: "🗺️ Không xa Việt Nam" },
+              { zh: "❓ 我不太清楚", vi: "❓ Tôi không rõ lắm" }
+            ]
+          },
+          {
+            q: { zh: "你想跟誰一起去這個國家？", vi: "Bạn muốn đến nước này với ai?" },
+            options: [
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友一起", vi: "👫 Với bạn trai/gái" },
+              { zh: " Alone 自己一個人去", vi: " Alone Đi một mình" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          },
+          {
+            q: { zh: "到這個國家，你想做什麼活動？", vi: "Đến nước này bạn muốn làm gì?" },
+            options: [
+              { zh: "🛍️ 逛街、買東西", vi: "🛍️ Dạo phố, mua sắm" },
+              { zh: "🏯 參觀古蹟", vi: "🏯 Tham quan di tích" },
+              { zh: "🍜 吃很多美食", vi: "🍜 Ăn nhiều món ngon" },
+              { zh: "📸 拍照", vi: "📸 Chụp ảnh" },
+              { zh: "🎤 去KTV唱歌", vi: "🎤 Đi Karaoke hát" }
+            ]
+          },
+          {
+            q: { zh: "你想在這個國家待多久？", vi: "Bạn muốn ở nước này bao lâu?" },
+            options: [
+              { zh: "📅 大概一個星期", vi: "📅 Khoảng 1 tuần" },
+              { zh: "🗓️ 兩個星期左右", vi: "🗓️ Khoảng 2 tuần" },
+              { zh: "📆 一個月", vi: "📆 1 tháng" },
+              { zh: "🕒 三天就好", vi: "🕒 3 ngày là đủ" },
+              { zh: "❓ 看情況，不一定", vi: "❓ Tùy tình hình, không chắc" }
+            ]
+          }
+        ]
+      }
+    };
+
+    // ==================== STATE ====================
+    let selectedLesson = null;
+    let selectedRole = null;
+    let currentMode = 'zh'; // vi | zh | kai
+    let currentAnswersB = null; // lưu đáp án random để khi đổi mode vẫn giữ
+
+    // ==================== MODE SWITCHER ====================
+    function setMode(mode) {
+      currentMode = mode;
+      
+      // Update buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+
+      // Font
+      document.body.classList.toggle('mode-kai', mode === 'kai');
+
+      // Re-render if needed
+      if (selectedRole === 'A' && document.getElementById('screen-A').classList.contains('active')) {
+        renderRoleA();
+      }
+      if (selectedRole === 'B' && document.getElementById('screen-B').classList.contains('active')) {
+        if (currentAnswersB) {
+          renderAnswersB(currentAnswersB);
+        }
+        updateRoleBTexts();
+      }
+
+      // Save
+      localStorage.setItem('displayMode', mode);
+    }
+
+    // Load saved mode
+    const savedMode = localStorage.getItem('displayMode');
+    if (savedMode && ['vi', 'zh', 'kai'].includes(savedMode)) {
+      setMode(savedMode);
+    }
+
+    // ==================== INIT ====================
+    function init() {
+      const grid = document.getElementById("lesson-grid");
+      for (let i = 1; i <= 8; i++) {
+        const btn = document.createElement("button");
+        btn.className = "lesson-btn";
+        btn.dataset.num = i;
+        updateLessonBtnText(btn, i);
+        btn.onclick = () => selectLesson(i, btn);
+        grid.appendChild(btn);
+      }
+    }
+
+    function updateLessonBtnText(btn, num) {
+      const t = lessons[num].title;
+      const text = currentMode === 'vi' ? t.vi : t.zh;
+      btn.textContent = `第 ${num} 課\n${text}`;
+    }
+
+    function selectLesson(num, btn) {
+      selectedLesson = num;
+      document.querySelectorAll(".lesson-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      updateStartBtn();
+    }
+
+    function selectRole(el) {
+      selectedRole = el.dataset.role;
+      document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("selected"));
+      el.classList.add("selected");
+      updateStartBtn();
+    }
+
+    function updateStartBtn() {
+      document.getElementById("start-btn").disabled = !(selectedLesson && selectedRole);
+    }
+
+    function startActivity() {
+      if (!selectedLesson || !selectedRole) return;
+
+      document.getElementById("screen-home").classList.remove("active");
+
+      if (selectedRole === "A") {
+        renderRoleA();
+        document.getElementById("screen-A").classList.add("active");
+      } else {
+        currentAnswersB = null;
+        document.getElementById("answers-B").innerHTML = `
+          <p style="text-align:center; color:var(--muted); padding:30px 0;" id="empty-hint">
+            ${currentMode === 'vi' ? 'Nhấn nút phía trên để tạo câu trả lời!' : '點上面的按鈕產生你的答案吧！'}
+          </p>`;
+        updateRoleBTexts();
+        document.getElementById("screen-B").classList.add("active");
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      }
+    }
+
+    function getLessonTag() {
+      const t = lessons[selectedLesson].title;
+      const name = currentMode === 'vi' ? t.vi : t.zh;
+      return currentMode === 'vi' ? `Bài ${selectedLesson}｜${name}` : `第 ${selectedLesson} 課｜${name}`;
+    }
+
+    function goHome() {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-home").classList.add("active");
+      
+      // Update lesson buttons text according to current mode
+      document.querySelectorAll(".lesson-btn").forEach(btn => {
+        updateLessonBtnText(btn, btn.dataset.num);
+      });
+    }
+
+    // ==================== ROLE A ====================
+    function renderRoleA() {
+      const data = lessons[selectedLesson];
+      document.getElementById("lesson-tag-A").textContent = getLessonTag();
+
+      // Update titles
+      if (currentMode === 'vi') {
+        document.getElementById("roleA-title").textContent = "Bạn là người hỏi (A)";
+        document.getElementById("roleA-desc").textContent = "Hỏi lần lượt và chọn đáp án bạn muốn nghe";
+        document.getElementById("compare-text-A").textContent = "Hỏi xong hãy đối chiếu với đối phương xem giống nhau không!";
+      } else {
+        document.getElementById("roleA-title").textContent = "你是提問者 (A)";
+        document.getElementById("roleA-desc").textContent = "依序問對方，並從選項中選擇你想聽的答案";
+        document.getElementById("compare-text-A").textContent = "問完後跟對方核對答案，看看有多相似！";
+      }
+
+      const container = document.getElementById("questions-A");
+      container.innerHTML = "";
+
+      data.questions.forEach((item, idx) => {
+        const div = document.createElement("div");
+        div.className = "question-item";
+
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const optionsHtml = item.options.map(opt => {
+          const text = currentMode === 'vi' ? opt.vi : opt.zh;
+          return `<option value="${text}">${text}</option>`;
+        }).join("");
+
+        div.innerHTML = `
+          <div class="q-text">
+            <span class="q-number">${idx + 1}</span>
+            <span>${qText}</span>
+          </div>
+          <select>
+            <option value="" disabled selected>${currentMode === 'vi' ? 'Chọn đáp án...' : '請選擇答案...'}</option>
+            ${optionsHtml}
+          </select>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ==================== ROLE B ====================
+    function updateRoleBTexts() {
+      if (currentMode === 'vi') {
+        document.getElementById("roleB-title").textContent = "Bạn là người trả lời (B)";
+        document.getElementById("roleB-desc").textContent = "Trả lời theo các đáp án bên dưới";
+        document.getElementById("btn-random").textContent = "🎲 Tạo đáp án ngẫu nhiên";
+        document.getElementById("shake-hint").innerHTML = `Hoặc <span>lắc điện thoại</span> để random lại`;
+        document.getElementById("compare-text-B").textContent = "Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!";
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      } else {
+        document.getElementById("roleB-title").textContent = "你是回答者 (B)";
+        document.getElementById("roleB-desc").textContent = "根據下面的答案回答對方的問題";
+        document.getElementById("btn-random").textContent = "🎲 隨機產生答案";
+        document.getElementById("shake-hint").innerHTML = `或 <span>搖一搖手機</span> 也可以重新隨機`;
+        document.getElementById("compare-text-B").textContent = "回答完後跟對方核對，看看你們的答案有多像！";
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      }
+    }
+
+    function randomizeAnswers() {
+      const data = lessons[selectedLesson];
+      const answers = data.questions.map(item => {
+        const randomOpt = item.options[Math.floor(Math.random() * item.options.length)];
+        return randomOpt;
+      });
+      currentAnswersB = answers;
+      renderAnswersB(answers);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function renderAnswersB(answers) {
+      const data = lessons[selectedLesson];
+      const container = document.getElementById("answers-B");
+      container.innerHTML = "";
+
+      data.questions.forEach((item, idx) => {
+        const opt = answers[idx];
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const aText = currentMode === 'vi' ? opt.vi : opt.zh;
+
+        const div = document.createElement("div");
+        div.className = "answer-card";
+        div.innerHTML = `
+          <div class="q">${idx + 1}. ${qText}</div>
+          <div class="a">${aText}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ==================== SHAKE ====================
+    let lastShake = 0;
+    window.addEventListener("devicemotion", (e) => {
+      if (!document.getElementById("screen-B").classList.contains("active")) return;
+      const acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+      const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+      const now = Date.now();
+      if (force > 28 && now - lastShake > 1200) {
+        lastShake = now;
+        randomizeAnswers();
+      }
+    }, false);
+
+    // ==================== START ====================
+    init();
+  </script>
+</body>
+</html>
