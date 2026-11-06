@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>交際練習｜4 Bài</title>
+  <style>
+    @font-face {
+      font-family: 'ToneOZ Pinyin Kai';
+      src: url('ToneOZ-Pinyin-Kai-Simplified.ttf') format('truetype');
+      font-display: swap;
+    }
+
+    :root {
+      --primary: #4f46e5;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body.mode-kai {
+      --font-main: 'ToneOZ Pinyin Kai', "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 50px;
+      transition: font-family 0.25s ease;
+    }
+
+    .container { max-width: 520px; margin: 0 auto; padding: 16px; }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      background: white;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .lang-btn:not(:last-child) { border-right: 1px solid var(--border); }
+
+    header { text-align: center; padding: 28px 0 16px; }
+    header h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    header p { color: var(--muted); font-size: 0.95rem; margin-top: 4px; }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .lesson-btn {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 10px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      white-space: pre-line;
+      transition: all 0.2s;
+    }
+
+    .lesson-btn.selected, .lesson-btn:active {
+      border-color: var(--primary);
+      background: #eef2ff;
+      color: var(--primary);
+      transform: scale(0.97);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .role-btn {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 10px;
+      text-align: center;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s;
+    }
+
+    .role-btn.selected, .role-btn:active {
+      border-color: var(--primary);
+      background: #eef2ff;
+    }
+
+    .role-btn .emoji { font-size: 1.9rem; display: block; margin-bottom: 5px; }
+    .role-btn .label { font-weight: 600; font-size: 1.05rem; }
+    .role-btn .desc { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:active { background: #4338ca; transform: scale(0.98); }
+
+    .btn-random {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      font-size: 1.15rem;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-random:active { transform: scale(0.97); }
+
+    .question-item { margin-bottom: 22px; }
+    .question-item:last-child { margin-bottom: 0; }
+
+    .q-number {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 26px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .q-text {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: white;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    select:focus { outline: none; border-color: var(--primary); }
+
+    .answer-card {
+      background: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .answer-card .q { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
+    .answer-card .a { font-size: 1.15rem; font-weight: 600; color: #166534; }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 8px 0;
+      padding-right: 110px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .lesson-tag {
+      background: #e0e7ff;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .shake-hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: -6px;
+      margin-bottom: 18px;
+    }
+
+    .shake-hint span {
+      background: #fef3c7;
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #92400e;
+    }
+
+    .compare-box {
+      background: #fefce8;
+      border: 2px dashed #facc15;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .compare-box p { font-size: 0.95rem; color: #854d0e; }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
+    <button class="lang-btn active" data-mode="zh" onclick="setMode('zh')">中</button>
+    <button class="lang-btn" data-mode="kai" onclick="setMode('kai')">楷</button>
+  </div>
+
+  <div class="container">
+    <!-- HOME -->
+    <div id="screen-home" class="screen active">
+      <header>
+        <h1>交際練習</h1>
+        <p>4 Bài · Chọn bài → Chọn vai → Bắt đầu</p>
+      </header>
+
+      <div class="card">
+        <h2 style="font-size:1.1rem; margin-bottom:14px;">① Chọn bài</h2>
+        <div class="lesson-grid" id="lesson-grid"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.1rem; margin-bottom:14px;">② Chọn vai</h2>
+        <div class="role-grid">
+          <div class="role-btn" data-role="A" onclick="selectRole(this)">
+            <span class="emoji">❓</span>
+            <div class="label">Vai A</div>
+            <div class="desc">Người hỏi<br>(có sẵn options)</div>
+          </div>
+          <div class="role-btn" data-role="B" onclick="selectRole(this)">
+            <span class="emoji">🎲</span>
+            <div class="label">Vai B</div>
+            <div class="desc">Người trả lời<br>(random đáp án)</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="start-btn" onclick="startActivity()" disabled>
+        Bắt đầu luyện tập
+      </button>
+
+      <p class="footer-note">Hai người một nhóm · Một người làm A, một người làm B</p>
+    </div>
+
+    <!-- ROLE A -->
+    <div id="screen-A" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← Trở về</button>
+        <span class="lesson-tag" id="lesson-tag-A"></span>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleA-title">Bạn là người hỏi (A)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleA-desc">
+          Hỏi lần lượt và chọn đáp án bạn muốn nghe
+        </p>
+        <div id="questions-A"></div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-A">Hỏi xong hãy đối chiếu với đối phương xem giống nhau không!</p>
+      </div>
+    </div>
+
+    <!-- ROLE B -->
+    <div id="screen-B" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← Trở về</button>
+        <span class="lesson-tag" id="lesson-tag-B"></span>
+      </div>
+
+      <button class="btn btn-random" onclick="randomizeAnswers()" id="btn-random">
+        🎲 Tạo đáp án ngẫu nhiên
+      </button>
+      <p class="shake-hint" id="shake-hint">Hoặc <span>lắc điện thoại</span> để random lại</p>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleB-title">Bạn là người trả lời (B)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleB-desc">
+          Trả lời theo các đáp án bên dưới
+        </p>
+        <div id="answers-B">
+          <p style="text-align:center; color:var(--muted); padding:30px 0;" id="empty-hint">
+            Nhấn nút phía trên để tạo câu trả lời!
+          </p>
+        </div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-B">Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const lessons = {
+      1: {
+        title: { zh: "週末計畫", vi: "Kế hoạch cuối tuần" },
+        questions: [
+          {
+            q: { zh: "這個週末你打算做什麼？", vi: "Cuối tuần này bạn định làm gì?" },
+            options: [
+              { zh: "🏠 想待在家裡休息", vi: "🏠 Muốn ở nhà nghỉ ngơi" },
+              { zh: "🎬 想去看電影", vi: "🎬 Muốn đi xem phim" },
+              { zh: "🛍️ 想去逛街買東西", vi: "🛍️ Muốn đi dạo phố mua sắm" },
+              { zh: "🏞️ 想去郊外走走", vi: "🏞️ Muốn đi ngoại ô dạo chơi" },
+              { zh: "😴 還沒想好，可能睡覺", vi: "😴 Chưa nghĩ ra, có lẽ ngủ" }
+            ]
+          },
+          {
+            q: { zh: "你想跟誰一起？", vi: "Bạn muốn đi với ai?" },
+            options: [
+              { zh: " Alone 自己一個人", vi: " Alone Một mình" },
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友", vi: "👫 Với bạn trai/gái" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          },
+          {
+            q: { zh: "大概什麼時候開始？", vi: "Khoảng lúc nào bắt đầu?" },
+            options: [
+              { zh: "🌅 早上十點左右", vi: "🌅 Khoảng 10 giờ sáng" },
+              { zh: "☀️ 中午過後", vi: "☀️ Sau buổi trưa" },
+              { zh: "🌇 下午兩三點", vi: "🌇 2-3 giờ chiều" },
+              { zh: "🌙 晚上", vi: "🌙 Buổi tối" },
+              { zh: "❓ 還沒決定", vi: "❓ Chưa quyết định" }
+            ]
+          },
+          {
+            q: { zh: "你為什麼想做這件事？", vi: "Tại sao bạn muốn làm việc này?" },
+            options: [
+              { zh: "😌 因為最近太累了", vi: "😌 Vì gần đây mệt quá" },
+              { zh: "😄 因為覺得很有意思", vi: "😄 Vì thấy rất thú vị" },
+              { zh: "🤝 因為朋友約我", vi: "🤝 Vì bạn rủ" },
+              { zh: "🆕 因為好久沒做了", vi: "🆕 Vì lâu rồi chưa làm" },
+              { zh: "🎉 因為想換換心情", vi: "🎉 Vì muốn đổi không khí" }
+            ]
+          },
+          {
+            q: { zh: "你覺得會玩得開心嗎？", vi: "Bạn nghĩ sẽ vui không?" },
+            options: [
+              { zh: "😊 應該會很開心", vi: "😊 Chắc sẽ rất vui" },
+              { zh: "😅 普通吧", vi: "😅 Bình thường thôi" },
+              { zh: "🤔 不知道，試試看", vi: "🤔 Không biết, thử xem" },
+              { zh: "😄 一定很好玩", vi: "😄 Chắc chắn rất vui" },
+              { zh: "😴 主要是想休息", vi: "😴 Chủ yếu muốn nghỉ" }
+            ]
+          },
+          {
+            q: { zh: "會待多久？", vi: "Sẽ ở đó bao lâu?" },
+            options: [
+              { zh: "⏱️ 大概一兩個小時", vi: "⏱️ Khoảng 1-2 tiếng" },
+              { zh: "🕓 一下午", vi: "🕓 Cả buổi chiều" },
+              { zh: "🌙 整個晚上", vi: "🌙 Cả buổi tối" },
+              { zh: "📅 差不多一天", vi: "📅 Khoảng cả ngày" },
+              { zh: "❓ 看情況", vi: "❓ Tùy tình hình" }
+            ]
+          },
+          {
+            q: { zh: "下個週末呢？有計畫嗎？", vi: "Cuối tuần sau thì sao? Có kế hoạch không?" },
+            options: [
+              { zh: "📅 還沒想", vi: "📅 Chưa nghĩ" },
+              { zh: "🏠 可能還是待在家", vi: "🏠 Có lẽ vẫn ở nhà" },
+              { zh: "✈️ 想出去玩", vi: "✈️ Muốn đi chơi xa" },
+              { zh: "📚 可能要念書", vi: "📚 Có lẽ phải học" },
+              { zh: "🎉 想跟朋友聚一聚", vi: "🎉 Muốn tụ tập với bạn" }
+            ]
+          }
+        ]
+      },
+      2: {
+        title: { zh: "購物經驗", vi: "Trải nghiệm mua sắm" },
+        questions: [
+          {
+            q: { zh: "你最近買了什麼東西？", vi: "Gần đây bạn mua gì?" },
+            options: [
+              { zh: "👕 買了衣服", vi: "👕 Mua quần áo" },
+              { zh: "👟 買了鞋子", vi: "👟 Mua giày" },
+              { zh: "📱 買了手機配件", vi: "📱 Mua phụ kiện điện thoại" },
+              { zh: "📚 買了書", vi: "📚 Mua sách" },
+              { zh: "🍜 買了很多吃的", vi: "🍜 Mua nhiều đồ ăn" }
+            ]
+          },
+          {
+            q: { zh: "在哪裡買的？", vi: "Mua ở đâu?" },
+            options: [
+              { zh: "🏬 在百貨公司", vi: "🏬 Ở trung tâm thương mại" },
+              { zh: "🏪 在夜市", vi: "🏪 Ở chợ đêm" },
+              { zh: "🛒 在超市", vi: "🛒 Ở siêu thị" },
+              { zh: "💻 在網路上", vi: "💻 Trên mạng" },
+              { zh: "🏬 在便利商店", vi: "🏬 Ở cửa hàng tiện lợi" }
+            ]
+          },
+          {
+            q: { zh: "花了多少錢？", vi: "Tốn bao nhiêu tiền?" },
+            options: [
+              { zh: "💵 大概五百塊", vi: "💵 Khoảng 500" },
+              { zh: "💴 一千塊左右", vi: "💴 Khoảng 1000" },
+              { zh: "💰 兩千多塊", vi: "💰 Hơn 2000" },
+              { zh: "💸 不太貴，才三百塊", vi: "💸 Không đắt, chỉ 300" },
+              { zh: "❓ 忘了，好像不少", vi: "❓ Quên rồi, hình như khá nhiều" }
+            ]
+          },
+          {
+            q: { zh: "為什麼想買這個？", vi: "Tại sao muốn mua cái này?" },
+            options: [
+              { zh: "🆕 因為舊的壞了", vi: "🆕 Vì cái cũ hỏng rồi" },
+              { zh: "😍 因為看起來很好看", vi: "😍 Vì trông rất đẹp" },
+              { zh: "🎉 因為打折很便宜", vi: "🎉 Vì đang giảm giá rẻ" },
+              { zh: "🎁 因為想送人", vi: "🎁 Vì muốn tặng người khác" },
+              { zh: "😌 因為自己想要很久了", vi: "😌 Vì muốn từ lâu rồi" }
+            ]
+          },
+          {
+            q: { zh: "有沒有殺價？", vi: "Có mặc cả không?" },
+            options: [
+              { zh: "💬 有，便宜了一點", vi: "💬 Có, rẻ hơn một chút" },
+              { zh: "🙅 沒有，原價買的", vi: "🙅 Không, mua giá gốc" },
+              { zh: "😅 想殺可是沒成功", vi: "😅 Muốn mặc cả nhưng không được" },
+              { zh: "🏪 那家店不能殺價", vi: "🏪 Quán đó không cho mặc cả" },
+              { zh: "💰 已經打折了，沒殺", vi: "💰 Đã giảm giá rồi nên không mặc cả" }
+            ]
+          },
+          {
+            q: { zh: "你覺得買得值得嗎？", vi: "Bạn thấy mua có đáng không?" },
+            options: [
+              { zh: "👍 很值得", vi: "👍 Rất đáng" },
+              { zh: "😊 還不錯", vi: "😊 Cũng ổn" },
+              { zh: "😅 普通", vi: "😅 Bình thường" },
+              { zh: "😕 有一點貴", vi: "😕 Hơi đắt một chút" },
+              { zh: "🙈 有點後悔", vi: "🙈 Hơi hối hận" }
+            ]
+          },
+          {
+            q: { zh: "下次還想去那裡買東西嗎？", vi: "Lần sau còn muốn đến đó mua không?" },
+            options: [
+              { zh: "😄 想，東西又多又便宜", vi: "😄 Muốn, đồ nhiều mà rẻ" },
+              { zh: "🤔 不一定", vi: "🤔 Không chắc" },
+              { zh: "🙅 不太想，人太多了", vi: "🙅 Không muốn lắm, đông quá" },
+              { zh: "🆕 想試試看別的地方", vi: "🆕 Muốn thử chỗ khác" },
+              { zh: "😊 如果再有打折就去", vi: "😊 Nếu lại giảm giá thì đi" }
+            ]
+          }
+        ]
+      },
+      3: {
+        title: { zh: "身體不舒服", vi: "Khi không khỏe" },
+        questions: [
+          {
+            q: { zh: "你最近身體怎麼樣？", vi: "Gần đây sức khỏe bạn thế nào?" },
+            options: [
+              { zh: "😌 還不錯", vi: "😌 Cũng ổn" },
+              { zh: "😷 有一點不舒服", vi: "😷 Hơi không khỏe" },
+              { zh: "🤒 感冒了", vi: "🤒 Bị cảm" },
+              { zh: "😣 頭痛、喉嚨痛", vi: "😣 Đau đầu, đau họng" },
+              { zh: "😴 很累，想睡覺", vi: "😴 Rất mệt, muốn ngủ" }
+            ]
+          },
+          {
+            q: { zh: "不舒服多久了？", vi: "Không khỏe bao lâu rồi?" },
+            options: [
+              { zh: "⏱️ 才一兩天", vi: "⏱️ Mới 1-2 ngày" },
+              { zh: "📅 大概三天了", vi: "📅 Khoảng 3 ngày rồi" },
+              { zh: "🗓️ 一個多星期", vi: "🗓️ Hơn 1 tuần" },
+              { zh: "🌅 從昨天開始", vi: "🌅 Từ hôm qua" },
+              { zh: "❓ 不太記得", vi: "❓ Không nhớ rõ" }
+            ]
+          },
+          {
+            q: { zh: "有沒有去看醫生？", vi: "Có đi khám bác sĩ không?" },
+            options: [
+              { zh: "✅ 有，已經看過了", vi: "✅ Có, đã khám rồi" },
+              { zh: "🙅 還沒有", vi: "🙅 Chưa" },
+              { zh: "🏠 想先在家休息看看", vi: "🏠 Muốn nghỉ ở nhà xem sao" },
+              { zh: "💊 自己買藥吃了", vi: "💊 Tự mua thuốc uống" },
+              { zh: "📅 打算明天去", vi: "📅 Định ngày mai đi" }
+            ]
+          },
+          {
+            q: { zh: "醫生怎麼說？ / 你自己怎麼辦？", vi: "Bác sĩ nói sao? / Bạn tự xử lý thế nào?" },
+            options: [
+              { zh: "💊 叫我多休息、多喝水", vi: "💊 Bảo tôi nghỉ nhiều, uống nhiều nước" },
+              { zh: "🌡️ 給我一些藥", vi: "🌡️ Cho tôi ít thuốc" },
+              { zh: "🏠 我自己在家睡覺", vi: "🏠 Tôi tự ở nhà ngủ" },
+              { zh: "🍵 喝很多熱茶", vi: "🍵 Uống nhiều trà nóng" },
+              { zh: "😷 戴口罩，少出門", vi: "😷 Đeo khẩu trang, ít ra ngoài" }
+            ]
+          },
+          {
+            q: { zh: "現在感覺好一點了嗎？", vi: "Bây giờ thấy khá hơn chưa?" },
+            options: [
+              { zh: "😊 好很多了", vi: "😊 Khá hơn nhiều rồi" },
+              { zh: "😌 有一點好轉", vi: "😌 Hơi khá hơn" },
+              { zh: "😷 還是差不多", vi: "😷 Vẫn vậy" },
+              { zh: "😣 好像更不舒服了", vi: "😣 Hình như khó chịu hơn" },
+              { zh: "😴 還是很想睡覺", vi: "😴 Vẫn rất muốn ngủ" }
+            ]
+          },
+          {
+            q: { zh: "會不會請假？", vi: "Có xin nghỉ không?" },
+            options: [
+              { zh: "✅ 已經請假了", vi: "✅ Đã xin nghỉ rồi" },
+              { zh: "🙅 還是去上班／上課", vi: "🙅 Vẫn đi làm/học" },
+              { zh: "🤔 看明天的情況", vi: "🤔 Xem tình hình ngày mai" },
+              { zh: "🏠 在家休息兩天", vi: "🏠 Nghỉ ở nhà 2 ngày" },
+              { zh: "😅 想請可是請不了", vi: "😅 Muốn xin nhưng không được" }
+            ]
+          },
+          {
+            q: { zh: "你平常怎麼保持健康？", vi: "Bình thường bạn giữ sức khỏe thế nào?" },
+            options: [
+              { zh: "🏃 常常運動", vi: "🏃 Thường xuyên tập thể dục" },
+              { zh: "😴 早睡早起", vi: "😴 Ngủ sớm dậy sớm" },
+              { zh: "🥗 注意吃的東西", vi: "🥗 Chú ý đồ ăn" },
+              { zh: "💧 多喝水", vi: "💧 Uống nhiều nước" },
+              { zh: "😅 其實不太注意", vi: "😅 Thực ra không chú ý lắm" }
+            ]
+          }
+        ]
+      },
+      4: {
+        title: { zh: "想去旅行", vi: "Muốn đi du lịch" },
+        questions: [
+          {
+            q: { zh: "你最近想去哪裡旅行？", vi: "Gần đây bạn muốn đi du lịch ở đâu?" },
+            options: [
+              { zh: "🇹🇼 想去臺灣其他城市", vi: "🇹🇼 Muốn đi các thành phố khác ở Đài Loan" },
+              { zh: "🇯🇵 想去日本", vi: "🇯🇵 Muốn đi Nhật Bản" },
+              { zh: "🇰🇷 想去韓國", vi: "🇰🇷 Muốn đi Hàn Quốc" },
+              { zh: "🇻🇳 想回越南看看", vi: "🇻🇳 Muốn về Việt Nam" },
+              { zh: "🏝️ 想去海邊", vi: "🏝️ Muốn đi biển" }
+            ]
+          },
+          {
+            q: { zh: "為什麼想去那裡？", vi: "Tại sao muốn đi nơi đó?" },
+            options: [
+              { zh: "🍜 因為想吃好吃的", vi: "🍜 Vì muốn ăn đồ ngon" },
+              { zh: "🏞️ 因為風景很漂亮", vi: "🏞️ Vì phong cảnh đẹp" },
+              { zh: "🛍️ 因為想逛街買東西", vi: "🛍️ Vì muốn dạo phố mua sắm" },
+              { zh: "😌 因為想放鬆一下", vi: "😌 Vì muốn thư giãn" },
+              { zh: "📸 因為想拍照打卡", vi: "📸 Vì muốn chụp ảnh check-in" }
+            ]
+          },
+          {
+            q: { zh: "想跟誰一起去？", vi: "Muốn đi với ai?" },
+            options: [
+              { zh: " Alone 自己一個人去", vi: " Alone Đi một mình" },
+              { zh: "🧑‍🤝‍🧑 跟朋友一起", vi: "🧑‍🤝‍🧑 Với bạn bè" },
+              { zh: "👨‍👩‍👧 跟家人一起", vi: "👨‍👩‍👧 Với gia đình" },
+              { zh: "👫 跟男朋友／女朋友", vi: "👫 Với bạn trai/gái" },
+              { zh: "🧑‍🎓 跟同學一起", vi: "🧑‍🎓 Với bạn học" }
+            ]
+          },
+          {
+            q: { zh: "打算待幾天？", vi: "Định ở bao nhiêu ngày?" },
+            options: [
+              { zh: "📅 大概三天", vi: "📅 Khoảng 3 ngày" },
+              { zh: "🗓️ 一個星期左右", vi: "🗓️ Khoảng 1 tuần" },
+              { zh: "📆 兩天一夜", vi: "📆 2 ngày 1 đêm" },
+              { zh: "🕒 四、五天", vi: "🕒 4-5 ngày" },
+              { zh: "❓ 還沒想好", vi: "❓ Chưa nghĩ ra" }
+            ]
+          },
+          {
+            q: { zh: "會怎麼去？", vi: "Sẽ đi bằng gì?" },
+            options: [
+              { zh: "🚄 坐高鐵", vi: "🚄 Đi tàu cao tốc" },
+              { zh: "✈️ 坐飛機", vi: "✈️ Đi máy bay" },
+              { zh: "🚌 坐公車／客運", vi: "🚌 Đi xe khách" },
+              { zh: "🚗 開車", vi: "🚗 Lái xe" },
+              { zh: "🛵 騎機車", vi: "🛵 Đi xe máy" }
+            ]
+          },
+          {
+            q: { zh: "最想在那裡做什麼？", vi: "Muốn làm gì nhất ở đó?" },
+            options: [
+              { zh: "🍜 吃很多當地小吃", vi: "🍜 Ăn nhiều món địa phương" },
+              { zh: "📸 到處拍照", vi: "📸 Chụp ảnh khắp nơi" },
+              { zh: "🛍️ 買紀念品", vi: "🛍️ Mua quà lưu niệm" },
+              { zh: "♨️ 去溫泉／海邊放鬆", vi: "♨️ Đi suối nước nóng / biển thư giãn" },
+              { zh: "🏛️ 參觀有名的地方", vi: "🏛️ Tham quan nơi nổi tiếng" }
+            ]
+          },
+          {
+            q: { zh: "什麼時候想去？", vi: "Muốn đi khi nào?" },
+            options: [
+              { zh: "📅 下個週末", vi: "📅 Cuối tuần sau" },
+              { zh: "🗓️ 下個月", vi: "🗓️ Tháng sau" },
+              { zh: "🎉 放假的時候", vi: "🎉 Lúc nghỉ lễ" },
+              { zh: "☀️ 夏天", vi: "☀️ Mùa hè" },
+              { zh: "❓ 還沒決定時間", vi: "❓ Chưa quyết định thời gian" }
+            ]
+          }
+        ]
+      }
+    };
+
+    // ===== STATE =====
+    let selectedLesson = null;
+    let selectedRole = null;
+    let currentMode = 'zh';
+    let currentAnswersB = null;
+
+    // ===== MODE =====
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+      document.body.classList.toggle('mode-kai', mode === 'kai');
+
+      if (selectedRole === 'A' && document.getElementById('screen-A').classList.contains('active')) {
+        renderRoleA();
+      }
+      if (selectedRole === 'B' && document.getElementById('screen-B').classList.contains('active')) {
+        if (currentAnswersB) renderAnswersB(currentAnswersB);
+        updateRoleBTexts();
+      }
+
+      // Update home lesson buttons
+      document.querySelectorAll('.lesson-btn').forEach(btn => {
+        const num = btn.dataset.num;
+        if (num) updateLessonBtnText(btn, num);
+      });
+
+      localStorage.setItem('displayMode4', mode);
+    }
+
+    const saved = localStorage.getItem('displayMode4');
+    if (saved && ['vi','zh','kai'].includes(saved)) setMode(saved);
+
+    // ===== INIT =====
+    function init() {
+      const grid = document.getElementById('lesson-grid');
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'lesson-btn';
+        btn.dataset.num = i;
+        updateLessonBtnText(btn, i);
+        btn.onclick = () => selectLesson(i, btn);
+        grid.appendChild(btn);
+      }
+    }
+
+    function updateLessonBtnText(btn, num) {
+      const t = lessons[num].title;
+      btn.textContent = `Bài ${num}\n${currentMode === 'vi' ? t.vi : t.zh}`;
+    }
+
+    function selectLesson(num, btn) {
+      selectedLesson = num;
+      document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateStartBtn();
+    }
+
+    function selectRole(el) {
+      selectedRole = el.dataset.role;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      updateStartBtn();
+    }
+
+    function updateStartBtn() {
+      document.getElementById('start-btn').disabled = !(selectedLesson && selectedRole);
+    }
+
+    function startActivity() {
+      if (!selectedLesson || !selectedRole) return;
+      document.getElementById('screen-home').classList.remove('active');
+
+      if (selectedRole === 'A') {
+        renderRoleA();
+        document.getElementById('screen-A').classList.add('active');
+      } else {
+        currentAnswersB = null;
+        document.getElementById('answers-B').innerHTML = `
+          <p style="text-align:center; color:var(--muted); padding:30px 0;">
+            ${currentMode === 'vi' ? 'Nhấn nút phía trên để tạo câu trả lời!' : '點上面的按鈕產生你的答案吧！'}
+          </p>`;
+        updateRoleBTexts();
+        document.getElementById('screen-B').classList.add('active');
+        document.getElementById('lesson-tag-B').textContent = getLessonTag();
+      }
+    }
+
+    function getLessonTag() {
+      const t = lessons[selectedLesson].title;
+      return currentMode === 'vi'
+        ? `Bài ${selectedLesson}｜${t.vi}`
+        : `第 ${selectedLesson} 課｜${t.zh}`;
+    }
+
+    function goHome() {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-home').classList.add('active');
+      document.querySelectorAll('.lesson-btn').forEach(btn => {
+        updateLessonBtnText(btn, btn.dataset.num);
+      });
+    }
+
+    // ===== ROLE A =====
+    function renderRoleA() {
+      const data = lessons[selectedLesson];
+      document.getElementById('lesson-tag-A').textContent = getLessonTag();
+
+      if (currentMode === 'vi') {
+        document.getElementById('roleA-title').textContent = 'Bạn là người hỏi (A)';
+        document.getElementById('roleA-desc').textContent = 'Hỏi lần lượt và chọn đáp án bạn muốn nghe';
+        document.getElementById('compare-text-A').textContent = 'Hỏi xong hãy đối chiếu với đối phương xem giống nhau không!';
+      } else {
+        document.getElementById('roleA-title').textContent = '你是提問者 (A)';
+        document.getElementById('roleA-desc').textContent = '依序問對方，並從選項中選擇你想聽的答案';
+        document.getElementById('compare-text-A').textContent = '問完後跟對方核對答案，看看有多相似！';
+      }
+
+      const container = document.getElementById('questions-A');
+      container.innerHTML = '';
+
+      data.questions.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'question-item';
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const optionsHtml = item.options.map(opt => {
+          const text = currentMode === 'vi' ? opt.vi : opt.zh;
+          return `<option value="${text}">${text}</option>`;
+        }).join('');
+
+        div.innerHTML = `
+          <div class="q-text">
+            <span class="q-number">${idx + 1}</span>
+            <span>${qText}</span>
+          </div>
+          <select>
+            <option value="" disabled selected>${currentMode === 'vi' ? 'Chọn đáp án...' : '請選擇答案...'}</option>
+            ${optionsHtml}
+          </select>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ===== ROLE B =====
+    function updateRoleBTexts() {
+      if (currentMode === 'vi') {
+        document.getElementById('roleB-title').textContent = 'Bạn là người trả lời (B)';
+        document.getElementById('roleB-desc').textContent = 'Trả lời theo các đáp án bên dưới';
+        document.getElementById('btn-random').textContent = '🎲 Tạo đáp án ngẫu nhiên';
+        document.getElementById('shake-hint').innerHTML = `Hoặc <span>lắc điện thoại</span> để random lại`;
+        document.getElementById('compare-text-B').textContent = 'Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!';
+      } else {
+        document.getElementById('roleB-title').textContent = '你是回答者 (B)';
+        document.getElementById('roleB-desc').textContent = '根據下面的答案回答對方的問題';
+        document.getElementById('btn-random').textContent = '🎲 隨機產生答案';
+        document.getElementById('shake-hint').innerHTML = `或 <span>搖一搖手機</span> 也可以重新隨機`;
+        document.getElementById('compare-text-B').textContent = '回答完後跟對方核對，看看你們的答案有多像！';
+      }
+      document.getElementById('lesson-tag-B').textContent = getLessonTag();
+    }
+
+    function randomizeAnswers() {
+      const data = lessons[selectedLesson];
+      const answers = data.questions.map(item =>
+        item.options[Math.floor(Math.random() * item.options.length)]
+      );
+      currentAnswersB = answers;
+      renderAnswersB(answers);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function renderAnswersB(answers) {
+      const data = lessons[selectedLesson];
+      const container = document.getElementById('answers-B');
+      container.innerHTML = '';
+
+      data.questions.forEach((item, idx) => {
+        const opt = answers[idx];
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const aText = currentMode === 'vi' ? opt.vi : opt.zh;
+
+        const div = document.createElement('div');
+        div.className = 'answer-card';
+        div.innerHTML = `
+          <div class="q">${idx + 1}. ${qText}</div>
+          <div class="a">${aText}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ===== SHAKE =====
+    let lastShake = 0;
+    window.addEventListener('devicemotion', (e) => {
+      if (!document.getElementById('screen-B').classList.contains('active')) return;
+      const acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+      const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+      const now = Date.now();
+      if (force > 28 && now - lastShake > 1200) {
+        lastShake = now;
+        randomizeAnswers();
+      }
+    }, false);
+
+    init();
+  </script>
+</body>
+</html>
