@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>So sánh · 比 / 跟...一樣 / 沒有...這麽</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 16px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* ===== HOME ===== */
+    #home {
+      justify-content: center;
+      gap: 24px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.7rem;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .role-btn {
+      width: 85%;
+      max-width: 320px;
+      padding: 24px 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-btn:active { transform: scale(0.96); }
+
+    #btnA { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+    #btnB { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+
+    .role-btn small {
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* ===== CHUNG ===== */
+    .header {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .role-label {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* ===== NGƯỜI A ===== */
+    #screenA {
+      background: linear-gradient(160deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+
+    .grammar-select {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .grammar-btn {
+      flex: 1;
+      padding: 12px 6px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      line-height: 1.3;
+      transition: all 0.2s;
+    }
+
+    .grammar-btn.active {
+      background: white;
+      color: #ee5a24;
+      border-color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .card-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 22px 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      margin-bottom: 18px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .compare-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .animal-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+    }
+
+    .animal-emoji {
+      font-size: 3.2rem;
+      line-height: 1;
+    }
+
+    .animal-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 4px;
+      color: #333;
+    }
+
+    .symbol {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #ee5a24;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .adj-badge {
+      background: #fff3cd;
+      color: #856404;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 14px;
+    }
+
+    .full-sentence {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .full-sentence .hl {
+      color: #ee5a24;
+    }
+
+    .shake-btn {
+      width: 100%;
+      max-width: 420px;
+      padding: 18px;
+      background: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ee5a24;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .shake-btn:active { transform: scale(0.97); }
+
+    .hint {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ===== NGƯỜI B ===== */
+    #screenB {
+      background: linear-gradient(160deg, #1dd1a1 0%, #10ac84 100%);
+    }
+
+    .select-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 18px 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .grammar-preview {
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #10ac84;
+      margin-bottom: 14px;
+      padding: 8px;
+      background: #e6fcf5;
+      border-radius: 12px;
+    }
+
+    .drop-zone-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .drop-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 110px;
+    }
+
+    .drop-box {
+      width: 100%;
+      height: 100px;
+      border: 3px dashed #ced4da;
+      border-radius: 16px;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .drop-box.drag-over {
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box.filled {
+      border-style: solid;
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box .placeholder {
+      font-size: 0.85rem;
+      color: #adb5bd;
+    }
+
+    .drop-box .emoji {
+      font-size: 2.4rem;
+    }
+
+    .drop-box .text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .symbol-select {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sym-btn {
+      width: 48px;
+      height: 42px;
+      border: 2px solid #ced4da;
+      border-radius: 10px;
+      background: #f1f3f5;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #adb5bd;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sym-btn.active {
+      background: #10ac84;
+      color: white;
+      border-color: #0b9b74;
+      transform: scale(1.08);
+    }
+
+    .pool-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #666;
+      margin: 12px 0 8px;
+      text-align: center;
+    }
+
+    .action-pool {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .pool-item {
+      background: #f1f3f5;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 8px 4px;
+      text-align: center;
+      cursor: grab;
+      transition: transform 0.15s, opacity 0.2s;
+    }
+
+    .pool-item:active {
+      cursor: grabbing;
+      transform: scale(1.05);
+    }
+
+    .pool-item.used {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .pool-item .emoji {
+      font-size: 1.6rem;
+      display: block;
+    }
+
+    .pool-item .text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .adj-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .adj-item {
+      padding: 8px 14px;
+      background: #f1f3f5;
+      border: 2px solid #e9ecef;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .adj-item.active {
+      background: #10ac84;
+      color: white;
+      border-color: #0b9b74;
+    }
+
+    .result-preview {
+      margin-top: 14px;
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .result-preview.empty {
+      color: #adb5bd;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .reset-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .instruction {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.45;
+      max-width: 420px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <h1>So sánh</h1>
+    <p class="subtitle">比 / 跟…一樣 / 沒有…這麽 · 2 người chơi</p>
+
+    <button class="role-btn" id="btnA" onclick="showScreen('A')">
+      🅰️ Người A
+      <small>Người nói · Random đề</small>
+    </button>
+
+    <button class="role-btn" id="btnB" onclick="showScreen('B')">
+      🅱️ Người B
+      <small>Người nghe · Chọn đáp án</small>
+    </button>
+  </div>
+
+  <!-- NGƯỜI A -->
+  <div id="screenA" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người A · Nói</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="grammar-select">
+      <button class="grammar-btn active" onclick="setGrammar(1)" id="g1">A比B<br>Adj</button>
+      <button class="grammar-btn" onclick="setGrammar(2)" id="g2">A跟B<br>一樣Adj</button>
+      <button class="grammar-btn" onclick="setGrammar(3)" id="g3">A沒有B<br>這麽Adj</button>
+    </div>
+
+    <div class="card-area" id="cardArea">
+      <div style="color:#adb5bd; font-size:1.05rem; text-align:center; line-height:1.5;">
+        Chọn ngữ pháp ở trên<br>rồi bấm nút hoặc lắc điện thoại
+      </div>
+    </div>
+
+    <button class="shake-btn" onclick="generatePrompt()">
+      🎲 Lắc / Random đề
+    </button>
+
+    <p class="hint">Lắc điện thoại cũng được</p>
+  </div>
+
+  <!-- NGƯỜI B -->
+  <div id="screenB" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người B · Nghe</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="select-area">
+      <div class="section-title">Chọn 2 con vật + dấu so sánh + tính từ</div>
+
+      <div class="grammar-preview" id="grammarPreview">Ngữ pháp: A比B + Adj</div>
+
+      <div class="drop-zone-row">
+        <div class="drop-slot">
+          <div class="drop-box" id="dropLeft" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'left')" onclick="clearSlot('left')">
+            <span class="placeholder">Con A</span>
+          </div>
+        </div>
+
+        <div class="symbol-select">
+          <button class="sym-btn" id="symGT" onclick="setSymbol('>')">></button>
+          <button class="sym-btn" id="symEQ" onclick="setSymbol('=')">=</button>
+          <button class="sym-btn" id="symLT" onclick="setSymbol('<')"><</button>
+        </div>
+
+        <div class="drop-slot">
+          <div class="drop-box" id="dropRight" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'right')" onclick="clearSlot('right')">
+            <span class="placeholder">Con B</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pool-title">Kho động vật</div>
+      <div class="action-pool" id="animalPool"></div>
+
+      <div class="pool-title">Tính từ</div>
+      <div class="adj-pool" id="adjPool"></div>
+
+      <div class="result-preview empty" id="resultPreview">
+        Chưa đủ thông tin
+      </div>
+
+      <div class="btn-row">
+        <button class="reset-btn" onclick="resetB()">Xóa hết</button>
+      </div>
+    </div>
+
+    <p class="instruction">
+      Nghe Người A nói → Chọn đúng 2 con vật, dấu so sánh và tính từ<br>
+      Sau đó đối chiếu câu với Người A
+    </p>
+  </div>
+
+  <script>
+    const animals = [
+      { name: "老鼠", emoji: "🐀" },
+      { name: "牛",   emoji: "🐂" },
+      { name: "老虎", emoji: "🐅" },
+      { name: "兔子", emoji: "🐇" },
+      { name: "龍",   emoji: "🐲" },
+      { name: "蛇",   emoji: "🐍" },
+      { name: "馬",   emoji: "🐎" },
+      { name: "羊",   emoji: "🐑" },
+      { name: "猴子", emoji: "🐒" },
+      { name: "雞",   emoji: "🐔" },
+      { name: "狗",   emoji: "🐕" },
+      { name: "豬",   emoji: "🐖" },
+      { name: "貓",   emoji: "🐱" },
+      { name: "魚",   emoji: "🐟" },
+      { name: "鳥",   emoji: "🐦" }
+    ];
+
+    const adjectives = ["高", "矮", "快", "慢", "大", "小", "可愛", "聰明"];
+
+    let currentGrammar = 1; // 1=比, 2=跟一樣, 3=沒有這麽
+    let leftAnimal = null;
+    let rightAnimal = null;
+    let currentSymbol = null;
+    let currentAdj = null;
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      if (name === 'home') {
+        document.getElementById('home').classList.add('active');
+      } else if (name === 'A') {
+        document.getElementById('screenA').classList.add('active');
+      } else if (name === 'B') {
+        document.getElementById('screenB').classList.add('active');
+        buildPools();
+        resetB();
+        updateGrammarPreview();
+      }
+    }
+
+    function setGrammar(g) {
+      currentGrammar = g;
+      document.getElementById('g1').classList.toggle('active', g === 1);
+      document.getElementById('g2').classList.toggle('active', g === 2);
+      document.getElementById('g3').classList.toggle('active', g === 3);
+      // Clear current card when switching grammar
+      document.getElementById('cardArea').innerHTML = `
+        <div style="color:#adb5bd; font-size:1.05rem; text-align:center; line-height:1.5;">
+          Đã chọn ngữ pháp mới<br>Bấm nút hoặc lắc để random
+        </div>
+      `;
+    }
+
+    function updateGrammarPreview() {
+      const texts = {
+        1: "Ngữ pháp: A比B + Adj",
+        2: "Ngữ pháp: A跟B一樣 + Adj",
+        3: "Ngữ pháp: A沒有B這麽 + Adj"
+      };
+      document.getElementById('grammarPreview').textContent = texts[currentGrammar];
+    }
+
+    // ===== Tạo câu theo ngữ pháp =====
+    function makeSentence(a1, a2, symbol, adj, grammar) {
+      // symbol: '>' means a1 > a2, '<' means a1 < a2, '=' equal
+      if (grammar === 1) {
+        // A比B + Adj
+        if (symbol === '=') {
+          // equal → dùng 一樣 cho hợp lý hơn, nhưng theo yêu cầu vẫn có thể dùng 不比
+          return `${a1.name}不比${a2.name}${adj}，${a2.name}也不比${a1.name}${adj}。`;
+        } else if (symbol === '>') {
+          return `${a1.name}比${a2.name}${adj}。`;
+        } else {
+          return `${a1.name}不比${a2.name}${adj}。`; // or a2比a1
+        }
+      } else if (grammar === 2) {
+        // A跟B（不）一樣 + Adj
+        if (symbol === '=') {
+          return `${a1.name}跟${a2.name}一樣${adj}。`;
+        } else {
+          return `${a1.name}跟${a2.name}不一樣${adj}。`;
+        }
+      } else {
+        // A（沒）有B這麽 + Adj
+        if (symbol === '=') {
+          return `${a1.name}有${a2.name}這麽${adj}。`;
+        } else if (symbol === '>') {
+          // a1 > a2 → a2 沒有 a1 這麽 Adj
+          return `${a2.name}沒有${a1.name}這麽${adj}。`;
+        } else {
+          // a1 < a2 → a1 沒有 a2 這麽 Adj
+          return `${a1.name}沒有${a2.name}這麽${adj}。`;
+        }
+      }
+    }
+
+    // ===== NGƯỜI A =====
+    function generatePrompt() {
+      let i1 = Math.floor(Math.random() * animals.length);
+      let i2;
+      do { i2 = Math.floor(Math.random() * animals.length); } while (i2 === i1);
+
+      const a1 = animals[i1];
+      const a2 = animals[i2];
+      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+
+      // Random relation: >, <, =
+      const rels = ['>', '<', '='];
+      const symbol = rels[Math.floor(Math.random() * 3)];
+
+      const sentence = makeSentence(a1, a2, symbol, adj, currentGrammar);
+
+      const cardArea = document.getElementById('cardArea');
+      cardArea.innerHTML = `
+        <div class="compare-row">
+          <div class="animal-box">
+            <div class="animal-emoji">${a1.emoji}</div>
+            <div class="animal-name">${a1.name}</div>
+          </div>
+          <div class="symbol">${symbol}</div>
+          <div class="animal-box">
+            <div class="animal-emoji">${a2.emoji}</div>
+            <div class="animal-name">${a2.name}</div>
+          </div>
+        </div>
+        <div class="adj-badge">${adj}</div>
+        <div class="full-sentence">
+          <span class="hl">${sentence}</span>
+        </div>
+      `;
+    }
+
+    // ===== NGƯỜI B =====
+    function buildPools() {
+      // Animals
+      const pool = document.getElementById('animalPool');
+      pool.innerHTML = '';
+      animals.forEach((act, idx) => {
+        const item = document.createElement('div');
+        item.className = 'pool-item';
+        item.draggable = true;
+        item.dataset.idx = idx;
+        item.innerHTML = `
+          <span class="emoji">${act.emoji}</span>
+          <span class="text">${act.name}</span>
+        `;
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', idx);
+          item.style.opacity = '0.5';
+        });
+        item.addEventListener('dragend', () => {
+          item.style.opacity = '';
+        });
+        item.addEventListener('click', () => {
+          if (!leftAnimal) {
+            placeAnimal('left', act, idx);
+          } else if (!rightAnimal) {
+            placeAnimal('right', act, idx);
+          }
+        });
+        pool.appendChild(item);
+      });
+
+      // Adjectives
+      const adjPool = document.getElementById('adjPool');
+      adjPool.innerHTML = '';
+      adjectives.forEach(adj => {
+        const item = document.createElement('div');
+        item.className = 'adj-item';
+        item.textContent = adj;
+        item.onclick = () => {
+          currentAdj = adj;
+          document.querySelectorAll('.adj-item').forEach(el => el.classList.remove('active'));
+          item.classList.add('active');
+          updatePreview();
+        };
+        adjPool.appendChild(item);
+      });
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function dragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function drop(e, side) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      const idx = e.dataTransfer.getData('text/plain');
+      if (idx === '') return;
+      const act = animals[idx];
+      placeAnimal(side, act, idx);
+    }
+
+    function placeAnimal(side, act, idx) {
+      if (side === 'left' && rightAnimal && rightAnimal.name === act.name) {
+        clearSlot('right', false);
+      }
+      if (side === 'right' && leftAnimal && leftAnimal.name === act.name) {
+        clearSlot('left', false);
+      }
+
+      if (side === 'left') {
+        leftAnimal = act;
+        updateDropBox('dropLeft', act);
+      } else {
+        rightAnimal = act;
+        updateDropBox('dropRight', act);
+      }
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    function updateDropBox(id, act) {
+      const box = document.getElementById(id);
+      box.classList.add('filled');
+      box.innerHTML = `
+        <span class="emoji">${act.emoji}</span>
+        <span class="text">${act.name}</span>
+      `;
+    }
+
+    function clearSlot(side, update = true) {
+      if (side === 'left') {
+        leftAnimal = null;
+        const box = document.getElementById('dropLeft');
+        box.classList.remove('filled');
+        box.innerHTML = `<span class="placeholder">Con A</span>`;
+      } else {
+        rightAnimal = null;
+        const box = document.getElementById('dropRight');
+        box.classList.remove('filled');
+        box.innerHTML = `<span class="placeholder">Con B</span>`;
+      }
+      if (update) {
+        updatePoolUsed();
+        updatePreview();
+      }
+    }
+
+    function setSymbol(sym) {
+      currentSymbol = sym;
+      document.getElementById('symGT').classList.toggle('active', sym === '>');
+      document.getElementById('symEQ').classList.toggle('active', sym === '=');
+      document.getElementById('symLT').classList.toggle('active', sym === '<');
+      updatePreview();
+    }
+
+    function updatePoolUsed() {
+      const used = [];
+      if (leftAnimal) used.push(leftAnimal.name);
+      if (rightAnimal) used.push(rightAnimal.name);
+
+      document.querySelectorAll('.pool-item').forEach(item => {
+        const act = animals[item.dataset.idx];
+        if (used.includes(act.name)) {
+          item.classList.add('used');
+        } else {
+          item.classList.remove('used');
+        }
+      });
+    }
+
+    function updatePreview() {
+      const preview = document.getElementById('resultPreview');
+      if (leftAnimal && rightAnimal && currentSymbol && currentAdj) {
+        const sentence = makeSentence(leftAnimal, rightAnimal, currentSymbol, currentAdj, currentGrammar);
+        preview.classList.remove('empty');
+        preview.innerHTML = sentence;
+      } else {
+        preview.classList.add('empty');
+        preview.textContent = 'Chưa đủ thông tin';
+      }
+    }
+
+    function resetB() {
+      leftAnimal = null;
+      rightAnimal = null;
+      currentSymbol = null;
+      currentAdj = null;
+      clearSlot('left', false);
+      clearSlot('right', false);
+      document.querySelectorAll('.sym-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.adj-item').forEach(b => b.classList.remove('active'));
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    // Lắc điện thoại
+    let lastShake = 0;
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', function(e) {
+        const acc = e.accelerationIncludingGravity;
+        if (!acc) return;
+        const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+        const now = Date.now();
+        if (total > 25 && now - lastShake > 1200) {
+          if (document.getElementById('screenA').classList.contains('active')) {
+            lastShake = now;
+            generatePrompt();
+            if (navigator.vibrate) navigator.vibrate(70);
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

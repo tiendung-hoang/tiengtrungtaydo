@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Time-Duration + 了 Game · 時代華語1</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 16px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* ===== HOME ===== */
+    #home {
+      justify-content: center;
+      gap: 24px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.7rem;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .role-btn {
+      width: 85%;
+      max-width: 320px;
+      padding: 24px 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-btn:active { transform: scale(0.96); }
+
+    #btnA { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+    #btnB { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+
+    .role-btn small {
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* ===== CHUNG ===== */
+    .header {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .role-label {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* ===== NGƯỜI A ===== */
+    #screenA {
+      background: linear-gradient(160deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+
+    .card-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 20px 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      margin-bottom: 18px;
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .time-slot {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 120px;
+    }
+
+    .time-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .time-box {
+      width: 100%;
+      height: 95px;
+      border: 3px dashed #ced4da;
+      border-radius: 14px;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .time-box.active {
+      border-style: solid;
+      border-color: #ee5a24;
+      background: #fff5f5;
+    }
+
+    .time-box .emoji {
+      font-size: 2rem;
+    }
+
+    .time-box .text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .duration-badge {
+      background: #fff3cd;
+      color: #856404;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .duration-badge .num {
+      background: #ffe082;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .full-sentence {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      line-height: 1.5;
+      padding: 0 6px;
+    }
+
+    .full-sentence .hl {
+      color: #ee5a24;
+    }
+
+    .type-tag {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 8px;
+    }
+
+    .shake-btn {
+      width: 100%;
+      max-width: 420px;
+      padding: 18px;
+      background: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ee5a24;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .shake-btn:active { transform: scale(0.97); }
+
+    .hint {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ===== NGƯỜI B ===== */
+    #screenB {
+      background: linear-gradient(160deg, #1dd1a1 0%, #10ac84 100%);
+    }
+
+    .select-area {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 22px;
+      padding: 18px 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .drop-zone-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .drop-slot {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 125px;
+    }
+
+    .drop-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .drop-box {
+      width: 100%;
+      height: 90px;
+      border: 3px dashed #ced4da;
+      border-radius: 14px;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .drop-box.drag-over {
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box.filled {
+      border-style: solid;
+      border-color: #10ac84;
+      background: #e6fcf5;
+    }
+
+    .drop-box .placeholder {
+      font-size: 0.8rem;
+      color: #adb5bd;
+    }
+
+    .drop-box .emoji {
+      font-size: 1.9rem;
+    }
+
+    .drop-box .text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .pool-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #666;
+      margin: 12px 0 8px;
+      text-align: center;
+    }
+
+    .action-pool {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .pool-item {
+      background: #f1f3f5;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 10px 4px;
+      text-align: center;
+      cursor: grab;
+      transition: transform 0.15s, opacity 0.2s;
+    }
+
+    .pool-item:active {
+      cursor: grabbing;
+      transform: scale(1.05);
+    }
+
+    .pool-item.used {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .pool-item .emoji {
+      font-size: 1.6rem;
+      display: block;
+    }
+
+    .pool-item .text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .result-preview {
+      margin-top: 14px;
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .result-preview.empty {
+      color: #adb5bd;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .reset-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .instruction {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.45;
+      max-width: 420px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <h1>Time-Duration + 了</h1>
+    <p class="subtitle">Trò chơi ngữ pháp · 時代華語1 · 2 người chơi</p>
+
+    <button class="role-btn" id="btnA" onclick="showScreen('A')">
+      🅰️ Người A
+      <small>Người nói · Random đề</small>
+    </button>
+
+    <button class="role-btn" id="btnB" onclick="showScreen('B')">
+      🅱️ Người B
+      <small>Người nghe · Kéo thả đáp án</small>
+    </button>
+  </div>
+
+  <!-- NGƯỜI A -->
+  <div id="screenA" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người A · Nói</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="card-area" id="cardArea">
+      <div style="color:#adb5bd; font-size:1.05rem; text-align:center; line-height:1.5;">
+        Bấm nút bên dưới<br>hoặc lắc điện thoại
+      </div>
+    </div>
+
+    <button class="shake-btn" onclick="generatePrompt()">
+      🎲 Lắc / Random đề
+    </button>
+
+    <p class="hint">Lắc điện thoại cũng được</p>
+  </div>
+
+  <!-- NGƯỜI B -->
+  <div id="screenB" class="screen">
+    <div class="header">
+      <button class="back-btn" onclick="showScreen('home')">← Về</button>
+      <div class="role-label">Người B · Nghe</div>
+      <div style="width:60px"></div>
+    </div>
+
+    <div class="select-area">
+      <div class="section-title">Kéo hoạt động vào ô đúng (có thể nhiều ô)</div>
+
+      <div class="drop-zone-row">
+        <div class="drop-slot">
+          <div class="drop-label">昨天</div>
+          <div class="drop-box" id="dropYesterday" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'yesterday')" onclick="clearSlot('yesterday')">
+            <span class="placeholder">Ô 昨天</span>
+          </div>
+        </div>
+        <div class="drop-slot">
+          <div class="drop-label">今天/現在</div>
+          <div class="drop-box" id="dropToday" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'today')" onclick="clearSlot('today')">
+            <span class="placeholder">Ô 今天</span>
+          </div>
+        </div>
+        <div class="drop-slot">
+          <div class="drop-label">明天</div>
+          <div class="drop-box" id="dropTomorrow" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'tomorrow')" onclick="clearSlot('tomorrow')">
+            <span class="placeholder">Ô 明天</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pool-title">Kho hoạt động (kéo hoặc chạm)</div>
+      <div class="action-pool" id="actionPool"></div>
+
+      <div class="result-preview empty" id="resultPreview">
+        Chưa đủ thông tin
+      </div>
+
+      <div class="btn-row">
+        <button class="reset-btn" onclick="resetB()">Xóa hết</button>
+      </div>
+    </div>
+
+    <p class="instruction">
+      Nghe Người A nói → Kéo đúng hoạt động vào ô phù hợp<br>
+      (chỉ 昨天 / chỉ 今天/現在 / cả 3 ô) · Sau đó đối chiếu câu
+    </p>
+  </div>
+
+  <script>
+    // Danh sách hoạt động
+    const actions = [
+      { text: "睡覺", emoji: "😴", isSeparable: true,  vo: "睡覺", v: "睡", o: "覺" },
+      { text: "看書", emoji: "📖", isSeparable: true,  vo: "看書", v: "看", o: "書" },
+      { text: "打球", emoji: "🏀", isSeparable: true,  vo: "打球", v: "打", o: "球" },
+      { text: "跑步", emoji: "🏃", isSeparable: true,  vo: "跑步", v: "跑", o: "步" },
+      { text: "吃飯", emoji: "🍚", isSeparable: true,  vo: "吃飯", v: "吃", o: "飯" },
+      { text: "喝茶", emoji: "🍵", isSeparable: true,  vo: "喝茶", v: "喝", o: "茶" },
+      { text: "上網", emoji: "💻", isSeparable: true,  vo: "上網", v: "上", o: "網" },
+      { text: "看電影", emoji: "🎬", isSeparable: true,  vo: "看電影", v: "看", o: "電影" },
+      { text: "工作", emoji: "💼", isSeparable: false, vo: "工作", v: "工作", o: "" },
+      { text: "休息", emoji: "😌", isSeparable: false, vo: "休息", v: "休息", o: "" },
+      { text: "運動", emoji: "💪", isSeparable: false, vo: "運動", v: "運動", o: "" },
+      { text: "游泳", emoji: "🏊", isSeparable: true, vo: "游泳", v: "游", o: "泳" }
+    ];
+
+    // Thời lượng: có cả dạng chữ + dạng số ngắn
+    const durations = [
+      { cn: "十分鐘",   short: "10'" },
+      { cn: "十五分鐘", short: "15'" },
+      { cn: "二十分鐘", short: "20'" },
+      { cn: "三十分鐘", short: "30'" },
+      { cn: "一個小時", short: "1h" },
+      { cn: "兩個小時", short: "2h" }
+    ];
+
+    // State for B
+    let placed = {
+      yesterday: null,
+      today: null,
+      tomorrow: null
+    };
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      if (name === 'home') {
+        document.getElementById('home').classList.add('active');
+      } else if (name === 'A') {
+        document.getElementById('screenA').classList.add('active');
+      } else if (name === 'B') {
+        document.getElementById('screenB').classList.add('active');
+        buildPool();
+        resetB();
+      }
+    }
+
+    // ===== Tạo câu đúng ngữ pháp =====
+    function makeSentence(act, durCn, type) {
+      if (act.isSeparable) {
+        // Động từ ly hợp → Cách A
+        if (type === 0) {
+          return `我${act.vo}${act.v}了${durCn}。`;
+        } else if (type === 1) {
+          return `我${act.vo}${act.v}了${durCn}了。`;
+        } else {
+          return `我每天${act.vo}${act.v}${durCn}。`;
+        }
+      } else {
+        // Động từ không ly hợp
+        if (type === 0) {
+          return `我${act.v}了${durCn}。`;
+        } else if (type === 1) {
+          return `我${act.v}了${durCn}了。`;
+        } else {
+          return `我每天${act.v}${durCn}。`;
+        }
+      }
+    }
+
+    // ===== NGƯỜI A =====
+    function generatePrompt() {
+      const act = actions[Math.floor(Math.random() * actions.length)];
+      const dur = durations[Math.floor(Math.random() * durations.length)];
+      const type = Math.floor(Math.random() * 3); // 0: only yesterday, 1: only today, 2: all three
+
+      const sentence = makeSentence(act, dur.cn, type);
+
+      let showY = false, showT = false, showM = false;
+      let typeName = "";
+
+      if (type === 0) {
+        showY = true;
+        typeName = "Loại 2 · Đã kết thúc trong quá khứ";
+      } else if (type === 1) {
+        showT = true;
+        typeName = "Loại 3 · Từ quá khứ đến hiện tại";
+      } else {
+        showY = true;
+        showT = true;
+        showM = true;
+        typeName = "Loại 1 · Thói quen / Hiện tại";
+      }
+
+      const cardArea = document.getElementById('cardArea');
+      cardArea.innerHTML = `
+        <div class="duration-badge">
+          ⏱ ${dur.cn}
+          <span class="num">${dur.short}</span>
+        </div>
+        <div class="time-row">
+          <div class="time-slot">
+            <div class="time-label">昨天</div>
+            <div class="time-box ${showY ? 'active' : ''}">
+              ${showY ? `<span class="emoji">${act.emoji}</span><span class="text">${act.text}</span>` : ''}
+            </div>
+          </div>
+          <div class="time-slot">
+            <div class="time-label">今天/現在</div>
+            <div class="time-box ${showT ? 'active' : ''}">
+              ${showT ? `<span class="emoji">${act.emoji}</span><span class="text">${act.text}</span>` : ''}
+            </div>
+          </div>
+          <div class="time-slot">
+            <div class="time-label">明天</div>
+            <div class="time-box ${showM ? 'active' : ''}">
+              ${showM ? `<span class="emoji">${act.emoji}</span><span class="text">${act.text}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="full-sentence">
+          <span class="hl">${sentence}</span>
+        </div>
+        <div class="type-tag">${typeName}</div>
+      `;
+    }
+
+    // ===== NGƯỜI B =====
+    function buildPool() {
+      const pool = document.getElementById('actionPool');
+      pool.innerHTML = '';
+      actions.forEach((act, idx) => {
+        const item = document.createElement('div');
+        item.className = 'pool-item';
+        item.draggable = true;
+        item.dataset.idx = idx;
+        item.innerHTML = `
+          <span class="emoji">${act.emoji}</span>
+          <span class="text">${act.text}</span>
+        `;
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', idx);
+          item.style.opacity = '0.5';
+        });
+        item.addEventListener('dragend', () => {
+          item.style.opacity = '';
+        });
+        item.addEventListener('click', () => {
+          if (!placed.yesterday) {
+            placeAction('yesterday', act, idx);
+          } else if (!placed.today) {
+            placeAction('today', act, idx);
+          } else if (!placed.tomorrow) {
+            placeAction('tomorrow', act, idx);
+          }
+        });
+        pool.appendChild(item);
+      });
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function dragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function drop(e, side) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      const idx = e.dataTransfer.getData('text/plain');
+      if (idx === '') return;
+      const act = actions[idx];
+      placeAction(side, act, idx);
+    }
+
+    function placeAction(side, act, idx) {
+      ['yesterday', 'today', 'tomorrow'].forEach(s => {
+        if (s !== side && placed[s] && placed[s].text === act.text) {
+          clearSlot(s, false);
+        }
+      });
+
+      placed[side] = act;
+      updateDropBox(side, act);
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    function updateDropBox(side, act) {
+      const idMap = {
+        yesterday: 'dropYesterday',
+        today: 'dropToday',
+        tomorrow: 'dropTomorrow'
+      };
+      const box = document.getElementById(idMap[side]);
+      box.classList.add('filled');
+      box.innerHTML = `
+        <span class="emoji">${act.emoji}</span>
+        <span class="text">${act.text}</span>
+      `;
+    }
+
+    function clearSlot(side, update = true) {
+      placed[side] = null;
+      const idMap = {
+        yesterday: 'dropYesterday',
+        today: 'dropToday',
+        tomorrow: 'dropTomorrow'
+      };
+      const box = document.getElementById(idMap[side]);
+      box.classList.remove('filled');
+      const placeholders = {
+        yesterday: 'Ô 昨天',
+        today: 'Ô 今天',
+        tomorrow: 'Ô 明天'
+      };
+      box.innerHTML = `<span class="placeholder">${placeholders[side]}</span>`;
+      if (update) {
+        updatePoolUsed();
+        updatePreview();
+      }
+    }
+
+    function updatePoolUsed() {
+      const usedTexts = [];
+      if (placed.yesterday) usedTexts.push(placed.yesterday.text);
+      if (placed.today) usedTexts.push(placed.today.text);
+      if (placed.tomorrow) usedTexts.push(placed.tomorrow.text);
+
+      document.querySelectorAll('.pool-item').forEach(item => {
+        const act = actions[item.dataset.idx];
+        if (usedTexts.includes(act.text)) {
+          item.classList.add('used');
+        } else {
+          item.classList.remove('used');
+        }
+      });
+    }
+
+    function updatePreview() {
+      const preview = document.getElementById('resultPreview');
+      const y = placed.yesterday;
+      const t = placed.today;
+      const m = placed.tomorrow;
+
+      const acts = [y, t, m].filter(a => a);
+      if (acts.length === 0) {
+        preview.classList.add('empty');
+        preview.textContent = 'Chưa đủ thông tin';
+        return;
+      }
+
+      const first = acts[0];
+      const allSame = acts.every(a => a.text === first.text);
+
+      if (!allSame) {
+        preview.classList.add('empty');
+        preview.textContent = 'Hoạt động không khớp';
+        return;
+      }
+
+      let sentence = '';
+      if (y && !t && !m) {
+        sentence = makeSentence(first, "……", 0);
+      } else if (!y && t && !m) {
+        sentence = makeSentence(first, "……", 1);
+      } else if (y && t && m) {
+        sentence = makeSentence(first, "……", 2);
+      } else {
+        preview.classList.add('empty');
+        preview.textContent = 'Vị trí chưa đúng (chỉ 昨天 / chỉ 今天 / cả 3)';
+        return;
+      }
+
+      preview.classList.remove('empty');
+      preview.innerHTML = sentence;
+    }
+
+    function resetB() {
+      placed = { yesterday: null, today: null, tomorrow: null };
+      clearSlot('yesterday', false);
+      clearSlot('today', false);
+      clearSlot('tomorrow', false);
+      updatePoolUsed();
+      updatePreview();
+    }
+
+    // Lắc điện thoại
+    let lastShake = 0;
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', function(e) {
+        const acc = e.accelerationIncludingGravity;
+        if (!acc) return;
+        const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+        const now = Date.now();
+        if (total > 25 && now - lastShake > 1200) {
+          if (document.getElementById('screenA').classList.contains('active')) {
+            lastShake = now;
+            generatePrompt();
+            if (navigator.vibrate) navigator.vibrate(70);
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
