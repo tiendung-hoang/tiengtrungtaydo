@@ -5,97 +5,275 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>INTENSE Md2 Tiếng Trung • 16 Bài học</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* Light theme - Duolingo-inspired but purple */
+      --bg-start: #5b21b6;
+      --bg-mid: #7c3aed;
+      --bg-end: #a855f7;
+      --card-bg: rgba(255, 255, 255, 0.18);
+      --card-border: rgba(255, 255, 255, 0.35);
+      --card-hover: rgba(255, 255, 255, 0.28);
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.85);
+      --accent-warm: #fb923c;
+      --accent-warm-bg: rgba(251, 146, 60, 0.22);
+      --accent-warm-border: rgba(251, 146, 60, 0.45);
+      --accent-warm-hover: rgba(251, 146, 60, 0.35);
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      --shadow-hover: 0 16px 35px rgba(0, 0, 0, 0.35);
+      --toggle-bg: rgba(255, 255, 255, 0.2);
+      --toggle-icon: #fff;
+    }
+
+    [data-theme="dark"] {
+      --bg-start: #0f0a1e;
+      --bg-mid: #1e1b4b;
+      --bg-end: #312e81;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --card-hover: rgba(255, 255, 255, 0.14);
+      --text: #f1f5f9;
+      --text-muted: rgba(241, 245, 249, 0.75);
+      --accent-warm: #fdba74;
+      --accent-warm-bg: rgba(251, 146, 60, 0.15);
+      --accent-warm-border: rgba(251, 146, 60, 0.3);
+      --accent-warm-hover: rgba(251, 146, 60, 0.25);
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      --shadow-hover: 0 16px 35px rgba(0, 0, 0, 0.55);
+      --toggle-bg: rgba(255, 255, 255, 0.12);
+      --toggle-icon: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, 'Noto Sans SC', sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, 'Noto Sans SC', sans-serif;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1e1b4b, #4c1d95, #7c3aed);
-      color: #fff;
+      background: linear-gradient(145deg, var(--bg-start), var(--bg-mid), var(--bg-end));
+      color: var(--text);
+      transition: background 0.4s ease, color 0.3s ease;
+      overflow-x: hidden;
     }
+
+    /* Decorative background blobs (Duolingo vibe) */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 420px;
+      height: 420px;
+      background: #c084fc;
+      top: -120px;
+      right: -80px;
+    }
+    body::after {
+      width: 380px;
+      height: 380px;
+      background: #f97316;
+      bottom: -100px;
+      left: -60px;
+    }
+
     .home {
-      max-width: 960px;
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 28px 20px 40px;
+      padding: 32px 20px 48px;
     }
-    .home h1 {
+
+    /* Header */
+    .header {
       text-align: center;
-      font-size: 32px;
-      margin-bottom: 6px;
+      margin-bottom: 36px;
+      position: relative;
     }
-    .home .sub {
-      text-align: center;
+
+    .header h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .header .sub {
+      font-size: 16px;
       opacity: 0.9;
-      margin-bottom: 28px;
-      font-size: 15px;
+      font-weight: 500;
     }
+
+    /* Theme toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: var(--toggle-bg);
+      color: var(--toggle-icon);
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+    }
+    .theme-toggle:hover {
+      transform: scale(1.08);
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .theme-toggle:active {
+      transform: scale(0.96);
+    }
+
+    /* Grid */
     .activity-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 20px;
     }
+
+    /* Cards - Duolingo style */
     .act-card {
-      border-radius: 20px;
-      padding: 24px 18px;
+      border-radius: 24px;
+      padding: 28px 20px 24px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.25s;
-      backdrop-filter: blur(8px);
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(12px);
       text-decoration: none;
       color: inherit;
-      display: block;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid var(--card-border);
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
+
+    .act-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+      pointer-events: none;
+      border-radius: 22px;
+    }
+
     .act-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-hover);
     }
-    /* Nhóm trên: màu ấm */
+
+    .act-card:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    /* Warm group (top row) */
     .group-top {
-      background: rgba(251, 146, 60, 0.18);
-      border-color: rgba(251, 146, 60, 0.35);
+      background: var(--accent-warm-bg);
+      border-color: var(--accent-warm-border);
     }
     .group-top:hover {
-      background: rgba(251, 146, 60, 0.28);
+      background: var(--accent-warm-hover);
+      border-color: var(--accent-warm);
     }
-    /* Nhóm dưới: màu tím gốc */
-    .group-bottom {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+
+    /* Cool group (bottom row) */
     .group-bottom:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--card-hover);
+      border-color: rgba(255, 255, 255, 0.45);
     }
+
     .act-card .emoji {
-      font-size: 48px;
-      margin-bottom: 12px;
+      font-size: 52px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+      transition: transform 0.3s ease;
     }
+    .act-card:hover .emoji {
+      transform: scale(1.12) rotate(-4deg);
+    }
+
     .act-card h3 {
-      font-size: 17px;
-      margin-bottom: 6px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
+
     .act-card p {
-      font-size: 13px;
-      opacity: 0.85;
-      line-height: 1.4;
+      font-size: 13.5px;
+      opacity: 0.88;
+      line-height: 1.45;
+      font-weight: 500;
+      max-width: 220px;
     }
+
+    /* Footer */
     .footer-note {
       text-align: center;
-      margin-top: 28px;
-      font-size: 12px;
+      margin-top: 36px;
+      font-size: 13px;
       opacity: 0.7;
+      font-weight: 500;
     }
-    @media (max-width: 700px) {
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .activity-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .header h1 { font-size: 28px; }
+      .theme-toggle {
+        position: static;
+        margin: 0 auto 20px;
+      }
+      .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 520px) {
       .activity-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
-      .home h1 { font-size: 24px; }
+      .home { padding: 24px 16px 40px; }
+      .header h1 { font-size: 24px; }
+      .act-card { padding: 24px 18px; }
+      .act-card .emoji { font-size: 46px; }
     }
   </style>
 </head>
 <body>
   <div class="home">
-    <h1>🎯 Modern Chinese 2 時代華語 2</h1>
-    <div class="sub">Tiếng Trung · 16 Bài học · Chọn hoạt động bên dưới</div>
+    <div class="header">
+      <button class="theme-toggle" id="themeToggle" title="Chuyển Dark / Light" aria-label="Chuyển theme">
+        🌙
+      </button>
+      <h1>🎯 Modern Chinese 2 時代華語 2</h1>
+      <div class="sub">Tiếng Trung · 16 Bài học · Chọn hoạt động bên dưới</div>
+    </div>
     
     <div class="activity-grid">
       <!-- Hàng trên -->
@@ -118,19 +296,19 @@
       </a>
       
       <!-- Hàng dưới -->
-      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-PinyinTuVung.html">
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-PinyinTuVung-Pet.html">
         <div class="emoji">🔤</div>
         <h3>Quiz Từ vựng – Pinyin</h3>
         <p>Nhìn Hán tự → Chọn Pinyin đúng · Luyện phát âm</p>
       </a>
       
-      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-MeaningTuVung.html">
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-MeaningTuVung-Pet.html">
         <div class="emoji">📚</div>
         <h3>Quiz Từ vựng – Nghĩa</h3>
         <p>Nhìn Hán tự → Chọn nghĩa đúng · Sai quay đầu chặng</p>
       </a>
       
-      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-NgheTuVung.html">
+      <a class="act-card group-bottom" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-NgheTuVung-Pet.html">
         <div class="emoji">🎧</div>
         <h3>Quiz Từ vựng – Nghe</h3>
         <p>Nghe từ → Chọn nghĩa · Có thể hiện chữ khi cần</p>
@@ -139,5 +317,30 @@
     
     <div class="footer-note">Gộp từ các công cụ luyện tập · Dữ liệu 16 bài học đầy đủ</div>
   </div>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    // Load saved theme
+    const saved = localStorage.getItem('md2-theme');
+    if (saved === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      toggle.textContent = '☀️';
+    }
+
+    toggle.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.removeAttribute('data-theme');
+        toggle.textContent = '🌙';
+        localStorage.setItem('md2-theme', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        toggle.textContent = '☀️';
+        localStorage.setItem('md2-theme', 'dark');
+      }
+    });
+  </script>
 </body>
 </html>
