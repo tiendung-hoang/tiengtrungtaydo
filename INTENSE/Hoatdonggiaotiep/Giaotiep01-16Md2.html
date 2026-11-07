@@ -12,14 +12,89 @@
     }
 
     :root {
-      --primary: #4f46e5;
-      --primary-light: #818cf8;
-      --bg: #f8fafc;
+      /* Duolingo-inspired: brighter indigo family */
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #a5b4fc;
+      --primary-soft: #eef2ff;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+
+      --bg: #f0f4ff;
+      --bg-gradient: linear-gradient(180deg, #eef2ff 0%, #f8fafc 40%, #f1f5f9 100%);
       --card: #ffffff;
-      --text: #1e293b;
+      --text: #1e1b4b;
       --muted: #64748b;
-      --border: #e2e8f0;
+      --border: #e0e7ff;
+      --success: #22c55e;
+      --success-bg: #f0fdf4;
+      --success-border: #bbf7d0;
+      --warning: #f59e0b;
+      --warning-dark: #d97706;
+
+      --lesson-shadow: #c7d2fe;
+      --answer-shadow: #86efac;
+      --compare-bg: linear-gradient(135deg, #fefce8, #fef9c3);
+      --compare-border: #facc15;
+      --compare-shadow: #fde047;
+      --compare-text: #854d0e;
+      --shake-bg: #fef3c7;
+      --shake-border: #fde68a;
+      --shake-text: #92400e;
+      --select-arrow: %236366f1;
+      --select-shadow: #e0e7ff;
+
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(99, 102, 241, 0.08);
+      --shadow-md: 0 6px 20px rgba(99, 102, 241, 0.12);
+      --shadow-lg: 0 10px 30px rgba(99, 102, 241, 0.15);
+      --shadow-btn: 0 4px 0 #4f46e5;
+      --shadow-btn-active: 0 1px 0 #4f46e5;
+
       --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    /* ========== DARK THEME ========== */
+    body.theme-dark {
+      --primary: #818cf8;
+      --primary-dark: #6366f1;
+      --primary-light: #a5b4fc;
+      --primary-soft: #312e81;
+      --primary-glow: rgba(129, 140, 248, 0.3);
+
+      --bg: #0f172a;
+      --bg-gradient: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --success: #4ade80;
+      --success-bg: #14532d;
+      --success-border: #166534;
+      --warning: #fbbf24;
+      --warning-dark: #f59e0b;
+
+      --lesson-shadow: #1e1b4b;
+      --answer-shadow: #14532d;
+      --compare-bg: linear-gradient(135deg, #422006, #713f12);
+      --compare-border: #a16207;
+      --compare-shadow: #78350f;
+      --compare-text: #fde68a;
+      --shake-bg: #422006;
+      --shake-border: #a16207;
+      --shake-text: #fde68a;
+      --select-arrow: %23a5b4fc;
+      --select-shadow: #1e293b;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+      --shadow-btn: 0 4px 0 #4338ca;
+      --shadow-btn-active: 0 1px 0 #4338ca;
     }
 
     body.mode-kai {
@@ -36,11 +111,12 @@
     body {
       font-family: var(--font-main);
       background: var(--bg);
+      background-image: var(--bg-gradient);
       color: var(--text);
       line-height: 1.5;
       min-height: 100vh;
-      padding-bottom: 50px;
-      transition: font-family 0.25s ease;
+      padding-bottom: 60px;
+      transition: font-family 0.25s ease, background 0.3s ease, color 0.3s ease;
     }
 
     .container {
@@ -49,30 +125,57 @@
       padding: 16px;
     }
 
-    /* ========== Persistent Language / Font Switcher ========== */
-    .lang-switcher {
+    /* ========== Top Controls (Theme + Language) ========== */
+    .top-controls {
       position: fixed;
-      top: 12px;
-      right: 12px;
+      top: 14px;
+      right: 14px;
       z-index: 1000;
       display: flex;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.92);
+    }
+
+    .lang-switcher {
+      display: flex;
+      background: var(--card);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-md);
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
     }
 
     .lang-btn {
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      font-weight: 700;
       border: none;
-      background: white;
+      background: var(--card);
       color: var(--muted);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       font-family: inherit;
+      letter-spacing: 0.02em;
     }
 
     .lang-btn.active {
@@ -87,31 +190,54 @@
     /* Header */
     header {
       text-align: center;
-      padding: 28px 0 16px;
+      padding: 36px 0 20px;
     }
 
     header h1 {
-      font-size: 1.55rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: var(--primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
     }
 
     header p {
       color: var(--muted);
       font-size: 0.95rem;
-      margin-top: 4px;
+      font-weight: 500;
     }
 
     /* Cards */
     .card {
       background: var(--card);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid var(--border);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
+    .card h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    /* Lesson Grid */
     .lesson-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -119,107 +245,149 @@
     }
 
     .lesson-btn {
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 8px;
+      background: var(--card);
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 10px;
       text-align: center;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.92rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.18s ease;
       color: var(--text);
       font-family: inherit;
       white-space: pre-line;
+      box-shadow: 0 3px 0 var(--lesson-shadow);
+      line-height: 1.35;
     }
 
-    .lesson-btn:active,
+    .lesson-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 var(--lesson-shadow);
+    }
+
     .lesson-btn.selected {
       border-color: var(--primary);
-      background: #eef2ff;
+      background: var(--primary-soft);
       color: var(--primary);
-      transform: scale(0.97);
+      box-shadow: 0 3px 0 var(--primary-dark);
     }
 
+    .lesson-btn.selected:active {
+      box-shadow: 0 1px 0 var(--primary-dark);
+      transform: translateY(2px);
+    }
+
+    /* Role Grid */
     .role-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 8px;
+      gap: 14px;
+      margin-top: 4px;
     }
 
     .role-btn {
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 18px 10px;
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 12px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
-      background: white;
+      transition: all 0.18s ease;
+      background: var(--card);
+      box-shadow: 0 4px 0 var(--lesson-shadow);
     }
 
-    .role-btn:active,
+    .role-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--lesson-shadow);
+    }
+
     .role-btn.selected {
       border-color: var(--primary);
-      background: #eef2ff;
+      background: var(--primary-soft);
+      box-shadow: 0 4px 0 var(--primary-dark);
+    }
+
+    .role-btn.selected:active {
+      box-shadow: 0 1px 0 var(--primary-dark);
+      transform: translateY(3px);
     }
 
     .role-btn .emoji {
-      font-size: 1.9rem;
+      font-size: 2.2rem;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
     }
 
     .role-btn .label {
-      font-weight: 600;
-      font-size: 1.05rem;
+      font-weight: 800;
+      font-size: 1.08rem;
+      color: var(--text);
     }
 
     .role-btn .desc {
       font-size: 0.78rem;
       color: var(--muted);
-      margin-top: 3px;
+      margin-top: 4px;
+      font-weight: 500;
+      line-height: 1.35;
     }
 
+    /* Buttons */
     .btn {
       display: block;
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 16px;
+      border-radius: var(--radius-md);
       border: none;
-      font-size: 1.05rem;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 800;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
       text-align: center;
       font-family: inherit;
+      letter-spacing: 0.01em;
     }
 
     .btn-primary {
       background: var(--primary);
       color: white;
+      box-shadow: var(--shadow-btn);
+      margin-top: 8px;
     }
 
-    .btn-primary:active {
-      background: #4338ca;
-      transform: scale(0.98);
+    .btn-primary:disabled {
+      background: var(--primary-light);
+      box-shadow: 0 4px 0 var(--primary);
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .btn-primary:not(:disabled):active {
+      transform: translateY(3px);
+      box-shadow: var(--shadow-btn-active);
     }
 
     .btn-random {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
       color: white;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      margin-bottom: 12px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 5px 0 #d97706;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
     .btn-random:active {
-      transform: scale(0.97);
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #d97706;
     }
 
+    /* Question items */
     .question-item {
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .question-item:last-child {
@@ -227,147 +395,216 @@
     }
 
     .q-number {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: var(--primary);
       color: white;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      text-align: center;
-      line-height: 26px;
       font-size: 0.85rem;
-      font-weight: 600;
-      margin-right: 8px;
+      font-weight: 800;
+      margin-right: 10px;
       flex-shrink: 0;
+      box-shadow: 0 2px 0 var(--primary-dark);
     }
 
     .q-text {
-      font-weight: 600;
-      font-size: 1.05rem;
-      margin-bottom: 10px;
+      font-weight: 700;
+      font-size: 1.08rem;
+      margin-bottom: 12px;
       display: flex;
       align-items: flex-start;
+      color: var(--text);
+      line-height: 1.4;
     }
 
     select {
       width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
+      padding: 14px 16px;
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-md);
       font-size: 1rem;
-      background: white;
+      font-weight: 600;
+      background-color: var(--card);
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%236366f1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
+      background-position: right 14px center;
       color: var(--text);
       font-family: inherit;
+      box-shadow: 0 2px 0 var(--select-shadow);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;
+    }
+
+    body.theme-dark select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%23a5b4fc' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
     }
 
     select:focus {
       outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow), 0 2px 0 var(--primary);
     }
 
+    /* Answer cards */
     .answer-card {
-      background: #f0fdf4;
-      border: 2px solid #bbf7d0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
+      background: var(--success-bg);
+      border: 2.5px solid var(--success-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 0 var(--answer-shadow);
+      transition: transform 0.12s ease;
+    }
+
+    .answer-card:active {
+      transform: scale(0.985);
     }
 
     .answer-card .q {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
     .answer-card .a {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #166534;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--success);
+      line-height: 1.35;
     }
 
+    /* Top bar */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      padding: 8px 0;
-      padding-right: 110px; /* chừa chỗ cho switcher */
+      margin-bottom: 18px;
+      padding: 6px 0;
+      padding-right: 170px; /* space for theme + lang switcher */
     }
 
     .back-btn {
-      background: none;
-      border: none;
+      background: var(--card);
+      border: 2px solid var(--border);
       color: var(--primary);
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       font-family: inherit;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 0 var(--lesson-shadow);
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 var(--lesson-shadow);
     }
 
     .lesson-tag {
-      background: #e0e7ff;
+      background: var(--primary-soft);
       color: var(--primary);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 800;
+      border: 2px solid var(--border);
     }
 
+    /* Screens */
     .screen {
       display: none;
     }
 
     .screen.active {
       display: block;
+      animation: fadeIn 0.25s ease;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Shake hint */
     .shake-hint {
       text-align: center;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: -6px;
+      font-size: 0.88rem;
+      margin-top: -4px;
       margin-bottom: 18px;
+      font-weight: 500;
     }
 
     .shake-hint span {
-      background: #fef3c7;
-      padding: 2px 8px;
-      border-radius: 6px;
-      color: #92400e;
+      background: var(--shake-bg);
+      padding: 3px 10px;
+      border-radius: 8px;
+      color: var(--shake-text);
+      font-weight: 700;
+      border: 1.5px solid var(--shake-border);
     }
 
+    /* Compare box */
     .compare-box {
-      background: #fefce8;
-      border: 2px dashed #facc15;
-      border-radius: 12px;
-      padding: 16px;
+      background: var(--compare-bg);
+      border: 2.5px dashed var(--compare-border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
+      box-shadow: 0 4px 0 var(--compare-shadow);
     }
 
     .compare-box p {
       font-size: 0.95rem;
-      color: #854d0e;
+      color: var(--compare-text);
+      font-weight: 700;
+      line-height: 1.4;
     }
 
+    /* Footer */
     .footer-note {
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--muted);
-      margin-top: 24px;
+      margin-top: 28px;
+      font-weight: 600;
+      background: var(--card);
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+
+    /* Empty state */
+    #empty-hint {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 16px;
+      font-weight: 600;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <!-- Persistent Language Switcher -->
-  <div class="lang-switcher">
-    <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
-    <button class="lang-btn active" data-mode="zh" onclick="setMode('zh')">中</button>
-    <button class="lang-btn" data-mode="kai" onclick="setMode('kai')">楷</button>
+  <!-- Top Controls: Theme + Language -->
+  <div class="top-controls">
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+      🌙
+    </button>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
+      <button class="lang-btn active" data-mode="zh" onclick="setMode('zh')">中</button>
+      <button class="lang-btn" data-mode="kai" onclick="setMode('kai')">楷</button>
+    </div>
   </div>
 
   <div class="container">
@@ -380,12 +617,12 @@
       </header>
 
       <div class="card">
-        <h2 style="font-size:1.1rem; margin-bottom:14px;">① 選擇課程</h2>
+        <h2>① 選擇課程</h2>
         <div class="lesson-grid" id="lesson-grid"></div>
       </div>
 
       <div class="card">
-        <h2 style="font-size:1.1rem; margin-bottom:14px;">② 選擇角色</h2>
+        <h2>② 選擇角色</h2>
         <div class="role-grid">
           <div class="role-btn" data-role="A" onclick="selectRole(this)">
             <span class="emoji">❓</span>
@@ -416,7 +653,7 @@
 
       <div class="card">
         <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleA-title">你是提問者 (A)</h2>
-        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleA-desc">
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px; font-weight:500;" id="roleA-desc">
           依序問對方，並從選項中選擇你想聽的答案
         </p>
         <div id="questions-A"></div>
@@ -441,7 +678,7 @@
 
       <div class="card">
         <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleB-title">你是回答者 (B)</h2>
-        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;" id="roleB-desc">
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px; font-weight:500;" id="roleB-desc">
           根據下面的答案回答對方的問題
         </p>
         <div id="answers-B">
@@ -1067,21 +1304,34 @@
     let selectedLesson = null;
     let selectedRole = null;
     let currentMode = 'zh'; // vi | zh | kai
-    let currentAnswersB = null; // lưu đáp án random để khi đổi mode vẫn giữ
+    let currentAnswersB = null;
+    let isDark = false;
+
+    // ==================== THEME TOGGLE ====================
+    function toggleTheme() {
+      isDark = !isDark;
+      document.body.classList.toggle('theme-dark', isDark);
+      document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('themeDark', isDark ? '1' : '0');
+    }
+
+    // Load saved theme
+    if (localStorage.getItem('themeDark') === '1') {
+      isDark = true;
+      document.body.classList.add('theme-dark');
+      // icon will be set after DOM ready
+    }
 
     // ==================== MODE SWITCHER ====================
     function setMode(mode) {
       currentMode = mode;
       
-      // Update buttons
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.mode === mode);
       });
 
-      // Font
       document.body.classList.toggle('mode-kai', mode === 'kai');
 
-      // Re-render if needed
       if (selectedRole === 'A' && document.getElementById('screen-A').classList.contains('active')) {
         renderRoleA();
       }
@@ -1092,11 +1342,9 @@
         updateRoleBTexts();
       }
 
-      // Save
       localStorage.setItem('displayMode', mode);
     }
 
-    // Load saved mode
     const savedMode = localStorage.getItem('displayMode');
     if (savedMode && ['vi', 'zh', 'kai'].includes(savedMode)) {
       setMode(savedMode);
@@ -1169,7 +1417,6 @@
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById("screen-home").classList.add("active");
       
-      // Update lesson buttons text according to current mode
       document.querySelectorAll(".lesson-btn").forEach(btn => {
         updateLessonBtnText(btn, btn.dataset.num);
       });
@@ -1180,7 +1427,6 @@
       const data = lessons[selectedLesson];
       document.getElementById("lesson-tag-A").textContent = getLessonTag();
 
-      // Update titles
       if (currentMode === 'vi') {
         document.getElementById("roleA-title").textContent = "Bạn là người hỏi (A)";
         document.getElementById("roleA-desc").textContent = "Hỏi lần lượt và chọn đáp án bạn muốn nghe";
@@ -1284,6 +1530,12 @@
 
     // ==================== START ====================
     init();
+
+    // Set theme icon after DOM is ready
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.textContent = isDark ? '☀️' : '🌙';
+    }
   </script>
 </body>
 </html>
