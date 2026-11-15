@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcard Từ Vựng - 10 Bài (Gom)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(145deg, #7c5cfc 0%, #9b6dff 45%, #c084fc 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 18px 14px 40px;
+    line-height: 1.4;
+    transition: background 0.35s ease;
+}
+
+body.dark {
+    background: linear-gradient(145deg, #1a1035 0%, #2d1b4e 45%, #3b2667 100%);
+}
+body.dark .app {
+    background: #1e1a2e;
+    color: #e8e4f0;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+}
+body.dark .app::before {
+    background: linear-gradient(90deg, #9b6dff, #c084fc, #e879f9);
+}
+body.dark h1 { color: #f0eaf8; }
+body.dark .sub { color: #a89bc4; }
+body.dark .toolbar {
+    background: #252035;
+    border-color: #3d3555;
+}
+body.dark select, body.dark button {
+    background: #2a2438;
+    color: #e8e4f0;
+    border-color: #3d3555;
+}
+body.dark .face {
+    background: #252035;
+    color: #e8e4f0;
+}
+body.dark .word { color: #f5f0ff; }
+body.dark .pinyin { color: #c4b5fd; }
+body.dark .meaning { color: #e8e4f0; }
+body.dark .pos { color: #a78bfa; }
+body.dark .stats { color: #a89bc4; }
+body.dark .hint, body.dark .footer { color: #7c6f9b; }
+body.dark .example { background: #2a2438; }
+body.dark .dot { background: #3d3555; }
+body.dark .dot.active { background: #a78bfa; }
+body.dark .theme-toggle-wrap {
+    background: rgba(30, 26, 46, 0.75);
+    border-color: rgba(255,255,255,0.12);
+}
+
+.theme-toggle-wrap {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(12px);
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+.toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+.toggle-switch.on { background: #58cc02; }
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle-switch.on::after { transform: translateX(20px); }
+
+.app {
+    max-width: 780px;
+    margin: 52px auto 0;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    padding: 28px 24px 32px;
+    color: #3c3c3c;
+    position: relative;
+    overflow: hidden;
+}
+.app::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #7c5cfc, #a78bfa, #c084fc);
+}
+
+h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #3c3c3c;
+    margin: 8px 0 6px;
+}
+.sub {
+    text-align: center;
+    color: #777;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 22px;
+    line-height: 1.45;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+    background: #f8f5ff;
+    padding: 16px;
+    border-radius: 16px;
+    border: 2px solid #e9e0ff;
+    margin-bottom: 18px;
+}
+.toolbar label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #5b21b6;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+select, button {
+    font: inherit;
+    font-weight: 700;
+    border: 2px solid #e5e5e5;
+    border-bottom-width: 3px;
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: #fff;
+    cursor: pointer;
+    color: #3c3c3c;
+    transition: all 0.15s;
+}
+select[multiple] {
+    min-height: 130px;
+    min-width: 240px;
+    padding: 8px;
+}
+button.primary {
+    background: #7c5cfc;
+    color: #fff;
+    border-color: #6d4de0;
+    border-bottom-color: #6d4de0;
+}
+button.primary:hover { background: #8b6dff; }
+button:hover { filter: brightness(0.97); }
+button:active { border-bottom-width: 1px; transform: translateY(2px); }
+
+.lesson-hint {
+    font-size: 11.5px;
+    color: #a78bfa;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.stats {
+    margin: 12px 0 16px;
+    text-align: center;
+    color: #777;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.card-wrap { max-width: 640px; margin: 0 auto; }
+.card {
+    height: 400px;
+    position: relative;
+    cursor: pointer;
+}
+.face {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 24px;
+    text-align: center;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    overflow: auto;
+    border: 2px solid #f0ebff;
+}
+.face.fade { opacity: 0; transform: scale(0.97); }
+
+.word {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 10px;
+    color: #3c3c3c;
+    letter-spacing: 2px;
+}
+.picture {
+    font-size: 100px;
+    margin: 10px;
+    line-height: 1;
+}
+.pinyin {
+    font-size: 36px;
+    color: #7c5cfc;
+    margin: 8px;
+    font-weight: 700;
+}
+.meaning {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 6px;
+    padding: 0 8px;
+    color: #3c3c3c;
+}
+.pos {
+    font-size: 13px;
+    color: #a78bfa;
+    margin-bottom: 8px;
+    letter-spacing: 0.6px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.example {
+    width: 100%;
+    max-width: 560px;
+    text-align: left;
+    margin: 6px 0;
+    padding: 10px 14px;
+    background: #f8f5ff;
+    border-radius: 12px;
+}
+.cn { font-size: 17px; font-weight: 600; }
+.py { font-size: 13px; color: #777; margin-top: 4px; }
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 18px 0 10px;
+}
+.nav button {
+    min-width: 110px;
+    padding: 12px 18px;
+}
+
+.face-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 14px;
+}
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    transition: background 0.2s, transform 0.2s;
+}
+.dot.active {
+    background: #7c5cfc;
+    transform: scale(1.2);
+}
+
+.hint {
+    font-size: 12.5px;
+    color: #999;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+.footer {
+    text-align: center;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 14px;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    body { padding: 12px 10px 32px; }
+    .app { margin-top: 48px; padding: 20px 14px 24px; }
+    h1 { font-size: 22px; }
+    .card { height: 380px; }
+    .word { font-size: 52px; }
+    .picture { font-size: 80px; }
+    .pinyin { font-size: 28px; }
+    select[multiple] { min-width: 100%; min-height: 120px; }
+    .toolbar { padding: 12px; }
+    .nav button { min-width: 90px; padding: 11px 12px; font-size: 14px; }
+    .theme-toggle-wrap { top: 10px; padding: 6px 11px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle-wrap" title="Chuyển theme">
+    <span id="theme-label">🌙 Tối</span>
+    <div class="toggle-switch" id="theme-toggle" onclick="toggleTheme()"></div>
+</div>
+
+<div class="app">
+    <h1 id="mainTitle">🃏 Flashcard 10 Bài (Gom)</h1>
+    <div class="sub" id="mainSub">Chọn 1 hoặc nhiều bài · 7 mặt thẻ: Giải thích → Pinyin → Pinyin+Hán → Hán → Hán+Hình → Pinyin+Hình → Chỉ hình</div>
+
+    <div class="toolbar">
+        <label>Chọn Bài học (Ctrl/Cmd + click):
+            <select id="lesson" multiple size="6">
+                <option value="1" selected>Bài 1: Số đếm & Cơ bản</option>
+                <option value="2">Bài 2: 你叫什么名字？</option>
+                <option value="3">Bài 3: 很高兴认识你</option>
+                <option value="4">Bài 4: 你去哪儿？</option>
+                <option value="5">Bài 5: 你要吃什么？</option>
+                <option value="6">Bài 6: 你在哪儿工作？</option>
+                <option value="7">Bài 7: 中国银行在哪儿？</option>
+                <option value="8">Bài 8: 你的生日是几月几号？</option>
+                <option value="9">Bài 9: 你喜欢中国电影…</option>
+                <option value="10">Bài 10: 你家有几口人？</option>
+            </select>
+            <div class="lesson-hint">💡 Giữ Ctrl (Win) / Cmd (Mac) + click để chọn nhiều bài</div>
+        </label>
+
+        <label id="partLabel">Chọn Phần:
+            <select id="part">
+                <option value="part1">Phần 1</option>
+                <option value="part2">Phần 2</option>
+                <option value="all">Tất cả</option>
+            </select>
+        </label>
+
+        <label>Thứ tự:
+            <select id="order">
+                <option value="normal">Theo thứ tự</option>
+                <option value="shuffle">Xáo trộn</option>
+            </select>
+        </label>
+
+        <label>Mặt bắt đầu:
+            <select id="front">
+                <option value="meaning">Giải thích</option>
+                <option value="pinyin">Pinyin</option>
+                <option value="pinyin_hanzi">Pinyin + Hán tự</option>
+                <option value="hanzi">Chỉ Hán tự</option>
+                <option value="hanzi_image">Hán tự + Hình</option>
+                <option value="pinyin_image">Pinyin + Hình</option>
+                <option value="image">Chỉ hình</option>
+            </select>
+        </label>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:4px;">
+            <button class="primary" onclick="resetDeck()">🔄 Bắt đầu lại</button>
+            <button onclick="speak()">🔊 Đọc từ (S)</button>
+        </div>
+    </div>
+
+    <div class="stats" id="stats">Thẻ 1 / 0 · Mặt: GIẢI THÍCH (1/7)</div>
+
+    <div class="card-wrap">
+        <div class="card" id="card" onclick="flip()">
+            <div class="face" id="cardFace">
+                <div class="pos">GIẢI THÍCH</div>
+                <div class="meaning">—</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="face-dots" id="faceDots"></div>
+
+    <div class="nav">
+        <button onclick="prev()">← Trước</button>
+        <button class="primary" onclick="flip()">Lật thẻ (Space)</button>
+        <button onclick="next()">Sau →</button>
+    </div>
+
+    <div class="hint">💡 Nhấp / Space: lật mặt · ← → chuyển thẻ · S: đọc từ · Ctrl/Cmd + click chọn nhiều bài</div>
+    <div class="footer">10 bài giáo trình Gom · 7 mặt thẻ · Hỗ trợ chọn nhiều bài · Dark mode</div>
+</div>
+
+<script>
+const lessons = {
+"1": {
+    title: "🃏 Bài 1: Số đếm & Cơ bản",
+    sub: "Số đếm cơ bản + đại từ",
+    parts: { part1: "Phần 1 (Số đếm)", part2: "Phần 2 (Cơ bản)", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"一", pinyin:"yī", meaning:"một (số)", emoji:"1️⃣"},
+            {hanzi:"二", pinyin:"èr", meaning:"hai (số)", emoji:"2️⃣"},
+            {hanzi:"三", pinyin:"sān", meaning:"ba (số)", emoji:"3️⃣"},
+            {hanzi:"四", pinyin:"sì", meaning:"bốn (số)", emoji:"4️⃣"},
+            {hanzi:"五", pinyin:"wǔ", meaning:"năm (số)", emoji:"5️⃣"},
+            {hanzi:"六", pinyin:"liù", meaning:"sáu (số)", emoji:"6️⃣"},
+            {hanzi:"七", pinyin:"qī", meaning:"bảy (số)", emoji:"7️⃣"},
+            {hanzi:"八", pinyin:"bā", meaning:"tám (số)", emoji:"8️⃣"},
+            {hanzi:"九", pinyin:"jiǔ", meaning:"chín (số)", emoji:"9️⃣"},
+            {hanzi:"十", pinyin:"shí", meaning:"mười (số)", emoji:"🔟"}
+        ],
+        part2: [
+            {hanzi:"你", pinyin:"nǐ", meaning:"bạn (đại từ)", emoji:"👤"},
+            {hanzi:"我", pinyin:"wǒ", meaning:"tôi (đại từ)", emoji:"🙋"},
+            {hanzi:"他", pinyin:"tā", meaning:"anh ấy / ông ấy", emoji:"👨"},
+            {hanzi:"好", pinyin:"hǎo", meaning:"tốt, khỏe", emoji:"👍"},
+            {hanzi:"是", pinyin:"shì", meaning:"là (động từ)", emoji:"✅"}
+        ]
+    }
+},
+"2": {
+    title: "🃏 Bài 2: 你叫什么名字？",
+    sub: "Tên của bạn là gì?",
+    parts: { part1: "Phần 1 (Cơ bản)", part2: "Phần 2 (Quốc tịch)", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"叫", pinyin:"jiào", meaning:"gọi, tên là", emoji:"📢"},
+            {hanzi:"什么", pinyin:"shénme", meaning:"gì, cái gì", emoji:"❓"},
+            {hanzi:"名字", pinyin:"míngzi", meaning:"tên", emoji:"🏷️"},
+            {hanzi:"我", pinyin:"wǒ", meaning:"tôi", emoji:"🙋"},
+            {hanzi:"他", pinyin:"tā", meaning:"anh ấy / ông ấy", emoji:"👨"},
+            {hanzi:"呢", pinyin:"ne", meaning:"trợ từ ngữ khí", emoji:"💬"},
+            {hanzi:"是", pinyin:"shì", meaning:"là", emoji:"✅"},
+            {hanzi:"老师", pinyin:"lǎoshī", meaning:"giáo viên", emoji:"👩‍🏫"}
+        ],
+        part2: [
+            {hanzi:"哪", pinyin:"nǎ", meaning:"nào", emoji:"❔"},
+            {hanzi:"国", pinyin:"guó", meaning:"quốc gia", emoji:"🌍"},
+            {hanzi:"人", pinyin:"rén", meaning:"người", emoji:"👤"},
+            {hanzi:"中国", pinyin:"Zhōngguó", meaning:"Trung Quốc", emoji:"🇨🇳"},
+            {hanzi:"美国", pinyin:"Měiguó", meaning:"Mỹ", emoji:"🇺🇸"},
+            {hanzi:"越南", pinyin:"Yuènán", meaning:"Việt Nam", emoji:"🇻🇳"},
+            {hanzi:"南非", pinyin:"Nánfēi", meaning:"Nam Phi", emoji:"🇿🇦"}
+        ]
+    }
+},
+"3": {
+    title: "🃏 Bài 3: 很高兴认识你",
+    sub: "Rất vui được làm quen",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"请问", pinyin:"qǐngwèn", meaning:"xin hỏi, cho hỏi", emoji:"🙋"},
+            {hanzi:"问", pinyin:"wèn", meaning:"hỏi", emoji:"❓"},
+            {hanzi:"贵姓", pinyin:"guìxìng", meaning:"quý danh (họ)", emoji:"🎩"},
+            {hanzi:"姓", pinyin:"xìng", meaning:"họ", emoji:"📛"},
+            {hanzi:"这", pinyin:"zhè", meaning:"này", emoji:"👉"},
+            {hanzi:"的", pinyin:"de", meaning:"trợ từ sở hữu", emoji:"📎"},
+            {hanzi:"名片", pinyin:"míngpiàn", meaning:"danh thiếp", emoji:"💳"}
+        ],
+        part2: [
+            {hanzi:"对不起", pinyin:"duìbuqǐ", meaning:"xin lỗi", emoji:"🙇"},
+            {hanzi:"没关系", pinyin:"méi guānxi", meaning:"không sao", emoji:"👌"},
+            {hanzi:"没有", pinyin:"méiyǒu", meaning:"không có", emoji:"❌"},
+            {hanzi:"有", pinyin:"yǒu", meaning:"có", emoji:"✅"},
+            {hanzi:"很", pinyin:"hěn", meaning:"rất", emoji:"💯"},
+            {hanzi:"高兴", pinyin:"gāoxìng", meaning:"vui mừng", emoji:"😄"},
+            {hanzi:"认识", pinyin:"rènshi", meaning:"quen biết", emoji:"🤝"},
+            {hanzi:"先生", pinyin:"xiānsheng", meaning:"ngài, ông", emoji:"🤵"},
+            {hanzi:"也", pinyin:"yě", meaning:"cũng", emoji:"➕"}
+        ]
+    }
+},
+"4": {
+    title: "🃏 Bài 4: 你去哪儿？",
+    sub: "Bạn đi đâu?",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"小姐", pinyin:"xiǎojiě", meaning:"tiểu thư, cô", emoji:"👩"},
+            {hanzi:"师傅", pinyin:"shīfu", meaning:"sư phụ, thầy", emoji:"🧑‍🔧"},
+            {hanzi:"去", pinyin:"qù", meaning:"đi", emoji:"🚶"},
+            {hanzi:"哪儿", pinyin:"nǎr", meaning:"đâu", emoji:"📍"},
+            {hanzi:"哪里", pinyin:"nǎlǐ", meaning:"đâu", emoji:"📍"},
+            {hanzi:"人民", pinyin:"rénmín", meaning:"nhân dân", emoji:"👥"},
+            {hanzi:"广场", pinyin:"guǎngchǎng", meaning:"quảng trường", emoji:"🏛️"}
+        ],
+        part2: [
+            {hanzi:"知道", pinyin:"zhīdào", meaning:"biết", emoji:"💡"},
+            {hanzi:"了", pinyin:"le", meaning:"trợ từ (thay đổi)", emoji:"✔️"},
+            {hanzi:"远", pinyin:"yuǎn", meaning:"xa", emoji:"🔭"},
+            {hanzi:"近", pinyin:"jìn", meaning:"gần", emoji:"📍"},
+            {hanzi:"到", pinyin:"dào", meaning:"đến", emoji:"🏁"},
+            {hanzi:"多少", pinyin:"duōshao", meaning:"bao nhiêu", emoji:"🔢"},
+            {hanzi:"钱", pinyin:"qián", meaning:"tiền", emoji:"💰"},
+            {hanzi:"谢谢", pinyin:"xièxie", meaning:"cảm ơn", emoji:"🙏"},
+            {hanzi:"不客气", pinyin:"bú kèqi", meaning:"không có gì", emoji:"😊"},
+            {hanzi:"再见", pinyin:"zàijiàn", meaning:"tạm biệt", emoji:"👋"}
+        ]
+    }
+},
+"5": {
+    title: "🃏 Bài 5: 你要吃什么？",
+    sub: "Bạn muốn ăn gì?",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"要", pinyin:"yào", meaning:"muốn, cần, phải", emoji:"🙋"},
+            {hanzi:"吃", pinyin:"chī", meaning:"ăn", emoji:"🍽️"},
+            {hanzi:"点儿", pinyin:"diǎnr", meaning:"một chút", emoji:"🤏"},
+            {hanzi:"个", pinyin:"gè", meaning:"cái (lượng từ)", emoji:"🔢"},
+            {hanzi:"牛肉", pinyin:"niúròu", meaning:"thịt bò", emoji:"🥩"},
+            {hanzi:"青菜", pinyin:"qīngcài", meaning:"rau xanh", emoji:"🥬"},
+            {hanzi:"还", pinyin:"hái", meaning:"còn", emoji:"➕"},
+            {hanzi:"两", pinyin:"liǎng", meaning:"hai", emoji:"2️⃣"},
+            {hanzi:"碗", pinyin:"wǎn", meaning:"bát", emoji:"🥣"}
+        ],
+        part2: [
+            {hanzi:"米饭", pinyin:"mǐfàn", meaning:"cơm", emoji:"🍚"},
+            {hanzi:"快", pinyin:"kuài", meaning:"nhanh", emoji:"⚡"},
+            {hanzi:"饿", pinyin:"è", meaning:"đói", emoji:"😫"},
+            {hanzi:"茶", pinyin:"chá", meaning:"trà", emoji:"🍵"},
+            {hanzi:"奶茶", pinyin:"nǎichá", meaning:"trà sữa", emoji:"🧋"},
+            {hanzi:"喝", pinyin:"hē", meaning:"uống", emoji:"🥤"},
+            {hanzi:"杯", pinyin:"bēi", meaning:"cốc, ly", emoji:"🥛"},
+            {hanzi:"还是", pinyin:"háishì", meaning:"hay là", emoji:"🔀"},
+            {hanzi:"一共", pinyin:"yígòng", meaning:"tổng cộng", emoji:"🧮"},
+            {hanzi:"大", pinyin:"dà", meaning:"to, lớn", emoji:"🐘"},
+            {hanzi:"小", pinyin:"xiǎo", meaning:"nhỏ, bé", emoji:"🐭"},
+            {hanzi:"咖啡", pinyin:"kāfēi", meaning:"cà phê", emoji:"☕"}
+        ]
+    }
+},
+"6": {
+    title: "🃏 Bài 6: 你在哪儿工作？",
+    sub: "Bạn làm việc ở đâu?",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"苹果", pinyin:"píngguǒ", meaning:"quả táo", emoji:"🍎"},
+            {hanzi:"公司", pinyin:"gōngsī", meaning:"công ty", emoji:"🏢"},
+            {hanzi:"学生", pinyin:"xuéshēng", meaning:"học sinh, sinh viên", emoji:"🎓"},
+            {hanzi:"留学生", pinyin:"liúxuéshēng", meaning:"du học sinh", emoji:"✈️"},
+            {hanzi:"这儿", pinyin:"zhèr", meaning:"ở đây", emoji:"📍"},
+            {hanzi:"这里", pinyin:"zhèli", meaning:"ở đây", emoji:"📍"},
+            {hanzi:"学习", pinyin:"xuéxí", meaning:"học tập", emoji:"📖"},
+            {hanzi:"汉语", pinyin:"Hànyǔ", meaning:"tiếng Trung", emoji:"🇨🇳"},
+            {hanzi:"英语", pinyin:"Yīngyǔ", meaning:"tiếng Anh", emoji:"🇬🇧"}
+        ],
+        part2: [
+            {hanzi:"对", pinyin:"duì", meaning:"đúng, đúng vậy", emoji:"✅"},
+            {hanzi:"朋友", pinyin:"péngyou", meaning:"bạn, bạn bè", emoji:"🤝"},
+            {hanzi:"男", pinyin:"nán", meaning:"nam", emoji:"♂️"},
+            {hanzi:"女", pinyin:"nǚ", meaning:"nữ", emoji:"♀️"},
+            {hanzi:"男朋友", pinyin:"nánpéngyou", meaning:"bạn trai", emoji:"👦"},
+            {hanzi:"女朋友", pinyin:"nǚpéngyou", meaning:"bạn gái", emoji:"👧"},
+            {hanzi:"做", pinyin:"zuò", meaning:"làm", emoji:"🛠️"},
+            {hanzi:"大学", pinyin:"dàxué", meaning:"đại học", emoji:"🏫"},
+            {hanzi:"中学", pinyin:"zhōngxué", meaning:"trung học", emoji:"🏫"},
+            {hanzi:"小学", pinyin:"xiǎoxué", meaning:"tiểu học", emoji:"🏫"},
+            {hanzi:"她", pinyin:"tā", meaning:"cô ấy / chị ấy", emoji:"👩"},
+            {hanzi:"教", pinyin:"jiāo", meaning:"dạy", emoji:"👩‍🏫"}
+        ]
+    }
+},
+"7": {
+    title: "🃏 Bài 7: 中国银行在哪儿？",
+    sub: "Ngân hàng ở đâu?",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"附近", pinyin:"fùjìn", meaning:"gần đây, lân cận", emoji:"📍"},
+            {hanzi:"银行", pinyin:"yínháng", meaning:"ngân hàng", emoji:"🏦"},
+            {hanzi:"家", pinyin:"jiā", meaning:"lượng từ (công ty, hộ)", emoji:"🏠"},
+            {hanzi:"从", pinyin:"cóng", meaning:"từ", emoji:"➡️"},
+            {hanzi:"往", pinyin:"wǎng", meaning:"hướng tới, đi", emoji:"➡️"},
+            {hanzi:"前", pinyin:"qián", meaning:"phía trước", emoji:"⬆️"},
+            {hanzi:"走", pinyin:"zǒu", meaning:"đi", emoji:"🚶"}
+        ],
+        part2: [
+            {hanzi:"左", pinyin:"zuǒ", meaning:"bên trái", emoji:"⬅️"},
+            {hanzi:"右", pinyin:"yòu", meaning:"bên phải", emoji:"➡️"},
+            {hanzi:"然后", pinyin:"ránhòu", meaning:"sau đó", emoji:"⏭️"},
+            {hanzi:"拐", pinyin:"guǎi", meaning:"rẽ, quẹo", emoji:"↩️"},
+            {hanzi:"饭店", pinyin:"fàndiàn", meaning:"nhà hàng", emoji:"🍽️"},
+            {hanzi:"就", pinyin:"jiù", meaning:"chính là, ngay", emoji:"👉"},
+            {hanzi:"对面", pinyin:"duìmiàn", meaning:"đối diện", emoji:"↔️"},
+            {hanzi:"书店", pinyin:"shūdiàn", meaning:"nhà sách", emoji:"📚"},
+            {hanzi:"超市", pinyin:"chāoshì", meaning:"siêu thị", emoji:"🛒"}
+        ]
+    }
+},
+"8": {
+    title: "🃏 Bài 8: 你的生日是几月几号？",
+    sub: "Sinh nhật của bạn",
+    parts: { part1: "Phần 1 (Thời gian)", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"今天", pinyin:"jīntiān", meaning:"hôm nay", emoji:"📅"},
+            {hanzi:"昨天", pinyin:"zuótiān", meaning:"hôm qua", emoji:"⏪"},
+            {hanzi:"明天", pinyin:"míngtiān", meaning:"ngày mai", emoji:"⏩"},
+            {hanzi:"早上", pinyin:"zǎoshang", meaning:"sáng sớm", emoji:"🌅"},
+            {hanzi:"上午", pinyin:"shàngwǔ", meaning:"buổi sáng", emoji:"☀️"},
+            {hanzi:"中午", pinyin:"zhōngwǔ", meaning:"buổi trưa", emoji:"🌞"},
+            {hanzi:"下午", pinyin:"xiàwǔ", meaning:"buổi chiều", emoji:"🌇"},
+            {hanzi:"晚上", pinyin:"wǎnshang", meaning:"buổi tối", emoji:"🌙"},
+            {hanzi:"几", pinyin:"jǐ", meaning:"mấy", emoji:"🔢"},
+            {hanzi:"月", pinyin:"yuè", meaning:"tháng", emoji:"🗓️"},
+            {hanzi:"号", pinyin:"hào", meaning:"ngày", emoji:"📆"},
+            {hanzi:"星期", pinyin:"xīngqī", meaning:"tuần", emoji:"📅"}
+        ],
+        part2: [
+            {hanzi:"生日", pinyin:"shēngrì", meaning:"sinh nhật", emoji:"🎂"},
+            {hanzi:"快乐", pinyin:"kuàilè", meaning:"vui vẻ, hạnh phúc", emoji:"🎉"},
+            {hanzi:"真", pinyin:"zhēn", meaning:"thật, thật là", emoji:"💯"},
+            {hanzi:"太……了", pinyin:"tài ... le", meaning:"… quá", emoji:"😲"},
+            {hanzi:"漂亮", pinyin:"piàoliang", meaning:"đẹp, xinh đẹp", emoji:"✨"},
+            {hanzi:"为什么", pinyin:"wèishénme", meaning:"tại sao", emoji:"❓"},
+            {hanzi:"事", pinyin:"shì", meaning:"việc, vấn đề", emoji:"📋"},
+            {hanzi:"有空儿", pinyin:"yǒukòngr", meaning:"rảnh rỗi", emoji:"🕐"},
+            {hanzi:"想", pinyin:"xiǎng", meaning:"muốn", emoji:"💭"},
+            {hanzi:"请", pinyin:"qǐng", meaning:"mời", emoji:"🙏"},
+            {hanzi:"看", pinyin:"kàn", meaning:"xem, nhìn", emoji:"👀"},
+            {hanzi:"电影", pinyin:"diànyǐng", meaning:"phim", emoji:"🎬"},
+            {hanzi:"学校", pinyin:"xuéxiào", meaning:"trường học", emoji:"🏫"},
+            {hanzi:"见", pinyin:"jiàn", meaning:"gặp", emoji:"🤝"},
+            {hanzi:"那", pinyin:"nà", meaning:"kia", emoji:"👈"}
+        ]
+    }
+},
+"9": {
+    title: "🃏 Bài 9: 你喜欢中国电影还是美国电影？",
+    sub: "Bạn thích phim Trung hay Mỹ?",
+    parts: { part1: "Phần 1", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"地铁", pinyin:"dìtiě", meaning:"tàu điện ngầm", emoji:"🚇"},
+            {hanzi:"公交车", pinyin:"gōngjiāochē", meaning:"xe buýt", emoji:"🚌"},
+            {hanzi:"出租车", pinyin:"chūzūchē", meaning:"xe taxi", emoji:"🚕"},
+            {hanzi:"走路", pinyin:"zǒulù", meaning:"đi bộ", emoji:"🚶"},
+            {hanzi:"坐", pinyin:"zuò", meaning:"ngồi", emoji:"💺"},
+            {hanzi:"喜欢", pinyin:"xǐhuan", meaning:"thích", emoji:"❤️"},
+            {hanzi:"非常", pinyin:"fēicháng", meaning:"rất, cực kỳ", emoji:"💯"},
+            {hanzi:"都", pinyin:"dōu", meaning:"đều", emoji:"👥"}
+        ],
+        part2: [
+            {hanzi:"电影院", pinyin:"diànyǐngyuàn", meaning:"rạp chiếu phim", emoji:"🎥"},
+            {hanzi:"怎么", pinyin:"zěnme", meaning:"thế nào", emoji:"❔"},
+            {hanzi:"又……又……", pinyin:"yòu ... yòu ...", meaning:"vừa … vừa …", emoji:"➕"},
+            {hanzi:"吧", pinyin:"ba", meaning:"trợ từ (gợi ý)", emoji:"💬"},
+            {hanzi:"便宜", pinyin:"piányi", meaning:"rẻ", emoji:"💵"},
+            {hanzi:"怎么样", pinyin:"zěnmeyàng", meaning:"thế nào", emoji:"❔"},
+            {hanzi:"菜", pinyin:"cài", meaning:"món ăn", emoji:"🍲"},
+            {hanzi:"有名", pinyin:"yǒumíng", meaning:"nổi tiếng", emoji:"⭐"},
+            {hanzi:"那儿", pinyin:"nàr", meaning:"đó, ở đó", emoji:"📍"},
+            {hanzi:"好吃", pinyin:"hǎochī", meaning:"ngon", emoji:"😋"}
+        ]
+    }
+},
+"10": {
+    title: "🃏 Bài 10: 你家有几口人？",
+    sub: "Nhà bạn có mấy người?",
+    parts: { part1: "Phần 1 (Gia đình)", part2: "Phần 2", all: "Tất cả" },
+    dataset: {
+        part1: [
+            {hanzi:"口", pinyin:"kǒu", meaning:"lượng từ (thành viên)", emoji:"👨‍👩‍👧‍👦"},
+            {hanzi:"爸爸", pinyin:"bàba", meaning:"bố", emoji:"👨"},
+            {hanzi:"妈妈", pinyin:"māma", meaning:"mẹ", emoji:"👩"},
+            {hanzi:"弟弟", pinyin:"dìdi", meaning:"em trai", emoji:"👦"},
+            {hanzi:"妹妹", pinyin:"mèimei", meaning:"em gái", emoji:"👧"},
+            {hanzi:"哥哥", pinyin:"gēge", meaning:"anh trai", emoji:"👨"},
+            {hanzi:"姐姐", pinyin:"jiějie", meaning:"chị gái", emoji:"👩"},
+            {hanzi:"照片", pinyin:"zhàopiàn", meaning:"ảnh", emoji:"📷"},
+            {hanzi:"律师", pinyin:"lǜshī", meaning:"luật sư", emoji:"⚖️"}
+        ],
+        part2: [
+            {hanzi:"和", pinyin:"hé", meaning:"và", emoji:"➕"},
+            {hanzi:"多大", pinyin:"duō dà", meaning:"bao nhiêu tuổi", emoji:"🎂"},
+            {hanzi:"谁", pinyin:"shéi", meaning:"ai", emoji:"❓"},
+            {hanzi:"今年", pinyin:"jīnnián", meaning:"năm nay", emoji:"📅"},
+            {hanzi:"家人", pinyin:"jiārén", meaning:"người nhà", emoji:"👨‍👩‍👧"},
+            {hanzi:"岁", pinyin:"suì", meaning:"tuổi", emoji:"🔢"},
+            {hanzi:"只", pinyin:"zhī", meaning:"con (lượng từ động vật)", emoji:"🐾"},
+            {hanzi:"他们", pinyin:"tāmen", meaning:"họ", emoji:"👥"},
+            {hanzi:"可爱", pinyin:"kě'ài", meaning:"dễ thương", emoji:"🥰"},
+            {hanzi:"狗", pinyin:"gǒu", meaning:"chó", emoji:"🐕"},
+            {hanzi:"医生", pinyin:"yīshēng", meaning:"bác sĩ", emoji:"🩺"}
+        ]
+    }
+}
+};
+
+Object.keys(lessons).forEach(k => {
+    const ds = lessons[k].dataset;
+    ds.all = [...(ds.part1 || []), ...(ds.part2 || [])];
+});
+
+const faceOrder = ['meaning', 'pinyin', 'pinyin_hanzi', 'hanzi', 'hanzi_image', 'pinyin_image', 'image'];
+const faceLabels = {
+    meaning: 'GIẢI THÍCH',
+    pinyin: 'PINYIN',
+    pinyin_hanzi: 'PINYIN + HÁN TỰ',
+    hanzi: 'HÁN TỰ',
+    hanzi_image: 'HÁN TỰ + HÌNH',
+    pinyin_image: 'PINYIN + HÌNH',
+    image: 'HÌNH GỢI NHỚ'
+};
+
+let selectedLessons = [1];
+let deck = [], index = 0, currentFaceIdx = 0;
+
+function getSelectedLessonNums() {
+    const sel = document.getElementById('lesson');
+    const nums = Array.from(sel.selectedOptions).map(o => parseInt(o.value)).filter(n => !isNaN(n)).sort((a,b) => a - b);
+    return nums.length ? nums : [1];
+}
+
+function updatePartOptions() {
+    const partSelect = document.getElementById('part');
+    const partLabel = document.getElementById('partLabel');
+    selectedLessons = getSelectedLessonNums();
+    partSelect.innerHTML = '';
+
+    if (selectedLessons.length > 1) {
+        const opt = document.createElement('option');
+        opt.value = 'all';
+        opt.textContent = 'Tất cả (gộp các bài đã chọn)';
+        partSelect.appendChild(opt);
+        partSelect.disabled = true;
+        if (partLabel) partLabel.style.opacity = '0.6';
+    } else {
+        partSelect.disabled = false;
+        if (partLabel) partLabel.style.opacity = '1';
+        const lessonData = lessons[selectedLessons[0]];
+        for (const [key, label] of Object.entries(lessonData.parts)) {
+            const opt = document.createElement('option');
+            opt.value = key;
+            const count = key === 'all'
+                ? (lessonData.dataset.part1?.length || 0) + (lessonData.dataset.part2?.length || 0)
+                : (lessonData.dataset[key]?.length || 0);
+            opt.textContent = `${label} (${count} từ)`;
+            partSelect.appendChild(opt);
+        }
+    }
+}
+
+function getSelectedData() {
+    selectedLessons = getSelectedLessonNums();
+    let all = [];
+    if (selectedLessons.length > 1) {
+        for (const ln of selectedLessons) {
+            const ds = lessons[ln].dataset;
+            all = all.concat(ds.part1 || [], ds.part2 || []);
+        }
+        // unique by hanzi
+        const seen = new Set();
+        return all.filter(w => {
+            if (seen.has(w.hanzi)) return false;
+            seen.add(w.hanzi);
+            return true;
+        });
+    }
+    const part = document.getElementById('part').value;
+    const ds = lessons[selectedLessons[0]].dataset;
+    if (part === 'all') return [...(ds.part1 || []), ...(ds.part2 || [])];
+    return ds[part] || [];
+}
+
+function shuffle(a) {
+    a = [...a];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function setStartFaceFromSelect() {
+    const val = document.getElementById('front').value;
+    currentFaceIdx = faceOrder.indexOf(val);
+    if (currentFaceIdx < 0) currentFaceIdx = 0;
+}
+
+function resetDeck() {
+    const rawData = getSelectedData();
+    deck = document.getElementById('order').value === 'shuffle' ? shuffle(rawData) : [...rawData];
+    index = 0;
+    setStartFaceFromSelect();
+    render();
+}
+
+function flip() {
+    currentFaceIdx = (currentFaceIdx + 1) % faceOrder.length;
+    render(true);
+}
+
+function next() {
+    if (index < deck.length - 1) {
+        index++;
+        setStartFaceFromSelect();
+        render();
+    }
+}
+
+function prev() {
+    if (index > 0) {
+        index--;
+        setStartFaceFromSelect();
+        render();
+    }
+}
+
+function emojiFor(w) {
+    return w.emoji || '🖼️';
+}
+
+function renderDots() {
+    const dots = document.getElementById('faceDots');
+    dots.innerHTML = faceOrder.map((_, i) =>
+        `<div class="dot${i === currentFaceIdx ? ' active' : ''}" title="${faceLabels[faceOrder[i]]}"></div>`
+    ).join('');
+}
+
+function render(withAnim) {
+    if (!deck.length) {
+        document.getElementById('stats').textContent = 'Không có thẻ';
+        document.getElementById('cardFace').innerHTML = '<div class="pos">—</div><div class="meaning">Không có từ vựng</div>';
+        renderDots();
+        return;
+    }
+    const x = deck[index];
+    const face = faceOrder[currentFaceIdx];
+    const faceEl = document.getElementById('cardFace');
+
+    const lessonTag = selectedLessons.length > 1
+        ? ` · Bài ${selectedLessons.join(', ')}`
+        : ` · Bài ${selectedLessons[0]}`;
+    document.getElementById('stats').textContent =
+        `Thẻ ${index + 1} / ${deck.length}${lessonTag} · Mặt: ${faceLabels[face]} (${currentFaceIdx + 1}/7)`;
+
+    let html = '';
+    const hanziSize = x.hanzi.length > 6 ? 36 : (x.hanzi.length > 3 ? 52 : 72);
+
+    if (face === 'meaning') {
+        html = `
+            <div class="pos">${faceLabels.meaning}</div>
+            <div class="meaning">${x.meaning}</div>
+            <div class="hint" style="margin-top:16px;color:#aaa">Nhấp / Space để lật tiếp</div>
+        `;
+    } else if (face === 'pinyin') {
+        html = `
+            <div class="pos">${faceLabels.pinyin}</div>
+            <div class="pinyin">${x.pinyin}</div>
+            <div class="hint" style="margin-top:20px;color:#aaa">Nhấp / Space để lật tiếp</div>
+        `;
+    } else if (face === 'pinyin_hanzi') {
+        html = `
+            <div class="pos">${faceLabels.pinyin_hanzi}</div>
+            <div class="pinyin" style="margin-bottom:8px">${x.pinyin}</div>
+            <div class="word" style="font-size:${hanziSize}px">${x.hanzi}</div>
+        `;
+    } else if (face === 'hanzi') {
+        html = `
+            <div class="pos">${faceLabels.hanzi}</div>
+            <div class="word" style="font-size:${hanziSize}px">${x.hanzi}</div>
+        `;
+    } else if (face === 'hanzi_image') {
+        html = `
+            <div class="pos">${faceLabels.hanzi_image}</div>
+            <div class="word" style="font-size:${hanziSize}px;margin-bottom:6px">${x.hanzi}</div>
+            <div class="picture" style="font-size:80px;margin:6px">${emojiFor(x)}</div>
+        `;
+    } else if (face === 'pinyin_image') {
+        html = `
+            <div class="pos">${faceLabels.pinyin_image}</div>
+            <div class="pinyin" style="margin-bottom:8px">${x.pinyin}</div>
+            <div class="picture" style="font-size:90px;margin:6px">${emojiFor(x)}</div>
+        `;
+    } else if (face === 'image') {
+        html = `
+            <div class="pos">${faceLabels.image}</div>
+            <div class="picture">${emojiFor(x)}</div>
+        `;
+    }
+
+    if (withAnim) {
+        faceEl.classList.add('fade');
+        setTimeout(() => {
+            faceEl.innerHTML = html;
+            faceEl.classList.remove('fade');
+        }, 120);
+    } else {
+        faceEl.innerHTML = html;
+    }
+
+    renderDots();
+}
+
+function speak() {
+    if (!deck.length) return;
+    const x = deck[index];
+    const text = x.hanzi.replace(/\s*\/\s*/g, '，').trim();
+    if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-CN';
+        u.rate = 0.85;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(u);
+    }
+}
+
+function changeLesson() {
+    selectedLessons = getSelectedLessonNums();
+    if (selectedLessons.length === 1) {
+        const lessonData = lessons[selectedLessons[0]];
+        document.getElementById('mainTitle').textContent = lessonData.title;
+        document.getElementById('mainSub').textContent = lessonData.sub;
+    } else {
+        document.getElementById('mainTitle').textContent = '🃏 Flashcard 10 Bài (Gom)';
+        document.getElementById('mainSub').textContent =
+            `Đang ôn gộp Bài ${selectedLessons.join(', ')}. 7 mặt thẻ.`;
+    }
+    updatePartOptions();
+    resetDeck();
+}
+
+let isDarkTheme = false;
+function toggleTheme() {
+    isDarkTheme = !isDarkTheme;
+    const toggleEl = document.getElementById('theme-toggle');
+    const labelEl = document.getElementById('theme-label');
+    if (isDarkTheme) {
+        document.body.classList.add('dark');
+        toggleEl.classList.add('on');
+        if (labelEl) labelEl.textContent = '☀️ Sáng';
+    } else {
+        document.body.classList.remove('dark');
+        toggleEl.classList.remove('on');
+        if (labelEl) labelEl.textContent = '🌙 Tối';
+    }
+}
+
+document.getElementById('lesson').addEventListener('change', changeLesson);
+document.getElementById('part').addEventListener('change', resetDeck);
+document.getElementById('order').addEventListener('change', resetDeck);
+document.getElementById('front').addEventListener('change', () => {
+    setStartFaceFromSelect();
+    render();
+});
+
+document.addEventListener('keydown', e => {
+    if (e.code === 'ArrowRight') next();
+    if (e.code === 'ArrowLeft') prev();
+    if (e.code === 'Space') { e.preventDefault(); flip(); }
+    if (e.key.toLowerCase() === 's') { e.preventDefault(); speak(); }
+});
+
+// Khởi tạo
+updatePartOptions();
+resetDeck();
+</script>
+</body>
+</html>
