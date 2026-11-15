@@ -12,12 +12,8 @@
       --muted: #777;
       --primary: #58cc02;
       --primary-dark: #46a302;
-      --secondary: #1cb0f6;
       --border: #e5e5e5;
       --shadow: 0 4px 12px rgba(0,0,0,0.08);
-      --option-bg: #f0f0f0;
-      --option-selected: #e8f9e0;
-      --option-border-selected: #58cc02;
     }
 
     [data-theme="dark"] {
@@ -27,12 +23,8 @@
       --muted: #a0a0a0;
       --primary: #58cc02;
       --primary-dark: #46a302;
-      --secondary: #1cb0f6;
       --border: #2e3d45;
       --shadow: 0 4px 16px rgba(0,0,0,0.4);
-      --option-bg: #243039;
-      --option-selected: #1e3a24;
-      --option-border-selected: #58cc02;
     }
 
     * {
@@ -263,44 +255,27 @@
       margin-top: 2px;
     }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .option-btn {
-      background: var(--option-bg);
+    select {
+      width: 100%;
+      padding: 14px 16px;
       border: 2.5px solid var(--border);
       border-radius: 14px;
-      padding: 12px 14px;
       font-size: 1.05rem;
       font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.15s;
+      background-color: var(--card);
       color: var(--text);
       font-family: inherit;
-      line-height: 1.35;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%2358cc02' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      box-shadow: 0 2px 0 var(--border);
+      transition: border-color 0.15s;
     }
 
-    .option-btn:active {
-      transform: scale(0.97);
-    }
-
-    .option-btn.selected {
-      background: var(--option-selected);
-      border-color: var(--option-border-selected);
-      color: var(--primary-dark);
-      font-weight: 700;
-    }
-
-    .option-pinyin {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-top: 1px;
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
     }
 
     .answer-big {
@@ -436,7 +411,9 @@
               <span class="q-pinyin" id="q1-pinyin" style="display:none;"></span>
             </div>
           </div>
-          <div class="options" id="options-1"></div>
+          <select id="select-1" onchange="saveSelection(1)">
+            <option value="">-- Chọn đáp án --</option>
+          </select>
         </div>
 
         <!-- Câu 2 -->
@@ -448,7 +425,9 @@
               <span class="q-pinyin" id="q2-pinyin" style="display:none;"></span>
             </div>
           </div>
-          <div class="options" id="options-2"></div>
+          <select id="select-2" onchange="saveSelection(2)">
+            <option value="">-- Chọn đáp án --</option>
+          </select>
         </div>
       </div>
 
@@ -516,9 +495,13 @@
       ]
     };
 
-    let currentMode = "vi"; // vi | zh | py
+    let currentMode = "vi";
     let currentName = null;
     let currentCountry = null;
+
+    // Lưu lựa chọn của Vai A theo index (không bị mất khi đổi ngôn ngữ)
+    let selectedNameIndex = "";
+    let selectedCountryIndex = "";
 
     // ==================== THEME ====================
     const themeBtn = document.getElementById("themeBtn");
@@ -553,20 +536,17 @@
       localStorage.setItem("displayMode", mode);
     }
 
-    // Load saved mode
     const savedMode = localStorage.getItem("displayMode");
     if (savedMode && ["vi", "zh", "py"].includes(savedMode)) {
-      setMode(savedMode);
+      currentMode = savedMode;
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === savedMode);
+      });
     }
 
     function getText(obj) {
       if (currentMode === "vi") return obj.vi;
-      if (currentMode === "py") return obj.zh;
       return obj.zh;
-    }
-
-    function getPinyin(obj) {
-      return currentMode === "py" ? obj.py : "";
     }
 
     // ==================== UPDATE TEXTS ====================
@@ -636,46 +616,68 @@
       document.getElementById("label-1").textContent = "1️⃣ " + getText(data.q1);
       document.getElementById("label-2").textContent = "2️⃣ " + getText(data.q2);
 
-      // Rebuild options for A
-      renderOptions();
+      // Rebuild selects nhưng giữ lựa chọn cũ
+      renderSelects();
 
-      // Update current answers if already randomized
+      // Update answers B nếu đã random
       if (currentName && currentCountry) {
         renderAnswersB();
       }
     }
 
-    function renderOptions() {
-      const opt1 = document.getElementById("options-1");
-      const opt2 = document.getElementById("options-2");
-      opt1.innerHTML = "";
-      opt2.innerHTML = "";
+    function renderSelects() {
+      const select1 = document.getElementById("select-1");
+      const select2 = document.getElementById("select-2");
 
-      data.names.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.onclick = function() { selectOption(this, 1); };
+      // Lưu giá trị đang chọn trước khi xóa
+      const prev1 = selectedNameIndex;
+      const prev2 = selectedCountryIndex;
 
-        let html = `${item.emoji} ${getText(item)}`;
-        if (currentMode === "py") {
-          html += `<span class="option-pinyin">${item.py}</span>`;
-        }
-        btn.innerHTML = html;
-        opt1.appendChild(btn);
+      select1.innerHTML = "";
+      select2.innerHTML = "";
+
+      // Placeholder
+      const placeholder1 = document.createElement("option");
+      placeholder1.value = "";
+      placeholder1.textContent = currentMode === "vi" ? "-- Chọn đáp án --" : "-- 請選擇答案 --";
+      select1.appendChild(placeholder1);
+
+      const placeholder2 = document.createElement("option");
+      placeholder2.value = "";
+      placeholder2.textContent = currentMode === "vi" ? "-- Chọn đáp án --" : "-- 請選擇答案 --";
+      select2.appendChild(placeholder2);
+
+      // Options tên
+      data.names.forEach((item, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        let text = `${item.emoji} ${getText(item)}`;
+        if (currentMode === "py") text += ` (${item.py})`;
+        opt.textContent = text;
+        select1.appendChild(opt);
       });
 
-      data.countries.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.onclick = function() { selectOption(this, 2); };
-
-        let html = `${item.emoji} ${getText(item)}`;
-        if (currentMode === "py") {
-          html += `<span class="option-pinyin">${item.py}</span>`;
-        }
-        btn.innerHTML = html;
-        opt2.appendChild(btn);
+      // Options quốc tịch
+      data.countries.forEach((item, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        let text = `${item.emoji} ${getText(item)}`;
+        if (currentMode === "py") text += ` (${item.py})`;
+        opt.textContent = text;
+        select2.appendChild(opt);
       });
+
+      // Khôi phục lựa chọn cũ
+      if (prev1 !== "") select1.value = prev1;
+      if (prev2 !== "") select2.value = prev2;
+    }
+
+    function saveSelection(qNum) {
+      if (qNum === 1) {
+        selectedNameIndex = document.getElementById("select-1").value;
+      } else {
+        selectedCountryIndex = document.getElementById("select-2").value;
+      }
     }
 
     function renderAnswersB() {
@@ -699,7 +701,7 @@
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       if (role === "A") {
         document.getElementById("screen-A").classList.add("active");
-        renderOptions();
+        renderSelects();
       } else {
         document.getElementById("screen-B").classList.add("active");
         randomizeBoth();
@@ -711,18 +713,11 @@
       document.getElementById("screen-role").classList.add("active");
     }
 
-    function selectOption(btn, qNum) {
-      const parent = document.getElementById("options-" + qNum);
-      parent.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-    }
-
     function randomizeBoth() {
       currentName = data.names[Math.floor(Math.random() * data.names.length)];
       currentCountry = data.countries[Math.floor(Math.random() * data.countries.length)];
       renderAnswersB();
 
-      // Hiệu ứng
       const el1 = document.getElementById("answer-1");
       const el2 = document.getElementById("answer-2");
       el1.style.transform = "scale(1.08)";
