@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tập nói - Hỏi đáp nhanh</title>
+  <style>
+    :root {
+      --bg: #f7f7f7;
+      --card: #ffffff;
+      --text: #3c3c3c;
+      --muted: #777;
+      --primary: #58cc02;
+      --primary-dark: #46a302;
+      --secondary: #1cb0f6;
+      --border: #e5e5e5;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --option-bg: #f0f0f0;
+      --option-selected: #e8f9e0;
+      --option-border-selected: #58cc02;
+    }
+
+    [data-theme="dark"] {
+      --bg: #131f24;
+      --card: #1a2a32;
+      --text: #f1f1f1;
+      --muted: #a0a0a0;
+      --primary: #58cc02;
+      --primary-dark: #46a302;
+      --secondary: #1cb0f6;
+      --border: #2e3d45;
+      --shadow: 0 4px 16px rgba(0,0,0,0.4);
+      --option-bg: #243039;
+      --option-selected: #1e3a24;
+      --option-border-selected: #58cc02;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      gap: 10px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-switcher {
+      display: flex;
+      background: var(--card);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+
+    .lang-btn {
+      padding: 7px 11px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    main {
+      flex: 1;
+      padding: 18px 16px 30px;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 22px;
+      font-size: 0.95rem;
+    }
+
+    .role-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 16px;
+      padding: 17px 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:active {
+      background: var(--primary-dark);
+      transform: scale(0.97);
+    }
+
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-random {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      font-size: 1.12rem;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 16px;
+      box-shadow: 0 4px 0 #d97706;
+    }
+
+    .btn-random:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #d97706;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      border: 2px solid var(--border);
+    }
+
+    .q-block {
+      margin-bottom: 22px;
+    }
+
+    .q-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .q-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .q-text {
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+
+    .q-text .q-main {
+      flex: 1;
+    }
+
+    .q-pinyin {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .option-btn {
+      background: var(--option-bg);
+      border: 2.5px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--text);
+      font-family: inherit;
+      line-height: 1.35;
+    }
+
+    .option-btn:active {
+      transform: scale(0.97);
+    }
+
+    .option-btn.selected {
+      background: var(--option-selected);
+      border-color: var(--option-border-selected);
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .option-pinyin {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .answer-big {
+      font-size: 1.85rem;
+      font-weight: 800;
+      text-align: center;
+      color: var(--primary);
+      padding: 12px 8px 6px;
+      min-height: 68px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.25;
+    }
+
+    .answer-pinyin {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .answer-card {
+      background: var(--card);
+      border: 2.5px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 12px;
+      margin-bottom: 12px;
+    }
+
+    .answer-card .q-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .shake-hint {
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .shake-hint span {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .shake-hint span {
+      background: #422006;
+      color: #fde68a;
+    }
+
+    .back-btn {
+      margin-top: 18px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .compare-box {
+      background: #fefce8;
+      border: 2px dashed #facc15;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #854d0e;
+    }
+
+    [data-theme="dark"] .compare-box {
+      background: #422006;
+      border-color: #a16207;
+      color: #fde68a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🗣️ Tập nói</div>
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-mode="vi" onclick="setMode('vi')">VI</button>
+        <button class="lang-btn" data-mode="zh" onclick="setMode('zh')">中</button>
+        <button class="lang-btn" data-mode="py" onclick="setMode('py')">拼音</button>
+      </div>
+      <button class="theme-btn" id="themeBtn" title="Đổi giao diện">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Màn hình chọn vai trò -->
+    <div class="screen active" id="screen-role">
+      <h1 id="home-title">🎭 Chọn vai trò</h1>
+      <p class="subtitle" id="home-subtitle">Mỗi người chọn 1 vai rồi bắt đầu hỏi đáp</p>
+
+      <div class="role-buttons">
+        <button class="btn btn-primary" onclick="chooseRole('A')" id="btn-role-a">
+          ❓ Vai A – Người hỏi
+        </button>
+        <button class="btn btn-secondary" onclick="chooseRole('B')" id="btn-role-b">
+          🎲 Vai B – Người trả lời
+        </button>
+      </div>
+
+      <p class="footer-note" id="home-footer">👥 Sau khi hỏi xong, 2 người so đáp án với nhau</p>
+    </div>
+
+    <!-- Giao diện Vai A -->
+    <div class="screen" id="screen-A">
+      <h1 style="font-size:1.3rem; margin-bottom:4px;" id="title-A">❓ Bạn là Người hỏi (A)</h1>
+      <p class="subtitle" style="margin-bottom:18px;" id="desc-A">Hỏi cả 2 câu và chọn đáp án bạn muốn nghe</p>
+
+      <div class="card">
+        <!-- Câu 1 -->
+        <div class="q-block">
+          <div class="q-text">
+            <span class="q-number">1</span>
+            <div class="q-main">
+              <span id="q1-text">你叫什么名字？</span>
+              <span class="q-pinyin" id="q1-pinyin" style="display:none;"></span>
+            </div>
+          </div>
+          <div class="options" id="options-1"></div>
+        </div>
+
+        <!-- Câu 2 -->
+        <div class="q-block">
+          <div class="q-text">
+            <span class="q-number">2</span>
+            <div class="q-main">
+              <span id="q2-text">你是哪国人？</span>
+              <span class="q-pinyin" id="q2-pinyin" style="display:none;"></span>
+            </div>
+          </div>
+          <div class="options" id="options-2"></div>
+        </div>
+      </div>
+
+      <div class="compare-box" id="compare-A">
+        🔍 Hỏi xong hãy đối chiếu với đối phương xem đáp án có khớp không!
+      </div>
+
+      <button class="btn btn-secondary back-btn" onclick="goBack()" id="back-A">← Quay lại chọn vai</button>
+    </div>
+
+    <!-- Giao diện Vai B -->
+    <div class="screen" id="screen-B">
+      <h1 style="font-size:1.3rem; margin-bottom:4px;" id="title-B">🎲 Bạn là Người trả lời (B)</h1>
+      <p class="subtitle" style="margin-bottom:14px;" id="desc-B">Trả lời theo đáp án ngẫu nhiên bên dưới</p>
+
+      <button class="btn btn-random" onclick="randomizeBoth()" id="btn-random">
+        🎲 Đổi đáp án ngẫu nhiên
+      </button>
+      <p class="shake-hint" id="shake-hint">Hoặc <span>📱 lắc điện thoại</span> để random lại</p>
+
+      <div class="card">
+        <div class="answer-card">
+          <div class="q-label" id="label-1">1️⃣ 你叫什么名字？</div>
+          <div class="answer-big" id="answer-1">...</div>
+        </div>
+
+        <div class="answer-card">
+          <div class="q-label" id="label-2">2️⃣ 你是哪国人？</div>
+          <div class="answer-big" id="answer-2">...</div>
+        </div>
+      </div>
+
+      <div class="compare-box" id="compare-B">
+        🔍 Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!
+      </div>
+
+      <button class="btn btn-secondary back-btn" onclick="goBack()" id="back-B">← Quay lại chọn vai</button>
+    </div>
+  </main>
+
+  <script>
+    // ==================== DATA ====================
+    const data = {
+      q1: {
+        zh: "你叫什么名字？",
+        vi: "Bạn tên là gì?",
+        py: "Nǐ jiào shénme míngzi?"
+      },
+      q2: {
+        zh: "你是哪国人？",
+        vi: "Bạn là người nước nào?",
+        py: "Nǐ shì nǎ guó rén?"
+      },
+      names: [
+        { zh: "玛丽", vi: "Mary", py: "Mǎlì", emoji: "👩" },
+        { zh: "高小明", vi: "Cao Tiểu Minh", py: "Gāo Xiǎomíng", emoji: "👨" },
+        { zh: "欧文", vi: "Owen", py: "Ōuwén", emoji: "🧑" },
+        { zh: "卡马拉", vi: "Kamala", py: "Kǎmǎlā", emoji: "👩‍🦰" }
+      ],
+      countries: [
+        { zh: "美国", vi: "Mỹ", py: "Měiguó", emoji: "🇺🇸" },
+        { zh: "中国", vi: "Trung Quốc", py: "Zhōngguó", emoji: "🇨🇳" },
+        { zh: "南非", vi: "Nam Phi", py: "Nánfēi", emoji: "🇿🇦" },
+        { zh: "越南", vi: "Việt Nam", py: "Yuènán", emoji: "🇻🇳" }
+      ]
+    };
+
+    let currentMode = "vi"; // vi | zh | py
+    let currentName = null;
+    let currentCountry = null;
+
+    // ==================== THEME ====================
+    const themeBtn = document.getElementById("themeBtn");
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (isDark) {
+        document.documentElement.removeAttribute("data-theme");
+        themeBtn.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeBtn.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+      }
+    }
+    themeBtn.addEventListener("click", toggleTheme);
+
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeBtn.textContent = "☀️";
+    }
+
+    // ==================== MODE ====================
+    function setMode(mode) {
+      currentMode = mode;
+
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+
+      updateAllTexts();
+      localStorage.setItem("displayMode", mode);
+    }
+
+    // Load saved mode
+    const savedMode = localStorage.getItem("displayMode");
+    if (savedMode && ["vi", "zh", "py"].includes(savedMode)) {
+      setMode(savedMode);
+    }
+
+    function getText(obj) {
+      if (currentMode === "vi") return obj.vi;
+      if (currentMode === "py") return obj.zh;
+      return obj.zh;
+    }
+
+    function getPinyin(obj) {
+      return currentMode === "py" ? obj.py : "";
+    }
+
+    // ==================== UPDATE TEXTS ====================
+    function updateAllTexts() {
+      // Home
+      if (currentMode === "vi") {
+        document.getElementById("home-title").textContent = "🎭 Chọn vai trò";
+        document.getElementById("home-subtitle").textContent = "Mỗi người chọn 1 vai rồi bắt đầu hỏi đáp";
+        document.getElementById("btn-role-a").textContent = "❓ Vai A – Người hỏi";
+        document.getElementById("btn-role-b").textContent = "🎲 Vai B – Người trả lời";
+        document.getElementById("home-footer").textContent = "👥 Sau khi hỏi xong, 2 người so đáp án với nhau";
+      } else {
+        document.getElementById("home-title").textContent = "🎭 選擇角色";
+        document.getElementById("home-subtitle").textContent = "每人選擇一個角色後開始問答";
+        document.getElementById("btn-role-a").textContent = "❓ 角色 A – 提問者";
+        document.getElementById("btn-role-b").textContent = "🎲 角色 B – 回答者";
+        document.getElementById("home-footer").textContent = "👥 問完後兩人互相核對答案";
+      }
+
+      // Role A
+      if (currentMode === "vi") {
+        document.getElementById("title-A").textContent = "❓ Bạn là Người hỏi (A)";
+        document.getElementById("desc-A").textContent = "Hỏi cả 2 câu và chọn đáp án bạn muốn nghe";
+        document.getElementById("compare-A").textContent = "🔍 Hỏi xong hãy đối chiếu với đối phương xem đáp án có khớp không!";
+        document.getElementById("back-A").textContent = "← Quay lại chọn vai";
+      } else {
+        document.getElementById("title-A").textContent = "❓ 你是提問者 (A)";
+        document.getElementById("desc-A").textContent = "問兩個問題，並選擇你想聽到的答案";
+        document.getElementById("compare-A").textContent = "🔍 問完後跟對方核對答案，看看有多相似！";
+        document.getElementById("back-A").textContent = "← 返回選擇角色";
+      }
+
+      // Role B
+      if (currentMode === "vi") {
+        document.getElementById("title-B").textContent = "🎲 Bạn là Người trả lời (B)";
+        document.getElementById("desc-B").textContent = "Trả lời theo đáp án ngẫu nhiên bên dưới";
+        document.getElementById("btn-random").textContent = "🎲 Đổi đáp án ngẫu nhiên";
+        document.getElementById("shake-hint").innerHTML = `Hoặc <span>📱 lắc điện thoại</span> để random lại`;
+        document.getElementById("compare-B").textContent = "🔍 Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!";
+        document.getElementById("back-B").textContent = "← Quay lại chọn vai";
+      } else {
+        document.getElementById("title-B").textContent = "🎲 你是回答者 (B)";
+        document.getElementById("desc-B").textContent = "根據下面的隨機答案回答對方";
+        document.getElementById("btn-random").textContent = "🎲 隨機產生答案";
+        document.getElementById("shake-hint").innerHTML = `或 <span>📱 搖一搖手機</span> 重新隨機`;
+        document.getElementById("compare-B").textContent = "🔍 回答完後跟對方核對，看看你們的答案有多像！";
+        document.getElementById("back-B").textContent = "← 返回選擇角色";
+      }
+
+      // Questions
+      document.getElementById("q1-text").textContent = getText(data.q1);
+      document.getElementById("q2-text").textContent = getText(data.q2);
+
+      const py1 = document.getElementById("q1-pinyin");
+      const py2 = document.getElementById("q2-pinyin");
+      if (currentMode === "py") {
+        py1.textContent = data.q1.py;
+        py2.textContent = data.q2.py;
+        py1.style.display = "block";
+        py2.style.display = "block";
+      } else {
+        py1.style.display = "none";
+        py2.style.display = "none";
+      }
+
+      // Labels for B
+      document.getElementById("label-1").textContent = "1️⃣ " + getText(data.q1);
+      document.getElementById("label-2").textContent = "2️⃣ " + getText(data.q2);
+
+      // Rebuild options for A
+      renderOptions();
+
+      // Update current answers if already randomized
+      if (currentName && currentCountry) {
+        renderAnswersB();
+      }
+    }
+
+    function renderOptions() {
+      const opt1 = document.getElementById("options-1");
+      const opt2 = document.getElementById("options-2");
+      opt1.innerHTML = "";
+      opt2.innerHTML = "";
+
+      data.names.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.onclick = function() { selectOption(this, 1); };
+
+        let html = `${item.emoji} ${getText(item)}`;
+        if (currentMode === "py") {
+          html += `<span class="option-pinyin">${item.py}</span>`;
+        }
+        btn.innerHTML = html;
+        opt1.appendChild(btn);
+      });
+
+      data.countries.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.onclick = function() { selectOption(this, 2); };
+
+        let html = `${item.emoji} ${getText(item)}`;
+        if (currentMode === "py") {
+          html += `<span class="option-pinyin">${item.py}</span>`;
+        }
+        btn.innerHTML = html;
+        opt2.appendChild(btn);
+      });
+    }
+
+    function renderAnswersB() {
+      const el1 = document.getElementById("answer-1");
+      const el2 = document.getElementById("answer-2");
+
+      let html1 = `${currentName.emoji} ${getText(currentName)}`;
+      let html2 = `${currentCountry.emoji} ${getText(currentCountry)}`;
+
+      if (currentMode === "py") {
+        html1 += `<span class="answer-pinyin">${currentName.py}</span>`;
+        html2 += `<span class="answer-pinyin">${currentCountry.py}</span>`;
+      }
+
+      el1.innerHTML = html1;
+      el2.innerHTML = html2;
+    }
+
+    // ==================== ROLE ====================
+    function chooseRole(role) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      if (role === "A") {
+        document.getElementById("screen-A").classList.add("active");
+        renderOptions();
+      } else {
+        document.getElementById("screen-B").classList.add("active");
+        randomizeBoth();
+      }
+    }
+
+    function goBack() {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-role").classList.add("active");
+    }
+
+    function selectOption(btn, qNum) {
+      const parent = document.getElementById("options-" + qNum);
+      parent.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+    }
+
+    function randomizeBoth() {
+      currentName = data.names[Math.floor(Math.random() * data.names.length)];
+      currentCountry = data.countries[Math.floor(Math.random() * data.countries.length)];
+      renderAnswersB();
+
+      // Hiệu ứng
+      const el1 = document.getElementById("answer-1");
+      const el2 = document.getElementById("answer-2");
+      el1.style.transform = "scale(1.08)";
+      el2.style.transform = "scale(1.08)";
+      setTimeout(() => {
+        el1.style.transform = "scale(1)";
+        el2.style.transform = "scale(1)";
+      }, 180);
+
+      if (navigator.vibrate) navigator.vibrate(35);
+    }
+
+    // Lắc điện thoại
+    let lastShake = 0;
+    window.addEventListener("devicemotion", (e) => {
+      if (!document.getElementById("screen-B").classList.contains("active")) return;
+      const acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+      const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+      const now = Date.now();
+      if (force > 26 && now - lastShake > 1100) {
+        lastShake = now;
+        randomizeBoth();
+      }
+    });
+
+    // Init
+    updateAllTexts();
+  </script>
+</body>
+</html>
