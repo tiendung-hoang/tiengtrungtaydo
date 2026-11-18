@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<!-- saved from url=(0095)https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Hoatdonggiaotiep/Giaotiep01-16Md2.html -->
+<html lang="zh-Hant"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>交際練習｜時間華語</title>
   <style>
     @font-face {
@@ -594,12 +594,10 @@
     }
   </style>
 </head>
-<body>
+<body class="theme-dark">
   <!-- Top Controls: Theme + Language -->
   <div class="top-controls">
-    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
-      🌙
-    </button>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">☀️</button>
     <div class="lang-switcher">
       <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
       <button class="lang-btn active" data-mode="zh" onclick="setMode('zh')">中</button>
@@ -637,7 +635,7 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" id="start-btn" onclick="startActivity()" disabled>
+      <button class="btn btn-primary" id="start-btn" onclick="startActivity()" disabled="">
         開始練習
       </button>
 
@@ -1342,6 +1340,12 @@
         updateRoleBTexts();
       }
 
+      // Update home lesson buttons language
+      document.querySelectorAll('.lesson-btn').forEach(btn => {
+        const num = btn.dataset.num;
+        if (num) updateLessonBtnText(btn, num);
+      });
+
       localStorage.setItem('displayMode', mode);
     }
 
@@ -1353,14 +1357,23 @@
     // ==================== INIT ====================
     function init() {
       const grid = document.getElementById("lesson-grid");
+      grid.innerHTML = "";
       for (let i = 1; i <= 8; i++) {
         const btn = document.createElement("button");
-        btn.className = "lesson-btn";
+        btn.className = "lesson-btn" + (i === 1 ? " selected" : "");
         btn.dataset.num = i;
         updateLessonBtnText(btn, i);
         btn.onclick = () => selectLesson(i, btn);
         grid.appendChild(btn);
       }
+      // Default selections so Start is enabled
+      selectedLesson = 1;
+      selectedRole = "A";
+      // Also mark role A as selected in UI
+      document.querySelectorAll(".role-btn").forEach(b => {
+        b.classList.toggle("selected", b.dataset.role === "A");
+      });
+      updateStartBtn();
     }
 
     function updateLessonBtnText(btn, num) {
@@ -1425,6 +1438,7 @@
     // ==================== ROLE A ====================
     function renderRoleA() {
       const data = lessons[selectedLesson];
+      if (!data) return;
       document.getElementById("lesson-tag-A").textContent = getLessonTag();
 
       if (currentMode === 'vi') {
@@ -1436,6 +1450,10 @@
         document.getElementById("roleA-desc").textContent = "依序問對方，並從選項中選擇你想聽的答案";
         document.getElementById("compare-text-A").textContent = "問完後跟對方核對答案，看看有多相似！";
       }
+
+      // Preserve previously selected option indices (so mode switch does not lose answers)
+      const prevSelects = document.querySelectorAll("#questions-A select");
+      const selectedIndices = Array.from(prevSelects).map(sel => sel.selectedIndex);
 
       const container = document.getElementById("questions-A");
       container.innerHTML = "";
@@ -1461,6 +1479,14 @@
           </select>
         `;
         container.appendChild(div);
+      });
+
+      // Restore selections by index (works across VI / ZH / Kai because option order is the same)
+      const newSelects = document.querySelectorAll("#questions-A select");
+      newSelects.forEach((sel, idx) => {
+        if (selectedIndices[idx] > 0 && selectedIndices[idx] < sel.options.length) {
+          sel.selectedIndex = selectedIndices[idx];
+        }
       });
     }
 
@@ -1537,5 +1563,6 @@
       themeBtn.textContent = isDark ? '☀️' : '🌙';
     }
   </script>
-</body>
-</html>
+
+
+</body></html>
