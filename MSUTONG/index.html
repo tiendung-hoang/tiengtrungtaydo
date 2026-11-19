@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mục Lục Luyện Tập MSUTONG - Tiếng Trung Tây Đô</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>MSUTONG - Mục lục luyện tập</title>
   <style>
     :root {
-      --primary: #d9381e;       /* Đỏ trầm học thuật */
-      --primary-light: #fff1ee;
-      --secondary: #1e293b;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
+      --bg-grad: radial-gradient(circle at 20% 15%, #241b4b 0%, #141229 55%, #0c0b18 100%);
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-hover-bg: rgba(255, 255, 255, 0.11);
+      --card-border: rgba(255, 255, 255, 0.14);
+      --card-hover-border: rgba(255, 255, 255, 0.32);
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --accent: #f97316;
+      --toggle-bg: rgba(255, 255, 255, 0.12);
+    }
+
+    body.light {
+      --bg-grad: radial-gradient(circle at 20% 15%, #eef2ff 0%, #f8fafc 60%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-hover-bg: #ffffff;
+      --card-border: rgba(15, 23, 42, 0.12);
+      --card-hover-border: rgba(15, 23, 42, 0.28);
       --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      --text-sub: #475569;
+      --toggle-bg: rgba(15, 23, 42, 0.08);
     }
 
     * {
@@ -28,442 +35,204 @@
     }
 
     body {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      background-color: var(--bg-color);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-grad);
       color: var(--text-main);
-      line-height: 1.6;
-      padding-bottom: 60px;
+      padding: 36px 20px 48px;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
-    /* Header Banner */
-    header {
-      background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
-      color: white;
-      padding: 40px 20px 55px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -0.02em;
-    }
-
-    header p {
-      font-size: 1rem;
-      opacity: 0.92;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Container */
     .container {
-      max-width: 1000px;
-      margin: -30px auto 0;
-      padding: 0 20px;
-    }
-
-    /* Thanh tìm kiếm & Lọc */
-    .controls {
-      background: var(--card-bg);
-      padding: 16px 20px;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 30px;
-      border: 1px solid var(--border-color);
-    }
-
-    .search-box {
-      flex: 1 1 260px;
+      max-width: 1040px;
+      margin: 0 auto;
       position: relative;
     }
 
-    .search-box input {
-      width: 100%;
-      padding: 10px 16px 10px 40px;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .search-box input:focus {
-      border-color: var(--primary);
-    }
-
-    .search-box::before {
-      content: "🔍";
+    .theme-btn {
       position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.9rem;
-    }
-
-    .filter-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: #f1f5f9;
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      font-weight: 500;
+      top: 0;
+      right: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      background: var(--toggle-bg);
+      color: var(--text-main);
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .tab-btn:hover {
-      background: #e2e8f0;
-    }
-
-    .tab-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    /* Section Title */
-    .section-group {
-      margin-bottom: 36px;
-    }
-
-    .section-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title span.badge-count {
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 0.8rem;
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-
-    /* Card Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 20px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      position: relative;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-      border-color: #fca5a5;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      background: var(--primary-light);
+      transition: transform 0.15s ease, background 0.2s ease;
     }
 
-    .tag {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: #f1f5f9;
-      color: #475569;
+    .theme-btn:hover {
+      transform: scale(1.06);
     }
 
-    .card h3 {
-      font-size: 1.08rem;
+    header {
+      text-align: center;
+      margin-bottom: 34px;
+      padding-top: 4px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .brand-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 190px;
+      padding: 24px 18px;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .tile:hover {
+      transform: translateY(-4px);
+      background: var(--card-hover-bg);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
+    }
+
+    .tile-icon {
+      font-size: 2.3rem;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .tile-title {
+      font-size: 1.05rem;
       font-weight: 700;
       margin-bottom: 6px;
-      color: var(--text-main);
     }
 
-    .card p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
+    .tile-desc {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      line-height: 1.45;
+      max-width: 26ch;
     }
 
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--primary);
-      padding-top: 12px;
-      border-top: 1px dashed var(--border-color);
+    @media (max-width: 820px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    .card:hover .card-footer span.arrow {
-      transform: translateX(4px);
-    }
+    @media (max-width: 540px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
 
-    .arrow {
-      transition: transform 0.2s;
-    }
+      .brand {
+        font-size: 1.4rem;
+      }
 
-    /* Trạng thái Đang cập nhật (cho mục chưa có link) */
-    .card.coming-soon {
-      opacity: 0.72;
-      cursor: not-allowed;
-      background: #f8fafc;
-    }
-
-    .card.coming-soon:hover {
-      transform: none;
-      box-shadow: var(--shadow);
-      border-color: var(--border-color);
-    }
-
-    .card.coming-soon .card-footer {
-      color: var(--text-muted);
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.5rem; }
-      .grid { grid-template-columns: 1fr; }
+      .theme-btn {
+        top: -8px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>📚 Hệ Thống Luyện Tập MSUTONG</h1>
-    <p>Chọn kỹ năng bên dưới để ôn tập từ vựng, luyện nghe và phản xạ giao tiếp tiếng Trung</p>
-  </header>
-
   <div class="container">
-    <!-- Thanh tìm kiếm và lọc nhanh -->
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Tìm bài luyện tập (VD: Pinyin, Nghe, Nói...)">
-      </div>
-      <div class="filter-tabs">
-        <button class="tab-btn active" data-filter="all">Tất cả</button>
-        <button class="tab-btn" data-filter="vocab">Từ vựng & Nghe</button>
-        <button class="tab-btn" data-filter="speaking">Phản xạ & Giao tiếp</button>
-      </div>
-    </div>
+    <button class="theme-btn" id="themeToggle" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện sáng/tối">☀️</button>
 
-    <!-- Khu vực hiển thị danh sách mục lục -->
-    <div id="catalogContainer"></div>
+    <header>
+      <div class="brand">
+        <span class="brand-badge">文</span>
+        <span>MSUTONG</span>
+      </div>
+      <p class="subtitle">Tiếng Trung · 10 Bài gộp · Chọn hoạt động bên dưới</p>
+    </header>
+
+    <main class="grid">
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Flashcard-10-Bai-Gom.html">
+        <div class="tile-icon">🃏</div>
+        <div class="tile-title">Flashcard</div>
+        <div class="tile-desc">Thẻ ghi nhớ từ vựng · Ôn tập nhanh 10 bài gộp</div>
+      </a>
+
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/MSUTONG-LuyenNoi.HTML">
+        <div class="tile-icon">🗣️</div>
+        <div class="tile-title">Luyện phản hồi câu hỏi</div>
+        <div class="tile-desc">Luyện phản xạ trả lời câu hỏi · Tập nói nhanh</div>
+      </a>
+
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Hoatdonggiaotiep/GiaoTiepMSUTONG-SC-1.html">
+        <div class="tile-icon">🎭</div>
+        <div class="tile-title">Luyện trao đổi qua lại</div>
+        <div class="tile-desc">Hoạt động giao tiếp · Hội thoại &amp; tương tác</div>
+      </a>
+
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Pinyin-10-Bai-Gom.html">
+        <div class="tile-icon">🔤</div>
+        <div class="tile-title">Luyện tập với Pinyin</div>
+        <div class="tile-desc">Nhìn chữ Hán · Chọn Pinyin đúng</div>
+      </a>
+
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Tu-Vung-10-Bai-Gom.html">
+        <div class="tile-icon">📚</div>
+        <div class="tile-title">Luyện tập với Nghĩa</div>
+        <div class="tile-desc">Ôn từ vựng · Chọn nghĩa tiếng Việt chính xác</div>
+      </a>
+
+      <a class="tile" href="https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Nghe-10-Bai-Gom.html">
+        <div class="tile-icon">🎧</div>
+        <div class="tile-title">Luyện tập với Nghe</div>
+        <div class="tile-desc">Nghe từ/câu · Luyện phản xạ nghe hiểu</div>
+      </a>
+    </main>
   </div>
 
-  <footer>
-    Tiếng Trung Tây Đô • Tài liệu ôn tập giáo trình MSUTONG
-  </footer>
-
   <script>
-    // DỮ LIỆU MỤC LỤC (Bạn chỉ cần thêm/sửa link tại mảng này)
-    const lessons = [
-      {
-        category: "vocab",
-        categoryName: "Từ vựng, Nghe & Ghi nhớ",
-        title: "Flashcard Từ Vựng (10 Bài Gộp)",
-        desc: "Thẻ ghi nhớ mặt chữ Hán, phiên âm Pinyin và nghĩa tiếng Việt tổng hợp 10 bài.",
-        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Flashcard-10-Bai-Gom.html",
-        icon: "🗂️",
-        tag: "Ghi nhớ nhanh",
-        status: "ready"
-      },
-      {
-        category: "vocab",
-        categoryName: "Từ vựng, Nghe & Ghi nhớ",
-        title: "Luyện tập với Pinyin",
-        desc: "Trắc nghiệm nhận diện mặt chữ Hán và chọn phiên âm Pinyin chính xác.",
-        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Pinyin-10-Bai-Gom.html",
-        icon: "🔤",
-        tag: "10 Bài Gộp",
-        status: "ready"
-      },
-      {
-        category: "vocab",
-        categoryName: "Từ vựng, Nghe & Ghi nhớ",
-        title: "Luyện tập với Nghĩa",
-        desc: "Kiểm tra khả năng hiểu nghĩa tiếng Việt của từ vựng và mẫu câu trọng tâm.",
-        url: "#", // Điền link thực tế vào đây khi hoàn thiện
-        icon: "📖",
-        tag: "Đang cập nhật",
-        status: "coming-soon"
-      },
-      {
-        category: "vocab",
-        categoryName: "Từ vựng, Nghe & Ghi nhớ",
-        title: "Luyện tập với Nghe",
-        desc: "Nghe phát âm tiếng Trung và chọn đáp án đúng giúp tăng khả năng phản xạ thính giác.",
-        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Nghe-10-Bai-Gom.html",
-        icon: "🎧",
-        tag: "10 Bài Gộp",
-        status: "ready"
-      },
-      {
-        category: "speaking",
-        categoryName: "Phản Xạ Nói & Giao Tiếp",
-        title: "Luyện phản hồi câu hỏi",
-        desc: "Thực hành nghe/đọc câu hỏi tình huống và tự đặt câu trả lời phản xạ nhanh.",
-        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/MSUTONG-LuyenNoi.HTML",
-        icon: "🎙️",
-        tag: "Luyện nói",
-        status: "ready"
-      },
-      {
-        category: "speaking",
-        categoryName: "Phản Xạ Nói & Giao Tiếp",
-        title: "Luyện trao đổi qua lại",
-        desc: "Mô phỏng hội thoại giao tiếp thực tế 2 chiều theo chủ đề giáo trình MSUTONG Sơ cấp 1.",
-        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Hoatdonggiaotiep/GiaoTiepMSUTONG-SC-1.html",
-        icon: "💬",
-        tag: "Sơ cấp 1",
-        status: "ready"
-      }
-    ];
-
-    const container = document.getElementById('catalogContainer');
-    const searchInput = document.getElementById('searchInput');
-    const tabBtns = document.querySelectorAll('.tab-btn');
-
-    let currentFilter = 'all';
-    let searchQuery = '';
-
-    function renderCatalog() {
-      container.innerHTML = '';
-
-      // Lọc dữ liệu theo tab và từ khóa tìm kiếm
-      const filtered = lessons.filter(item => {
-        const matchTab = currentFilter === 'all' || item.category === currentFilter;
-        const matchSearch = item.title.toLowerCase().includes(searchQuery) || 
-                            item.desc.toLowerCase().includes(searchQuery) ||
-                            item.tag.toLowerCase().includes(searchQuery);
-        return matchTab && matchSearch;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#64748b; padding: 40px 0;">Không tìm thấy bài luyện tập phù hợp.</p>`;
-        return;
-      }
-
-      // Nhóm theo danh mục
-      const groups = {};
-      filtered.forEach(item => {
-        if (!groups[item.categoryName]) {
-          groups[item.categoryName] = [];
-        }
-        groups[item.categoryName].push(item);
-      });
-
-      // Render từng nhóm
-      for (const [groupName, items] of Object.entries(groups)) {
-        const section = document.createElement('div');
-        section.className = 'section-group';
-
-        const cardsHtml = items.map(item => {
-          const isReady = item.status === 'ready';
-          const tagHtml = `<span class="tag">${item.tag}</span>`;
-          const footerText = isReady 
-            ? `<span>Bắt đầu luyện tập</span><span class="arrow">→</span>` 
-            : `<span>⏳ Sắp ra mắt</span>`;
-
-          return `
-            <a href="${isReady ? item.url : 'javascript:void(0)'}" 
-               class="card ${isReady ? '' : 'coming-soon'}"
-               ${isReady ? '' : 'aria-disabled="true"'}>
-              <div>
-                <div class="card-header">
-                  <div class="icon-box">${item.icon}</div>
-                  ${tagHtml}
-                </div>
-                <h3>${item.title}</h3>
-                <p>${item.desc}</p>
-              </div>
-              <div class="card-footer">
-                ${footerText}
-              </div>
-            </a>
-          `;
-        }).join('');
-
-        section.innerHTML = `
-          <div class="section-title">
-            ${groupName}
-            <span class="badge-count">${items.length}</span>
-          </div>
-          <div class="grid">${cardsHtml}</div>
-        `;
-
-        container.appendChild(section);
-      }
-    }
-
-    // Xử lý sự kiện tìm kiếm
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value.toLowerCase().trim();
-      renderCatalog();
+    const btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      btn.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
     });
-
-    // Xử lý chuyển tab
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
-        renderCatalog();
-      });
-    });
-
-    // Khởi tạo ban đầu
-    renderCatalog();
   </script>
 </body>
 </html>
