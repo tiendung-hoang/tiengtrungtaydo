@@ -3,87 +3,467 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mục lục MSUTONG</title>
+  <title>Mục Lục Luyện Tập MSUTONG - Tiếng Trung Tây Đô</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #d9381e;       /* Đỏ trầm học thuật */
+      --primary-light: #fff1ee;
+      --secondary: #1e293b;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Header Banner */
+    header {
+      background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+      color: white;
+      padding: 40px 20px 55px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.92;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1000px;
+      margin: -30px auto 0;
       padding: 0 20px;
-      background: #0d1117;
-      color: #e6edf3;
     }
-    h1 { margin-bottom: 8px; }
-    .meta { color: #8b949e; margin-bottom: 24px; font-size: 14px; }
-    ul { list-style: none; padding: 0; }
-    li {
-      margin: 6px 0;
-      padding: 10px 14px;
-      background: #161b22;
-      border: 1px solid #30363d;
+
+    /* Thanh tìm kiếm & Lọc */
+    .controls {
+      background: var(--card-bg);
+      padding: 16px 20px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .search-box {
+      flex: 1 1 260px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-box::before {
+      content: "🔍";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 14px;
       border-radius: 8px;
-      transition: background 0.15s;
-    }
-    li:hover { background: #21262d; }
-    a {
-      color: #58a6ff;
-      text-decoration: none;
+      border: 1px solid var(--border-color);
+      background: #f1f5f9;
+      color: var(--text-muted);
+      font-size: 0.875rem;
       font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
     }
-    a:hover { text-decoration: underline; }
-    .error { color: #f85149; }
+
+    .tab-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Section Title */
+    .section-group {
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span.badge-count {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    /* Card Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: #fca5a5;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: var(--primary-light);
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .card h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .card:hover .card-footer span.arrow {
+      transform: translateX(4px);
+    }
+
+    .arrow {
+      transition: transform 0.2s;
+    }
+
+    /* Trạng thái Đang cập nhật (cho mục chưa có link) */
+    .card.coming-soon {
+      opacity: 0.72;
+      cursor: not-allowed;
+      background: #f8fafc;
+    }
+
+    .card.coming-soon:hover {
+      transform: none;
+      box-shadow: var(--shadow);
+      border-color: var(--border-color);
+    }
+
+    .card.coming-soon .card-footer {
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h1>Mục lục MSUTONG</h1>
-  <div class="meta" id="meta">Đang tải danh sách...</div>
-  <ul id="list"></ul>
+
+  <header>
+    <h1>📚 Hệ Thống Luyện Tập MSUTONG</h1>
+    <p>Chọn kỹ năng bên dưới để ôn tập từ vựng, luyện nghe và phản xạ giao tiếp tiếng Trung</p>
+  </header>
+
+  <div class="container">
+    <!-- Thanh tìm kiếm và lọc nhanh -->
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Tìm bài luyện tập (VD: Pinyin, Nghe, Nói...)">
+      </div>
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">Tất cả</button>
+        <button class="tab-btn" data-filter="vocab">Từ vựng & Nghe</button>
+        <button class="tab-btn" data-filter="speaking">Phản xạ & Giao tiếp</button>
+      </div>
+    </div>
+
+    <!-- Khu vực hiển thị danh sách mục lục -->
+    <div id="catalogContainer"></div>
+  </div>
+
+  <footer>
+    Tiếng Trung Tây Đô • Tài liệu ôn tập giáo trình MSUTONG
+  </footer>
 
   <script>
-    // ========== CẤU HÌNH ĐÚNG ==========
-    const OWNER = "tiendung-hoang";
-    const REPO  = "tiengtrungtaydo";
-    const PATH  = "MSUTONG";          // thư mục chứa các file html
-    // ==================================
+    // DỮ LIỆU MỤC LỤC (Bạn chỉ cần thêm/sửa link tại mảng này)
+    const lessons = [
+      {
+        category: "vocab",
+        categoryName: "Từ vựng, Nghe & Ghi nhớ",
+        title: "Flashcard Từ Vựng (10 Bài Gộp)",
+        desc: "Thẻ ghi nhớ mặt chữ Hán, phiên âm Pinyin và nghĩa tiếng Việt tổng hợp 10 bài.",
+        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Flashcard-10-Bai-Gom.html",
+        icon: "🗂️",
+        tag: "Ghi nhớ nhanh",
+        status: "ready"
+      },
+      {
+        category: "vocab",
+        categoryName: "Từ vựng, Nghe & Ghi nhớ",
+        title: "Luyện tập với Pinyin",
+        desc: "Trắc nghiệm nhận diện mặt chữ Hán và chọn phiên âm Pinyin chính xác.",
+        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Pinyin-10-Bai-Gom.html",
+        icon: "🔤",
+        tag: "10 Bài Gộp",
+        status: "ready"
+      },
+      {
+        category: "vocab",
+        categoryName: "Từ vựng, Nghe & Ghi nhớ",
+        title: "Luyện tập với Nghĩa",
+        desc: "Kiểm tra khả năng hiểu nghĩa tiếng Việt của từ vựng và mẫu câu trọng tâm.",
+        url: "#", // Điền link thực tế vào đây khi hoàn thiện
+        icon: "📖",
+        tag: "Đang cập nhật",
+        status: "coming-soon"
+      },
+      {
+        category: "vocab",
+        categoryName: "Từ vựng, Nghe & Ghi nhớ",
+        title: "Luyện tập với Nghe",
+        desc: "Nghe phát âm tiếng Trung và chọn đáp án đúng giúp tăng khả năng phản xạ thính giác.",
+        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/Quiz-Nghe-10-Bai-Gom.html",
+        icon: "🎧",
+        tag: "10 Bài Gộp",
+        status: "ready"
+      },
+      {
+        category: "speaking",
+        categoryName: "Phản Xạ Nói & Giao Tiếp",
+        title: "Luyện phản hồi câu hỏi",
+        desc: "Thực hành nghe/đọc câu hỏi tình huống và tự đặt câu trả lời phản xạ nhanh.",
+        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/MSUTONG/MSUTONG-LuyenNoi.HTML",
+        icon: "🎙️",
+        tag: "Luyện nói",
+        status: "ready"
+      },
+      {
+        category: "speaking",
+        categoryName: "Phản Xạ Nói & Giao Tiếp",
+        title: "Luyện trao đổi qua lại",
+        desc: "Mô phỏng hội thoại giao tiếp thực tế 2 chiều theo chủ đề giáo trình MSUTONG Sơ cấp 1.",
+        url: "https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Hoatdonggiaotiep/GiaoTiepMSUTONG-SC-1.html",
+        icon: "💬",
+        tag: "Sơ cấp 1",
+        status: "ready"
+      }
+    ];
 
-    const listEl = document.getElementById("list");
-    const metaEl = document.getElementById("meta");
+    const container = document.getElementById('catalogContainer');
+    const searchInput = document.getElementById('searchInput');
+    const tabBtns = document.querySelectorAll('.tab-btn');
 
-    async function loadFiles() {
-      try {
-        const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
-        const res = await fetch(url);
-        
-        if (!res.ok) {
-          throw new Error(`Không lấy được dữ liệu (${res.status}). Repo private hoặc sai tên?`);
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function renderCatalog() {
+      container.innerHTML = '';
+
+      // Lọc dữ liệu theo tab và từ khóa tìm kiếm
+      const filtered = lessons.filter(item => {
+        const matchTab = currentFilter === 'all' || item.category === currentFilter;
+        const matchSearch = item.title.toLowerCase().includes(searchQuery) || 
+                            item.desc.toLowerCase().includes(searchQuery) ||
+                            item.tag.toLowerCase().includes(searchQuery);
+        return matchTab && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#64748b; padding: 40px 0;">Không tìm thấy bài luyện tập phù hợp.</p>`;
+        return;
+      }
+
+      // Nhóm theo danh mục
+      const groups = {};
+      filtered.forEach(item => {
+        if (!groups[item.categoryName]) {
+          groups[item.categoryName] = [];
         }
+        groups[item.categoryName].push(item);
+      });
 
-        const files = await res.json();
-        
-        // Chỉ lấy file .html (và loại trừ chính file index.html)
-        const htmlFiles = files
-          .filter(f => 
-            f.type === "file" && 
-            f.name.toLowerCase().endsWith(".html") && 
-            f.name.toLowerCase() !== "index.html"
-          )
-          .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+      // Render từng nhóm
+      for (const [groupName, items] of Object.entries(groups)) {
+        const section = document.createElement('div');
+        section.className = 'section-group';
 
-        metaEl.textContent = `${htmlFiles.length} file HTML`;
+        const cardsHtml = items.map(item => {
+          const isReady = item.status === 'ready';
+          const tagHtml = `<span class="tag">${item.tag}</span>`;
+          const footerText = isReady 
+            ? `<span>Bắt đầu luyện tập</span><span class="arrow">→</span>` 
+            : `<span>⏳ Sắp ra mắt</span>`;
 
-        listEl.innerHTML = htmlFiles.map(f => `
-          <li>
-            <a href="${f.name}" target="_blank">${f.name}</a>
-          </li>
-        `).join("");
+          return `
+            <a href="${isReady ? item.url : 'javascript:void(0)'}" 
+               class="card ${isReady ? '' : 'coming-soon'}"
+               ${isReady ? '' : 'aria-disabled="true"'}>
+              <div>
+                <div class="card-header">
+                  <div class="icon-box">${item.icon}</div>
+                  ${tagHtml}
+                </div>
+                <h3>${item.title}</h3>
+                <p>${item.desc}</p>
+              </div>
+              <div class="card-footer">
+                ${footerText}
+              </div>
+            </a>
+          `;
+        }).join('');
 
-      } catch (err) {
-        metaEl.innerHTML = `<span class="error">${err.message}</span>`;
-        listEl.innerHTML = "";
+        section.innerHTML = `
+          <div class="section-title">
+            ${groupName}
+            <span class="badge-count">${items.length}</span>
+          </div>
+          <div class="grid">${cardsHtml}</div>
+        `;
+
+        container.appendChild(section);
       }
     }
 
-    loadFiles();
+    // Xử lý sự kiện tìm kiếm
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderCatalog();
+    });
+
+    // Xử lý chuyển tab
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderCatalog();
+      });
+    });
+
+    // Khởi tạo ban đầu
+    renderCatalog();
   </script>
 </body>
 </html>
