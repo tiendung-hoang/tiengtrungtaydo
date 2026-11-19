@@ -648,27 +648,25 @@ button:active {
 const allLessons = {
 "1": {
     "title": "Bài 1",
-    "sub": "Số đếm & Cơ bản",
-    "parts": {"part1": "Phần 1 (Số đếm)", "part2": "Phần 2 (Cơ bản)", "all": "Tất cả"},
+    "sub": "你好 - Xin chào",
+    "parts": {"part1": "Phần 1", "part2": "Phần 2", "all": "Tất cả"},
     "dataset": {
         "part1": [
-            {"hanzi": "一", "pinyin": "yī", "meaning": "một (số)", "emoji": "1️⃣"},
-            {"hanzi": "二", "pinyin": "èr", "meaning": "hai (số)", "emoji": "2️⃣"},
-            {"hanzi": "三", "pinyin": "sān", "meaning": "ba (số)", "emoji": "3️⃣"},
-            {"hanzi": "四", "pinyin": "sì", "meaning": "bốn (số)", "emoji": "4️⃣"},
-            {"hanzi": "五", "pinyin": "wǔ", "meaning": "năm (số)", "emoji": "5️⃣"},
-            {"hanzi": "六", "pinyin": "liù", "meaning": "sáu (số)", "emoji": "6️⃣"},
-            {"hanzi": "七", "pinyin": "qī", "meaning": "bảy (số)", "emoji": "7️⃣"},
-            {"hanzi": "八", "pinyin": "bā", "meaning": "tám (số)", "emoji": "8️⃣"},
-            {"hanzi": "九", "pinyin": "jiǔ", "meaning": "chín (số)", "emoji": "9️⃣"},
-            {"hanzi": "十", "pinyin": "shí", "meaning": "mười (số)", "emoji": "🔟"}
+            {"hanzi": "你", "pinyin": "nǐ", "meaning": "anh, chị, bạn, ông, bà...", "emoji": "👤"},
+            {"hanzi": "好", "pinyin": "hǎo", "meaning": "tốt, đẹp, hay, ngon...", "emoji": "👍"},
+            {"hanzi": "你好", "pinyin": "nǐ hǎo", "meaning": "xin chào", "emoji": "👋"},
+            {"hanzi": "老师", "pinyin": "lǎoshī", "meaning": "thầy / cô giáo", "emoji": "👩‍🏫"},
+            {"hanzi": "老师好", "pinyin": "lǎoshī hǎo", "meaning": "chào thầy/cô", "emoji": "🙋"},
+            {"hanzi": "您", "pinyin": "nín", "meaning": "ngài (xưng hô kính trọng)", "emoji": "🎩"},
+            {"hanzi": "您好", "pinyin": "nín hǎo", "meaning": "xin chào (kính trọng)", "emoji": "🙇"}
         ],
         "part2": [
-            {"hanzi": "你", "pinyin": "nǐ", "meaning": "bạn (đại từ)", "emoji": "👤"},
-            {"hanzi": "我", "pinyin": "wǒ", "meaning": "tôi (đại từ)", "emoji": "🙋"},
-            {"hanzi": "他", "pinyin": "tā", "meaning": "anh ấy / ông ấy", "emoji": "👨"},
-            {"hanzi": "好", "pinyin": "hǎo", "meaning": "tốt, khỏe", "emoji": "👍"},
-            {"hanzi": "是", "pinyin": "shì", "meaning": "là (động từ)", "emoji": "✅"}
+            {"hanzi": "你们", "pinyin": "nǐmen", "meaning": "các bạn, các anh, các chị...", "emoji": "👥"},
+            {"hanzi": "们", "pinyin": "men", "meaning": "hậu tố chỉ số nhiều", "emoji": "➕"},
+            {"hanzi": "你们好", "pinyin": "nǐmen hǎo", "meaning": "xin chào các bạn", "emoji": "👋"},
+            {"hanzi": "王", "pinyin": "Wáng", "meaning": "họ Vương", "emoji": "📛"},
+            {"hanzi": "王老师", "pinyin": "Wáng lǎoshī", "meaning": "thầy/cô Vương", "emoji": "👨‍🏫"},
+            {"hanzi": "小王", "pinyin": "Xiǎo Wáng", "meaning": "Tiểu Vương (gọi thân mật)", "emoji": "👦"}
         ]
     }
 },
@@ -1235,11 +1233,24 @@ function loadQuestion() {
 
     const hanziEl = document.getElementById('hanzi');
     const pinyinEl = document.getElementById('pinyin');
+
+    // === SỬA TẠI ĐÂY ===
+    // 1. Tắt transition tạm thời để ẩn ngay lập tức (không bị flash)
+    hanziEl.style.transition = 'none';
     hanziEl.classList.remove('show');
     hanziEl.style.opacity = '0';
     pinyinEl.style.display = 'none';
+
+    // 2. Đổi nội dung khi đã ẩn hoàn toàn
     hanziEl.textContent = currentHanzi;
     pinyinEl.textContent = currentPinyin;
+
+    // 3. Force reflow để trình duyệt áp dụng opacity = 0 trước
+    void hanziEl.offsetWidth;
+
+    // 4. Bật lại transition
+    hanziEl.style.transition = '';   // hoặc 'opacity 0.35s'
+    // ====================
 
     document.getElementById('reveal-btn').textContent = '👁 Hiện chữ + Pinyin';
     document.getElementById('result').textContent = '';
