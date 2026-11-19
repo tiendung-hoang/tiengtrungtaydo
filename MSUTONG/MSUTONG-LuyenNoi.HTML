@@ -1,751 +1,598 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Tập nói - Hỏi đáp nhanh</title>
-  <style>
-    :root {
-      --bg: #f7f7f7;
-      --card: #ffffff;
-      --text: #3c3c3c;
-      --muted: #777;
-      --primary: #58cc02;
-      --primary-dark: #46a302;
-      --border: #e5e5e5;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        :root { --tw-color-primary: #e63939; }
+        body { font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif; }
+        .chinese-text { font-family: 'Noto Sans SC', sans-serif; }
 
-    [data-theme="dark"] {
-      --bg: #131f24;
-      --card: #1a2a32;
-      --text: #f1f1f1;
-      --muted: #a0a0a0;
-      --primary: #58cc02;
-      --primary-dark: #46a302;
-      --border: #2e3d45;
-      --shadow: 0 4px 16px rgba(0,0,0,0.4);
-    }
+        .lesson-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .lesson-card:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 20px 25px -5px rgb(230 57 57 / 0.1); }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    header {
-      padding: 12px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--card);
-      border-bottom: 2px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      gap: 10px;
-    }
-
-    .logo {
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: var(--primary);
-      white-space: nowrap;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-switcher {
-      display: flex;
-      background: var(--card);
-      border-radius: 999px;
-      overflow: hidden;
-      border: 2px solid var(--border);
-    }
-
-    .lang-btn {
-      padding: 7px 11px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s;
-    }
-
-    .lang-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .theme-btn {
-      background: none;
-      border: 2px solid var(--border);
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      font-size: 1.15rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    main {
-      flex: 1;
-      padding: 18px 16px 30px;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .screen {
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-      text-align: center;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 22px;
-      font-size: 0.95rem;
-    }
-
-    .role-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 16px;
-      padding: 17px 18px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: var(--shadow);
-      width: 100%;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:active {
-      background: var(--primary-dark);
-      transform: scale(0.97);
-    }
-
-    .btn-secondary {
-      background: var(--card);
-      color: var(--text);
-      border: 2px solid var(--border);
-    }
-
-    .btn-secondary:active {
-      transform: scale(0.97);
-    }
-
-    .btn-random {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: white;
-      font-size: 1.12rem;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 16px;
-      box-shadow: 0 4px 0 #d97706;
-    }
-
-    .btn-random:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #d97706;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 18px;
-      padding: 18px 16px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-      border: 2px solid var(--border);
-    }
-
-    .q-block {
-      margin-bottom: 22px;
-    }
-
-    .q-block:last-child {
-      margin-bottom: 0;
-    }
-
-    .q-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      background: var(--primary);
-      color: white;
-      border-radius: 50%;
-      font-size: 0.9rem;
-      font-weight: 800;
-      margin-right: 8px;
-      flex-shrink: 0;
-    }
-
-    .q-text {
-      font-size: 1.22rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: flex-start;
-      line-height: 1.4;
-    }
-
-    .q-text .q-main {
-      flex: 1;
-    }
-
-    .q-pinyin {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    select {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2.5px solid var(--border);
-      border-radius: 14px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      background-color: var(--card);
-      color: var(--text);
-      font-family: inherit;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%2358cc02' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      box-shadow: 0 2px 0 var(--border);
-      transition: border-color 0.15s;
-    }
-
-    select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .answer-big {
-      font-size: 1.85rem;
-      font-weight: 800;
-      text-align: center;
-      color: var(--primary);
-      padding: 12px 8px 6px;
-      min-height: 68px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      line-height: 1.25;
-    }
-
-    .answer-pinyin {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .answer-card {
-      background: var(--card);
-      border: 2.5px solid var(--border);
-      border-radius: 16px;
-      padding: 14px 12px;
-      margin-bottom: 12px;
-    }
-
-    .answer-card .q-label {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 600;
-      margin-bottom: 4px;
-      text-align: center;
-    }
-
-    .shake-hint {
-      text-align: center;
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .shake-hint span {
-      background: #fef3c7;
-      color: #92400e;
-      padding: 2px 8px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    [data-theme="dark"] .shake-hint span {
-      background: #422006;
-      color: #fde68a;
-    }
-
-    .back-btn {
-      margin-top: 18px;
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 28px;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .compare-box {
-      background: #fefce8;
-      border: 2px dashed #facc15;
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
-      margin-top: 18px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: #854d0e;
-    }
-
-    [data-theme="dark"] .compare-box {
-      background: #422006;
-      border-color: #a16207;
-      color: #fde68a;
-    }
-  </style>
+        .big-emoji { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.19.0/dist/index.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <div class="logo">🗣️ Tập nói</div>
-    <div class="header-right">
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-mode="vi" onclick="setMode('vi')">VI</button>
-        <button class="lang-btn" data-mode="zh" onclick="setMode('zh')">中</button>
-        <button class="lang-btn" data-mode="py" onclick="setMode('py')">拼音</button>
-      </div>
-      <button class="theme-btn" id="themeBtn" title="Đổi giao diện">🌙</button>
-    </div>
-  </header>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen">
 
-  <main>
-    <!-- Màn hình chọn vai trò -->
-    <div class="screen active" id="screen-role">
-      <h1 id="home-title">🎭 Chọn vai trò</h1>
-      <p class="subtitle" id="home-subtitle">Mỗi người chọn 1 vai rồi bắt đầu hỏi đáp</p>
+    <!-- FLOATING BUTTON - Quay về mục lục -->
+    <a href="#" onclick="backToHome(); return false;" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+              background: #ef4444; color: white; width: 60px; height: 60px; 
+              border-radius: 50%; display: flex; align-items: center; 
+              justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+              text-decoration: none; transition: all 0.3s;">
+        ←
+    </a>
 
-      <div class="role-buttons">
-        <button class="btn btn-primary" onclick="chooseRole('A')" id="btn-role-a">
-          ❓ Vai A – Người hỏi
-        </button>
-        <button class="btn btn-secondary" onclick="chooseRole('B')" id="btn-role-b">
-          🎲 Vai B – Người trả lời
-        </button>
-      </div>
-
-      <p class="footer-note" id="home-footer">👥 Sau khi hỏi xong, 2 người so đáp án với nhau</p>
-    </div>
-
-    <!-- Giao diện Vai A -->
-    <div class="screen" id="screen-A">
-      <h1 style="font-size:1.3rem; margin-bottom:4px;" id="title-A">❓ Bạn là Người hỏi (A)</h1>
-      <p class="subtitle" style="margin-bottom:18px;" id="desc-A">Hỏi cả 2 câu và chọn đáp án bạn muốn nghe</p>
-
-      <div class="card">
-        <!-- Câu 1 -->
-        <div class="q-block">
-          <div class="q-text">
-            <span class="q-number">1</span>
-            <div class="q-main">
-              <span id="q1-text">你叫什么名字？</span>
-              <span class="q-pinyin" id="q1-pinyin" style="display:none;"></span>
+    <!-- HEADER -->
+    <div class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-600 text-white rounded-2xl flex items-center justify-center text-3xl shadow-inner">🇨🇳</div>
+                <div>
+                    <h1 class="text-2xl font-bold text-red-600 tracking-tight">Luyện Hỏi Đáp</h1>
+                    <p class="text-xs text-red-500 -mt-1 font-medium">Tiếng Trung sơ cấp • A hỏi - B trả lời</p>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span>🎤</span>
+                        <select id="voiceType" class="px-3 py-1 border rounded-xl text-sm">
+                            <option value="female">👩 Giọng nữ</option>
+                            <option value="male">👨 Giọng nam</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-          </div>
-          <select id="select-1" onchange="saveSelection(1)">
-            <option value="">-- Chọn đáp án --</option>
-          </select>
-        </div>
-
-        <!-- Câu 2 -->
-        <div class="q-block">
-          <div class="q-text">
-            <span class="q-number">2</span>
-            <div class="q-main">
-              <span id="q2-text">你是哪国人？</span>
-              <span class="q-pinyin" id="q2-pinyin" style="display:none;"></span>
+            
+            <div id="header-info" class="items-center gap-2 text-sm font-medium hidden">
+                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-3xl text-xs flex items-center gap-1">
+                    <span id="current-bai" class="font-bold">Đã chọn 1 bài</span>
+                </span>
+                <button onclick="backToHome()" class="flex items-center gap-1 text-red-600 hover:text-red-700 transition-colors">
+                    ← Quay về chọn bài
+                </button>
             </div>
-          </div>
-          <select id="select-2" onchange="saveSelection(2)">
-            <option value="">-- Chọn đáp án --</option>
-          </select>
         </div>
-      </div>
-
-      <div class="compare-box" id="compare-A">
-        🔍 Hỏi xong hãy đối chiếu với đối phương xem đáp án có khớp không!
-      </div>
-
-      <button class="btn btn-secondary back-btn" onclick="goBack()" id="back-A">← Quay lại chọn vai</button>
     </div>
 
-    <!-- Giao diện Vai B -->
-    <div class="screen" id="screen-B">
-      <h1 style="font-size:1.3rem; margin-bottom:4px;" id="title-B">🎲 Bạn là Người trả lời (B)</h1>
-      <p class="subtitle" style="margin-bottom:14px;" id="desc-B">Trả lời theo đáp án ngẫu nhiên bên dưới</p>
+    <div class="max-w-5xl mx-auto px-4 pb-8">
 
-      <button class="btn btn-random" onclick="randomizeBoth()" id="btn-random">
-        🎲 Đổi đáp án ngẫu nhiên
-      </button>
-      <p class="shake-hint" id="shake-hint">Hoặc <span>📱 lắc điện thoại</span> để random lại</p>
+        <!-- HOME VIEW -->
+        <div id="home-view" class="">
+            <div class="pt-8 pb-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
+                <p class="text-red-600 text-lg">10 bài • Mỗi bài 2–4 câu hỏi</p>
+            </div>
+            
+            <div class="text-center mb-8">
+                <button onclick="enterMultiSelectMode()" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-3xl text-lg shadow-lg hover:brightness-110 transition">
+                    📋 Luyện tập chọn bài (nhiều bài)
+                </button>
+            </div>
 
-      <div class="card">
-        <div class="answer-card">
-          <div class="q-label" id="label-1">1️⃣ 你叫什么名字？</div>
-          <div class="answer-big" id="answer-1">...</div>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="lesson-grid">
+                <!-- JS sẽ render -->
+            </div>
         </div>
 
-        <div class="answer-card">
-          <div class="q-label" id="label-2">2️⃣ 你是哪国人？</div>
-          <div class="answer-big" id="answer-2">...</div>
+        <!-- MULTI SELECT VIEW -->
+        <div id="multi-select-view" class="hidden">
+            <div class="pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Chọn các bài muốn luyện</h2>
+                    <button onclick="exitMultiSelectMode()" class="text-red-600 hover:text-red-700 font-medium">✕ Đóng</button>
+                </div>
+                
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="multi-lesson-grid">
+                    <!-- JS sẽ render -->
+                </div>
+            </div>
+
+            <div class="mt-6 w-full">
+                <button onclick="startMultiPractice()" id="btn-start-multi" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50" disabled>
+                    🚀 BẮT ĐẦU TỰ LUYỆN TẬP (<span id="selected-count">0</span> bài)
+                </button>
+            </div>
         </div>
-      </div>
 
-      <div class="compare-box" id="compare-B">
-        🔍 Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!
-      </div>
+        <!-- PRACTICE VIEW -->
+        <div id="practice-view" class="hidden">
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                    <h3 class="text-lg font-semibold text-gray-700">Các câu hỏi của bài này</h3>
+                    <div class="flex gap-2 flex-wrap">
+                        <button onclick="startAutoPractice()" class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            🔄 Tự luyện tập
+                        </button>
+                        <button onclick="startManualPractice()" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            👆 Thủ công
+                        </button>
+                        <button onclick="randomQuestion()" class="px-5 py-2 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50">
+                            🎲 Ngẫu nhiên
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3" id="mini-questions">
+                    <!-- JS sẽ render -->
+                </div>
+            </div>
 
-      <button class="btn btn-secondary back-btn" onclick="goBack()" id="back-B">← Quay lại chọn vai</button>
+            <!-- Main Area -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 min-h-[420px] flex flex-col" id="question-container">
+                <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center">
+                    <div class="text-8xl mb-6">🎲</div>
+                    <h3 class="text-3xl font-bold text-gray-300">Sẵn sàng luyện chưa?</h3>
+                    <p class="text-gray-400 mt-2">Chọn câu hỏi bên trên hoặc nhấn ngẫu nhiên</p>
+                </div>
+
+                <div id="active-question" class="flex-1 flex flex-col hidden">
+                    <div class="flex justify-center">
+                        <div id="big-emoji" class="big-emoji text-8xl mb-6">👨‍🏫</div>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h2 id="question-text" class="chinese-text text-4xl leading-tight font-medium text-gray-800"></h2>
+                    </div>
+                    <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
+                        👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
+                    </div>
+                    <div class="text-center mb-6">
+                        <button onclick="repeatQuestion()" class="px-5 py-3 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50 mx-auto">
+                            🔊 Nghe lại câu hỏi
+                        </button>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
+                            👀 Hiện đáp án mẫu
+                        </button>
+                        <div id="answer-box" class="hidden mt-6 bg-green-50 border border-green-200 rounded-3xl p-6">
+                            <p id="answer-text-content" class="chinese-text text-3xl leading-snug font-medium text-green-800"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Status -->
+            <div id="auto-status" class="hidden mt-6 text-center">
+                <div class="inline-flex items-center gap-3 bg-white border border-green-300 rounded-3xl px-6 py-3">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span id="auto-text" class="font-medium text-green-700">Đang tự luyện tập...</span>
+                    <button onclick="stopAutoPractice()" class="text-red-500 hover:text-red-700 font-medium ml-4">Dừng</button>
+                </div>
+            </div>
+
+            <div id="manual-status" class="mt-6 text-center hidden">
+                <div class="inline-flex items-center gap-3 bg-white border rounded-3xl px-6 py-3">
+                    <span class="font-medium text-blue-700">👆 Chế độ thủ công</span>
+                    <button onclick="nextManualQuestion()" class="px-4 py-2 bg-blue-600 text-white rounded-full">➡️ Tiếp theo</button>
+                    <button onclick="stopManualPractice()" class="text-red-500 font-medium">Dừng</button>
+                </div>
+            </div>
+
+            <div class="mt-6 w-full">
+                <button onclick="randomQuestion()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4">
+                    🎲 LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO 🎲
+                </button>
+            </div>
+        </div>
     </div>
-  </main>
 
-  <script>
-    // ==================== DATA ====================
-    const data = {
-      q1: {
-        zh: "你叫什么名字？",
-        vi: "Bạn tên là gì?",
-        py: "Nǐ jiào shénme míngzi?"
-      },
-      q2: {
-        zh: "你是哪国人？",
-        vi: "Bạn là người nước nào?",
-        py: "Nǐ shì nǎ guó rén?"
-      },
-      names: [
-        { zh: "玛丽", vi: "Mary", py: "Mǎlì", emoji: "👩" },
-        { zh: "高小明", vi: "Cao Tiểu Minh", py: "Gāo Xiǎomíng", emoji: "👨" },
-        { zh: "欧文", vi: "Owen", py: "Ōuwén", emoji: "🧑" },
-        { zh: "卡马拉", vi: "Kamala", py: "Kǎmǎlā", emoji: "👩‍🦰" }
-      ],
-      countries: [
-        { zh: "美国", vi: "Mỹ", py: "Měiguó", emoji: "🇺🇸" },
-        { zh: "中国", vi: "Trung Quốc", py: "Zhōngguó", emoji: "🇨🇳" },
-        { zh: "南非", vi: "Nam Phi", py: "Nánfēi", emoji: "🇿🇦" },
-        { zh: "越南", vi: "Việt Nam", py: "Yuènán", emoji: "🇻🇳" }
-      ]
-    };
+    <script>
+        const lessons = [
+            {
+                id: 1,
+                title: "Bài 1",
+                pairs: [
+                    {q: "你好", a: "你好！ / 老师，你好！", emoji: "👋"},
+                    {q: "老师，你好", a: "你好！", emoji: "👨‍🏫"}
+                ]
+            },
+            {
+                id: 2,
+                title: "Bài 2",
+                pairs: [
+                    {q: "你叫什么名字？", a: "我叫……。你呢？", emoji: "🙋"},
+                    {q: "你是哪国人？", a: "我是越南人。你呢？", emoji: "🇻🇳"},
+                    {q: "我是中国人，你呢？", a: "我是越南人。", emoji: "🇨🇳"}
+                ]
+            },
+            {
+                id: 3,
+                title: "Bài 3",
+                pairs: [
+                    {q: "请问，您贵姓？", a: "我姓……。", emoji: "🙏"},
+                    {q: "很高兴认识你！", a: "我也很高兴认识你！", emoji: "😊"},
+                    {q: "你是中国人吗？", a: "是 / 不是，我是越南人。", emoji: "🇨🇳"},
+                    {q: "你是越南人吗？", a: "是的，我是越南人。", emoji: "🇻🇳"}
+                ]
+            },
+            {
+                id: 4,
+                title: "Bài 4",
+                pairs: [
+                    {q: "你去哪儿？", a: "我去……。", emoji: "🚶"},
+                    {q: "Ninh Kieu广场远不远？", a: "不远 / 很远。", emoji: "📍"},
+                    {q: "谢谢", a: "不客气。", emoji: "🙏"},
+                    {q: "再见", a: "再见！", emoji: "👋"}
+                ]
+            },
+            {
+                id: 5,
+                title: "Bài 5",
+                pairs: [
+                    {q: "你要吃什么？", a: "我要吃……。", emoji: "🍜"},
+                    {q: "牛肉多少钱？", a: "……块钱。", emoji: "🥩"},
+                    {q: "你要喝什么？", a: "我要喝……。", emoji: "🥤"},
+                    {q: "你喝咖啡还是奶茶？", a: "我喝咖啡 / 我喝奶茶。", emoji: "🧋"}
+                ]
+            },
+            {
+                id: 6,
+                title: "Bài 6",
+                pairs: [
+                    {q: "你在哪儿工作？", a: "我在……工作。", emoji: "💼"},
+                    {q: "你做什么工作？", a: "我是老师 / 我是学生。", emoji: "👨‍💼"},
+                    {q: "你学什么？", a: "我学汉语。", emoji: "📚"},
+                    {q: "你在哪儿学汉语？", a: "我在……学汉语。", emoji: "🏫"}
+                ]
+            },
+            {
+                id: 7,
+                title: "Bài 7",
+                pairs: [
+                    {q: "附近有什么？", a: "附近有……。", emoji: "🗺️"},
+                    {q: "书店在哪儿？", a: "书店在……。", emoji: "📖"},
+                    {q: "附近有什么银行？", a: "附近有……银行。", emoji: "🏦"},
+                    {q: "超市在哪儿？", a: "超市在……。", emoji: "🛒"}
+                ]
+            },
+            {
+                id: 8,
+                title: "Bài 8",
+                pairs: [
+                    {q: "今天是几月几号？", a: "今天是……月……号。", emoji: "📅"},
+                    {q: "你的生日是哪一天？", a: "我的生日是……月……号。", emoji: "🎂"},
+                    {q: "你生日那天做什么？", a: "我……。", emoji: "🎉"},
+                    {q: "今天晚上，你有空吗？", a: "有空 / 没有空。", emoji: "🌙"}
+                ]
+            },
+            {
+                id: 9,
+                title: "Bài 9",
+                pairs: [
+                    {q: "你喜欢看书吗？", a: "喜欢 / 不喜欢。", emoji: "📖"},
+                    {q: "你喜欢吃哪国菜？", a: "我喜欢吃越南菜 / 中国菜。", emoji: "🍲"},
+                    {q: "你怎么去学校？", a: "我坐公交车 / 骑自行车 / 走路去。", emoji: "🚌"},
+                    {q: "你喜欢越南菜，还是中国菜？", a: "我喜欢越南菜 / 中国菜。", emoji: "🍜"}
+                ]
+            },
+            {
+                id: 10,
+                title: "Bài 10",
+                pairs: [
+                    {q: "你家有几口人？", a: "我家有……口人。", emoji: "👨‍👩‍👧‍👦"},
+                    {q: "你今年多大？", a: "我今年……岁。", emoji: "🔢"},
+                    {q: "你的家人都在越南吗？", a: "是的 / 不是，有人在……。", emoji: "🇻🇳"},
+                    {q: "你有哥哥还是姐姐吗？", a: "我有哥哥 / 姐姐 / 没有。", emoji: "👫"}
+                ]
+            }
+        ];
 
-    let currentMode = "vi";
-    let currentName = null;
-    let currentCountry = null;
+        let currentLesson = null;
+        let currentPair = null;
+        let isAutoPlaying = false;
+        let autoTimeout = null;
+        let isManualPractice = false;
+        let manualQueue = [];
+        let selectedLessons = [];
+        let isMultiSelectMode = false;
+        let femaleVoice = null;
+        let maleVoice = null;
 
-    // Lưu lựa chọn của Vai A theo index (không bị mất khi đổi ngôn ngữ)
-    let selectedNameIndex = "";
-    let selectedCountryIndex = "";
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const chineseVoices = voices.filter(v => v.lang.startsWith('zh') || v.lang.startsWith('cmn'));
 
-    // ==================== THEME ====================
-    const themeBtn = document.getElementById("themeBtn");
-    function toggleTheme() {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      if (isDark) {
-        document.documentElement.removeAttribute("data-theme");
-        themeBtn.textContent = "🌙";
-        localStorage.setItem("theme", "light");
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        themeBtn.textContent = "☀️";
-        localStorage.setItem("theme", "dark");
-      }
-    }
-    themeBtn.addEventListener("click", toggleTheme);
+            femaleVoice =
+                chineseVoices.find(v =>
+                    v.name.toLowerCase().includes('xiaoxiao') ||
+                    v.name.toLowerCase().includes('huihui') ||
+                    v.name.toLowerCase().includes('female') ||
+                    v.name.toLowerCase().includes('tingting')
+                ) || chineseVoices[0] || null;
 
-    if (localStorage.getItem("theme") === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      themeBtn.textContent = "☀️";
-    }
+            maleVoice =
+                chineseVoices.find(v =>
+                    v.name.toLowerCase().includes('kangkang') ||
+                    v.name.toLowerCase().includes('yunyang') ||
+                    v.name.toLowerCase().includes('male')
+                ) || chineseVoices[1] || femaleVoice;
+        }
 
-    // ==================== MODE ====================
-    function setMode(mode) {
-      currentMode = mode;
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            u.rate = 0.85;
+            u.pitch = 1.0;
 
-      document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.mode === mode);
-      });
+            const mode = document.getElementById('voiceType')?.value || 'female';
+            if (mode === 'male' && maleVoice) {
+                u.voice = maleVoice;
+            } else if (femaleVoice) {
+                u.voice = femaleVoice;
+            }
+            speechSynthesis.speak(u);
+        }
 
-      updateAllTexts();
-      localStorage.setItem("displayMode", mode);
-    }
+        function repeatQuestion() {
+            if (!currentPair) return;
+            speechSynthesis.cancel();
+            setTimeout(() => speak(currentPair.q), 100);
+        }
 
-    const savedMode = localStorage.getItem("displayMode");
-    if (savedMode && ["vi", "zh", "py"].includes(savedMode)) {
-      currentMode = savedMode;
-      document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.mode === savedMode);
-      });
-    }
+        function renderLessonGrid() {
+            const grid = document.getElementById('lesson-grid');
+            grid.innerHTML = '';
+            lessons.forEach(lesson => {
+                const card = document.createElement('div');
+                card.className = "lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer";
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">${lesson.pairs.length} câu hỏi</div>
+                `;
+                card.onclick = () => selectLesson(lesson.id);
+                grid.appendChild(card);
+            });
+        }
 
-    function getText(obj) {
-      if (currentMode === "vi") return obj.vi;
-      return obj.zh;
-    }
+        function enterMultiSelectMode() {
+            isMultiSelectMode = true;
+            selectedLessons = [];
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.remove('hidden');
+            renderMultiLessonGrid();
+            updateStartButton();
+        }
 
-    // ==================== UPDATE TEXTS ====================
-    function updateAllTexts() {
-      // Home
-      if (currentMode === "vi") {
-        document.getElementById("home-title").textContent = "🎭 Chọn vai trò";
-        document.getElementById("home-subtitle").textContent = "Mỗi người chọn 1 vai rồi bắt đầu hỏi đáp";
-        document.getElementById("btn-role-a").textContent = "❓ Vai A – Người hỏi";
-        document.getElementById("btn-role-b").textContent = "🎲 Vai B – Người trả lời";
-        document.getElementById("home-footer").textContent = "👥 Sau khi hỏi xong, 2 người so đáp án với nhau";
-      } else {
-        document.getElementById("home-title").textContent = "🎭 選擇角色";
-        document.getElementById("home-subtitle").textContent = "每人選擇一個角色後開始問答";
-        document.getElementById("btn-role-a").textContent = "❓ 角色 A – 提問者";
-        document.getElementById("btn-role-b").textContent = "🎲 角色 B – 回答者";
-        document.getElementById("home-footer").textContent = "👥 問完後兩人互相核對答案";
-      }
+        function exitMultiSelectMode() {
+            isMultiSelectMode = false;
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+        }
 
-      // Role A
-      if (currentMode === "vi") {
-        document.getElementById("title-A").textContent = "❓ Bạn là Người hỏi (A)";
-        document.getElementById("desc-A").textContent = "Hỏi cả 2 câu và chọn đáp án bạn muốn nghe";
-        document.getElementById("compare-A").textContent = "🔍 Hỏi xong hãy đối chiếu với đối phương xem đáp án có khớp không!";
-        document.getElementById("back-A").textContent = "← Quay lại chọn vai";
-      } else {
-        document.getElementById("title-A").textContent = "❓ 你是提問者 (A)";
-        document.getElementById("desc-A").textContent = "問兩個問題，並選擇你想聽到的答案";
-        document.getElementById("compare-A").textContent = "🔍 問完後跟對方核對答案，看看有多相似！";
-        document.getElementById("back-A").textContent = "← 返回選擇角色";
-      }
+        function renderMultiLessonGrid() {
+            const grid = document.getElementById('multi-lesson-grid');
+            grid.innerHTML = '';
+            lessons.forEach(lesson => {
+                const isSelected = selectedLessons.some(l => l.id === lesson.id);
+                const card = document.createElement('div');
+                card.className = `lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-red-200'}`;
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">${lesson.pairs.length} câu hỏi</div>
+                `;
+                card.onclick = () => toggleLessonSelection(lesson);
+                grid.appendChild(card);
+            });
+        }
 
-      // Role B
-      if (currentMode === "vi") {
-        document.getElementById("title-B").textContent = "🎲 Bạn là Người trả lời (B)";
-        document.getElementById("desc-B").textContent = "Trả lời theo đáp án ngẫu nhiên bên dưới";
-        document.getElementById("btn-random").textContent = "🎲 Đổi đáp án ngẫu nhiên";
-        document.getElementById("shake-hint").innerHTML = `Hoặc <span>📱 lắc điện thoại</span> để random lại`;
-        document.getElementById("compare-B").textContent = "🔍 Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!";
-        document.getElementById("back-B").textContent = "← Quay lại chọn vai";
-      } else {
-        document.getElementById("title-B").textContent = "🎲 你是回答者 (B)";
-        document.getElementById("desc-B").textContent = "根據下面的隨機答案回答對方";
-        document.getElementById("btn-random").textContent = "🎲 隨機產生答案";
-        document.getElementById("shake-hint").innerHTML = `或 <span>📱 搖一搖手機</span> 重新隨機`;
-        document.getElementById("compare-B").textContent = "🔍 回答完後跟對方核對，看看你們的答案有多像！";
-        document.getElementById("back-B").textContent = "← 返回選擇角色";
-      }
+        function toggleLessonSelection(lesson) {
+            const index = selectedLessons.findIndex(l => l.id === lesson.id);
+            if (index === -1) {
+                selectedLessons.push(lesson);
+            } else {
+                selectedLessons.splice(index, 1);
+            }
+            renderMultiLessonGrid();
+            updateStartButton();
+        }
 
-      // Questions
-      document.getElementById("q1-text").textContent = getText(data.q1);
-      document.getElementById("q2-text").textContent = getText(data.q2);
+        function updateStartButton() {
+            const count = selectedLessons.length;
+            document.getElementById('selected-count').textContent = count;
+            document.getElementById('btn-start-multi').disabled = count === 0;
+        }
 
-      const py1 = document.getElementById("q1-pinyin");
-      const py2 = document.getElementById("q2-pinyin");
-      if (currentMode === "py") {
-        py1.textContent = data.q1.py;
-        py2.textContent = data.q2.py;
-        py1.style.display = "block";
-        py2.style.display = "block";
-      } else {
-        py1.style.display = "none";
-        py2.style.display = "none";
-      }
+        function startMultiPractice() {
+            if (selectedLessons.length === 0) return;
+            const allPairs = [];
+            selectedLessons.forEach(lesson => {
+                allPairs.push(...lesson.pairs);
+            });
+            currentLesson = {
+                id: 999,
+                title: `Đã chọn ${selectedLessons.length} bài`,
+                pairs: allPairs
+            };
+            exitMultiSelectMode();
+            selectLesson(999);
+        }
 
-      // Labels for B
-      document.getElementById("label-1").textContent = "1️⃣ " + getText(data.q1);
-      document.getElementById("label-2").textContent = "2️⃣ " + getText(data.q2);
+        function selectLesson(id) {
+            if (id !== 999) {
+                currentLesson = lessons.find(l => l.id === id);
+            }
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('practice-view').classList.remove('hidden');
+            document.getElementById('header-info').classList.remove('hidden');
+            
+            document.getElementById('current-bai').innerHTML = `${currentLesson.title} <span class="text-red-400 mx-2">•</span> ${currentLesson.pairs.length} câu`;
+            
+            renderMiniQuestions();
+            showEmptyState();
+        }
 
-      // Rebuild selects nhưng giữ lựa chọn cũ
-      renderSelects();
+        function renderMiniQuestions() {
+            const container = document.getElementById('mini-questions');
+            container.innerHTML = '';
+            currentLesson.pairs.forEach(pair => {
+                const div = document.createElement('div');
+                div.className = "bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300";
+                div.innerHTML = `<div class="text-4xl mb-3">${pair.emoji}</div><p class="chinese-text text-sm font-medium">${pair.q}</p>`;
+                div.onclick = () => {
+                    currentPair = pair;
+                    showActiveQuestion();
+                };
+                container.appendChild(div);
+            });
+        }
 
-      // Update answers B nếu đã random
-      if (currentName && currentCountry) {
-        renderAnswersB();
-      }
-    }
+        function showEmptyState() {
+            document.getElementById('active-question').classList.add('hidden');
+            document.getElementById('empty-state').classList.remove('hidden');
+        }
 
-    function renderSelects() {
-      const select1 = document.getElementById("select-1");
-      const select2 = document.getElementById("select-2");
+        function showActiveQuestion() {
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('active-question').classList.remove('hidden');
+            document.getElementById('big-emoji').innerHTML = currentPair.emoji;
+            document.getElementById('question-text').innerHTML = currentPair.q;
+            document.getElementById('answer-box').classList.add('hidden');
+            document.getElementById('btn-show-answer').textContent = '👀 Hiện đáp án mẫu';
+            speak(currentPair.q);
+        }
 
-      // Lưu giá trị đang chọn trước khi xóa
-      const prev1 = selectedNameIndex;
-      const prev2 = selectedCountryIndex;
+        function randomQuestion() {
+            if (!currentLesson) return;
+            currentPair = currentLesson.pairs[Math.floor(Math.random() * currentLesson.pairs.length)];
+            showActiveQuestion();
+        }
 
-      select1.innerHTML = "";
-      select2.innerHTML = "";
+        async function toggleAnswer() {
+            const box = document.getElementById('answer-box');
+            const btn = document.getElementById('btn-show-answer');
+            if (!currentPair) return;
 
-      // Placeholder
-      const placeholder1 = document.createElement("option");
-      placeholder1.value = "";
-      placeholder1.textContent = currentMode === "vi" ? "-- Chọn đáp án --" : "-- 請選擇答案 --";
-      select1.appendChild(placeholder1);
+            if (!box.classList.contains('hidden')) {
+                box.classList.add('hidden');
+                btn.textContent = '👀 Hiện đáp án mẫu';
+                return;
+            }
 
-      const placeholder2 = document.createElement("option");
-      placeholder2.value = "";
-      placeholder2.textContent = currentMode === "vi" ? "-- Chọn đáp án --" : "-- 請選擇答案 --";
-      select2.appendChild(placeholder2);
+            box.classList.remove('hidden');
+            btn.textContent = '👀 Ẩn đáp án';
 
-      // Options tên
-      data.names.forEach((item, idx) => {
-        const opt = document.createElement("option");
-        opt.value = idx;
-        let text = `${item.emoji} ${getText(item)}`;
-        if (currentMode === "py") text += ` (${item.py})`;
-        opt.textContent = text;
-        select1.appendChild(opt);
-      });
+            const answerText = document.getElementById('answer-text-content');
+            answerText.innerHTML = `
+                <strong>Đáp án mẫu:</strong><br>
+                <span class="chinese-text">${currentPair.a}</span>
+            `;
 
-      // Options quốc tịch
-      data.countries.forEach((item, idx) => {
-        const opt = document.createElement("option");
-        opt.value = idx;
-        let text = `${item.emoji} ${getText(item)}`;
-        if (currentMode === "py") text += ` (${item.py})`;
-        opt.textContent = text;
-        select2.appendChild(opt);
-      });
+            // Xóa pinyin cũ nếu có
+            const oldPinyin = box.querySelector('.pinyin-container');
+            if (oldPinyin) oldPinyin.remove();
 
-      // Khôi phục lựa chọn cũ
-      if (prev1 !== "") select1.value = prev1;
-      if (prev2 !== "") select2.value = prev2;
-    }
+            const pinyinContainer = document.createElement('div');
+            pinyinContainer.className = 'pinyin-container';
+            pinyinContainer.style.marginTop = '16px';
+            pinyinContainer.style.padding = '14px';
+            pinyinContainer.style.backgroundColor = '#f0fdf4';
+            pinyinContainer.style.borderRadius = '12px';
+            pinyinContainer.style.border = '1px solid #86efac';
 
-    function saveSelection(qNum) {
-      if (qNum === 1) {
-        selectedNameIndex = document.getElementById("select-1").value;
-      } else {
-        selectedCountryIndex = document.getElementById("select-2").value;
-      }
-    }
+            try {
+                if (typeof pinyinPro !== 'undefined') {
+                    const pinyinResult = pinyinPro.pinyin(currentPair.q, {
+                        toneType: 'tone',
+                        type: 'array',
+                        separator: ' '
+                    }).join(' ');
+                    pinyinContainer.innerHTML = `
+                        <strong>🔊 Pinyin câu hỏi:</strong><br>
+                        <span style="font-size: 1.15em; color: #166534; font-family: monospace;">${pinyinResult}</span>
+                    `;
+                } else {
+                    throw new Error('Pinyin library not loaded');
+                }
+            } catch (e) {
+                pinyinContainer.innerHTML = `
+                    <strong>🔊 Pinyin câu hỏi:</strong><br>
+                    <span style="color: #ef4444;">Không lấy được pinyin (thư viện chưa tải xong).</span>
+                `;
+            }
+            box.appendChild(pinyinContainer);
+        }
 
-    function renderAnswersB() {
-      const el1 = document.getElementById("answer-1");
-      const el2 = document.getElementById("answer-2");
+        function startAutoPractice() {
+            if (!currentLesson || isAutoPlaying) return;
+            stopManualPractice();
+            isAutoPlaying = true;
+            document.getElementById('auto-status').classList.remove('hidden');
 
-      let html1 = `${currentName.emoji} ${getText(currentName)}`;
-      let html2 = `${currentCountry.emoji} ${getText(currentCountry)}`;
+            let queue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
 
-      if (currentMode === "py") {
-        html1 += `<span class="answer-pinyin">${currentName.py}</span>`;
-        html2 += `<span class="answer-pinyin">${currentCountry.py}</span>`;
-      }
+            function playNext() {
+                if (!isAutoPlaying || queue.length === 0) {
+                    stopAutoPractice();
+                    return;
+                }
+                currentPair = queue.shift();
+                showActiveQuestion();
+                autoTimeout = setTimeout(playNext, 9000);
+            }
+            playNext();
+        }
 
-      el1.innerHTML = html1;
-      el2.innerHTML = html2;
-    }
+        function stopAutoPractice() {
+            isAutoPlaying = false;
+            if (autoTimeout) clearTimeout(autoTimeout);
+            speechSynthesis.cancel();
+            document.getElementById('auto-status').classList.add('hidden');
+        }
 
-    // ==================== ROLE ====================
-    function chooseRole(role) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      if (role === "A") {
-        document.getElementById("screen-A").classList.add("active");
-        renderSelects();
-      } else {
-        document.getElementById("screen-B").classList.add("active");
-        randomizeBoth();
-      }
-    }
+        function startManualPractice() {
+            if (!currentLesson) return;
+            stopAutoPractice();
+            isManualPractice = true;
+            manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            document.getElementById('manual-status').classList.remove('hidden');
+            nextManualQuestion();
+        }
 
-    function goBack() {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById("screen-role").classList.add("active");
-    }
+        function nextManualQuestion() {
+            if (!isManualPractice) return;
+            if (manualQueue.length === 0) {
+                manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            }
+            currentPair = manualQueue.shift();
+            showActiveQuestion();
+        }
 
-    function randomizeBoth() {
-      currentName = data.names[Math.floor(Math.random() * data.names.length)];
-      currentCountry = data.countries[Math.floor(Math.random() * data.countries.length)];
-      renderAnswersB();
+        function stopManualPractice() {
+            isManualPractice = false;
+            manualQueue = [];
+            document.getElementById('manual-status').classList.add('hidden');
+        }
 
-      const el1 = document.getElementById("answer-1");
-      const el2 = document.getElementById("answer-2");
-      el1.style.transform = "scale(1.08)";
-      el2.style.transform = "scale(1.08)";
-      setTimeout(() => {
-        el1.style.transform = "scale(1)";
-        el2.style.transform = "scale(1)";
-      }, 180);
+        function backToHome() {
+            stopAutoPractice();
+            stopManualPractice();
+            document.getElementById('practice-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('header-info').classList.add('hidden');
+        }
 
-      if (navigator.vibrate) navigator.vibrate(35);
-    }
-
-    // Lắc điện thoại
-    let lastShake = 0;
-    window.addEventListener("devicemotion", (e) => {
-      if (!document.getElementById("screen-B").classList.contains("active")) return;
-      const acc = e.accelerationIncludingGravity;
-      if (!acc) return;
-      const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
-      const now = Date.now();
-      if (force > 26 && now - lastShake > 1100) {
-        lastShake = now;
-        randomizeBoth();
-      }
-    });
-
-    // Init
-    updateAllTexts();
-  </script>
+        window.onload = () => {
+            renderLessonGrid();
+            loadVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        };
+    </script>
 </body>
 </html>
