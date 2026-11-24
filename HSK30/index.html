@@ -1,1 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài liệu học tập - HSK 3.0</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 24px;
+            font-size: 1.75rem;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .file-item a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .file-item a:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
+        }
+        .file-item a::after {
+            content: "→";
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        .status {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
 
+    <a href="../" class="back-link">← Quay lại trang chính</a>
+    <h1>Danh sách bài học HSK 3.0</h1>
+    
+    <div id="status" class="status">Đang tải danh sách bài học...</div>
+    <ul id="file-list" class="file-list"></ul>
+
+    <script>
+        // Cấu hình thông tin Repo và Thư mục của bạn
+        const GITHUB_USER = 'tiendung-hoang';
+        const REPO_NAME = 'tiengtrungtaydo';
+        const FOLDER_PATH = 'HSK30'; // Đổi tên này nếu bạn dùng code cho thư mục HSK1, HSK2...
+
+        // Từ điển đổi tên file sang tiếng Việt có dấu cho đẹp (tùy chọn)
+        // Nếu file mới thêm chưa có trong danh sách này, web sẽ tự lấy tên gốc của file
+        const customTitles = {
+            'Flashcard.html': '📇 Thẻ ghi nhớ (Flashcard)',
+            'HoiDap.html': '💬 Luyện Hỏi Đáp',
+            'QuizNghe.html': '🎧 Bài tập Luyện Nghe',
+            'QuizNghia.html': '📖 Bài tập Từ vựng & Nghĩa',
+            'QuizPinyin.html': '🔤 Bài tập Phiên âm (Pinyin)'
+        };
+
+        async function loadFiles() {
+            const listEl = document.getElementById('file-list');
+            const statusEl = document.getElementById('status');
+            const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('Không thể kết nối GitHub API');
+                
+                const files = await response.json();
+                statusEl.style.display = 'none';
+
+                // Lọc chỉ lấy file .html và bỏ qua chính file index.html
+                const htmlFiles = files.filter(file => 
+                    file.type === 'file' && 
+                    file.name.endsWith('.html') && 
+                    file.name.toLowerCase() !== 'index.html'
+                );
+
+                if (htmlFiles.length === 0) {
+                    statusEl.style.display = 'block';
+                    statusEl.textContent = 'Chưa có bài học nào trong thư mục này.';
+                    return;
+                }
+
+                htmlFiles.forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'file-item';
+                    
+                    const a = document.createElement('a');
+                    // Đường dẫn tương đối đến file cùng thư mục
+                    a.href = `./${file.name}`; 
+                    // Hiển thị tên đẹp nếu có trong customTitles, không thì bỏ đuôi .html
+                    a.textContent = customTitles[file.name] || `📄 ${file.name.replace('.html', '')}`;
+                    
+                    li.appendChild(a);
+                    listEl.appendChild(li);
+                });
+
+            } catch (error) {
+                console.error(error);
+                statusEl.textContent = 'Có lỗi xảy ra khi tải danh sách file. Vui lòng thử lại sau.';
+            }
+        }
+
+        loadFiles();
+    </script>
+</body>
+</html>
