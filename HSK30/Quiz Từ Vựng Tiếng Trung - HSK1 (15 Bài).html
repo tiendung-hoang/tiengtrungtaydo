@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-MeaningTuVung-Pet.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Từ Vựng Tiếng Trung - HSK1 (15 Bài)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(145deg, #7c5cfc 0%, #9b6dff 45%, #c084fc 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 18px 14px 40px;
+    line-height: 1.4;
+    transition: background 0.35s ease;
+}
+
+/* ===== DARK THEME ===== */
+body.dark {
+    background: linear-gradient(145deg, #1a1035 0%, #2d1b4e 45%, #3b2667 100%);
+}
+body.dark .container {
+    background: #1e1a2e;
+    color: #e8e4f0;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
+}
+body.dark .container::before {
+    background: linear-gradient(90deg, #9b6dff, #c084fc, #e879f9);
+}
+body.dark h1,
+body.dark #part-screen h2,
+body.dark #mode-screen h2 {
+    color: #f0eaf8;
+}
+body.dark .subtitle,
+body.dark #part-screen p,
+body.dark #mode-info,
+body.dark .progress {
+    color: #a89bc4;
+}
+body.dark .hanzi {
+    color: #f5f0ff;
+}
+body.dark .pinyin {
+    color: #c4b5fd;
+}
+body.dark .stage-info {
+    color: #c4b5fd;
+}
+body.dark .hint {
+    color: #7c6f9b;
+}
+body.dark button {
+    background: #2a2438;
+    color: #e8e4f0;
+    border-color: #3d3555;
+    border-bottom-color: #2e2840;
+}
+body.dark button:hover {
+    background: #342e48;
+}
+body.dark .options button {
+    background: #252035;
+    border-color: #3d3555;
+    border-bottom-color: #2e2840;
+    color: #e8e4f0;
+}
+body.dark .options button:hover {
+    background: #322c48;
+    border-color: #7c5cfc;
+    border-bottom-color: #7c5cfc;
+}
+body.dark #lesson-list button,
+body.dark #part-list button {
+    background: #2a2438;
+    border-color: #4c3d7a;
+    border-bottom-color: #3b2f5e;
+    color: #d4c4fc;
+}
+body.dark #lesson-list button:hover,
+body.dark #part-list button:hover {
+    background: #342e52;
+    border-color: #9b6dff;
+    border-bottom-color: #7c5cfc;
+}
+body.dark .toggle-pinyin {
+    background: #7c5cfc;
+    border-color: #6d4de0;
+    border-bottom-color: #6d4de0;
+}
+body.dark .emoji-toggle-wrap,
+body.dark .label-toggle-wrap,
+body.dark .theme-toggle-wrap {
+    background: rgba(30, 26, 46, 0.75);
+    border-color: rgba(255,255,255,0.12);
+}
+
+/* Floating glass toggles */
+.emoji-toggle-wrap,
+.label-toggle-wrap,
+.theme-toggle-wrap {
+    position: fixed;
+    top: 14px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-size: 13px;
+    font-weight: 700;
+    user-select: none;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+.emoji-toggle-wrap { left: 14px; }
+.label-toggle-wrap { right: 14px; }
+.theme-toggle-wrap { left: 50%; transform: translateX(-50%); }
+.emoji-toggle-wrap span,
+.label-toggle-wrap span,
+.theme-toggle-wrap span { white-space: nowrap; opacity: 0.95; }
+
+.toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+}
+.toggle-switch.on { background: #58cc02; }
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle-switch.on::after { transform: translateX(20px); }
+
+/* Main card */
+.container {
+    max-width: 680px;
+    margin: 52px auto 0;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.1);
+    padding: 28px 24px 32px;
+    color: #3c3c3c;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative top bar like Duolingo */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #7c5cfc, #a78bfa, #c084fc);
+}
+
+h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #3c3c3c;
+    margin: 8px 0 6px;
+    letter-spacing: -0.3px;
+}
+.subtitle {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 26px;
+}
+
+/* Lesson / Part grid */
+.lessons, .parts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+/* Buttons – Duolingo style */
+button {
+    width: 100%;
+    padding: 16px 14px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    background: #f7f7f7;
+    color: #3c3c3c;
+    border: 2px solid #e5e5e5;
+    border-bottom-width: 4px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.3;
+}
+button:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+button:active {
+    border-bottom-width: 2px;
+    transform: translateY(2px);
+}
+
+/* Mode buttons (green like Duolingo) */
+.mode-btn {
+    background: #58cc02;
+    color: #fff;
+    border-color: #58a700;
+    border-bottom-color: #58a700;
+    font-size: 17px;
+    padding: 18px 16px;
+    max-width: 240px;
+}
+.mode-btn:hover {
+    background: #61e002;
+    border-color: #58a700;
+}
+.mode-btn:active {
+    background: #4caf00;
+}
+
+/* Back / Exit buttons */
+.back-btn {
+    background: #ff4b4b;
+    color: #fff;
+    border-color: #ea2b2b;
+    border-bottom-color: #ea2b2b;
+    margin-top: 20px;
+}
+.back-btn:hover {
+    background: #ff6b6b;
+    border-color: #ea2b2b;
+}
+
+/* Progress & stage */
+.progress {
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    color: #777;
+    margin-bottom: 6px;
+}
+.stage-info {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #a78bfa;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+}
+
+/* Hanzi display – big & clean */
+.hanzi {
+    font-size: 92px;
+    font-weight: 800;
+    text-align: center;
+    margin: 12px 0 8px;
+    min-height: 110px;
+    line-height: 1.1;
+    letter-spacing: 3px;
+    color: #3c3c3c;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.04);
+}
+.pinyin {
+    font-size: 24px;
+    text-align: center;
+    margin: 4px 0 10px;
+    color: #7c5cfc;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0.5px;
+}
+
+/* Toggle Pinyin button */
+.toggle-pinyin {
+    background: #7c5cfc;
+    color: #fff;
+    border: 2px solid #6d4de0;
+    border-bottom-width: 4px;
+    border-bottom-color: #6d4de0;
+    padding: 11px 24px;
+    border-radius: 14px;
+    margin: 8px auto 16px;
+    display: block;
+    width: auto;
+    max-width: 200px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.toggle-pinyin:hover {
+    background: #8b6dff;
+    border-color: #6d4de0;
+}
+
+/* Options grid */
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+.options button {
+    font-size: 15.5px;
+    padding: 16px 12px;
+    min-height: 72px;
+    background: #fff;
+    border: 2px solid #e5e5e5;
+    border-bottom-width: 4px;
+    color: #3c3c3c;
+    border-radius: 16px;
+    white-space: normal;
+    word-break: break-word;
+}
+.options button:hover {
+    background: #f8f5ff;
+    border-color: #c4b5fd;
+    border-bottom-color: #c4b5fd;
+}
+.options button:active {
+    border-bottom-width: 2px;
+}
+
+/* Correct / Wrong states */
+.correct {
+    background: #58cc02 !important;
+    color: #fff !important;
+    border-color: #58a700 !important;
+    border-bottom-color: #58a700 !important;
+}
+.wrong {
+    background: #ff4b4b !important;
+    color: #fff !important;
+    border-color: #ea2b2b !important;
+    border-bottom-color: #ea2b2b !important;
+}
+
+/* Result feedback */
+.result {
+    font-size: 22px;
+    text-align: center;
+    margin: 14px 0 6px;
+    font-weight: 800;
+    min-height: 30px;
+    letter-spacing: -0.2px;
+}
+
+/* Hint */
+.hint {
+    text-align: center;
+    font-size: 12.5px;
+    color: #999;
+    font-weight: 600;
+    margin-top: 18px;
+    line-height: 1.5;
+}
+
+/* Screens */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* Section titles inside screens */
+#part-screen h2,
+#mode-screen h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #3c3c3c;
+    margin-bottom: 6px;
+}
+#part-screen p,
+#mode-info {
+    text-align: center;
+    color: #888;
+    font-weight: 600;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+#part-screen h3 {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #a78bfa;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* Mode buttons container */
+#mode-screen > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin: 28px 0;
+}
+
+/* Emoji mode */
+.emoji-mode .options button {
+    font-size: 38px;
+    min-height: 88px;
+    line-height: 1.15;
+}
+
+/* ========== PET COMPANION ========== */
+#pet-area {
+    position: fixed;
+    right: 16px;
+    bottom: 24px;
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+}
+#pet-stage-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(124, 92, 252, 0.85);
+    padding: 3px 10px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    letter-spacing: 0.3px;
+}
+#pet {
+    font-size: 52px;
+    line-height: 1;
+    cursor: default;
+    transition: transform 0.15s;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+    will-change: transform;
+}
+#pet.pet-idle {
+    animation: pet-float 2.8s ease-in-out infinite;
+}
+#pet.pet-bounce {
+    animation: pet-bounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#pet.pet-fly {
+    animation: pet-fly 1.15s cubic-bezier(0.12, 0.7, 0.25, 1) forwards;
+}
+#pet.pet-fall {
+    animation: pet-fall 1.05s cubic-bezier(0.33, 0.1, 0.25, 1) forwards;
+}
+@keyframes pet-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes pet-bounce {
+    0%   { transform: translateY(0) scale(1); }
+    25%  { transform: translateY(-36px) scale(1.18); }
+    50%  { transform: translateY(-6px) scale(0.92); }
+    70%  { transform: translateY(-18px) scale(1.08); }
+    100% { transform: translateY(0) scale(1); }
+}
+/* Bị bắn văng – bật mạnh ngay từ đầu, xoay liên tục */
+@keyframes pet-fly {
+    0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25)); }
+    6%   { transform: translateY(-55px) scale(1.4) rotate(-18deg); opacity: 1; }
+    18%  { transform: translateY(-200px) scale(1.2) rotate(15deg); opacity: 1; }
+    40%  { transform: translateY(-420px) scale(0.95) rotate(70deg); opacity: 0.9; }
+    70%  { transform: translateY(-720px) scale(0.55) rotate(140deg); opacity: 0.45; }
+    100% { transform: translateY(-980px) scale(0.25) rotate(210deg); opacity: 0; filter: drop-shadow(0 0 0 transparent); }
+}
+/* Rơi xuống + nảy nhẹ khi chạm đất */
+@keyframes pet-fall {
+    0%   { transform: translateY(-980px) scale(0.25) rotate(200deg); opacity: 0; }
+    12%  { opacity: 1; }
+    55%  { transform: translateY(14px) scale(1.12) rotate(-10deg); opacity: 1; }
+    72%  { transform: translateY(-16px) scale(0.94) rotate(5deg); }
+    88%  { transform: translateY(5px) scale(1.04) rotate(-2deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+}
+#pet-shoot-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ff4b4b;
+    color: #fff;
+    border: 3px solid #fff;
+    border-bottom-width: 5px;
+    border-bottom-color: #c0392b;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.15s;
+    padding: 0;
+}
+#pet-shoot-btn:hover {
+    background: #ff6b6b;
+    transform: scale(1.08);
+}
+#pet-shoot-btn:active {
+    border-bottom-width: 2px;
+    transform: translateY(3px) scale(0.98);
+}
+#pet-msg {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    min-height: 16px;
+    text-align: center;
+    max-width: 90px;
+    line-height: 1.25;
+}
+
+/* Finish screen buttons */
+#options button[style*="grid-column"] {
+    border-radius: 16px !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    body { padding: 12px 10px 32px; }
+    .container {
+        margin-top: 48px;
+        padding: 22px 16px 26px;
+        border-radius: 20px;
+    }
+    h1 { font-size: 22px; }
+    .hanzi { font-size: 64px; min-height: 86px; }
+    .options { grid-template-columns: 1fr; gap: 10px; }
+    .options button { min-height: 62px; font-size: 15px; }
+    .emoji-mode .options button { font-size: 34px; min-height: 76px; }
+    .emoji-toggle-wrap,
+    .label-toggle-wrap,
+    .theme-toggle-wrap {
+        top: 10px;
+        padding: 6px 11px;
+        font-size: 12px;
+    }
+    .emoji-toggle-wrap { left: 10px; }
+    .label-toggle-wrap { right: 10px; }
+    .theme-toggle-wrap { left: 50%; transform: translateX(-50%); }
+    .toggle-switch { width: 40px; height: 22px; }
+    .toggle-switch::after { width: 16px; height: 16px; top: 3px; left: 3px; }
+    .toggle-switch.on::after { transform: translateX(18px); }
+    .mode-btn { max-width: 100%; }
+    #pet-area {
+        right: 10px;
+        bottom: 14px;
+    }
+    #pet { font-size: 42px; }
+    #pet-shoot-btn { width: 42px; height: 42px; font-size: 18px; }
+    #pet-stage-label { font-size: 11px; }
+}
+
+/* Small polish */
+#lesson-list button,
+#part-list button {
+    background: #faf8ff;
+    border-color: #e9e0ff;
+    border-bottom-color: #d4c4fc;
+    color: #5b21b6;
+}
+#lesson-list button:hover,
+#part-list button:hover {
+    background: #f3edff;
+    border-color: #c4b5fd;
+    border-bottom-color: #a78bfa;
+}
+</style>
+<style id="emojiSwitcherStyleB">@font-face { font-family: 'emojeeeeee'; size-adjust: 101%; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/the-emoji-guy/Emoji-Swap@main/fonts/TwemojiMozilla-Regular.woff2') format('woff2'); ; line-gap-override: 100%; margin-top: 1px; unicode-range: U+1F004, U+1F0CF, U+1F170, U+1F171, U+1F17E, U+1F17F, U+1F18E, U+1F191, U+1F192, U+1F193, U+1F194, U+1F195, U+1F196, U+1F197, U+1F198, U+1F199, U+1F19A, U+1F1E6, U+1F1E7, U+1F1E8, U+1F1E9, U+1F1EA, U+1F1EB, U+1F1EC, U+1F1ED, U+1F1EE, U+1F1EF, U+1F1F0, U+1F1F1, U+1F1F2, U+1F1F3, U+1F1F4, U+1F1F5, U+1F1F6, U+1F1F7, U+1F1F8, U+1F1F9, U+1F1FA, U+1F1FB, U+1F1FC, U+1F1FD, U+1F1FE, U+1F1FF, U+1F201, U+1F202, U+1F21A, U+1F22F, U+1F232, U+1F233, U+1F234, U+1F235, U+1F236, U+1F237, U+1F238, U+1F239, U+1F23A, U+1F250, U+1F251, U+1F300, U+1F301, U+1F302, U+1F303, U+1F304, U+1F305, U+1F306, U+1F307, U+1F308, U+1F309, U+1F30A, U+1F30B, U+1F30C, U+1F30D, U+1F30E, U+1F30F, U+1F310, U+1F311, U+1F312, U+1F313, U+1F314, U+1F315, U+1F316, U+1F317, U+1F318, U+1F319, U+1F31A, U+1F31B, U+1F31C, U+1F31D, U+1F31E, U+1F31F, U+1F320, U+1F321, U+1F324, U+1F325, U+1F326, U+1F327, U+1F328, U+1F329, U+1F32A, U+1F32B, U+1F32C, U+1F32D, U+1F32E, U+1F32F, U+1F330, U+1F331, U+1F332, U+1F333, U+1F334, U+1F335, U+1F336, U+1F337, U+1F338, U+1F339, U+1F33A, U+1F33B, U+1F33C, U+1F33D, U+1F33E, U+1F33F, U+1F340, U+1F341, U+1F342, U+1F343, U+1F344, U+1F345, U+1F346, U+1F347, U+1F348, U+1F349, U+1F34A, U+1F34B, U+1F34C, U+1F34D, U+1F34E, U+1F34F, U+1F350, U+1F351, U+1F352, U+1F353, U+1F354, U+1F355, U+1F356, U+1F357, U+1F358, U+1F359, U+1F35A, U+1F35B, U+1F35C, U+1F35D, U+1F35E, U+1F35F, U+1F360, U+1F361, U+1F362, U+1F363, U+1F364, U+1F365, U+1F366, U+1F367, U+1F368, U+1F369, U+1F36A, U+1F36B, U+1F36C, U+1F36D, U+1F36E, U+1F36F, U+1F370, U+1F371, U+1F372, U+1F373, U+1F374, U+1F375, U+1F376, U+1F377, U+1F378, U+1F379, U+1F37A, U+1F37B, U+1F37C, U+1F37D, U+1F37E, U+1F37F, U+1F380, U+1F381, U+1F382, U+1F383, U+1F384, U+1F385, U+1F386, U+1F387, U+1F388, U+1F389, U+1F38A, U+1F38B, U+1F38C, U+1F38D, U+1F38E, U+1F38F, U+1F390, U+1F391, U+1F392, U+1F393, U+1F396, U+1F397, U+1F399, U+1F39A, U+1F39B, U+1F39E, U+1F39F, U+1F3A0, U+1F3A1, U+1F3A2, U+1F3A3, U+1F3A4, U+1F3A5, U+1F3A6, U+1F3A7, U+1F3A8, U+1F3A9, U+1F3AA, U+1F3AB, U+1F3AC, U+1F3AD, U+1F3AE, U+1F3AF, U+1F3B0, U+1F3B1, U+1F3B2, U+1F3B3, U+1F3B4, U+1F3B5, U+1F3B6, U+1F3B7, U+1F3B8, U+1F3B9, U+1F3BA, U+1F3BB, U+1F3BC, U+1F3BD, U+1F3BE, U+1F3BF, U+1F3C0, U+1F3C1, U+1F3C2, U+1F3C3, U+1F3C4, U+1F3C5, U+1F3C6, U+1F3C7, U+1F3C8, U+1F3C9, U+1F3CA, U+1F3CB, U+1F3CC, U+1F3CD, U+1F3CE, U+1F3CF, U+1F3D0, U+1F3D1, U+1F3D2, U+1F3D3, U+1F3D4, U+1F3D5, U+1F3D6, U+1F3D7, U+1F3D8, U+1F3D9, U+1F3DA, U+1F3DB, U+1F3DC, U+1F3DD, U+1F3DE, U+1F3DF, U+1F3E0, U+1F3E1, U+1F3E2, U+1F3E3, U+1F3E4, U+1F3E5, U+1F3E6, U+1F3E7, U+1F3E8, U+1F3E9, U+1F3EA, U+1F3EB, U+1F3EC, U+1F3ED, U+1F3EE, U+1F3EF, U+1F3F, U+1F3F0, U+1F3F3, U+1F3F4, U+1F3F5, U+1F3F7, U+1F3F8, U+1F3F9, U+1F3FA, U+1F3FB, U+1F3FC, U+1F3FD, U+1F3FE, U+1F3FF, U+1F400, U+1F401, U+1F402, U+1F403, U+1F404, U+1F405, U+1F406, U+1F407, U+1F408, U+1F409, U+1F40A, U+1F40B, U+1F40C, U+1F40D, U+1F40E, U+1F40F, U+1F410, U+1F411, U+1F412, U+1F413, U+1F414, U+1F415, U+1F416, U+1F417, U+1F418, U+1F419, U+1F41A, U+1F41B, U+1F41C, U+1F41D, U+1F41E, U+1F41F, U+1F420, U+1F421, U+1F422, U+1F423, U+1F424, U+1F425, U+1F426, U+1F427, U+1F428, U+1F429, U+1F42A, U+1F42B, U+1F42C, U+1F42D, U+1F42E, U+1F42F, U+1F430, U+1F431, U+1F432, U+1F433, U+1F434, U+1F435, U+1F436, U+1F437, U+1F438, U+1F439, U+1F43A, U+1F43B, U+1F43C, U+1F43D, U+1F43E, U+1F43F, U+1F440, U+1F441, U+1F442, U+1F443, U+1F444, U+1F445, U+1F446, U+1F447, U+1F448, U+1F449, U+1F44A, U+1F44B, U+1F44C, U+1F44D, U+1F44E, U+1F44F, U+1F450, U+1F451, U+1F452, U+1F453, U+1F454, U+1F455, U+1F456, U+1F457, U+1F458, U+1F459, U+1F45A, U+1F45B, U+1F45C, U+1F45D, U+1F45E, U+1F45F, U+1F460, U+1F461, U+1F462, U+1F463, U+1F464, U+1F465, U+1F466, U+1F467, U+1F468, U+1F469, U+1F46A, U+1F46B, U+1F46C, U+1F46D, U+1F46E, U+1F46F, U+1F470, U+1F471, U+1F472, U+1F473, U+1F474, U+1F475, U+1F476, U+1F477, U+1F478, U+1F479, U+1F47A, U+1F47B, U+1F47C, U+1F47D, U+1F47E, U+1F47F, U+1F480, U+1F481, U+1F482, U+1F483, U+1F484, U+1F485, U+1F486, U+1F487, U+1F488, U+1F489, U+1F48A, U+1F48B, U+1F48C, U+1F48D, U+1F48E, U+1F48F, U+1F490, U+1F491, U+1F492, U+1F493, U+1F494, U+1F495, U+1F496, U+1F497, U+1F498, U+1F499, U+1F49A, U+1F49B, U+1F49C, U+1F49D, U+1F49E, U+1F49F, U+1F4A0, U+1F4A1, U+1F4A2, U+1F4A3, U+1F4A4, U+1F4A5, U+1F4A6, U+1F4A7, U+1F4A8, U+1F4A9, U+1F4AA, U+1F4AB, U+1F4AC, U+1F4AD, U+1F4AE, U+1F4AF, U+1F4B0, U+1F4B1, U+1F4B2, U+1F4B3, U+1F4B4, U+1F4B5, U+1F4B6, U+1F4B7, U+1F4B8, U+1F4B9, U+1F4BA, U+1F4BB, U+1F4BC, U+1F4BD, U+1F4BE, U+1F4BF, U+1F4C0, U+1F4C1, U+1F4C2, U+1F4C3, U+1F4C4, U+1F4C5, U+1F4C6, U+1F4C7, U+1F4C8, U+1F4C9, U+1F4CA, U+1F4CB, U+1F4CC, U+1F4CD, U+1F4CE, U+1F4CF, U+1F4D0, U+1F4D1, U+1F4D2, U+1F4D3, U+1F4D4, U+1F4D5, U+1F4D6, U+1F4D7, U+1F4D8, U+1F4D9, U+1F4DA, U+1F4DB, U+1F4DC, U+1F4DD, U+1F4DE, U+1F4DF, U+1F4E0, U+1F4E1, U+1F4E2, U+1F4E3, U+1F4E4, U+1F4E5, U+1F4E6, U+1F4E7, U+1F4E8, U+1F4E9, U+1F4EA, U+1F4EB, U+1F4EC, U+1F4ED, U+1F4EE, U+1F4EF, U+1F4F0, U+1F4F1, U+1F4F2, U+1F4F3, U+1F4F4, U+1F4F5, U+1F4F6, U+1F4F7, U+1F4F8, U+1F4F9, U+1F4FA, U+1F4FB, U+1F4FC, U+1F4FD, U+1F4FF, U+1F500, U+1F501, U+1F502, U+1F503, U+1F504, U+1F505, U+1F506, U+1F507, U+1F508, U+1F509, U+1F50A, U+1F50B, U+1F50C, U+1F50D, U+1F50E, U+1F50F, U+1F510, U+1F511, U+1F512, U+1F513, U+1F514, U+1F515, U+1F516, U+1F517, U+1F518, U+1F519, U+1F51A, U+1F51B, U+1F51C, U+1F51D, U+1F51E, U+1F51F, U+1F520, U+1F521, U+1F522, U+1F523, U+1F524, U+1F525, U+1F526, U+1F527, U+1F528, U+1F529, U+1F52A, U+1F52B, U+1F52C, U+1F52D, U+1F52E, U+1F52F, U+1F530, U+1F531, U+1F532, U+1F533, U+1F534, U+1F535, U+1F536, U+1F537, U+1F538, U+1F539, U+1F53A, U+1F53B, U+1F53C, U+1F53D, U+1F549, U+1F54A, U+1F54B, U+1F54C, U+1F54D, U+1F54E, U+1F550, U+1F551, U+1F552, U+1F553, U+1F554, U+1F555, U+1F556, U+1F557, U+1F558, U+1F559, U+1F55A, U+1F55B, U+1F55C, U+1F55D, U+1F55E, U+1F55F, U+1F560, U+1F561, U+1F562, U+1F563, U+1F564, U+1F565, U+1F566, U+1F567, U+1F56F, U+1F570, U+1F573, U+1F574, U+1F575, U+1F576, U+1F577, U+1F578, U+1F579, U+1F57A, U+1F587, U+1F58A, U+1F58B, U+1F58C, U+1F58D, U+1F590, U+1F595, U+1F596, U+1F5A4, U+1F5A5, U+1F5A8, U+1F5B1, U+1F5B2, U+1F5BC, U+1F5C2, U+1F5C3, U+1F5C4, U+1F5D1, U+1F5D2, U+1F5D3, U+1F5DC, U+1F5DD, U+1F5DE, U+1F5E1, U+1F5E3, U+1F5E8, U+1F5EF, U+1F5F3, U+1F5FA, U+1F5FB, U+1F5FC, U+1F5FD, U+1F5FE, U+1F5FF, U+1F600, U+1F601, U+1F602, U+1F603, U+1F604, U+1F605, U+1F606, U+1F607, U+1F608, U+1F609, U+1F60A, U+1F60B, U+1F60C, U+1F60D, U+1F60E, U+1F60F, U+1F610, U+1F611, U+1F612, U+1F613, U+1F614, U+1F615, U+1F616, U+1F617, U+1F618, U+1F619, U+1F61A, U+1F61B, U+1F61C, U+1F61D, U+1F61E, U+1F61F, U+1F620, U+1F621, U+1F622, U+1F623, U+1F624, U+1F625, U+1F626, U+1F627, U+1F628, U+1F629, U+1F62A, U+1F62B, U+1F62C, U+1F62D, U+1F62E, U+1F62F, U+1F630, U+1F631, U+1F632, U+1F633, U+1F634, U+1F635, U+1F636, U+1F637, U+1F638, U+1F639, U+1F63A, U+1F63B, U+1F63C, U+1F63D, U+1F63E, U+1F63F, U+1F640, U+1F641, U+1F642, U+1F643, U+1F644, U+1F645, U+1F646, U+1F647, U+1F648, U+1F649, U+1F64A, U+1F64B, U+1F64C, U+1F64D, U+1F64E, U+1F64F, U+1F680, U+1F681, U+1F682, U+1F683, U+1F684, U+1F685, U+1F686, U+1F687, U+1F688, U+1F689, U+1F68A, U+1F68B, U+1F68C, U+1F68D, U+1F68E, U+1F68F, U+1F690, U+1F691, U+1F692, U+1F693, U+1F694, U+1F695, U+1F696, U+1F697, U+1F698, U+1F699, U+1F69A, U+1F69B, U+1F69C, U+1F69D, U+1F69E, U+1F69F, U+1F6A0, U+1F6A1, U+1F6A2, U+1F6A3, U+1F6A4, U+1F6A5, U+1F6A6, U+1F6A7, U+1F6A8, U+1F6A9, U+1F6AA, U+1F6AB, U+1F6AC, U+1F6AD, U+1F6AE, U+1F6AF, U+1F6B0, U+1F6B1, U+1F6B2, U+1F6B3, U+1F6B4, U+1F6B5, U+1F6B6, U+1F6B7, U+1F6B8, U+1F6B9, U+1F6BA, U+1F6BB, U+1F6BC, U+1F6BD, U+1F6BE, U+1F6BF, U+1F6C0, U+1F6C1, U+1F6C2, U+1F6C3, U+1F6C4, U+1F6C5, U+1F6CB, U+1F6CC, U+1F6CD, U+1F6CE, U+1F6CF, U+1F6D0, U+1F6D1, U+1F6D2, U+1F6D5, U+1F6D6, U+1F6D7, U+1F6DC, U+1F6DD, U+1F6DE, U+1F6DF, U+1F6E0, U+1F6E1, U+1F6E2, U+1F6E3, U+1F6E4, U+1F6E5, U+1F6E9, U+1F6EB, U+1F6EC, U+1F6F0, U+1F6F3, U+1F6F4, U+1F6F5, U+1F6F6, U+1F6F7, U+1F6F8, U+1F6F9, U+1F6FA, U+1F6FB, U+1F6FC, U+1F7E0, U+1F7E1, U+1F7E2, U+1F7E3, U+1F7E4, U+1F7E5, U+1F7E6, U+1F7E7, U+1F7E8, U+1F7E9, U+1F7EA, U+1F7EB, U+1F7F0, U+1F90C, U+1F90D, U+1F90E, U+1F90F, U+1F910, U+1F911, U+1F912, U+1F913, U+1F914, U+1F915, U+1F916, U+1F917, U+1F918, U+1F919, U+1F91A, U+1F91B, U+1F91C, U+1F91D, U+1F91E, U+1F91F, U+1F920, U+1F921, U+1F922, U+1F923, U+1F924, U+1F925, U+1F926, U+1F927, U+1F928, U+1F929, U+1F92A, U+1F92B, U+1F92C, U+1F92D, U+1F92E, U+1F92F, U+1F930, U+1F931, U+1F932, U+1F933, U+1F934, U+1F935, U+1F936, U+1F937, U+1F938, U+1F939, U+1F93A, U+1F93C, U+1F93D, U+1F93E, U+1F93F, U+1F940, U+1F941, U+1F942, U+1F943, U+1F944, U+1F945, U+1F947, U+1F948, U+1F949, U+1F94A, U+1F94B, U+1F94C, U+1F94D, U+1F94E, U+1F94F, U+1F950, U+1F951, U+1F952, U+1F953, U+1F954, U+1F955, U+1F956, U+1F957, U+1F958, U+1F959, U+1F95A, U+1F95B, U+1F95C, U+1F95D, U+1F95E, U+1F95F, U+1F960, U+1F961, U+1F962, U+1F963, U+1F964, U+1F965, U+1F966, U+1F967, U+1F968, U+1F969, U+1F96A, U+1F96B, U+1F96C, U+1F96D, U+1F96E, U+1F96F, U+1F970, U+1F971, U+1F972, U+1F973, U+1F974, U+1F975, U+1F976, U+1F977, U+1F978, U+1F979, U+1F97A, U+1F97B, U+1F97C, U+1F97D, U+1F97E, U+1F97F, U+1F980, U+1F981, U+1F982, U+1F983, U+1F984, U+1F985, U+1F986, U+1F987, U+1F988, U+1F989, U+1F98A, U+1F98B, U+1F98C, U+1F98D, U+1F98E, U+1F98F, U+1F990, U+1F991, U+1F992, U+1F993, U+1F994, U+1F995, U+1F996, U+1F997, U+1F998, U+1F999, U+1F99A, U+1F99B, U+1F99C, U+1F99D, U+1F99E, U+1F99F, U+1F9A0, U+1F9A1, U+1F9A2, U+1F9A3, U+1F9A4, U+1F9A5, U+1F9A6, U+1F9A7, U+1F9A8, U+1F9A9, U+1F9AA, U+1F9AB, U+1F9AC, U+1F9AD, U+1F9AE, U+1F9AF, U+1F9B0, U+1F9B1, U+1F9B2, U+1F9B3, U+1F9B4, U+1F9B5, U+1F9B6, U+1F9B7, U+1F9B8, U+1F9B9, U+1F9BA, U+1F9BB, U+1F9BC, U+1F9BD, U+1F9BE, U+1F9BF, U+1F9C0, U+1F9C1, U+1F9C2, U+1F9C3, U+1F9C4, U+1F9C5, U+1F9C6, U+1F9C7, U+1F9C8, U+1F9C9, U+1F9CA, U+1F9CB, U+1F9CC, U+1F9CD, U+1F9CE, U+1F9CF, U+1F9D0, U+1F9D1, U+1F9D2, U+1F9D3, U+1F9D4, U+1F9D5, U+1F9D6, U+1F9D7, U+1F9D8, U+1F9D9, U+1F9DA, U+1F9DB, U+1F9DC, U+1F9DD, U+1F9DE, U+1F9DF, U+1F9E0, U+1F9E1, U+1F9E2, U+1F9E3, U+1F9E4, U+1F9E5, U+1F9E6, U+1F9E7, U+1F9E8, U+1F9E9, U+1F9EA, U+1F9EB, U+1F9EC, U+1F9ED, U+1F9EE, U+1F9EF, U+1F9F0, U+1F9F1, U+1F9F2, U+1F9F3, U+1F9F4, U+1F9F5, U+1F9F6, U+1F9F7, U+1F9F8, U+1F9F9, U+1F9FA, U+1F9FB, U+1F9FC, U+1F9FD, U+1F9FE, U+1F9FF, U+1FA70, U+1FA71, U+1FA72, U+1FA73, U+1FA74, U+1FA75, U+1FA76, U+1FA77, U+1FA78, U+1FA79, U+1FA7A, U+1FA7B, U+1FA7C, U+1FA80, U+1FA81, U+1FA82, U+1FA83, U+1FA84, U+1FA85, U+1FA86, U+1FA87, U+1FA88, U+1FA90, U+1FA91, U+1FA92, U+1FA93, U+1FA94, U+1FA95, U+1FA96, U+1FA97, U+1FA98, U+1FA99, U+1FA9A, U+1FA9B, U+1FA9C, U+1FA9D, U+1FA9E, U+1FA9F, U+1FAA0, U+1FAA1, U+1FAA2, U+1FAA3, U+1FAA4, U+1FAA5, U+1FAA6, U+1FAA7, U+1FAA8, U+1FAA9, U+1FAAA, U+1FAAB, U+1FAAC, U+1FAAD, U+1FAAE, U+1FAAF, U+1FAB0, U+1FAB1, U+1FAB2, U+1FAB3, U+1FAB4, U+1FAB5, U+1FAB6, U+1FAB7, U+1FAB8, U+1FAB9, U+1FABA, U+1FABB, U+1FABC, U+1FABD, U+1FABF, U+1FAC0, U+1FAC1, U+1FAC2, U+1FAC3, U+1FAC4, U+1FAC5, U+1FACE, U+1FACF, U+1FAD0, U+1FAD1, U+1FAD2, U+1FAD3, U+1FAD4, U+1FAD5, U+1FAD6, U+1FAD7, U+1FAD8, U+1FAD9, U+1FADA, U+1FADB, U+1FAE0, U+1FAE1, U+1FAE2, U+1FAE3, U+1FAE4, U+1FAE5, U+1FAE6, U+1FAE7, U+1FAE8, U+1FAF0, U+1FAF1, U+1FAF2, U+1FAF3, U+1FAF4, U+1FAF5, U+1FAF6, U+1FAF7, U+1FAF8, U+200D, U+203C, U+2049, U+20E3, U+2122, U+2139, U+2194, U+2195, U+2196, U+2197, U+2198, U+2199, U+21A9, U+21AA, U+231A, U+231B, U+2328, U+23CF, U+23E9, U+23EA, U+23EB, U+23EC, U+23ED, U+23EE, U+23EF, U+23F0, U+23F1, U+23F2, U+23F3, U+23F8, U+23F9, U+23FA, U+24C2, U+25AA, U+25AB, U+25B6, U+25C0, U+25FB, U+25FC, U+25FD, U+25FE, U+2600, U+2601, U+2602, U+2603, U+2604, U+260E, U+2611, U+2614, U+2615, U+2618, U+261D, U+2620, U+2622, U+2623, U+2626, U+262A, U+262E, U+262F, U+2638, U+2639, U+263A, U+2640, U+2642, U+2648, U+2649, U+264A, U+264B, U+264C, U+264D, U+264E, U+264F, U+2650, U+2651, U+2652, U+2653, U+265F, U+2660, U+2663, U+2665, U+2666, U+2668, U+267B, U+267E, U+267F, U+2692, U+2693, U+2694, U+2695, U+2696, U+2697, U+2699, U+269B, U+269C, U+26A0, U+26A1, U+26A7, U+26AA, U+26AB, U+26B0, U+26B1, U+26BD, U+26BE, U+26C4, U+26C5, U+26C8, U+26CE, U+26CF, U+26D1, U+26D3, U+26D4, U+26E9, U+26EA, U+26F0, U+26F1, U+26F2, U+26F3, U+26F4, U+26F5, U+26F7, U+26F8, U+26F9, U+26FA, U+26FD, U+2702, U+2705, U+2708, U+2709, U+270A, U+270B, U+270C, U+270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733, U+2734, U+2744, U+2747, U+274C, U+274E, U+2753, U+2754, U+2755, U+2757, U+2763, U+2764, U+2795, U+2796, U+2797, U+27A1, U+27B0, U+27BF, U+2934, U+2935, U+2B05, U+2B06, U+2B07, U+2B1B, U+2B1C, U+2B50, U+2B55, U+3030, U+303D, U+3297, U+3299, U+1F3F4, U+E0061, U+E0062, U+E0063, U+E0064, U+E0065, U+E0066, U+E0067, U+E0068, U+E0069, U+E006A, U+E006B, U+E006C, U+E006D, U+E006E, U+E006F, U+E0070, U+E0071, U+E0072, U+E0073, U+E0074, U+E0075, U+E0076, U+E0077, U+E0078, U+E0079, U+E007A, U+E007F;} @font-face { font-family: 'emojiiiiii'; size-adjust: 101%; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/the-emoji-guy/Emoji-Swap@main/fonts/Blank.woff2') format('woff2'); ; line-gap-override: 100%; margin-top: 10.1px; unicode-range: U+1F004, U+1F0CF, U+1F170, U+1F171, U+1F17E, U+1F17F, U+1F18E, U+1F191, U+1F192, U+1F193, U+1F194, U+1F195, U+1F196, U+1F197, U+1F198, U+1F199, U+1F19A, U+1F1E6, U+1F1E7, U+1F1E8, U+1F1E9, U+1F1EA, U+1F1EB, U+1F1EC, U+1F1ED, U+1F1EE, U+1F1EF, U+1F1F0, U+1F1F1, U+1F1F2, U+1F1F3, U+1F1F4, U+1F1F5, U+1F1F6, U+1F1F7, U+1F1F8, U+1F1F9, U+1F1FA, U+1F1FB, U+1F1FC, U+1F1FD, U+1F1FE, U+1F1FF, U+1F201, U+1F202, U+1F21A, U+1F22F, U+1F232, U+1F233, U+1F234, U+1F235, U+1F236, U+1F237, U+1F238, U+1F239, U+1F23A, U+1F250, U+1F251, U+1F300, U+1F301, U+1F302, U+1F303, U+1F304, U+1F305, U+1F306, U+1F307, U+1F308, U+1F309, U+1F30A, U+1F30B, U+1F30C, U+1F30D, U+1F30E, U+1F30F, U+1F310, U+1F311, U+1F312, U+1F313, U+1F314, U+1F315, U+1F316, U+1F317, U+1F318, U+1F319, U+1F31A, U+1F31B, U+1F31C, U+1F31D, U+1F31E, U+1F31F, U+1F320, U+1F321, U+1F324, U+1F325, U+1F326, U+1F327, U+1F328, U+1F329, U+1F32A, U+1F32B, U+1F32C, U+1F32D, U+1F32E, U+1F32F, U+1F330, U+1F331, U+1F332, U+1F333, U+1F334, U+1F335, U+1F336, U+1F337, U+1F338, U+1F339, U+1F33A, U+1F33B, U+1F33C, U+1F33D, U+1F33E, U+1F33F, U+1F340, U+1F341, U+1F342, U+1F343, U+1F344, U+1F345, U+1F346, U+1F347, U+1F348, U+1F349, U+1F34A, U+1F34B, U+1F34C, U+1F34D, U+1F34E, U+1F34F, U+1F350, U+1F351, U+1F352, U+1F353, U+1F354, U+1F355, U+1F356, U+1F357, U+1F358, U+1F359, U+1F35A, U+1F35B, U+1F35C, U+1F35D, U+1F35E, U+1F35F, U+1F360, U+1F361, U+1F362, U+1F363, U+1F364, U+1F365, U+1F366, U+1F367, U+1F368, U+1F369, U+1F36A, U+1F36B, U+1F36C, U+1F36D, U+1F36E, U+1F36F, U+1F370, U+1F371, U+1F372, U+1F373, U+1F374, U+1F375, U+1F376, U+1F377, U+1F378, U+1F379, U+1F37A, U+1F37B, U+1F37C, U+1F37D, U+1F37E, U+1F37F, U+1F380, U+1F381, U+1F382, U+1F383, U+1F384, U+1F385, U+1F386, U+1F387, U+1F388, U+1F389, U+1F38A, U+1F38B, U+1F38C, U+1F38D, U+1F38E, U+1F38F, U+1F390, U+1F391, U+1F392, U+1F393, U+1F396, U+1F397, U+1F399, U+1F39A, U+1F39B, U+1F39E, U+1F39F, U+1F3A0, U+1F3A1, U+1F3A2, U+1F3A3, U+1F3A4, U+1F3A5, U+1F3A6, U+1F3A7, U+1F3A8, U+1F3A9, U+1F3AA, U+1F3AB, U+1F3AC, U+1F3AD, U+1F3AE, U+1F3AF, U+1F3B0, U+1F3B1, U+1F3B2, U+1F3B3, U+1F3B4, U+1F3B5, U+1F3B6, U+1F3B7, U+1F3B8, U+1F3B9, U+1F3BA, U+1F3BB, U+1F3BC, U+1F3BD, U+1F3BE, U+1F3BF, U+1F3C0, U+1F3C1, U+1F3C2, U+1F3C3, U+1F3C4, U+1F3C5, U+1F3C6, U+1F3C7, U+1F3C8, U+1F3C9, U+1F3CA, U+1F3CB, U+1F3CC, U+1F3CD, U+1F3CE, U+1F3CF, U+1F3D0, U+1F3D1, U+1F3D2, U+1F3D3, U+1F3D4, U+1F3D5, U+1F3D6, U+1F3D7, U+1F3D8, U+1F3D9, U+1F3DA, U+1F3DB, U+1F3DC, U+1F3DD, U+1F3DE, U+1F3DF, U+1F3E0, U+1F3E1, U+1F3E2, U+1F3E3, U+1F3E4, U+1F3E5, U+1F3E6, U+1F3E7, U+1F3E8, U+1F3E9, U+1F3EA, U+1F3EB, U+1F3EC, U+1F3ED, U+1F3EE, U+1F3EF, U+1F3F, U+1F3F0, U+1F3F3, U+1F3F4, U+1F3F5, U+1F3F7, U+1F3F8, U+1F3F9, U+1F3FA, U+1F3FB, U+1F3FC, U+1F3FD, U+1F3FE, U+1F3FF, U+1F400, U+1F401, U+1F402, U+1F403, U+1F404, U+1F405, U+1F406, U+1F407, U+1F408, U+1F409, U+1F40A, U+1F40B, U+1F40C, U+1F40D, U+1F40E, U+1F40F, U+1F410, U+1F411, U+1F412, U+1F413, U+1F414, U+1F415, U+1F416, U+1F417, U+1F418, U+1F419, U+1F41A, U+1F41B, U+1F41C, U+1F41D, U+1F41E, U+1F41F, U+1F420, U+1F421, U+1F422, U+1F423, U+1F424, U+1F425, U+1F426, U+1F427, U+1F428, U+1F429, U+1F42A, U+1F42B, U+1F42C, U+1F42D, U+1F42E, U+1F42F, U+1F430, U+1F431, U+1F432, U+1F433, U+1F434, U+1F435, U+1F436, U+1F437, U+1F438, U+1F439, U+1F43A, U+1F43B, U+1F43C, U+1F43D, U+1F43E, U+1F43F, U+1F440, U+1F441, U+1F442, U+1F443, U+1F444, U+1F445, U+1F446, U+1F447, U+1F448, U+1F449, U+1F44A, U+1F44B, U+1F44C, U+1F44D, U+1F44E, U+1F44F, U+1F450, U+1F451, U+1F452, U+1F453, U+1F454, U+1F455, U+1F456, U+1F457, U+1F458, U+1F459, U+1F45A, U+1F45B, U+1F45C, U+1F45D, U+1F45E, U+1F45F, U+1F460, U+1F461, U+1F462, U+1F463, U+1F464, U+1F465, U+1F466, U+1F467, U+1F468, U+1F469, U+1F46A, U+1F46B, U+1F46C, U+1F46D, U+1F46E, U+1F46F, U+1F470, U+1F471, U+1F472, U+1F473, U+1F474, U+1F475, U+1F476, U+1F477, U+1F478, U+1F479, U+1F47A, U+1F47B, U+1F47C, U+1F47D, U+1F47E, U+1F47F, U+1F480, U+1F481, U+1F482, U+1F483, U+1F484, U+1F485, U+1F486, U+1F487, U+1F488, U+1F489, U+1F48A, U+1F48B, U+1F48C, U+1F48D, U+1F48E, U+1F48F, U+1F490, U+1F491, U+1F492, U+1F493, U+1F494, U+1F495, U+1F496, U+1F497, U+1F498, U+1F499, U+1F49A, U+1F49B, U+1F49C, U+1F49D, U+1F49E, U+1F49F, U+1F4A0, U+1F4A1, U+1F4A2, U+1F4A3, U+1F4A4, U+1F4A5, U+1F4A6, U+1F4A7, U+1F4A8, U+1F4A9, U+1F4AA, U+1F4AB, U+1F4AC, U+1F4AD, U+1F4AE, U+1F4AF, U+1F4B0, U+1F4B1, U+1F4B2, U+1F4B3, U+1F4B4, U+1F4B5, U+1F4B6, U+1F4B7, U+1F4B8, U+1F4B9, U+1F4BA, U+1F4BB, U+1F4BC, U+1F4BD, U+1F4BE, U+1F4BF, U+1F4C0, U+1F4C1, U+1F4C2, U+1F4C3, U+1F4C4, U+1F4C5, U+1F4C6, U+1F4C7, U+1F4C8, U+1F4C9, U+1F4CA, U+1F4CB, U+1F4CC, U+1F4CD, U+1F4CE, U+1F4CF, U+1F4D0, U+1F4D1, U+1F4D2, U+1F4D3, U+1F4D4, U+1F4D5, U+1F4D6, U+1F4D7, U+1F4D8, U+1F4D9, U+1F4DA, U+1F4DB, U+1F4DC, U+1F4DD, U+1F4DE, U+1F4DF, U+1F4E0, U+1F4E1, U+1F4E2, U+1F4E3, U+1F4E4, U+1F4E5, U+1F4E6, U+1F4E7, U+1F4E8, U+1F4E9, U+1F4EA, U+1F4EB, U+1F4EC, U+1F4ED, U+1F4EE, U+1F4EF, U+1F4F0, U+1F4F1, U+1F4F2, U+1F4F3, U+1F4F4, U+1F4F5, U+1F4F6, U+1F4F7, U+1F4F8, U+1F4F9, U+1F4FA, U+1F4FB, U+1F4FC, U+1F4FD, U+1F4FF, U+1F500, U+1F501, U+1F502, U+1F503, U+1F504, U+1F505, U+1F506, U+1F507, U+1F508, U+1F509, U+1F50A, U+1F50B, U+1F50C, U+1F50D, U+1F50E, U+1F50F, U+1F510, U+1F511, U+1F512, U+1F513, U+1F514, U+1F515, U+1F516, U+1F517, U+1F518, U+1F519, U+1F51A, U+1F51B, U+1F51C, U+1F51D, U+1F51E, U+1F51F, U+1F520, U+1F521, U+1F522, U+1F523, U+1F524, U+1F525, U+1F526, U+1F527, U+1F528, U+1F529, U+1F52A, U+1F52B, U+1F52C, U+1F52D, U+1F52E, U+1F52F, U+1F530, U+1F531, U+1F532, U+1F533, U+1F534, U+1F535, U+1F536, U+1F537, U+1F538, U+1F539, U+1F53A, U+1F53B, U+1F53C, U+1F53D, U+1F549, U+1F54A, U+1F54B, U+1F54C, U+1F54D, U+1F54E, U+1F550, U+1F551, U+1F552, U+1F553, U+1F554, U+1F555, U+1F556, U+1F557, U+1F558, U+1F559, U+1F55A, U+1F55B, U+1F55C, U+1F55D, U+1F55E, U+1F55F, U+1F560, U+1F561, U+1F562, U+1F563, U+1F564, U+1F565, U+1F566, U+1F567, U+1F56F, U+1F570, U+1F573, U+1F574, U+1F575, U+1F576, U+1F577, U+1F578, U+1F579, U+1F57A, U+1F587, U+1F58A, U+1F58B, U+1F58C, U+1F58D, U+1F590, U+1F595, U+1F596, U+1F5A4, U+1F5A5, U+1F5A8, U+1F5B1, U+1F5B2, U+1F5BC, U+1F5C2, U+1F5C3, U+1F5C4, U+1F5D1, U+1F5D2, U+1F5D3, U+1F5DC, U+1F5DD, U+1F5DE, U+1F5E1, U+1F5E3, U+1F5E8, U+1F5EF, U+1F5F3, U+1F5FA, U+1F5FB, U+1F5FC, U+1F5FD, U+1F5FE, U+1F5FF, U+1F600, U+1F601, U+1F602, U+1F603, U+1F604, U+1F605, U+1F606, U+1F607, U+1F608, U+1F609, U+1F60A, U+1F60B, U+1F60C, U+1F60D, U+1F60E, U+1F60F, U+1F610, U+1F611, U+1F612, U+1F613, U+1F614, U+1F615, U+1F616, U+1F617, U+1F618, U+1F619, U+1F61A, U+1F61B, U+1F61C, U+1F61D, U+1F61E, U+1F61F, U+1F620, U+1F621, U+1F622, U+1F623, U+1F624, U+1F625, U+1F626, U+1F627, U+1F628, U+1F629, U+1F62A, U+1F62B, U+1F62C, U+1F62D, U+1F62E, U+1F62F, U+1F630, U+1F631, U+1F632, U+1F633, U+1F634, U+1F635, U+1F636, U+1F637, U+1F638, U+1F639, U+1F63A, U+1F63B, U+1F63C, U+1F63D, U+1F63E, U+1F63F, U+1F640, U+1F641, U+1F642, U+1F643, U+1F644, U+1F645, U+1F646, U+1F647, U+1F648, U+1F649, U+1F64A, U+1F64B, U+1F64C, U+1F64D, U+1F64E, U+1F64F, U+1F680, U+1F681, U+1F682, U+1F683, U+1F684, U+1F685, U+1F686, U+1F687, U+1F688, U+1F689, U+1F68A, U+1F68B, U+1F68C, U+1F68D, U+1F68E, U+1F68F, U+1F690, U+1F691, U+1F692, U+1F693, U+1F694, U+1F695, U+1F696, U+1F697, U+1F698, U+1F699, U+1F69A, U+1F69B, U+1F69C, U+1F69D, U+1F69E, U+1F69F, U+1F6A0, U+1F6A1, U+1F6A2, U+1F6A3, U+1F6A4, U+1F6A5, U+1F6A6, U+1F6A7, U+1F6A8, U+1F6A9, U+1F6AA, U+1F6AB, U+1F6AC, U+1F6AD, U+1F6AE, U+1F6AF, U+1F6B0, U+1F6B1, U+1F6B2, U+1F6B3, U+1F6B4, U+1F6B5, U+1F6B6, U+1F6B7, U+1F6B8, U+1F6B9, U+1F6BA, U+1F6BB, U+1F6BC, U+1F6BD, U+1F6BE, U+1F6BF, U+1F6C0, U+1F6C1, U+1F6C2, U+1F6C3, U+1F6C4, U+1F6C5, U+1F6CB, U+1F6CC, U+1F6CD, U+1F6CE, U+1F6CF, U+1F6D0, U+1F6D1, U+1F6D2, U+1F6D5, U+1F6D6, U+1F6D7, U+1F6DC, U+1F6DD, U+1F6DE, U+1F6DF, U+1F6E0, U+1F6E1, U+1F6E2, U+1F6E3, U+1F6E4, U+1F6E5, U+1F6E9, U+1F6EB, U+1F6EC, U+1F6F0, U+1F6F3, U+1F6F4, U+1F6F5, U+1F6F6, U+1F6F7, U+1F6F8, U+1F6F9, U+1F6FA, U+1F6FB, U+1F6FC, U+1F7E0, U+1F7E1, U+1F7E2, U+1F7E3, U+1F7E4, U+1F7E5, U+1F7E6, U+1F7E7, U+1F7E8, U+1F7E9, U+1F7EA, U+1F7EB, U+1F7F0, U+1F90C, U+1F90D, U+1F90E, U+1F90F, U+1F910, U+1F911, U+1F912, U+1F913, U+1F914, U+1F915, U+1F916, U+1F917, U+1F918, U+1F919, U+1F91A, U+1F91B, U+1F91C, U+1F91D, U+1F91E, U+1F91F, U+1F920, U+1F921, U+1F922, U+1F923, U+1F924, U+1F925, U+1F926, U+1F927, U+1F928, U+1F929, U+1F92A, U+1F92B, U+1F92C, U+1F92D, U+1F92E, U+1F92F, U+1F930, U+1F931, U+1F932, U+1F933, U+1F934, U+1F935, U+1F936, U+1F937, U+1F938, U+1F939, U+1F93A, U+1F93C, U+1F93D, U+1F93E, U+1F93F, U+1F940, U+1F941, U+1F942, U+1F943, U+1F944, U+1F945, U+1F947, U+1F948, U+1F949, U+1F94A, U+1F94B, U+1F94C, U+1F94D, U+1F94E, U+1F94F, U+1F950, U+1F951, U+1F952, U+1F953, U+1F954, U+1F955, U+1F956, U+1F957, U+1F958, U+1F959, U+1F95A, U+1F95B, U+1F95C, U+1F95D, U+1F95E, U+1F95F, U+1F960, U+1F961, U+1F962, U+1F963, U+1F964, U+1F965, U+1F966, U+1F967, U+1F968, U+1F969, U+1F96A, U+1F96B, U+1F96C, U+1F96D, U+1F96E, U+1F96F, U+1F970, U+1F971, U+1F972, U+1F973, U+1F974, U+1F975, U+1F976, U+1F977, U+1F978, U+1F979, U+1F97A, U+1F97B, U+1F97C, U+1F97D, U+1F97E, U+1F97F, U+1F980, U+1F981, U+1F982, U+1F983, U+1F984, U+1F985, U+1F986, U+1F987, U+1F988, U+1F989, U+1F98A, U+1F98B, U+1F98C, U+1F98D, U+1F98E, U+1F98F, U+1F990, U+1F991, U+1F992, U+1F993, U+1F994, U+1F995, U+1F996, U+1F997, U+1F998, U+1F999, U+1F99A, U+1F99B, U+1F99C, U+1F99D, U+1F99E, U+1F99F, U+1F9A0, U+1F9A1, U+1F9A2, U+1F9A3, U+1F9A4, U+1F9A5, U+1F9A6, U+1F9A7, U+1F9A8, U+1F9A9, U+1F9AA, U+1F9AB, U+1F9AC, U+1F9AD, U+1F9AE, U+1F9AF, U+1F9B0, U+1F9B1, U+1F9B2, U+1F9B3, U+1F9B4, U+1F9B5, U+1F9B6, U+1F9B7, U+1F9B8, U+1F9B9, U+1F9BA, U+1F9BB, U+1F9BC, U+1F9BD, U+1F9BE, U+1F9BF, U+1F9C0, U+1F9C1, U+1F9C2, U+1F9C3, U+1F9C4, U+1F9C5, U+1F9C6, U+1F9C7, U+1F9C8, U+1F9C9, U+1F9CA, U+1F9CB, U+1F9CC, U+1F9CD, U+1F9CE, U+1F9CF, U+1F9D0, U+1F9D1, U+1F9D2, U+1F9D3, U+1F9D4, U+1F9D5, U+1F9D6, U+1F9D7, U+1F9D8, U+1F9D9, U+1F9DA, U+1F9DB, U+1F9DC, U+1F9DD, U+1F9DE, U+1F9DF, U+1F9E0, U+1F9E1, U+1F9E2, U+1F9E3, U+1F9E4, U+1F9E5, U+1F9E6, U+1F9E7, U+1F9E8, U+1F9E9, U+1F9EA, U+1F9EB, U+1F9EC, U+1F9ED, U+1F9EE, U+1F9EF, U+1F9F0, U+1F9F1, U+1F9F2, U+1F9F3, U+1F9F4, U+1F9F5, U+1F9F6, U+1F9F7, U+1F9F8, U+1F9F9, U+1F9FA, U+1F9FB, U+1F9FC, U+1F9FD, U+1F9FE, U+1F9FF, U+1FA70, U+1FA71, U+1FA72, U+1FA73, U+1FA74, U+1FA75, U+1FA76, U+1FA77, U+1FA78, U+1FA79, U+1FA7A, U+1FA7B, U+1FA7C, U+1FA80, U+1FA81, U+1FA82, U+1FA83, U+1FA84, U+1FA85, U+1FA86, U+1FA87, U+1FA88, U+1FA90, U+1FA91, U+1FA92, U+1FA93, U+1FA94, U+1FA95, U+1FA96, U+1FA97, U+1FA98, U+1FA99, U+1FA9A, U+1FA9B, U+1FA9C, U+1FA9D, U+1FA9E, U+1FA9F, U+1FAA0, U+1FAA1, U+1FAA2, U+1FAA3, U+1FAA4, U+1FAA5, U+1FAA6, U+1FAA7, U+1FAA8, U+1FAA9, U+1FAAA, U+1FAAB, U+1FAAC, U+1FAAD, U+1FAAE, U+1FAAF, U+1FAB0, U+1FAB1, U+1FAB2, U+1FAB3, U+1FAB4, U+1FAB5, U+1FAB6, U+1FAB7, U+1FAB8, U+1FAB9, U+1FABA, U+1FABB, U+1FABC, U+1FABD, U+1FABF, U+1FAC0, U+1FAC1, U+1FAC2, U+1FAC3, U+1FAC4, U+1FAC5, U+1FACE, U+1FACF, U+1FAD0, U+1FAD1, U+1FAD2, U+1FAD3, U+1FAD4, U+1FAD5, U+1FAD6, U+1FAD7, U+1FAD8, U+1FAD9, U+1FADA, U+1FADB, U+1FAE0, U+1FAE1, U+1FAE2, U+1FAE3, U+1FAE4, U+1FAE5, U+1FAE6, U+1FAE7, U+1FAE8, U+1FAF0, U+1FAF1, U+1FAF2, U+1FAF3, U+1FAF4, U+1FAF5, U+1FAF6, U+1FAF7, U+1FAF8, U+200D, U+203C, U+2049, U+20E3, U+2122, U+2139, U+2194, U+2195, U+2196, U+2197, U+2198, U+2199, U+21A9, U+21AA, U+231A, U+231B, U+2328, U+23CF, U+23E9, U+23EA, U+23EB, U+23EC, U+23ED, U+23EE, U+23EF, U+23F0, U+23F1, U+23F2, U+23F3, U+23F8, U+23F9, U+23FA, U+24C2, U+25AA, U+25AB, U+25B6, U+25C0, U+25FB, U+25FC, U+25FD, U+25FE, U+2600, U+2601, U+2602, U+2603, U+2604, U+260E, U+2611, U+2614, U+2615, U+2618, U+261D, U+2620, U+2622, U+2623, U+2626, U+262A, U+262E, U+262F, U+2638, U+2639, U+263A, U+2640, U+2642, U+2648, U+2649, U+264A, U+264B, U+264C, U+264D, U+264E, U+264F, U+2650, U+2651, U+2652, U+2653, U+265F, U+2660, U+2663, U+2665, U+2666, U+2668, U+267B, U+267E, U+267F, U+2692, U+2693, U+2694, U+2695, U+2696, U+2697, U+2699, U+269B, U+269C, U+26A0, U+26A1, U+26A7, U+26AA, U+26AB, U+26B0, U+26B1, U+26BD, U+26BE, U+26C4, U+26C5, U+26C8, U+26CE, U+26CF, U+26D1, U+26D3, U+26D4, U+26E9, U+26EA, U+26F0, U+26F1, U+26F2, U+26F3, U+26F4, U+26F5, U+26F7, U+26F8, U+26F9, U+26FA, U+26FD, U+2702, U+2705, U+2708, U+2709, U+270A, U+270B, U+270C, U+270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733, U+2734, U+2744, U+2747, U+274C, U+274E, U+2753, U+2754, U+2755, U+2757, U+2763, U+2764, U+2795, U+2796, U+2797, U+27A1, U+27B0, U+27BF, U+2934, U+2935, U+2B05, U+2B06, U+2B07, U+2B1B, U+2B1C, U+2B50, U+2B55, U+3030, U+303D, U+3297, U+3299, U+1F3F4, U+E0061, U+E0062, U+E0063, U+E0064, U+E0065, U+E0066, U+E0067, U+E0068, U+E0069, U+E006A, U+E006B, U+E006C, U+E006D, U+E006E, U+E006F, U+E0070, U+E0071, U+E0072, U+E0073, U+E0074, U+E0075, U+E0076, U+E0077, U+E0078, U+E0079, U+E007A, U+E007F;}</style></head>
+<body>
+
+    <!-- Toggle emoji mode (góc trái trên) -->
+    <div class="emoji-toggle-wrap" title="Bật/tắt chế độ emoji (thay nghĩa bằng hình)">
+        <span style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">😀 Emoji</span>
+        <div class="toggle-switch" id="emoji-toggle" onclick="toggleEmojiMode()"></div>
+    </div>
+
+    <!-- Toggle theme sáng/tối -->
+    <div class="theme-toggle-wrap" title="Chuyển theme sáng / tối">
+        <span id="theme-label" style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">🌙 Tối</span>
+        <div class="toggle-switch" id="theme-toggle" onclick="toggleTheme()"></div>
+    </div>
+
+    <!-- Toggle nhãn đáp án 一、二、三、四 (góc phải trên) -->
+    <div class="label-toggle-wrap" title="Bật/tắt nhãn 一、二、三、四 cho đáp án">
+        <span>一 二 三 四</span>
+        <div class="toggle-switch" id="label-toggle" onclick="toggleOptionLabels()"></div>
+    </div>
+
+    <!-- Pet companion (fixed right) -->
+    <div id="pet-area">
+        <div id="pet-stage-label">Lv.0 · Ốc sên</div>
+        <div id="pet" class="pet-idle" style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">🥚</div>
+        <button id="pet-shoot-btn" onclick="shootPet()" title="Bắn pet!" style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">🔫</button>
+        <div id="pet-msg"></div>
+    </div>
+
+    <div class="container">
+        <h1 style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">Quiz Từ Vựng Tiếng Trung - HSK1 (15 Bài)</h1>
+        <div class="subtitle">16 bài · Chọn bài → Chọn phần → Luyện tập · Có chế độ Emoji</div>
+
+        <!-- Màn hình chọn bài -->
+        <div id="menu-screen" class="screen">
+            <h2 style="text-align:center; margin-bottom:16px;">Chọn bài học</h2>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button><button>Bài 16</button></div>
+        </div>
+
+        <!-- Màn hình chọn phần -->
+        <div id="part-screen" class="screen">
+            <h2 id="selected-lesson-title" style="text-align:center;">Bài 1</h2>
+            <p style="text-align:center; opacity:0.9; margin-bottom:18px;" id="lesson-sub">Từ vựng cơ bản &amp; Sinh hoạt</p>
+            <h3 style="text-align:center; margin-bottom:12px;">Chọn phần</h3>
+            <div class="parts" id="part-list"><button>Phần 1 (28 từ)</button><button>Phần 2 (17 từ)</button><button>Tất cả (45 từ)</button></div>
+            <button class="back-btn" onclick="backToMenu()">← Quay lại chọn bài</button>
+        </div>
+
+        <!-- Màn hình chọn dạng -->
+        <div id="mode-screen" class="screen">
+            <h2 id="mode-title" style="text-align:center;">Bài 1 · Tất cả (45 từ)</h2>
+            <p style="text-align:center; opacity:0.9;" id="mode-info">Số từ: 45</p>
+            <div style="text-align:center; margin:28px 0; display:flex; flex-wrap:wrap; gap:14px; justify-content:center;">
+                <button class="mode-btn" onclick="startQuiz('normal')" style="max-width: 220px; font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">📋 Theo thứ tự</button>
+                <button class="mode-btn" onclick="startQuiz('shuffle')" style="max-width: 220px; font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">🔀 Xáo trộn</button>
+            </div>
+            <button class="back-btn" onclick="backToParts()">← Quay lại chọn phần</button>
+        </div>
+
+        <!-- Màn hình quiz -->
+        <div id="quiz-container" class="screen active">
+            <div class="progress">
+                Bài <span id="lesson-num">1</span> · 
+                <span id="part-label">Tất cả (45 từ)</span> · 
+                Câu <span id="current">2</span>/<span id="total">45</span>
+            </div>
+            <div class="stage-info" id="stage-info">Chặng 1/9 (từ 1–5)</div>
+            
+            <div class="hanzi" id="hanzi">最好</div>
+            <div class="pinyin" id="pinyin" style="display: block;">zuìhǎo</div>
+            <button class="toggle-pinyin" id="toggle-btn" onclick="togglePinyin()" style="display: block; font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">🙈 Ẩn Pinyin</button>
+            
+            <div class="result" id="result" style="color: rgb(88, 204, 2);"></div>
+            <div class="options" id="options"><button data-key="tốt nhất là, nên (Adv)">tốt nhất là, nên (Adv)</button><button data-key="không chỉ (Conj)">không chỉ (Conj)</button><button data-key="đứng dậy (Vp)">đứng dậy (Vp)</button><button data-key="đùa giỡn (V-sep)">đùa giỡn (V-sep)</button></div>
+
+            <button class="back-btn" onclick="exitQuiz()" style="width:100%; margin-top:24px;">
+                ← Thoát quiz
+            </button>
+            <div class="hint" style="font-family: emojeeeeee, emojiiiiii, Nunito, &quot;Segoe UI&quot;, system-ui, sans-serif;">💡 Sai → quay về đầu chặng (mỗi chặng 5 từ) · Đúng → tiếp tục · Pet tiến hóa theo các chặng đã tính sẵn · Bấm 🔫 để nghịch pet</div>
+        </div>
+    </div>
+
+<script>
+const allLessons = {"1":{"title":"Bài 1","sub":"AI Tiểu Ngữ, xin chào! (AI小语，你好！)","parts":{"all":"Tất cả (12 từ)"},"dataset":{"all":[{"hanzi":"不客气","pinyin":"bù kè qi","meaning":"không có chi, đừng khách sáo","emoji":"😊"},{"hanzi":"大家","pinyin":"dà jiā","meaning":"mọi người","emoji":"👥"},{"hanzi":"好","pinyin":"hǎo","meaning":"tốt","emoji":"👍"},{"hanzi":"老师","pinyin":"lǎo shī","meaning":"giáo viên","emoji":"👨‍🏫"},{"hanzi":"们","pinyin":"men","meaning":"hậu tố số nhiều cho đại từ và danh từ chỉ người","emoji":"👥"},{"hanzi":"您","pinyin":"nín","meaning":"ông, bà, anh, chị (cách xưng hô kính trọng)","emoji":"🙏"},{"hanzi":"你好","pinyin":"nǐ hǎo","meaning":"xin chào","emoji":"👋"},{"hanzi":"你们","pinyin":"nǐ men","meaning":"các bạn (ngôi thứ 2 số nhiều)","emoji":"👥"},{"hanzi":"同学","pinyin":"tóng xué","meaning":"bạn học","emoji":"📚"},{"hanzi":"谢谢","pinyin":"xiè xie","meaning":"cảm ơn","emoji":"🙏"},{"hanzi":"学生","pinyin":"xué shēng","meaning":"học sinh, sinh viên","emoji":"🎓"},{"hanzi":"再见","pinyin":"zài jiàn","meaning":"tạm biệt, chào gặp lại","emoji":"👋"}]}},"2":{"title":"Bài 2","sub":"Tôi tên là Lý Văn (我叫李文)","parts":{"all":"Tất cả (15 từ)"},"dataset":{"all":[{"hanzi":"不","pinyin":"bù","meaning":"không","emoji":"🚫"},{"hanzi":"对不起","pinyin":"duì bu qǐ","meaning":"xin lỗi","emoji":"🙏"},{"hanzi":"高兴","pinyin":"gāo xìng","meaning":"vui, vui vẻ","emoji":"😄"},{"hanzi":"很","pinyin":"hěn","meaning":"rất, lắm (phó từ tăng cường)","emoji":"💯"},{"hanzi":"叫","pinyin":"jiào","meaning":"gọi, kêu, hô","emoji":"📢"},{"hanzi":"没关系","pinyin":"méi guān xi","meaning":"không sao, không có gì","emoji":"👌"},{"hanzi":"没事","pinyin":"méi shì","meaning":"không sao, không có gì","emoji":"👌"},{"hanzi":"名字","pinyin":"míng zi","meaning":"tên (cá nhân, đồ vật)","emoji":"📝"},{"hanzi":"你","pinyin":"nǐ","meaning":"bạn, ông/bà/nàng/cậu (đại từ ngôi thứ hai)","emoji":"👆"},{"hanzi":"请问","pinyin":"qǐng wèn","meaning":"xin hỏi, cho tôi hỏi","emoji":"❓"},{"hanzi":"认识","pinyin":"rèn shi","meaning":"biết, nhận ra, quen biết","emoji":"🤝"},{"hanzi":"什么","pinyin":"shén me","meaning":"gì, cái gì","emoji":"❓"},{"hanzi":"是","pinyin":"shì","meaning":"là (hệ từ)","emoji":"✅"},{"hanzi":"我","pinyin":"wǒ","meaning":"tôi, tao, mình (đại từ ngôi thứ nhất)","emoji":"👤"},{"hanzi":"也","pinyin":"yě","meaning":"cũng (phó từ)","emoji":"➕"}]}},"3":{"title":"Bài 3","sub":"Tôi là người Trung Quốc (我是中国人)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (11 từ)","all":"Tất cả (22 từ)"},"dataset":{"part1":[{"hanzi":"的","pinyin":"de","meaning":"của (trợ từ kết cấu nối định ngữ với danh từ)","emoji":"📎"},{"hanzi":"对","pinyin":"duì","meaning":"đúng; đối với, với; đôi","emoji":"✅"},{"hanzi":"法国","pinyin":"Fǎ guó","meaning":"nước Pháp","emoji":"🇫🇷"},{"hanzi":"国","pinyin":"guó","meaning":"quốc gia, nước","emoji":"🏳️"},{"hanzi":"工作","pinyin":"gōng zuò","meaning":"công việc, làm việc","emoji":"💼"},{"hanzi":"还","pinyin":"hái","meaning":"vẫn, còn","emoji":"🔄"},{"hanzi":"姐姐","pinyin":"jiě jie","meaning":"chị gái","emoji":"👩"},{"hanzi":"吗","pinyin":"ma","meaning":"trợ từ nghi vấn cuối câu (… không?, … phải không?)","emoji":"❓"},{"hanzi":"忙","pinyin":"máng","meaning":"bận, bận rộn","emoji":"😰"},{"hanzi":"哪","pinyin":"nǎ","meaning":"nào, ở đâu, cái nào","emoji":"📍"},{"hanzi":"女朋友","pinyin":"nǚ péng you","meaning":"bạn gái","emoji":"💕"}],"part2":[{"hanzi":"人","pinyin":"rén","meaning":"người","emoji":"👤"},{"hanzi":"谁","pinyin":"shéi","meaning":"ai","emoji":"❓"},{"hanzi":"太","pinyin":"tài","meaning":"quá, quá mức, rất, cực kỳ","emoji":"🔥"},{"hanzi":"泰国","pinyin":"Tài guó","meaning":"nước Thái Lan","emoji":"🇹🇭"},{"hanzi":"她","pinyin":"tā","meaning":"cô ấy, chị ấy, bà ấy","emoji":"👩"},{"hanzi":"喂","pinyin":"wèi","meaning":"a lô, này","emoji":"📞"},{"hanzi":"我们","pinyin":"wǒ men","meaning":"chúng tôi, chúng ta","emoji":"👥"},{"hanzi":"想","pinyin":"xiǎng","meaning":"muốn; nghĩ, suy nghĩ; nhớ","emoji":"💭"},{"hanzi":"这","pinyin":"zhè","meaning":"này, cái này, đây","emoji":"👇"},{"hanzi":"中国","pinyin":"Zhōng guó","meaning":"Trung Quốc","emoji":"🇨🇳"},{"hanzi":"中文","pinyin":"zhōng wén","meaning":"tiếng Trung (chữ viết)","emoji":"🇨🇳"}]}},"4":{"title":"Bài 4","sub":"Tôi có hai đứa con (我有两个孩子)","parts":{"part1":"Phần 1 (17 từ)","part2":"Phần 2 (18 từ)","all":"Tất cả (35 từ)"},"dataset":{"part1":[{"hanzi":"爸爸","pinyin":"bà ba","meaning":"bố, cha","emoji":"👨"},{"hanzi":"八","pinyin":"bā","meaning":"tám","emoji":"8️⃣"},{"hanzi":"百","pinyin":"bǎi","meaning":"trăm","emoji":"💯"},{"hanzi":"多","pinyin":"duō","meaning":"nhiều","emoji":"🔢"},{"hanzi":"多少","pinyin":"duō shao","meaning":"bao nhiêu","emoji":"🔢"},{"hanzi":"大","pinyin":"dà","meaning":"to, lớn","emoji":"⬆️"},{"hanzi":"个","pinyin":"gè","meaning":"cái, con, quả (lượng từ phổ biến)","emoji":"1️⃣"},{"hanzi":"哥哥","pinyin":"gē ge","meaning":"anh trai","emoji":"👨"},{"hanzi":"孩子","pinyin":"hái zi","meaning":"đứa trẻ, trẻ em","emoji":"👶"},{"hanzi":"和","pinyin":"hé","meaning":"và, với; cùng; hòa thuận","emoji":"🤝"},{"hanzi":"家","pinyin":"jiā","meaning":"gia đình","emoji":"🏠"},{"hanzi":"九","pinyin":"jiǔ","meaning":"chín","emoji":"9️⃣"},{"hanzi":"今年","pinyin":"jīn nián","meaning":"năm nay","emoji":"📅"},{"hanzi":"几","pinyin":"jǐ","meaning":"mấy, bao nhiêu (hỏi số lượng nhỏ); vài","emoji":"🔢"},{"hanzi":"口","pinyin":"kǒu","meaning":"miệng; lượng từ đếm người trong gia đình","emoji":"👄"},{"hanzi":"六","pinyin":"liù","meaning":"sáu","emoji":"6️⃣"},{"hanzi":"两","pinyin":"liǎng","meaning":"hai","emoji":"2️⃣"}],"part2":[{"hanzi":"零","pinyin":"líng","meaning":"không, con số không","emoji":"0️⃣"},{"hanzi":"妹妹","pinyin":"mèi mei","meaning":"em gái","emoji":"👧"},{"hanzi":"没有","pinyin":"méi yǒu","meaning":"không có, chưa","emoji":"🚫"},{"hanzi":"妈妈","pinyin":"mā ma","meaning":"mẹ","emoji":"👩"},{"hanzi":"呢","pinyin":"ne","meaning":"trợ từ cuối câu (… thì sao?, … nhỉ?); biểu thị hành động đang tiếp diễn","emoji":"❓"},{"hanzi":"女儿","pinyin":"nǚ'ér","meaning":"con gái","emoji":"👧"},{"hanzi":"千","pinyin":"qiān","meaning":"nghìn, ngàn","emoji":"🔢"},{"hanzi":"七","pinyin":"qī","meaning":"bảy","emoji":"7️⃣"},{"hanzi":"十","pinyin":"shí","meaning":"mười","emoji":"🔟"},{"hanzi":"岁","pinyin":"suì","meaning":"tuổi; năm; tính tuổi","emoji":"🎂"},{"hanzi":"四","pinyin":"sì","meaning":"bốn","emoji":"4️⃣"},{"hanzi":"三","pinyin":"sān","meaning":"ba","emoji":"3️⃣"},{"hanzi":"他","pinyin":"tā","meaning":"anh ấy, hắn ấy","emoji":"👨"},{"hanzi":"五","pinyin":"wǔ","meaning":"năm","emoji":"5️⃣"},{"hanzi":"一","pinyin":"yī","meaning":"một","emoji":"1️⃣"},{"hanzi":"有","pinyin":"yǒu","meaning":"có","emoji":"✅"},{"hanzi":"二","pinyin":"èr","meaning":"hai","emoji":"2️⃣"},{"hanzi":"儿子","pinyin":"ér zi","meaning":"con trai","emoji":"👦"}]}},"5":{"title":"Bài 5","sub":"Hôm nay tôi nghỉ (今天我休息)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (11 từ)","all":"Tất cả (22 từ)"},"dataset":{"part1":[{"hanzi":"菜","pinyin":"cài","meaning":"món ăn, rau","emoji":"🥬"},{"hanzi":"电脑","pinyin":"diàn nǎo","meaning":"máy tính","emoji":"💻"},{"hanzi":"会","pinyin":"huì","meaning":"có thể, biết làm; hội họp, cuộc họp","emoji":"💪"},{"hanzi":"号","pinyin":"hào","meaning":"ngày (trong tháng); số, hiệu; dấu hiệu","emoji":"🔢"},{"hanzi":"好看","pinyin":"hǎo kàn","meaning":"đẹp, hay","emoji":"😍"},{"hanzi":"饺子","pinyin":"jiǎo zi","meaning":"sủi cảo, bánh chẻo","emoji":"🥟"},{"hanzi":"今天","pinyin":"jīn tiān","meaning":"hôm nay; ngày hôm nay","emoji":"📅"},{"hanzi":"面条儿","pinyin":"miàn tiáor","meaning":"mì sợi","emoji":"🍜"},{"hanzi":"日","pinyin":"rì","meaning":"mặt trời, ngày (thời gian)","emoji":"☀️"},{"hanzi":"它","pinyin":"tā","meaning":"nó","emoji":"📦"},{"hanzi":"下班","pinyin":"xià bān","meaning":"tan làm, kết thúc ca làm việc","emoji":"🏠"}],"part2":[{"hanzi":"休息","pinyin":"xiū xing","meaning":"nghỉ ngơi, tạm dừng hoạt động để lấy lại sức","emoji":"😴"},{"hanzi":"新","pinyin":"xīn","meaning":"mới","emoji":"✨"},{"hanzi":"星期","pinyin":"xīng qī","meaning":"tuần; thứ (trong tuần)","emoji":"📅"},{"hanzi":"星期日","pinyin":"xīng qī rì","meaning":"Chủ nhật","emoji":"📅"},{"hanzi":"星期天","pinyin":"xīng qī tiān","meaning":"Chủ nhật (ngày nghỉ cuối tuần)","emoji":"📅"},{"hanzi":"喜欢","pinyin":"xǐ huan","meaning":"thích, yêu thích","emoji":"❤️"},{"hanzi":"月","pinyin":"yuè","meaning":"tháng","emoji":"🌙"},{"hanzi":"一些","pinyin":"yì xiē","meaning":"một ít, một số","emoji":"🔢"},{"hanzi":"真","pinyin":"zhēn","meaning":"thật, thật sự","emoji":"💯"},{"hanzi":"做","pinyin":"zuò","meaning":"làm, tạo ra, thực hiện","emoji":"🛠️"},{"hanzi":"做饭","pinyin":"zuò fàn","meaning":"nấu cơm, nấu ăn","emoji":"🍳"}]}},"6":{"title":"Bài 6","sub":"Số điện thoại của bạn là bao nhiêu? (你的手机号是多少？)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (11 từ)","all":"Tất cả (22 từ)"},"dataset":{"part1":[{"hanzi":"包子","pinyin":"bāo zi","meaning":"bánh bao","emoji":"🥟"},{"hanzi":"超市","pinyin":"chāo shì","meaning":"siêu thị","emoji":"🛒"},{"hanzi":"吃","pinyin":"chī","meaning":"ăn","emoji":"🍽️"},{"hanzi":"出租车","pinyin":"chū zū chē","meaning":"taxi","emoji":"🚕"},{"hanzi":"电话","pinyin":"diàn huà","meaning":"điện thoại","emoji":"📞"},{"hanzi":"东西","pinyin":"dōng xi","meaning":"đồ đạc, vật","emoji":"📦"},{"hanzi":"非常","pinyin":"fēi cháng","meaning":"cực kỳ, rất","emoji":"💯"},{"hanzi":"号","pinyin":"hào","meaning":"ngày (trong tháng); số, hiệu; dấu hiệu","emoji":"🔢"},{"hanzi":"好吃","pinyin":"hǎo chī","meaning":"ngon","emoji":"😋"},{"hanzi":"明天","pinyin":"míng tiān","meaning":"ngày mai","emoji":"📅"},{"hanzi":"买","pinyin":"mǎi","meaning":"mua","emoji":"🛍️"}],"part2":[{"hanzi":"米饭","pinyin":"mǐ fàn","meaning":"cơm (gạo)","emoji":"🍚"},{"hanzi":"牛奶","pinyin":"niú nǎi","meaning":"sữa (bò)","emoji":"🥛"},{"hanzi":"那边","pinyin":"nà biān","meaning":"bên kia, phía đó","emoji":"👉"},{"hanzi":"哪儿","pinyin":"nǎr","meaning":"ở đâu","emoji":"📍"},{"hanzi":"去","pinyin":"qù","meaning":"đi","emoji":"➡️"},{"hanzi":"手机","pinyin":"shǒu jī","meaning":"điện thoại di động, điện thoại cầm tay","emoji":"📱"},{"hanzi":"晚饭","pinyin":"wǎn fàn","meaning":"bữa tối","emoji":"🍽️"},{"hanzi":"些","pinyin":"xiē","meaning":"một vài, một chút","emoji":"🔢"},{"hanzi":"想","pinyin":"xiǎng","meaning":"muốn; nghĩ, suy nghĩ; nhớ","emoji":"💭"},{"hanzi":"坐","pinyin":"zuò","meaning":"ngồi","emoji":"🪑"},{"hanzi":"怎么","pinyin":"zěn me","meaning":"thế nào, như thế nào; sao, tại sao","emoji":"❓"}]}},"7":{"title":"Bài 7","sub":"Tôi tan làm lúc 6 giờ rưỡi tối (我晚上六点半下班)","parts":{"part1":"Phần 1 (13 từ)","part2":"Phần 2 (14 từ)","all":"Tất cả (27 từ)"},"dataset":{"part1":[{"hanzi":"吧","pinyin":"ba","meaning":"trợ từ ngữ khí cuối câu: nhé, đi (đề nghị); chứ, phải không (phỏng đoán)","emoji":"💬"},{"hanzi":"半","pinyin":"bàn","meaning":"nửa, một nửa","emoji":"½"},{"hanzi":"菜","pinyin":"cài","meaning":"món ăn, rau","emoji":"🥬"},{"hanzi":"店","pinyin":"diàn","meaning":"cửa hàng","emoji":"🏪"},{"hanzi":"电影","pinyin":"diàn yǐng","meaning":"phim, phim ảnh","emoji":"🎬"},{"hanzi":"电影院","pinyin":"diàn yǐng yuàn","meaning":"rạp chiếu phim, rạp phim","emoji":"🎥"},{"hanzi":"点","pinyin":"diǎn","meaning":"giờ (trên đồng hồ), điểm","emoji":"🕐"},{"hanzi":"分","pinyin":"fēn","meaning":"phút; xu (1/100 tệ); điểm số; chia, phân chia","emoji":"⏱️"},{"hanzi":"分钟","pinyin":"fēn zhōng","meaning":"phút","emoji":"⏱️"},{"hanzi":"后","pinyin":"hòu","meaning":"sau, phía sau","emoji":"➡️"},{"hanzi":"见","pinyin":"jiàn","meaning":"thấy, gặp","emoji":"👀"},{"hanzi":"家","pinyin":"jiā","meaning":"gia đình","emoji":"🏠"},{"hanzi":"看","pinyin":"kàn","meaning":"nhìn, xem","emoji":"👀"}],"part2":[{"hanzi":"课","pinyin":"kè","meaning":"bài học, lớp học","emoji":"📚"},{"hanzi":"里","pinyin":"lǐ","meaning":"trong, bên trong","emoji":"📥"},{"hanzi":"呢","pinyin":"ne","meaning":"trợ từ cuối câu (… thì sao?, … nhỉ?); biểu thị hành động đang tiếp diễn","emoji":"❓"},{"hanzi":"上班","pinyin":"shàng bān","meaning":"đi làm, bắt đầu ca làm việc","emoji":"💼"},{"hanzi":"上课","pinyin":"shàng kè","meaning":"vào lớp, lên lớp","emoji":"📚"},{"hanzi":"上午","pinyin":"shàng wǔ","meaning":"buổi sáng","emoji":"🌅"},{"hanzi":"事","pinyin":"shì","meaning":"việc, sự việc","emoji":"📋"},{"hanzi":"晚上","pinyin":"wǎn shang","meaning":"buổi tối, tối","emoji":"🌙"},{"hanzi":"下课","pinyin":"xià kè","meaning":"tan học, tan lớp","emoji":"🔔"},{"hanzi":"现在","pinyin":"xiàn zài","meaning":"bây giờ, hiện tại; ngay bây giờ","emoji":"⏰"},{"hanzi":"下午","pinyin":"xià wǔ","meaning":"buổi chiều","emoji":"🌇"},{"hanzi":"医院","pinyin":"yī yuàn","meaning":"bệnh viện","emoji":"🏥"},{"hanzi":"在","pinyin":"zài","meaning":"ở, tại","emoji":"📍"},{"hanzi":"早上","pinyin":"zǎo shang","meaning":"buổi sáng (từ khi thức dậy đến trưa)","emoji":"🌅"}]}},"8":{"title":"Bài 8","sub":"Bố tôi cũng làm việc ở bệnh viện (我爸爸也在医院工作)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (12 từ)","all":"Tất cả (23 từ)"},"dataset":{"part1":[{"hanzi":"病人","pinyin":"bìng rén","meaning":"bệnh nhân, người bệnh","emoji":"🤒"},{"hanzi":"多","pinyin":"duō","meaning":"nhiều","emoji":"🔢"},{"hanzi":"大","pinyin":"dà","meaning":"to, lớn","emoji":"⬆️"},{"hanzi":"到","pinyin":"dào","meaning":"đến, tới","emoji":"➡️"},{"hanzi":"饭","pinyin":"fàn","meaning":"bữa ăn, cơm","emoji":"🍚"},{"hanzi":"房间","pinyin":"fáng jiān","meaning":"phòng (nhà)","emoji":"🚪"},{"hanzi":"工作","pinyin":"gōng zuò","meaning":"công việc, làm việc","emoji":"💼"},{"hanzi":"看见","pinyin":"kàn jiàn","meaning":"thấy, trông thấy","emoji":"👀"},{"hanzi":"没","pinyin":"méi","meaning":"không, chưa; không có","emoji":"🚫"},{"hanzi":"猫","pinyin":"māo","meaning":"con mèo","emoji":"🐱"},{"hanzi":"能","pinyin":"néng","meaning":"có thể, năng lực, khả năng","emoji":"💪"}],"part2":[{"hanzi":"漂亮","pinyin":"piào liang","meaning":"đẹp","emoji":"😍"},{"hanzi":"前","pinyin":"qián","meaning":"trước, phía trước","emoji":"⬅️"},{"hanzi":"书店","pinyin":"shū diàn","meaning":"hiệu sách","emoji":"📚"},{"hanzi":"外","pinyin":"wài","meaning":"bên ngoài","emoji":"🚪"},{"hanzi":"午饭","pinyin":"wǔ fàn","meaning":"cơm trưa","emoji":"🍱"},{"hanzi":"下","pinyin":"xià","meaning":"sau, dưới","emoji":"⬇️"},{"hanzi":"小","pinyin":"xiǎo","meaning":"nhỏ","emoji":"🔹"},{"hanzi":"学校","pinyin":"xué xiào","meaning":"trường học","emoji":"🏫"},{"hanzi":"医生","pinyin":"yī shēng","meaning":"bác sĩ","emoji":"👨‍⚕️"},{"hanzi":"桌子","pinyin":"zhuō zi","meaning":"cái bàn","emoji":"🪑"},{"hanzi":"只","pinyin":"zhǐ","meaning":"chỉ","emoji":"1️⃣"},{"hanzi":"在","pinyin":"zài","meaning":"ở, tại","emoji":"📍"}]}},"9":{"title":"Bài 9","sub":"Sáng mai tôi học ở trường (我明天上午在学校学习)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (12 từ)","all":"Tất cả (23 từ)"},"dataset":{"part1":[{"hanzi":"边","pinyin":"biān","meaning":"bên","emoji":"↔️"},{"hanzi":"白天","pinyin":"bái tiān","meaning":"ban ngày; ngày","emoji":"☀️"},{"hanzi":"本","pinyin":"běn","meaning":"quyển, cuốn (lượng từ cho sách vở); gốc, vốn","emoji":"📖"},{"hanzi":"唱","pinyin":"chàng","meaning":"hát, cất tiếng hát","emoji":"🎤"},{"hanzi":"电视","pinyin":"diàn shì","meaning":"TV, truyền hình","emoji":"📺"},{"hanzi":"第","pinyin":"dì","meaning":"thứ (tiền tố chỉ thứ tự)","emoji":"🔢"},{"hanzi":"读书","pinyin":"dú shū","meaning":"đọc sách, đi học","emoji":"📖"},{"hanzi":"歌","pinyin":"gē","meaning":"bài hát, khúc ca","emoji":"🎵"},{"hanzi":"狗","pinyin":"gǒu","meaning":"con chó","emoji":"🐶"},{"hanzi":"和","pinyin":"hé","meaning":"và, với; cùng; hòa thuận","emoji":"🤝"},{"hanzi":"好听","pinyin":"hǎo tīng","meaning":"nghe hay","emoji":"🎶"}],"part2":[{"hanzi":"家","pinyin":"jiā","meaning":"gia đình","emoji":"🏠"},{"hanzi":"那","pinyin":"nà","meaning":"đó","emoji":"👉"},{"hanzi":"那个","pinyin":"nà ge","meaning":"cái đó, cái kia","emoji":"👉"},{"hanzi":"朋友","pinyin":"péng you","meaning":"bạn bè, bạn","emoji":"👫"},{"hanzi":"前边","pinyin":"qián bian","meaning":"phía trước","emoji":"⬅️"},{"hanzi":"上","pinyin":"shàng","meaning":"trên, lên","emoji":"⬆️"},{"hanzi":"书","pinyin":"shū","meaning":"sách, văn bản, thư","emoji":"📚"},{"hanzi":"外边","pinyin":"wài biān","meaning":"bên ngoài","emoji":"🚪"},{"hanzi":"玩","pinyin":"wán","meaning":"chơi, chơi đùa; đi chơi","emoji":"🎮"},{"hanzi":"学习","pinyin":"xué xí","meaning":"học, học tập","emoji":"📚"},{"hanzi":"椅子","pinyin":"yǐ zi","meaning":"ghế","emoji":"🪑"},{"hanzi":"做","pinyin":"zuò","meaning":"làm, tạo ra, thực hiện","emoji":"🛠️"}]}},"10":{"title":"Bài 10","sub":"Táo ở đây rẻ thật! (这儿的苹果真便宜！)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (12 từ)","all":"Tất cả (23 từ)"},"dataset":{"part1":[{"hanzi":"杯子","pinyin":"bēi zi","meaning":"cốc, ly","emoji":"🥤"},{"hanzi":"穿","pinyin":"chuān","meaning":"mặc (quần áo); xỏ","emoji":"👕"},{"hanzi":"贵","pinyin":"guì","meaning":"đắt, quý","emoji":"💰"},{"hanzi":"件","pinyin":"jiàn","meaning":"cái, chiếc","emoji":"👕"},{"hanzi":"斤","pinyin":"jīn","meaning":"cân (0.5kg)","emoji":"⚖️"},{"hanzi":"块","pinyin":"kuài","meaning":"miếng, khối, cục (lượng từ) hoặc đồng nhân dân tệ","emoji":"💵"},{"hanzi":"那儿","pinyin":"nàr","meaning":"ở đó, ở kia","emoji":"👉"},{"hanzi":"男","pinyin":"nán","meaning":"đàn ông, con trai, nam giới","emoji":"♂️"},{"hanzi":"那些","pinyin":"nà xiē","meaning":"những, những kia","emoji":"👉"},{"hanzi":"女","pinyin":"nǚ","meaning":"phụ nữ, con gái","emoji":"♀️"},{"hanzi":"便宜","pinyin":"pián yi","meaning":"rẻ","emoji":"💸"}],"part2":[{"hanzi":"苹果","pinyin":"píng guǒ","meaning":"quả táo","emoji":"🍎"},{"hanzi":"钱","pinyin":"qián","meaning":"tiền, tiền tệ","emoji":"💰"},{"hanzi":"水果","pinyin":"shuǐ guǒ","meaning":"trái cây, hoa quả","emoji":"🍎"},{"hanzi":"售货员","pinyin":"shòu huò yuán","meaning":"nhân viên bán hàng","emoji":"🧑‍💼"},{"hanzi":"商店","pinyin":"shāng diàn","meaning":"cửa hàng","emoji":"🏪"},{"hanzi":"少","pinyin":"shǎo","meaning":"ít, thiếu, ít hơn","emoji":"📉"},{"hanzi":"元","pinyin":"yuán","meaning":"nhân dân tệ, đồng (tiền)","emoji":"💴"},{"hanzi":"衣服","pinyin":"yī fu","meaning":"quần áo","emoji":"👕"},{"hanzi":"这边","pinyin":"zhè biān","meaning":"bên này, phía này","emoji":"👈"},{"hanzi":"这儿","pinyin":"zhèr","meaning":"ở đây","emoji":"📍"},{"hanzi":"这些","pinyin":"zhè xiē","meaning":"những, những này","emoji":"👇"},{"hanzi":"怎么样","pinyin":"zěn me yàng","meaning":"thế nào","emoji":"❓"}]}},"11":{"title":"Bài 11","sub":"Tôi đang học đại học (我读大学呢)","parts":{"part1":"Phần 1 (12 từ)","part2":"Phần 2 (13 từ)","all":"Tất cả (25 từ)"},"dataset":{"part1":[{"hanzi":"车","pinyin":"chē","meaning":"xe, cỗ xe","emoji":"🚗"},{"hanzi":"对","pinyin":"duì","meaning":"đúng; đối với, với; đôi","emoji":"✅"},{"hanzi":"大学","pinyin":"dà xué","meaning":"đại học, trường đại học","emoji":"🎓"},{"hanzi":"大学生","pinyin":"dà xué shēng","meaning":"sinh viên","emoji":"🎓"},{"hanzi":"弟弟","pinyin":"dì di","meaning":"em trai","emoji":"👦"},{"hanzi":"读","pinyin":"dú","meaning":"đọc (sách, văn bản)","emoji":"📖"},{"hanzi":"饭店","pinyin":"fàn diàn","meaning":"nhà hàng, khách sạn","emoji":"🏨"},{"hanzi":"开车","pinyin":"kāi chē","meaning":"lái xe","emoji":"🚗"},{"hanzi":"那里","pinyin":"nà li","meaning":"ở đó, chỗ đó","emoji":"👉"},{"hanzi":"哪里","pinyin":"nǎ lǐ","meaning":"ở đâu, nơi nào","emoji":"📍"},{"hanzi":"起床","pinyin":"qǐ chuáng","meaning":"thức dậy, rời giường","emoji":"🛏️"},{"hanzi":"睡","pinyin":"shuì","meaning":"ngủ","emoji":"😴"}],"part2":[{"hanzi":"睡觉","pinyin":"shuì jiào","meaning":"đi ngủ, ngủ","emoji":"😴"},{"hanzi":"说","pinyin":"shuō","meaning":"nói, nói chuyện","emoji":"💬"},{"hanzi":"时候","pinyin":"shí hou","meaning":"lúc, thời điểm","emoji":"⏰"},{"hanzi":"问","pinyin":"wèn","meaning":"hỏi","emoji":"❓"},{"hanzi":"小朋友","pinyin":"xiǎo péng you","meaning":"bé, đứa trẻ","emoji":"👶"},{"hanzi":"学","pinyin":"xué","meaning":"học, học tập","emoji":"📚"},{"hanzi":"要","pinyin":"yào","meaning":"muốn","emoji":"✋"},{"hanzi":"医","pinyin":"yī","meaning":"y, chữa bệnh","emoji":"🏥"},{"hanzi":"正在","pinyin":"zhèng zài","meaning":"đang (thì tiếp diễn lúc nói)","emoji":"⏳"},{"hanzi":"知道","pinyin":"zhī dào","meaning":"biết","emoji":"💡"},{"hanzi":"找","pinyin":"zhǎo","meaning":"tìm kiếm","emoji":"🔍"},{"hanzi":"昨天","pinyin":"zuó tiān","meaning":"hôm qua","emoji":"📅"},{"hanzi":"在","pinyin":"zài","meaning":"ở, tại","emoji":"📍"}]}},"12":{"title":"Bài 12","sub":"Hôm qua tuyết rơi (昨天下雪了)","parts":{"part1":"Phần 1 (11 từ)","part2":"Phần 2 (12 từ)","all":"Tất cả (23 từ)"},"dataset":{"part1":[{"hanzi":"病","pinyin":"bìng","meaning":"bệnh, ốm đau","emoji":"🤒"},{"hanzi":"公司","pinyin":"gōng sī","meaning":"công ty","emoji":"🏢"},{"hanzi":"回","pinyin":"huí","meaning":"trở về","emoji":"↩️"},{"hanzi":"喝","pinyin":"hē","meaning":"uống","emoji":"🥤"},{"hanzi":"觉得","pinyin":"jué de","meaning":"cảm thấy, nghĩ, cho rằng","emoji":"🤔"},{"hanzi":"看病","pinyin":"kàn bìng","meaning":"khám bệnh, đi khám bác sĩ","emoji":"🏥"},{"hanzi":"了","pinyin":"le","meaning":"rồi, đã; trợ từ chỉ hành động đã hoàn thành hoặc tình huống đã thay đổi","emoji":"✅"},{"hanzi":"来","pinyin":"lái","meaning":"đến, tới, đến nơi","emoji":"➡️"},{"hanzi":"冷","pinyin":"lěng","meaning":"lạnh; vắng vẻ, ít người; lạnh lùng","emoji":"❄️"},{"hanzi":"热","pinyin":"rè","meaning":"nóng; say mê, hăng hái; sốt","emoji":"🔥"},{"hanzi":"水","pinyin":"shuǐ","meaning":"nước","emoji":"💧"}],"part2":[{"hanzi":"生病","pinyin":"shēng bìng","meaning":"bị ốm, mắc bệnh","emoji":"🤒"},{"hanzi":"天","pinyin":"tiān","meaning":"trời, bầu trời; ngày","emoji":"☁️"},{"hanzi":"天气","pinyin":"tiān qì","meaning":"thời tiết","emoji":"🌤️"},{"hanzi":"下","pinyin":"xià","meaning":"sau, dưới","emoji":"⬇️"},{"hanzi":"下雨","pinyin":"xià yǔ","meaning":"trời mưa, mưa rơi","emoji":"🌧️"},{"hanzi":"雪","pinyin":"xuě","meaning":"tuyết","emoji":"❄️"},{"hanzi":"药","pinyin":"yào","meaning":"thuốc","emoji":"💊"},{"hanzi":"一点儿","pinyin":"yì diǎnr","meaning":"một chút, một ít","emoji":"🤏"},{"hanzi":"有点儿","pinyin":"yǒu diǎnr","meaning":"hơi, có chút","emoji":"🤏"},{"hanzi":"雨","pinyin":"yǔ","meaning":"mưa","emoji":"🌧️"},{"hanzi":"这里","pinyin":"zhè li","meaning":"ở đây, chỗ này","emoji":"📍"},{"hanzi":"再","pinyin":"zài","meaning":"lại, nữa, thêm lần nữa","emoji":"🔄"}]}},"13":{"title":"Bài 13","sub":"Cho tôi một cốc trà (请给我一杯茶)","parts":{"part1":"Phần 1 (10 từ)","part2":"Phần 2 (10 từ)","all":"Tất cả (20 từ)"},"dataset":{"part1":[{"hanzi":"杯","pinyin":"bēi","meaning":"cái cốc, ly","emoji":"🥤"},{"hanzi":"茶","pinyin":"chá","meaning":"trà, chè","emoji":"🍵"},{"hanzi":"打电话","pinyin":"dǎ diàn huà","meaning":"gọi điện thoại, gọi vào số máy","emoji":"📞"},{"hanzi":"服务员","pinyin":"fúwùyuán","meaning":"nhân viên phục vụ, phục vụ viên","emoji":"🧑‍💼"},{"hanzi":"给","pinyin":"gěi","meaning":"cho, đưa cho","emoji":"🎁"},{"hanzi":"鸡蛋","pinyin":"jī dàn","meaning":"trứng gà","emoji":"🥚"},{"hanzi":"可以","pinyin":"kě yǐ","meaning":"có thể","emoji":"✅"},{"hanzi":"面包","pinyin":"miàn bāo","meaning":"bánh mì","emoji":"🍞"},{"hanzi":"卖","pinyin":"mài","meaning":"bán","emoji":"💰"},{"hanzi":"女士","pinyin":"nǚ shì","meaning":"quý bà","emoji":"👩"}],"part2":[{"hanzi":"请","pinyin":"qǐng","meaning":"mời, xin","emoji":"🙏"},{"hanzi":"问题","pinyin":"wèn tí","meaning":"vấn đề, câu hỏi","emoji":"❓"},{"hanzi":"先生","pinyin":"xiān sheng","meaning":"ông, ngài","emoji":"👨"},{"hanzi":"要","pinyin":"yào","meaning":"muốn","emoji":"✋"},{"hanzi":"一半","pinyin":"yī bàn","meaning":"một nửa","emoji":"½"},{"hanzi":"一下","pinyin":"yī xià","meaning":"một lát; một chút","emoji":"👇"},{"hanzi":"这个","pinyin":"zhè ge","meaning":"cái này","emoji":"👇"},{"hanzi":"坐","pinyin":"zuò","meaning":"ngồi","emoji":"🪑"},{"hanzi":"再","pinyin":"zài","meaning":"lại, nữa, thêm lần nữa","emoji":"🔄"},{"hanzi":"早饭","pinyin":"zǎo fàn","meaning":"bữa sáng","emoji":"🥐"}]}},"14":{"title":"Bài 14","sub":"Tôi đã xem một bộ phim (我看了一个电影)","parts":{"part1":"Phần 1 (13 từ)","part2":"Phần 2 (14 từ)","all":"Tất cả (27 từ)"},"dataset":{"part1":[{"hanzi":"不要","pinyin":"bù yào","meaning":"không","emoji":"🚫"},{"hanzi":"都","pinyin":"dōu","meaning":"đều, tất cả, toàn bộ","emoji":"👥"},{"hanzi":"火车","pinyin":"huǒ chē","meaning":"tàu hỏa, tàu lửa","emoji":"🚂"},{"hanzi":"汉语","pinyin":"hàn yǔ","meaning":"tiếng Trung (ngôn ngữ)","emoji":"🇨🇳"},{"hanzi":"汉字","pinyin":"hàn zì","meaning":"chữ Hán","emoji":"🈯"},{"hanzi":"开","pinyin":"kāi","meaning":"mở ra, bật; nở (hoa); bắt đầu; nấu sôi","emoji":"🔓"},{"hanzi":"了","pinyin":"le","meaning":"rồi, đã; trợ từ chỉ hành động đã hoàn thành hoặc tình huống đã thay đổi","emoji":"✅"},{"hanzi":"明年","pinyin":"míng nián","meaning":"năm sau","emoji":"📅"},{"hanzi":"哪些","pinyin":"nǎ xiē","meaning":"những nào, cái nào","emoji":"❓"},{"hanzi":"说话","pinyin":"shuō huà","meaning":"nói chuyện, phát biểu","emoji":"💬"},{"hanzi":"上","pinyin":"shàng","meaning":"trên, lên","emoji":"⬆️"},{"hanzi":"上学","pinyin":"shàng xué","meaning":"đi học","emoji":"🏫"},{"hanzi":"他们","pinyin":"tā men","meaning":"họ (ngôi thứ 3 số nhiều)","emoji":"👥"}],"part2":[{"hanzi":"它们","pinyin":"tā men","meaning":"chúng","emoji":"📦"},{"hanzi":"她们","pinyin":"tā men","meaning":"các cô ấy, các chị ấy","emoji":"👩‍👩‍👧"},{"hanzi":"听","pinyin":"tīng","meaning":"nghe, lắng nghe","emoji":"👂"},{"hanzi":"听见","pinyin":"tīng jiàn","meaning":"nghe thấy","emoji":"👂"},{"hanzi":"晚","pinyin":"wǎn","meaning":"muộn; tối","emoji":"🌙"},{"hanzi":"写","pinyin":"xiě","meaning":"viết, chép","emoji":"✍️"},{"hanzi":"小学","pinyin":"xiǎo xué","meaning":"tiểu học, trường tiểu học","emoji":"🏫"},{"hanzi":"小学生","pinyin":"xiǎo xué shēng","meaning":"học sinh tiểu học","emoji":"🎒"},{"hanzi":"有的","pinyin":"yǒu de","meaning":"một số","emoji":"🔢"},{"hanzi":"有些","pinyin":"yǒu xiē","meaning":"một số","emoji":"🔢"},{"hanzi":"中午","pinyin":"zhōng wǔ","meaning":"buổi trưa","emoji":"🕛"},{"hanzi":"中学","pinyin":"zhōng xué","meaning":"trung học","emoji":"🏫"},{"hanzi":"中学生","pinyin":"zhōng xué shēng","meaning":"học sinh trung học","emoji":"🎒"},{"hanzi":"字","pinyin":"zì","meaning":"chữ (chữ viết), ký tự, từ","emoji":"🔤"}]}},"15":{"title":"Bài 15","sub":"Hẹn gặp ở sân bay Đại Hưng! (大兴机场见！)","parts":{"part1":"Phần 1 (9 từ)","part2":"Phần 2 (10 từ)","all":"Tất cả (19 từ)"},"dataset":{"part1":[{"hanzi":"北京","pinyin":"Běi jīng","meaning":"Bắc Kinh","emoji":"🏛️"},{"hanzi":"飞机","pinyin":"fēi jī","meaning":"máy bay","emoji":"✈️"},{"hanzi":"好玩儿","pinyin":"hǎo wánr","meaning":"vui, thú vị","emoji":"😄"},{"hanzi":"家人","pinyin":"jiā rén","meaning":"người nhà, thành viên gia đình","emoji":"👨‍👩‍👧‍👦"},{"hanzi":"接","pinyin":"jiē","meaning":"đón, tiếp đón; nối tiếp, tiếp theo; tiếp nhận","emoji":"🤝"},{"hanzi":"机场","pinyin":"jī chǎng","meaning":"sân bay","emoji":"✈️"},{"hanzi":"几","pinyin":"jǐ","meaning":"mấy, bao nhiêu; vài","emoji":"🔢"},{"hanzi":"年","pinyin":"nián","meaning":"năm; tuổi; niên đại","emoji":"📅"},{"hanzi":"那","pinyin":"nà","meaning":"đó","emoji":"👉"}],"part2":[{"hanzi":"男朋友","pinyin":"nán péng you","meaning":"bạn trai","emoji":"💕"},{"hanzi":"哪个","pinyin":"nǎ ge","meaning":"cái nào","emoji":"❓"},{"hanzi":"去年","pinyin":"qù nián","meaning":"năm ngoái","emoji":"📅"},{"hanzi":"时间","pinyin":"shí jiān","meaning":"thời gian","emoji":"⏰"},{"hanzi":"小时","pinyin":"xiǎo shí","meaning":"giờ","emoji":"⏱️"},{"hanzi":"西安","pinyin":"Xī'ān","meaning":"Tây An","emoji":"🏯"},{"hanzi":"要","pinyin":"yào","meaning":"muốn","emoji":"✋"},{"hanzi":"住","pinyin":"zhù","meaning":"ở, cư trú, dừng lại","emoji":"🏠"},{"hanzi":"早","pinyin":"zǎo","meaning":"sớm, buổi sáng","emoji":"🌅"},{"hanzi":"爱","pinyin":"ài","meaning":"yêu, thích","emoji":"❤️"}]}}};
+
+let currentLesson = null;
+let currentPart = null;
+let currentMode = null;
+let vocabulary = [];
+let currentIndex = 0;
+let isAnswered = false;
+let showPinyin = false;
+let showOptionLabels = false;
+let emojiMode = false;
+const stageSize = 5;
+
+/* ===== PET SYSTEM ===== */
+// Nhiều dòng tiến hóa khác nhau – mỗi lần chơi bài mới sẽ random 1 dòng
+const PET_EVOLUTION_LINES = [
+    { name: 'Thiên nga', forms: ['🥚', '🦆', '🦢', '🦩'] },
+    { name: 'Khủng long', forms: ['🥚', '🐢', '🦕', '🦖'] },
+    { name: 'Rồng ếch', forms: ['🥚', '🐸', '🦎', '🐉'] },
+    { name: 'Gấu', forms: ['🥚', '🐭', '🐹', '🐻'] },
+    { name: 'Tê giác', forms: ['🥚', '🐷', '🐗', '🦏'] },
+    { name: 'Sói', forms: ['🥚', '🐰', '🦊', '🐺'] },
+    { name: 'Nhện', forms: ['🥚', '🐜', '🦂', '🕷️'] },
+    { name: 'Tên lửa', forms: ['🥚', '🔥', '🌋', '🚀'] },
+    { name: 'Băng', forms: ['🥚', '💧', '🌊', '🧊'] },
+    { name: 'Robot', forms: ['🥚', '🔋', '💡', '🤖'] },
+    { name: 'UFO', forms: ['🥚', '🚗', '🏎️', '🛸'] },
+    { name: 'Game', forms: ['🥚', '🎮', '🕹️', '👾'] },
+    { name: 'Chim', forms: ['🥚', '🐣', '🐥', '🐦'] },
+    { name: 'Cá voi', forms: ['🥚', '🐟', '🦈', '🐳'] },
+    { name: 'Cây', forms: ['🥚', '🌰', '🌱', '🌳'] },
+    { name: 'Chó', forms: ['🥚', '🐾', '🐶', '🐕'] },
+    { name: 'Poodle', forms: ['🥚', '🐾', '🐶', '🐩'] },
+    { name: 'Chó cứu hộ', forms: ['🥚', '🐾', '🐶', '🐕‍🦺'] },
+    { name: 'Ốc sên', forms: ['🥚', '🐚', '🐌'] },
+    { name: 'Cá sấu', forms: ['🥚', '🦎', '🐍', '🐊'] },
+    { name: 'Rượu', forms: ['🥚', '🍇', '🍷', '🍾'] },
+    { name: 'Thời gian', forms: ['🥚', '⏳', '⏰', '⌚', '📱'] },
+    { name: 'Vũ trụ', forms: ['🥚', '☄️', '💥', '🌑'] },
+    { name: 'Bướm', forms: ['🥚', '🐛', '🦋'] },
+    { name: 'Ong', forms: ['🥚', '🦟', '🐝'] },
+    { name: 'Lốc xoáy', forms: ['🥚', '💨', '🌀', '🌪️'] },
+    { name: 'Linh trưởng', forms: ['🥚', '🦦', '🦥', '🦧'] }
+];
+
+let currentPetLine = PET_EVOLUTION_LINES[0];
+let petLevel = 0;
+let petShotCount = 0;
+let petIsFlying = false;
+const PET_FLY_THRESHOLD = 7;
+let evolutionTriggers = []; // các chặng (1-based) sẽ tiến hóa
+
+function pickRandomPetLine() {
+    currentPetLine = PET_EVOLUTION_LINES[Math.floor(Math.random() * PET_EVOLUTION_LINES.length)];
+}
+
+/** Tính các chặng sẽ tiến hóa, phân bố đều.
+ * Ví dụ: 7 chặng + 3 evolve → [2,4,6]
+ *         9 chặng + 3 evolve → [2,5,8]
+ */
+function calcEvolutionTriggers(totalStages, maxEvolves) {
+    const n = Math.min(maxEvolves, Math.max(0, totalStages - 1));
+    if (n <= 0 || totalStages < 2) return [];
+    if (n === 1) return [Math.max(1, totalStages - 1)];
+
+    const first = Math.min(2, totalStages - 1);
+    const last = totalStages - 1;
+    const step = (last - first) / (n - 1);
+    const set = new Set();
+    for (let i = 0; i < n; i++) {
+        let s = Math.round(first + i * step);
+        if (s < 1) s = 1;
+        if (s > totalStages) s = totalStages;
+        set.add(s);
+    }
+    return Array.from(set).sort((a, b) => a - b);
+}
+
+function updatePetDisplay() {
+    const petEl = document.getElementById('pet');
+    const labelEl = document.getElementById('pet-stage-label');
+    if (!petEl || !labelEl) return;
+    const forms = currentPetLine.forms;
+    const form = forms[Math.min(petLevel, forms.length - 1)];
+    petEl.textContent = form;
+    labelEl.textContent = `Lv.${petLevel} · ${currentPetLine.name}`;
+}
+
+function evolvePet() {
+    const maxLevel = currentPetLine.forms.length - 1;
+    if (petLevel < maxLevel) {
+        petLevel++;
+        updatePetDisplay();
+        const msg = document.getElementById('pet-msg');
+        if (msg) {
+            msg.textContent = petLevel >= maxLevel ? 'MAX! 🌟' : 'Tiến hóa! ✨';
+            setTimeout(() => { msg.textContent = ''; }, 1800);
+        }
+        const petEl = document.getElementById('pet');
+        if (petEl && !petIsFlying) {
+            petEl.classList.remove('pet-idle', 'pet-bounce');
+            void petEl.offsetWidth;
+            petEl.classList.add('pet-bounce');
+            setTimeout(() => {
+                petEl.classList.remove('pet-bounce');
+                petEl.classList.add('pet-idle');
+            }, 500);
+        }
+    }
+}
+
+function shootPet() {
+    if (petIsFlying) return;
+    const petEl = document.getElementById('pet');
+    if (!petEl) return;
+
+    petShotCount++;
+    const msg = document.getElementById('pet-msg');
+
+    if (petShotCount >= PET_FLY_THRESHOLD) {
+        // Bị bắn văng lên trời
+        petIsFlying = true;
+        petEl.classList.remove('pet-idle', 'pet-bounce');
+        petEl.classList.add('pet-fly');
+        if (msg) msg.textContent = 'Bị bắn bay! 💥';
+
+        // Animation fly 0.95s rồi chuyển sang rơi ngay
+        setTimeout(() => {
+            petEl.classList.remove('pet-fly');
+            petEl.classList.add('pet-fall');
+            if (msg) msg.textContent = 'Rớt bịch! 😵';
+
+            setTimeout(() => {
+                petEl.classList.remove('pet-fall');
+                petEl.classList.add('pet-idle');
+                petIsFlying = false;
+                petShotCount = 0;
+                if (msg) msg.textContent = '';
+            }, 1150); // khớp với pet-fall 1.1s
+        }, 950); // khớp với pet-fly 0.95s
+    } else {
+        // Chỉ nhún
+        petEl.classList.remove('pet-idle', 'pet-bounce');
+        void petEl.offsetWidth;
+        petEl.classList.add('pet-bounce');
+        if (msg) {
+            const reactions = ['Á!', 'Đừng!', 'Ơ kìa', 'Nhún!', 'Hmm?', 'Đau nhẹ~', 'Hehe'];
+            msg.textContent = reactions[Math.floor(Math.random() * reactions.length)];
+            setTimeout(() => { if (!petIsFlying) msg.textContent = ''; }, 900);
+        }
+        setTimeout(() => {
+            if (!petIsFlying) {
+                petEl.classList.remove('pet-bounce');
+                petEl.classList.add('pet-idle');
+            }
+        }, 480);
+    }
+}
+
+function resetPetForNewQuiz() {
+    pickRandomPetLine();
+    petLevel = 0;
+    petShotCount = 0;
+    petIsFlying = false;
+    const petEl = document.getElementById('pet');
+    if (petEl) {
+        petEl.classList.remove('pet-fly', 'pet-fall', 'pet-bounce');
+        petEl.classList.add('pet-idle');
+    }
+    updatePetDisplay();
+    const msg = document.getElementById('pet-msg');
+    if (msg) msg.textContent = '';
+}
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function createLessonButtons() {
+    const container = document.getElementById('lesson-list');
+    container.innerHTML = '';
+    Object.keys(allLessons).sort((a,b) => +a - +b).forEach(lessonNum => {
+        const btn = document.createElement('button');
+        btn.textContent = `Bài ${lessonNum}`;
+        btn.onclick = () => selectLesson(parseInt(lessonNum));
+        container.appendChild(btn);
+    });
+}
+
+function selectLesson(lessonNum) {
+    currentLesson = lessonNum;
+    const lesson = allLessons[lessonNum];
+    document.getElementById('selected-lesson-title').textContent = `Bài ${lessonNum}`;
+    document.getElementById('lesson-sub').textContent = lesson.sub || '';
+    
+    const partList = document.getElementById('part-list');
+    partList.innerHTML = '';
+    
+    const parts = lesson.parts;
+    for (const [key, label] of Object.entries(parts)) {
+        if (key === 'all' || (lesson.dataset[key] && lesson.dataset[key].length > 0)) {
+            const btn = document.createElement('button');
+            btn.textContent = label;
+            btn.onclick = () => selectPart(key, label);
+            partList.appendChild(btn);
+        }
+    }
+    showScreen('part-screen');
+}
+
+function selectPart(partKey, partLabel) {
+    currentPart = { key: partKey, label: partLabel };
+    document.getElementById('mode-title').textContent = `Bài ${currentLesson} · ${partLabel}`;
+    
+    let count = 0;
+    if (partKey === 'all') {
+        const ds = allLessons[currentLesson].dataset;
+        if (ds.all) {
+            count = ds.all.length;
+        } else {
+            for (const k of Object.keys(ds)) {
+                if (k !== 'all') count += ds[k].length;
+            }
+        }
+    } else {
+        count = (allLessons[currentLesson].dataset[partKey] || []).length;
+    }
+    document.getElementById('mode-info').textContent = `Số từ: ${count}`;
+    showScreen('mode-screen');
+}
+
+function backToMenu() { showScreen('menu-screen'); }
+function backToParts() { showScreen('part-screen'); }
+
+function getPartData(lessonNum, partKey) {
+    const ds = allLessons[lessonNum].dataset;
+    if (partKey === 'all') {
+        if (ds.all) return ds.all;
+        let all = [];
+        for (const k of Object.keys(ds)) {
+            if (k !== 'all') all = all.concat(ds[k]);
+        }
+        return all;
+    }
+    return ds[partKey] || [];
+}
+
+function startQuiz(mode) {
+    currentMode = mode;
+    const raw = getPartData(currentLesson, currentPart.key);
+    
+    const seen = new Set();
+    vocabulary = [];
+    for (const item of raw) {
+        if (!seen.has(item.hanzi)) {
+            seen.add(item.hanzi);
+            vocabulary.push({
+                hanzi: item.hanzi,
+                pinyin: item.pinyin,
+                meaning: item.meaning,
+                emoji: item.emoji || '🃏'
+            });
+        }
+    }
+
+    if (mode === 'shuffle') {
+        for (let i = vocabulary.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [vocabulary[i], vocabulary[j]] = [vocabulary[j], vocabulary[i]];
+        }
+    }
+
+    if (vocabulary.length === 0) {
+        alert('Không có từ vựng trong phần này.');
+        return;
+    }
+
+    currentIndex = 0;
+    showPinyin = false;
+    document.getElementById('pinyin').style.display = 'none';
+    document.getElementById('toggle-btn').textContent = '👁️ Hiện Pinyin';
+    document.getElementById('toggle-btn').style.display = 'block';
+
+    resetPetForNewQuiz();
+
+    // Tính trước các chặng sẽ tiến hóa (phân bố đều)
+    const totalStages = Math.ceil(vocabulary.length / stageSize);
+    const maxEvolves = currentPetLine.forms.length - 1;
+    evolutionTriggers = calcEvolutionTriggers(totalStages, maxEvolves);
+
+    document.getElementById('lesson-num').textContent = currentLesson;
+    document.getElementById('part-label').textContent = currentPart.label;
+    document.getElementById('total').textContent = vocabulary.length;
+
+    showScreen('quiz-container');
+    loadQuestion();
+}
+
+function togglePinyin() {
+    showPinyin = !showPinyin;
+    const pinyinEl = document.getElementById('pinyin');
+    pinyinEl.style.display = showPinyin ? 'block' : 'none';
+    document.getElementById('toggle-btn').textContent = showPinyin ? '🙈 Ẩn Pinyin' : '👁️ Hiện Pinyin';
+}
+
+function toggleEmojiMode() {
+    emojiMode = !emojiMode;
+    const toggleEl = document.getElementById('emoji-toggle');
+    if (emojiMode) {
+        toggleEl.classList.add('on');
+        document.body.classList.add('emoji-mode');
+    } else {
+        toggleEl.classList.remove('on');
+        document.body.classList.remove('emoji-mode');
+    }
+    // Refresh current options if in quiz
+    if (document.getElementById('quiz-container').classList.contains('active') && vocabulary.length) {
+        loadQuestion();
+    }
+}
+
+let isDarkTheme = false;
+function toggleTheme() {
+    isDarkTheme = !isDarkTheme;
+    const toggleEl = document.getElementById('theme-toggle');
+    const labelEl = document.getElementById('theme-label');
+    if (isDarkTheme) {
+        document.body.classList.add('dark');
+        toggleEl.classList.add('on');
+        if (labelEl) labelEl.textContent = '☀️ Sáng';
+    } else {
+        document.body.classList.remove('dark');
+        toggleEl.classList.remove('on');
+        if (labelEl) labelEl.textContent = '🌙 Tối';
+    }
+}
+
+function updateStageInfo() {
+    const stage = Math.floor(currentIndex / stageSize) + 1;
+    const totalStages = Math.ceil(vocabulary.length / stageSize);
+    const start = Math.floor(currentIndex / stageSize) * stageSize + 1;
+    const end = Math.min(start + stageSize - 1, vocabulary.length);
+    document.getElementById('stage-info').textContent =
+        `Chặng ${stage}/${totalStages} (từ ${start}–${end})`;
+}
+
+function loadQuestion() {
+    isAnswered = false;
+    const currentWord = vocabulary[currentIndex];
+    
+    document.getElementById('current').textContent = currentIndex + 1;
+    document.getElementById('hanzi').textContent = currentWord.hanzi;
+    document.getElementById('pinyin').textContent = currentWord.pinyin;
+    document.getElementById('result').textContent = '';
+    updateStageInfo();
+    
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+
+    let wrongPool = vocabulary.filter(w => w.hanzi !== currentWord.hanzi);
+    if (wrongPool.length < 3) {
+        const allInLesson = getPartData(currentLesson, 'all');
+        const extra = allInLesson.filter(w => 
+            w.hanzi !== currentWord.hanzi && 
+            !wrongPool.some(x => x.hanzi === w.hanzi)
+        );
+        wrongPool = wrongPool.concat(extra);
+    }
+    for (let i = wrongPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [wrongPool[i], wrongPool[j]] = [wrongPool[j], wrongPool[i]];
+    }
+    
+    // Build answer objects: {display, key}
+    const correctKey = emojiMode ? currentWord.emoji : currentWord.meaning;
+    const wrongAnswers = wrongPool.slice(0, 3).map(w => emojiMode ? w.emoji : w.meaning);
+
+    let answers = [
+        { key: correctKey, display: correctKey },
+        ...wrongAnswers.map(a => ({ key: a, display: a }))
+    ];
+    for (let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+
+    const optionLabels = ['一、', '二、', '三、', '四、'];
+    answers.forEach((ans, idx) => {
+        const btn = document.createElement('button');
+        btn.dataset.key = ans.key;
+        btn.textContent = showOptionLabels ? (optionLabels[idx] + ans.display) : ans.display;
+        btn.onclick = () => checkAnswer(ans.key, correctKey, btn);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, button) {
+    if (isAnswered) return;
+    isAnswered = true;
+
+    const buttons = document.querySelectorAll('#options button');
+    buttons.forEach(btn => {
+        const key = btn.dataset.key;
+        if (key === correct) {
+            btn.classList.add('correct');
+        } else if (key === selected && selected !== correct) {
+            btn.classList.add('wrong');
+        }
+        btn.disabled = true;
+    });
+
+    const resultDiv = document.getElementById('result');
+    if (selected === correct) {
+        resultDiv.textContent = "✓ Đúng rồi!";
+        resultDiv.style.color = "#58cc02";
+        
+        setTimeout(() => {
+            currentIndex++;
+            // Tiến hóa chỉ khi hoàn thành đúng các chặng đã tính sẵn (phân bố đều)
+            if (currentIndex > 0 && currentIndex % stageSize === 0) {
+                const finishedStage = currentIndex / stageSize; // 1-based
+                if (evolutionTriggers.includes(finishedStage)) {
+                    evolvePet();
+                }
+            }
+            if (currentIndex < vocabulary.length) {
+                loadQuestion();
+            } else {
+                // Hoàn thành cả phần: nếu vẫn chưa max (quiz quá ngắn) thì tiến hóa nốt 1 lần
+                if (petLevel < currentPetLine.forms.length - 1) {
+                    evolvePet();
+                }
+                finishQuiz();
+            }
+        }, 300);
+    } else {
+        resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
+        resultDiv.style.color = "#ff4b4b";
+        
+        const currentStageStart = Math.floor(currentIndex / stageSize) * stageSize;
+        currentIndex = currentStageStart;
+        
+        setTimeout(() => {
+            loadQuestion();
+        }, 300);
+    }
+}
+
+function toggleOptionLabels() {
+    showOptionLabels = !showOptionLabels;
+    const toggleEl = document.getElementById('label-toggle');
+    if (showOptionLabels) {
+        toggleEl.classList.add('on');
+    } else {
+        toggleEl.classList.remove('on');
+    }
+    const buttons = document.querySelectorAll('#options button');
+    if (buttons.length > 0) {
+        const optionLabels = ['一、', '二、', '三、', '四、'];
+        buttons.forEach((btn, idx) => {
+            const key = btn.dataset.key;
+            if (key) {
+                btn.textContent = showOptionLabels ? (optionLabels[idx] + key) : key;
+            }
+        });
+    }
+}
+
+function finishQuiz() {
+    document.getElementById('hanzi').innerHTML = `
+        <div style="font-size:56px; line-height:1.2;">🎉</div>
+        <div style="font-size:28px; font-weight:800; margin-top:8px; color:#3c3c3c;">Hoàn thành!</div>
+        <div style="font-size:16px; margin-top:10px; font-weight:600; color:#777;">
+            Bạn đã học xong<br>Bài ${currentLesson} · ${currentPart.label}
+        </div>
+    `;
+    document.getElementById('pinyin').style.display = 'none';
+    document.getElementById('toggle-btn').style.display = 'none';
+    document.getElementById('stage-info').textContent = '';
+    document.getElementById('result').textContent = '';
+    document.getElementById('options').innerHTML = `
+        <button onclick="restartCurrentQuiz()" class="mode-btn" style="width:100%; max-width:none; grid-column:1/-1; margin-bottom:10px;">
+            🔄 Chơi lại phần này
+        </button>
+        <button onclick="backToParts()" style="width:100%; grid-column:1/-1; background:#7c5cfc; color:#fff; border-color:#6d4de0; border-bottom-color:#6d4de0;">
+            ← Chọn phần khác
+        </button>
+    `;
+}
+
+function restartCurrentQuiz() {
+    currentIndex = 0;
+    document.getElementById('toggle-btn').style.display = 'block';
+    if (currentMode === 'shuffle') {
+        for (let i = vocabulary.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [vocabulary[i], vocabulary[j]] = [vocabulary[j], vocabulary[i]];
+        }
+    }
+    loadQuestion();
+}
+
+function exitQuiz() {
+    document.getElementById('toggle-btn').style.display = 'block';
+    showScreen('menu-screen');
+}
+
+window.onload = () => {
+    createLessonButtons();
+    updatePetDisplay();
+};
+</script>
+
+
+<div id="emojiSwitcherOptions" class="emojiSwitcheroptions emojiSwitcherHidden" style="display: none;"><!-- Start of floating menu -->
+	<div id="emojiSwitcherContainer"><div id="emojiSwitcherSizeChanger">
+	 <b id="emojiSwitcherLabel">Size adj:</b>&nbsp;&nbsp; <input id="emojiSwitcherNewSize" type="number" step="1" value="1" style="font-family: emojeeeeee, emojiiiiii, Arial;"></div>
+	 <select name="emojiSets" id="emojiSets">
+		<optgroup label="[ʟᴀᴛᴇꜱᴛ]" disabled=""></optgroup>
+		<option value="1">&nbsp;&nbsp; Noto Color Emoji</option>
+		<option value="2">&nbsp;&nbsp; Twemoji </option>
+		<option value="3">&nbsp;&nbsp; Blobmoji</option>
+		<option value="4">&nbsp;&nbsp; OpenMoji</option>
+		<option value="5">&nbsp;&nbsp; Fluent Emoji</option>
+		<optgroup label="[ᴍᴏɴᴏᴄʜʀᴏᴍᴇ]" disabled=""></optgroup>
+		<option value="6">&nbsp;&nbsp; Noto Emoji Mono</option>
+		<option value="7">&nbsp;&nbsp; OpenMoji Black</option>
+		<option value="8">&nbsp;&nbsp; OpenSans+Noto</option>
+		<option value="9">&nbsp;&nbsp; Fluent Emoji Mono</option>
+		<optgroup label="[ᴄʟᴀꜱꜱɪᴄ]" disabled=""></optgroup>
+		<option value="10">&nbsp;&nbsp; EmojiTwo</option>
+		<optgroup label="[Sʏsᴛᴇᴍ]" disabled=""></optgroup>
+		<option value="11">&nbsp;&nbsp; System default</option>
+	 </select>
+	 <button id="emojiSwitcherButton" data-title="Convert all visible emojis">Emojify!</button>
+	 <button id="disableButton" data-title="View the current page without the extension">View original</button>
+	 <button id="gotoOptionsPage" data-title="Make changes persistent">Go to options</button>
+	 <button id="readHelp" data-title="Read the help file">Read help</button>
+	 <div id="emojiSwitcherWarning">Changes made from this popup are temporary and only affect the current tab. </div>
+	 <div id="emojiSwitcherClose">×</div>
+	</div></div></body></html>

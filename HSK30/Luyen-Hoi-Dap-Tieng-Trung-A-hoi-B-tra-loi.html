@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Hỏi Đáp Tiếng Trung • A hỏi B trả lời</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        :root { --tw-color-primary: #e63939; }
+        body { font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif; }
+        .chinese-text { font-family: 'Noto Sans SC', sans-serif; }
+
+        .lesson-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .lesson-card:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 20px 25px -5px rgb(230 57 57 / 0.1); }
+
+        .big-emoji { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.19.0/dist/index.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen">
+    <!-- FLOATING BUTTON - Quay về mục lục -->
+    <a href="https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/INTENSE-Md2-muc-luc.html" 
+       style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+              background: #ef4444; color: white; width: 60px; height: 60px; 
+              border-radius: 50%; display: flex; align-items: center; 
+              justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+              text-decoration: none; transition: all 0.3s;">
+        ←
+    </a>
+
+    <!-- HEADER -->
+    <div class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-600 text-white rounded-2xl flex items-center justify-center text-3xl shadow-inner">🇨🇳</div>
+                <div>
+                    <h1 class="text-2xl font-bold text-red-600 tracking-tight">Luyện Hỏi Đáp</h1>
+                    <p class="text-xs text-red-500 -mt-1 font-medium">Tiếng Trung • A hỏi - B trả lời</p>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span>🎤</span>
+                        <select id="voiceType" class="px-3 py-1 border rounded-xl text-sm">
+                            <option value="female">👩 Giọng nữ</option>
+                            <option value="male">👨 Giọng nam</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="header-info" class="items-center gap-2 text-sm font-medium hidden">
+                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-3xl text-xs flex items-center gap-1">
+                    <span id="current-bai" class="font-bold">Đã chọn 1 bài <span class="text-red-400 mx-2">•</span> 3 câu</span>
+                </span>
+                <button onclick="backToHome()" class="flex items-center gap-1 text-red-600 hover:text-red-700 transition-colors">
+                    ← Quay về chọn bài
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 pb-8">
+
+        <!-- HOME VIEW -->
+        <div id="home-view" class="">
+            <div class="pt-8 pb-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-800 mb-2">Chọn bài học để luyện</h2>
+                <p class="text-red-600 text-lg">15 bài • Câu hỏi giao tiếp cơ bản</p>
+            </div>
+            
+            <div class="text-center mb-8">
+                <button onclick="enterMultiSelectMode()" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-3xl text-lg shadow-lg hover:brightness-110 transition">
+                    📋 Luyện tập chọn bài (nhiều bài)
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="lesson-grid"></div>
+        </div>
+
+        <!-- MULTI SELECT VIEW -->
+        <div id="multi-select-view" class="hidden">
+            <div class="pt-8 pb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Chọn các bài muốn luyện</h2>
+                    <button onclick="exitMultiSelectMode()" class="text-red-600 hover:text-red-700 font-medium">✕ Đóng</button>
+                </div>
+                
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4" id="multi-lesson-grid"></div>
+            </div>
+
+            <div class="mt-6 w-full">
+                <button onclick="startMultiPractice()" id="btn-start-multi" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50" disabled>
+                    🚀 BẮT ĐẦU TỰ LUYỆN TẬP (<span id="selected-count">0</span> bài)
+                </button>
+            </div>
+        </div>
+
+        <!-- PRACTICE VIEW -->
+        <div id="practice-view" class="hidden">
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                    <h3 class="text-lg font-semibold text-gray-700">Các câu hỏi của bài này</h3>
+                    <div class="flex gap-2 flex-wrap">
+                        <button onclick="startAutoPractice()" class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            🔄 Tự luyện tập
+                        </button>
+                        <button onclick="startManualPractice()" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl flex items-center gap-2 hover:brightness-110 font-medium">
+                            👆 Tự luyện tập thủ công
+                        </button>
+                        <button onclick="randomQuestion()" class="px-5 py-2 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50">
+                            🎲 Ngẫu nhiên
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="mini-questions"></div>
+            </div>
+
+            <!-- Main Area -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 min-h-[420px] flex flex-col" id="question-container">
+                <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center">
+                    <div class="text-8xl mb-6">🎲</div>
+                    <h3 class="text-3xl font-bold text-gray-300">Sẵn sàng luyện chưa?</h3>
+                </div>
+
+                <div id="active-question" class="flex-1 flex flex-col hidden">
+                    <div class="flex justify-center">
+                        <div id="big-emoji" class="big-emoji text-8xl mb-6">🙋</div>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h2 id="question-text" class="chinese-text text-4xl leading-tight font-medium text-gray-800"></h2>
+                    </div>
+                    <div class="text-center text-red-500 text-sm mb-8 flex items-center justify-center gap-3">
+                        👦 A hỏi <span class="text-2xl">📣</span> 👧 B trả lời
+                    </div>
+                    <div class="text-center mb-6">
+                        <button onclick="repeatQuestion()" class="px-5 py-3 bg-white border border-red-200 text-red-600 rounded-3xl flex items-center gap-2 hover:bg-red-50 mx-auto">
+                            🔊 Nghe lại câu hỏi
+                        </button>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button onclick="toggleAnswer()" id="btn-show-answer" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium py-5 rounded-3xl text-xl shadow-lg">
+                            👀 Hiện đáp án mẫu
+                        </button>
+                        <div id="answer-box" class="hidden mt-6 bg-green-50 border border-green-200 rounded-3xl p-6">
+                            <p id="answer-text-content" class="chinese-text text-3xl leading-snug font-medium text-green-800"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Status -->
+            <div id="auto-status" class="hidden mt-6 text-center">
+                <div class="inline-flex items-center gap-3 bg-white border border-green-300 rounded-3xl px-6 py-3">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span id="auto-text" class="font-medium text-green-700">Đang tự luyện tập...</span>
+                    <button onclick="stopAutoPractice()" class="text-red-500 hover:text-red-700 font-medium ml-4">Dừng</button>
+                </div>
+            </div>
+
+            <div id="manual-status" class="mt-6 text-center hidden">
+                <div class="inline-flex items-center gap-3 bg-white border rounded-3xl px-6 py-3">
+                    <span class="font-medium text-blue-700">👆 Chế độ tự luyện tập thủ công</span>
+                    <button onclick="nextManualQuestion()" class="px-4 py-2 bg-blue-600 text-white rounded-full">➡️ Tiếp theo</button>
+                    <button onclick="stopManualPractice()" class="text-red-500 font-medium">Dừng</button>
+                </div>
+            </div>
+
+            <div class="mt-6 w-full">
+                <button onclick="randomQuestion()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-6 rounded-3xl shadow-2xl flex items-center justify-center gap-4">
+                    🎲 LẤY CÂU HỎI NGẪU NHIÊN TIẾP THEO 🎲
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const lessons = [
+            {
+                id: 1,
+                title: "Bài 1",
+                pairs: [
+                    {q: "你好！", a: "你好！", emoji: "👋"},
+                    {q: "谢谢！", a: "不客气！", emoji: "🙏"},
+                    {q: "大家好！", a: "大家好！", emoji: "👥"},
+                    {q: "再见！", a: "再见！", emoji: "👋"}
+                ]
+            },
+            {
+                id: 2,
+                title: "Bài 2",
+                pairs: [
+                    {q: "请问，你叫什么名字？", a: "我叫……。", emoji: "🙋"},
+                    {q: "对不起", a: "没关系。", emoji: "🙏"}
+                ]
+            },
+            {
+                id: 3,
+                title: "Bài 3",
+                pairs: [
+                    {q: "你是哪国人？", a: "我是越南人。", emoji: "🇻🇳"},
+                    {q: "你工作忙吗？", a: "我工作很忙／不太忙。", emoji: "💼"},
+                    {q: "你是老师吗？", a: "是／不是。我是学生。", emoji: "👨‍🏫"}
+                ]
+            },
+            {
+                id: 4,
+                title: "Bài 4",
+                pairs: [
+                    {q: "你家有几口人？", a: "我家有……口人。", emoji: "👨‍👩‍👧‍👦"},
+                    {q: "你有姐姐吗？", a: "有／没有。", emoji: "👧"},
+                    {q: "你有哥哥吗？", a: "有／没有。", emoji: "👦"}
+                ]
+            },
+            {
+                id: 5,
+                title: "Bài 5",
+                pairs: [
+                    {q: "今天几号？", a: "今天……号。", emoji: "📅"},
+                    {q: "今天星期几？", a: "今天星期……。", emoji: "📆"},
+                    {q: "你会做什么？", a: "我会……。", emoji: "🛠️"}
+                ]
+            },
+            {
+                id: 6,
+                title: "Bài 6",
+                pairs: [
+                    {q: "你的手机号是多少？", a: "我的手机号是……。", emoji: "📱"},
+                    {q: "你想去哪儿？", a: "我想去……。", emoji: "🗺️"},
+                    {q: "去超市，你怎么去？", a: "我坐公交车／骑车／走路去。", emoji: "🛒"}
+                ]
+            },
+            {
+                id: 7,
+                title: "Bài 7",
+                pairs: [
+                    {q: "现在几点？", a: "现在……点。", emoji: "⏰"},
+                    {q: "我想去看电影，你去吗？", a: "好啊／我去／我不去。", emoji: "🎬"},
+                    {q: "我想去看电影，你呢？", a: "我也想去／我不想去。", emoji: "🎥"}
+                ]
+            },
+            {
+                id: 8,
+                title: "Bài 8",
+                pairs: [
+                    {q: "你现在在哪儿？", a: "我现在在……。", emoji: "📍"},
+                    {q: "下午两点你能到学校吗？", a: "能／不能。", emoji: "🏫"}
+                ]
+            },
+            {
+                id: 9,
+                title: "Bài 9",
+                pairs: [
+                    {q: "你明天上午在哪儿？", a: "我明天上午在……。", emoji: "🌅"},
+                    {q: "我们七点在电影院见面，好吗？", a: "好／不好，换个时间吧。", emoji: "🤝"},
+                    {q: "你星期六做什么？", a: "我星期六……。", emoji: "📅"}
+                ]
+            },
+            {
+                id: 10,
+                title: "Bài 10",
+                pairs: [
+                    {q: "你有杯子吗？", a: "有／没有。", emoji: "🥤"},
+                    {q: "多少钱一个杯子？", a: "……元一个。", emoji: "💰"},
+                    {q: "你想买什么？", a: "我想买……。", emoji: "🛍️"},
+                    {q: "这件衣服一百元，怎么样？", a: "太贵了／还可以／很便宜。", emoji: "👕"}
+                ]
+            },
+            {
+                id: 11,
+                title: "Bài 11",
+                pairs: [
+                    {q: "你什么时候到饭店？", a: "我……点到饭店。", emoji: "🍽️"},
+                    {q: "你还在读大学吗？", a: "还在读／已经毕业了。", emoji: "🎓"},
+                    {q: "你忙不忙？", a: "很忙／不太忙。", emoji: "😓"}
+                ]
+            },
+            {
+                id: 12,
+                title: "Bài 12",
+                pairs: [
+                    {q: "今天天气怎么样？", a: "今天天气很好／下雨了／很热。", emoji: "🌤️"},
+                    {q: "你生病了？", a: "是的，我生病了／没有。", emoji: "🤒"},
+                    {q: "医生，我很冷！", a: "你量一下体温吧。", emoji: "🩺"}
+                ]
+            },
+            {
+                id: 13,
+                title: "Bài 13",
+                pairs: [
+                    {q: "我可以问你一个问题吗？", a: "可以，请问。", emoji: "❓"},
+                    {q: "你想喝什么？", a: "我想喝……。", emoji: "🥤"},
+                    {q: "请问，您要吃什么？", a: "我要……。", emoji: "🍜"}
+                ]
+            },
+            {
+                id: 14,
+                title: "Bài 14",
+                pairs: [
+                    {q: "你会写汉字吗？", a: "会／不会／会一点儿。", emoji: "✍️"},
+                    {q: "你和你朋友都会说汉语吗？", a: "都会／我朋友会，我不会。", emoji: "🗣️"},
+                    {q: "上学后，你忙不忙？", a: "很忙／不太忙。", emoji: "📚"}
+                ]
+            },
+            {
+                id: 15,
+                title: "Bài 15",
+                pairs: [
+                    {q: "你爱吃哪个菜？", a: "我爱吃……。", emoji: "🍲"},
+                    {q: "中国菜，好吃吗？", a: "很好吃／还可以。", emoji: "🥢"},
+                    {q: "前几年，你去了哪里？", a: "我去了……。", emoji: "✈️"},
+                    {q: "飞机到北京，要几个小时？", a: "大概……个小时。", emoji: "🛫"}
+                ]
+            }
+        ];
+
+        let currentLesson = null;
+        let currentPair = null;
+        let isAutoPlaying = false;
+        let autoTimeout = null;
+        let isManualPractice = false;
+        let manualQueue = [];
+        
+        let selectedLessons = [];
+        let isMultiSelectMode = false;
+
+        let femaleVoice = null;
+        let maleVoice = null;
+     
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const chineseVoices = voices.filter(v => v.lang.startsWith('zh'));
+
+            femaleVoice =
+                chineseVoices.find(v =>
+                    v.name.toLowerCase().includes('xiaoxiao') ||
+                    v.name.toLowerCase().includes('huihui') ||
+                    v.name.toLowerCase().includes('female') ||
+                    v.name.toLowerCase().includes('tingting')
+                ) || chineseVoices[0] || null;
+
+            maleVoice =
+                chineseVoices.find(v =>
+                    v.name.toLowerCase().includes('kangkang') ||
+                    v.name.toLowerCase().includes('yunyang') ||
+                    v.name.toLowerCase().includes('male')
+                ) || chineseVoices[1] || femaleVoice;
+        }
+       
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            u.rate = 0.85;
+            u.pitch = 1.0;
+
+            const mode = document.getElementById('voiceType')?.value || 'female';
+            if (mode === 'male' && maleVoice) {
+                u.voice = maleVoice;
+            } else if (femaleVoice) {
+                u.voice = femaleVoice;
+            }
+            speechSynthesis.speak(u);
+        }
+
+        function repeatQuestion() {
+            if (!currentPair) return;
+            speechSynthesis.cancel();
+            setTimeout(() => speak(currentPair.q), 100);
+        }
+
+        function renderLessonGrid() {
+            const grid = document.getElementById('lesson-grid');
+            grid.innerHTML = '';
+            lessons.forEach(lesson => {
+                const card = document.createElement('div');
+                card.className = "lesson-card bg-white border border-red-100 rounded-3xl p-6 text-center cursor-pointer";
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">${lesson.pairs.length} câu hỏi</div>
+                `;
+                card.onclick = () => selectLesson(lesson.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function enterMultiSelectMode() {
+            isMultiSelectMode = true;
+            selectedLessons = [];
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.remove('hidden');
+            renderMultiLessonGrid();
+            updateStartButton();
+        }
+
+        function exitMultiSelectMode() {
+            isMultiSelectMode = false;
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+        }
+
+        function renderMultiLessonGrid() {
+            const grid = document.getElementById('multi-lesson-grid');
+            grid.innerHTML = '';
+            lessons.forEach(lesson => {
+                const isSelected = selectedLessons.some(l => l.id === lesson.id);
+                const card = document.createElement('div');
+                card.className = `lesson-card border-2 rounded-3xl p-6 text-center cursor-pointer transition-all ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-red-200'}`;
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${lesson.pairs[0].emoji}</div>
+                    <div class="font-bold text-3xl text-red-600 mb-1">${lesson.title}</div>
+                    <div class="text-xs text-gray-400">${lesson.pairs.length} câu hỏi</div>
+                `;
+                card.onclick = () => toggleLessonSelection(lesson);
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleLessonSelection(lesson) {
+            const index = selectedLessons.findIndex(l => l.id === lesson.id);
+            if (index === -1) {
+                selectedLessons.push(lesson);
+            } else {
+                selectedLessons.splice(index, 1);
+            }
+            renderMultiLessonGrid();
+            updateStartButton();
+        }
+
+        function updateStartButton() {
+            const count = selectedLessons.length;
+            document.getElementById('selected-count').textContent = count;
+            document.getElementById('btn-start-multi').disabled = count === 0;
+        }
+
+        function startMultiPractice() {
+            if (selectedLessons.length === 0) return;
+            const allPairs = [];
+            selectedLessons.forEach(lesson => {
+                allPairs.push(...lesson.pairs);
+            });
+            currentLesson = {
+                id: 999,
+                title: `Đã chọn ${selectedLessons.length} bài`,
+                pairs: allPairs
+            };
+            exitMultiSelectMode();
+            selectLesson(999);
+        }
+
+        function selectLesson(id) {
+            if (id !== 999) {
+                currentLesson = lessons.find(l => l.id === id);
+            }
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('practice-view').classList.remove('hidden');
+            document.getElementById('header-info').classList.remove('hidden');
+            document.getElementById('header-info').classList.add('flex');
+            
+            document.getElementById('current-bai').innerHTML = `${currentLesson.title} <span class="text-red-400 mx-2">•</span> ${currentLesson.pairs.length} câu`;
+            
+            renderMiniQuestions();
+            showEmptyState();
+        }
+
+        function renderMiniQuestions() {
+            const container = document.getElementById('mini-questions');
+            container.innerHTML = '';
+            currentLesson.pairs.forEach(pair => {
+                const div = document.createElement('div');
+                div.className = "bg-white border border-red-100 rounded-2xl p-4 text-center cursor-pointer hover:border-red-300";
+                div.innerHTML = `<div class="text-4xl mb-3">${pair.emoji}</div><p class="chinese-text text-sm font-medium">${pair.q}</p>`;
+                div.onclick = () => { currentPair = pair; showActiveQuestion(); };
+                container.appendChild(div);
+            });
+        }
+
+        function showEmptyState() {
+            document.getElementById('active-question').classList.add('hidden');
+            document.getElementById('empty-state').classList.remove('hidden');
+        }
+
+        function showActiveQuestion() {
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('active-question').classList.remove('hidden');
+            document.getElementById('big-emoji').innerHTML = currentPair.emoji;
+            document.getElementById('question-text').innerHTML = currentPair.q;
+            document.getElementById('answer-box').classList.add('hidden');
+            document.getElementById('btn-show-answer').textContent = '👀 Hiện đáp án mẫu';
+        }
+
+        function randomQuestion() {
+            if (!currentLesson) return;
+            currentPair = currentLesson.pairs[Math.floor(Math.random() * currentLesson.pairs.length)];
+            showActiveQuestion();
+            speak(currentPair.q);
+        }
+
+        async function toggleAnswer() {
+            const box = document.getElementById('answer-box');
+            const btn = document.getElementById('btn-show-answer');
+            if (!currentPair) return;
+
+            if (!box.classList.contains('hidden')) {
+                box.classList.add('hidden');
+                btn.textContent = '👀 Hiện đáp án mẫu';
+                return;
+            }
+
+            box.classList.remove('hidden');
+            btn.textContent = '👀 Ẩn đáp án';
+
+            const answerText = document.getElementById('answer-text-content');
+            answerText.innerHTML = `
+                <strong>Đáp án mẫu:</strong><br>
+                <span class="chinese-text">${currentPair.a}</span>
+            `;
+
+            const oldPinyin = box.querySelector('.pinyin-container');
+            if (oldPinyin) oldPinyin.remove();
+
+            const pinyinContainer = document.createElement('div');
+            pinyinContainer.className = 'pinyin-container';
+            pinyinContainer.style.marginTop = '16px';
+            pinyinContainer.style.padding = '14px';
+            pinyinContainer.style.backgroundColor = '#f0fdf4';
+            pinyinContainer.style.borderRadius = '12px';
+            pinyinContainer.style.border = '1px solid #86efac';
+
+            try {
+                if (typeof window.pinyinPro === 'undefined') {
+                    throw new Error('Pinyin library not loaded');
+                }
+                const pinyinResult = window.pinyinPro.pinyin(currentPair.q, {
+                    toneType: 'tone',
+                    type: 'array'
+                }).join(' ');
+
+                pinyinContainer.innerHTML = `
+                    <strong>🔊 Pinyin câu hỏi:</strong><br>
+                    <span style="font-size: 1.15em; color: #166534; font-family: monospace;">${pinyinResult}</span>
+                `;
+            } catch (e) {
+                pinyinContainer.innerHTML = `
+                    <strong>🔊 Pinyin câu hỏi:</strong><br>
+                    <span style="color: #ef4444;">Không lấy được pinyin. Thư viện chưa tải xong.</span>
+                `;
+            }
+            box.appendChild(pinyinContainer);
+        }
+
+        function startAutoPractice() {
+            if (!currentLesson || isAutoPlaying) return;
+            isAutoPlaying = true;
+            document.getElementById('auto-status').classList.remove('hidden');
+
+            let queue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+
+            function playNext() {
+                if (!isAutoPlaying || queue.length === 0) {
+                    stopAutoPractice();
+                    return;
+                }
+                currentPair = queue.shift();
+                showActiveQuestion();
+                speak(currentPair.q);
+                autoTimeout = setTimeout(playNext, 8000);
+            }
+            playNext();
+        }
+
+        function stopAutoPractice() {
+            isAutoPlaying = false;
+            if (autoTimeout) clearTimeout(autoTimeout);
+            speechSynthesis.cancel();
+            document.getElementById('auto-status').classList.add('hidden');
+        }
+
+        function startManualPractice() {
+            if (!currentLesson) return;
+            stopAutoPractice();
+            stopManualPractice();
+            isManualPractice = true;
+            manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            document.getElementById('manual-status').classList.remove('hidden');
+            nextManualQuestion();
+        }
+
+        function nextManualQuestion() {
+            if (!isManualPractice) return;
+            if (manualQueue.length === 0) {
+                manualQueue = [...currentLesson.pairs].sort(() => Math.random() - 0.5);
+            }
+            currentPair = manualQueue.shift();
+            showActiveQuestion();
+            speak(currentPair.q);
+        }
+
+        function stopManualPractice() {
+            isManualPractice = false;
+            manualQueue = [];
+            document.getElementById('manual-status').classList.add('hidden');
+        }
+
+        function backToHome() {
+            stopAutoPractice();
+            stopManualPractice();
+            document.getElementById('practice-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('multi-select-view').classList.add('hidden');
+            document.getElementById('header-info').classList.add('hidden');
+            document.getElementById('header-info').classList.remove('flex');
+        }
+
+        window.onload = () => {
+            renderLessonGrid();
+            loadVoices();
+            speechSynthesis.onvoiceschanged = () => loadVoices();
+        };
+    </script>
+</body>
+</html>
