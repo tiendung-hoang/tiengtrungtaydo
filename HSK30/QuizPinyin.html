@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Quiz-Md2-PinyinTuVung-Pet.html -->
+<!-- saved from url=(0070)https://tiendung-hoang.github.io/tiengtrungtaydo/HSK30/QuizPinyin.html -->
 <html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,6 +113,8 @@ button:hover {
     white-space: normal;
     min-height: 60px;
     font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 .result {
     font-size: 24px;
@@ -311,7 +313,7 @@ button:hover {
     
     <!-- Pet companion (fixed right) -->
     <div id="pet-area">
-        <div id="pet-stage-label">Lv.0 · Ong</div>
+        <div id="pet-stage-label">Lv.0 · Thiên nga</div>
         <div id="pet" class="pet-idle" style="font-family: emojeeeeee, emojiiiiii, &quot;Segoe UI&quot;, Arial, &quot;Noto Sans&quot;, sans-serif;">🥚</div>
         <button id="pet-shoot-btn" onclick="shootPet()" title="Bắn pet!" style="font-family: emojeeeeee, emojiiiiii, Arial;">🔫</button>
         <div id="pet-msg"></div>
@@ -321,9 +323,9 @@ button:hover {
         <h1 style="font-family: emojeeeeee, emojiiiiii, &quot;Segoe UI&quot;, Arial, &quot;Noto Sans&quot;, sans-serif;">Quiz Pinyin Từ Vựng Tiếng Trung - HSK1 (15 Bài)</h1>
         <div class="subtitle">16 bài học · Hán tự → Chọn Pinyin đúng</div>
 
-        <div id="menu-screen" class="screen">
+        <div id="menu-screen" class="screen active">
             <h2 style="text-align:center; margin-bottom:16px;">Chọn bài học</h2>
-            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button><button>Bài 16</button></div>
+            <div class="lessons" id="lesson-list"><button>Bài 1</button><button>Bài 2</button><button>Bài 3</button><button>Bài 4</button><button>Bài 5</button><button>Bài 6</button><button>Bài 7</button><button>Bài 8</button><button>Bài 9</button><button>Bài 10</button><button>Bài 11</button><button>Bài 12</button><button>Bài 13</button><button>Bài 14</button><button>Bài 15</button></div>
         </div>
 
         <div id="part-screen" class="screen">
@@ -344,20 +346,20 @@ button:hover {
             <button class="back-btn" onclick="backToParts()">← Quay lại chọn phần</button>
         </div>
 
-        <div id="quiz-container" class="screen active">
+        <div id="quiz-container" class="screen">
             <div class="progress">
                 Bài <span id="lesson-num">1</span> · 
                 <span id="part-label">Tất cả (45 từ)</span> · 
-                Câu <span id="current">2</span>/<span id="total">45</span>
+                Câu <span id="current">1</span>/<span id="total">0</span>
             </div>
-            <div class="stage-info" id="stage-info">Chặng 1/9 (từ 1–5)</div>
+            <div class="stage-info" id="stage-info"></div>
             
-            <div class="hanzi" id="hanzi">當然</div>
-            <div class="meaning" id="meaning" style="display: block;">đương nhiên, tất nhiên (Adv)</div>
-            <button class="toggle-btn" id="toggle-btn" onclick="toggleMeaning()" style="display: block; font-family: emojeeeeee, emojiiiiii, Arial;">🙈 Ẩn Nghĩa</button>
+            <div class="hanzi" id="hanzi"></div>
+            <div class="meaning" id="meaning" style="display: none;"></div>
+            <button class="toggle-btn" id="toggle-btn" onclick="toggleMeaning()" style="display: none; font-family: emojeeeeee, emojiiiiii, Arial;">👁️ Hiện Nghĩa</button>
             
-            <div class="result" id="result" style="color: rgb(74, 222, 128);"></div>
-            <div class="options" id="options"><button data-meaning="hàipà">hàipà</button><button data-meaning="yàofáng">yàofáng</button><button data-meaning="yúkuài">yúkuài</button><button data-meaning="dāngrán">dāngrán</button></div>
+            <div class="result" id="result"></div>
+            <div class="options" id="options"></div>
 
             <button class="back-btn" onclick="exitQuiz()" style="width:100%; margin-top:24px;">
                 ← Thoát quiz
@@ -684,7 +686,11 @@ function loadQuestion() {
     updateStageInfo();
     
     const optionsDiv = document.getElementById('options');
+    // Xóa sạch + force reflow để tránh hiện tượng "đáp án cũ in mờ" trên mobile
     optionsDiv.innerHTML = '';
+    optionsDiv.style.opacity = '0';
+    void optionsDiv.offsetHeight; // force reflow
+    optionsDiv.style.opacity = '1';
 
     let wrongPool = vocabulary.filter(w => 
         w.hanzi !== currentWord.hanzi && 
@@ -725,6 +731,9 @@ function loadQuestion() {
         btn.dataset.meaning = answer;
         btn.textContent = showOptionLabels ? (optionLabels[idx] + answer) : answer;
         btn.onclick = () => checkAnswer(answer, currentWord.pinyin, btn);
+        // Đảm bảo trạng thái sạch (không bị dính style active/hover từ lần chạm trước)
+        btn.className = '';
+        btn.disabled = false;
         optionsDiv.appendChild(btn);
     });
 }
@@ -742,6 +751,9 @@ function checkAnswer(selected, correct, button) {
             btn.classList.add('wrong');
         }
         btn.disabled = true;
+        // Reset transform/active visual ngay để tránh residual trên mobile
+        btn.style.transform = 'none';
+        btn.style.borderBottomWidth = '';
     });
 
     document.getElementById('meaning').textContent = vocabulary[currentIndex].meaning;
@@ -770,7 +782,7 @@ function checkAnswer(selected, correct, button) {
                 }
                 finishQuiz();
             }
-        }, 300);
+        }, 450);
     } else {
         resultDiv.textContent = "✕ Sai rồi! Quay lại đầu chặng.";
         resultDiv.style.color = "#f87171";
@@ -780,7 +792,7 @@ function checkAnswer(selected, correct, button) {
         
         setTimeout(() => {
             loadQuestion();
-        }, 300);
+        }, 450);
     }
 }
 
@@ -845,6 +857,7 @@ function exitQuiz() {
 window.onload = () => {
     createLessonButtons();
     updatePetDisplay();
+    showScreen('menu-screen');
 };
 </script>
 
@@ -875,4 +888,5 @@ window.onload = () => {
 	 <button id="readHelp" data-title="Read the help file">Read help</button>
 	 <div id="emojiSwitcherWarning">Changes made from this popup are temporary and only affect the current tab. </div>
 	 <div id="emojiSwitcherClose">×</div>
-	</div></div></body></html>
+	</div></div>
+</body></html>
