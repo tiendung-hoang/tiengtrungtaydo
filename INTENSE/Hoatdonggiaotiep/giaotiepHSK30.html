@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<!-- saved from url=(0099)https://tiendung-hoang.github.io/tiengtrungtaydo/INTENSE/Hoatdonggiaotiep/GiaoTiepMSUTONG-SC-1.html -->
+<html lang="zh-Hant"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>交际练习｜新版</title>
+  <style>
+    @font-face {
+      font-family: 'ToneOZ Pinyin Kai';
+      src: url('ToneOZ-Pinyin-Kai-Simplified.ttf') format('truetype');
+      font-display: swap;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #a5b4fc;
+      --primary-soft: #eef2ff;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+
+      --bg: #f0f4ff;
+      --bg-gradient: linear-gradient(180deg, #eef2ff 0%, #f8fafc 40%, #f1f5f9 100%);
+      --card: #ffffff;
+      --text: #1e1b4b;
+      --muted: #64748b;
+      --border: #e0e7ff;
+      --success: #22c55e;
+      --success-bg: #f0fdf4;
+      --success-border: #bbf7d0;
+      --warning: #f59e0b;
+      --warning-dark: #d97706;
+
+      --lesson-shadow: #c7d2fe;
+      --answer-shadow: #86efac;
+      --compare-bg: linear-gradient(135deg, #fefce8, #fef9c3);
+      --compare-border: #facc15;
+      --compare-shadow: #fde047;
+      --compare-text: #854d0e;
+      --shake-bg: #fef3c7;
+      --shake-border: #fde68a;
+      --shake-text: #92400e;
+      --select-arrow: %236366f1;
+      --select-shadow: #e0e7ff;
+
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(99, 102, 241, 0.08);
+      --shadow-md: 0 6px 20px rgba(99, 102, 241, 0.12);
+      --shadow-lg: 0 10px 30px rgba(99, 102, 241, 0.15);
+      --shadow-btn: 0 4px 0 #4f46e5;
+      --shadow-btn-active: 0 1px 0 #4f46e5;
+
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body.theme-dark {
+      --primary: #818cf8;
+      --primary-dark: #6366f1;
+      --primary-light: #a5b4fc;
+      --primary-soft: #312e81;
+      --primary-glow: rgba(129, 140, 248, 0.3);
+
+      --bg: #0f172a;
+      --bg-gradient: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --success: #4ade80;
+      --success-bg: #14532d;
+      --success-border: #166534;
+      --warning: #fbbf24;
+      --warning-dark: #f59e0b;
+
+      --lesson-shadow: #1e1b4b;
+      --answer-shadow: #14532d;
+      --compare-bg: linear-gradient(135deg, #422006, #713f12);
+      --compare-border: #a16207;
+      --compare-shadow: #78350f;
+      --compare-text: #fde68a;
+      --shake-bg: #422006;
+      --shake-border: #a16207;
+      --shake-text: #fde68a;
+      --select-arrow: %23a5b4fc;
+      --select-shadow: #1e293b;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+      --shadow-btn: 0 4px 0 #4338ca;
+      --shadow-btn-active: 0 1px 0 #4338ca;
+    }
+
+    body.mode-kai {
+      --font-main: 'ToneOZ Pinyin Kai', "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      background-image: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 60px;
+      transition: font-family 0.25s ease, background 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .top-controls {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.92);
+    }
+
+    .lang-switcher {
+      display: flex;
+      background: var(--card);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+
+    .lang-btn {
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: none;
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .lang-btn:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 0 20px;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid var(--border);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .lesson-btn {
+      background: var(--card);
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 10px;
+      text-align: center;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      color: var(--text);
+      font-family: inherit;
+      white-space: pre-line;
+      box-shadow: 0 3px 0 var(--lesson-shadow);
+      line-height: 1.35;
+    }
+
+    .lesson-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 var(--lesson-shadow);
+    }
+
+    .lesson-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+      box-shadow: 0 3px 0 var(--primary-dark);
+    }
+
+    .lesson-btn.selected:active {
+      box-shadow: 0 1px 0 var(--primary-dark);
+      transform: translateY(2px);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .role-btn {
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      background: var(--card);
+      box-shadow: 0 4px 0 var(--lesson-shadow);
+    }
+
+    .role-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--lesson-shadow);
+    }
+
+    .role-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 4px 0 var(--primary-dark);
+    }
+
+    .role-btn.selected:active {
+      box-shadow: 0 1px 0 var(--primary-dark);
+      transform: translateY(3px);
+    }
+
+    .role-btn .emoji {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+    }
+
+    .role-btn .label {
+      font-weight: 800;
+      font-size: 1.08rem;
+      color: var(--text);
+    }
+
+    .role-btn .desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      font-family: inherit;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-btn);
+      margin-top: 8px;
+    }
+
+    .btn-primary:disabled {
+      background: var(--primary-light);
+      box-shadow: 0 4px 0 var(--primary);
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .btn-primary:not(:disabled):active {
+      transform: translateY(3px);
+      box-shadow: var(--shadow-btn-active);
+    }
+
+    .btn-random {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      font-size: 1.2rem;
+      padding: 18px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 5px 0 #d97706;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .btn-random:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #d97706;
+    }
+
+    .question-item {
+      margin-bottom: 24px;
+    }
+
+    .question-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .q-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-right: 10px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 0 var(--primary-dark);
+    }
+
+    .q-text {
+      font-weight: 700;
+      font-size: 1.08rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2.5px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: var(--card);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%236366f1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      color: var(--text);
+      font-family: inherit;
+      box-shadow: 0 2px 0 var(--select-shadow);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;
+    }
+
+    body.theme-dark select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%23a5b4fc' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow), 0 2px 0 var(--primary);
+    }
+
+    .answer-card {
+      background: var(--success-bg);
+      border: 2.5px solid var(--success-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 0 var(--answer-shadow);
+      transition: transform 0.12s ease;
+    }
+
+    .answer-card:active {
+      transform: scale(0.985);
+    }
+
+    .answer-card .q {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .answer-card .a {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--success);
+      line-height: 1.35;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 6px 0;
+      padding-right: 170px;
+    }
+
+    .back-btn {
+      background: var(--card);
+      border: 2px solid var(--border);
+      color: var(--primary);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 0 var(--lesson-shadow);
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 var(--lesson-shadow);
+    }
+
+    .lesson-tag {
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 800;
+      border: 2px solid var(--border);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .shake-hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: -4px;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .shake-hint span {
+      background: var(--shake-bg);
+      padding: 3px 10px;
+      border-radius: 8px;
+      color: var(--shake-text);
+      font-weight: 700;
+      border: 1.5px solid var(--shake-border);
+    }
+
+    .compare-box {
+      background: var(--compare-bg);
+      border: 2.5px dashed var(--compare-border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      text-align: center;
+      margin-top: 22px;
+      box-shadow: 0 4px 0 var(--compare-shadow);
+    }
+
+    .compare-box p {
+      font-size: 0.95rem;
+      color: var(--compare-text);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 28px;
+      font-weight: 600;
+      background: var(--card);
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+
+    #empty-hint {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 16px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+<style id="emojiSwitcherStyleB">@font-face { font-family: 'emojeeeeee'; size-adjust: 101%; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/the-emoji-guy/Emoji-Swap@main/fonts/TwemojiMozilla-Regular.woff2') format('woff2'); ; line-gap-override: 100%; margin-top: 1px; unicode-range: U+1F004, U+1F0CF, U+1F170, U+1F171, U+1F17E, U+1F17F, U+1F18E, U+1F191, U+1F192, U+1F193, U+1F194, U+1F195, U+1F196, U+1F197, U+1F198, U+1F199, U+1F19A, U+1F1E6, U+1F1E7, U+1F1E8, U+1F1E9, U+1F1EA, U+1F1EB, U+1F1EC, U+1F1ED, U+1F1EE, U+1F1EF, U+1F1F0, U+1F1F1, U+1F1F2, U+1F1F3, U+1F1F4, U+1F1F5, U+1F1F6, U+1F1F7, U+1F1F8, U+1F1F9, U+1F1FA, U+1F1FB, U+1F1FC, U+1F1FD, U+1F1FE, U+1F1FF, U+1F201, U+1F202, U+1F21A, U+1F22F, U+1F232, U+1F233, U+1F234, U+1F235, U+1F236, U+1F237, U+1F238, U+1F239, U+1F23A, U+1F250, U+1F251, U+1F300, U+1F301, U+1F302, U+1F303, U+1F304, U+1F305, U+1F306, U+1F307, U+1F308, U+1F309, U+1F30A, U+1F30B, U+1F30C, U+1F30D, U+1F30E, U+1F30F, U+1F310, U+1F311, U+1F312, U+1F313, U+1F314, U+1F315, U+1F316, U+1F317, U+1F318, U+1F319, U+1F31A, U+1F31B, U+1F31C, U+1F31D, U+1F31E, U+1F31F, U+1F320, U+1F321, U+1F324, U+1F325, U+1F326, U+1F327, U+1F328, U+1F329, U+1F32A, U+1F32B, U+1F32C, U+1F32D, U+1F32E, U+1F32F, U+1F330, U+1F331, U+1F332, U+1F333, U+1F334, U+1F335, U+1F336, U+1F337, U+1F338, U+1F339, U+1F33A, U+1F33B, U+1F33C, U+1F33D, U+1F33E, U+1F33F, U+1F340, U+1F341, U+1F342, U+1F343, U+1F344, U+1F345, U+1F346, U+1F347, U+1F348, U+1F349, U+1F34A, U+1F34B, U+1F34C, U+1F34D, U+1F34E, U+1F34F, U+1F350, U+1F351, U+1F352, U+1F353, U+1F354, U+1F355, U+1F356, U+1F357, U+1F358, U+1F359, U+1F35A, U+1F35B, U+1F35C, U+1F35D, U+1F35E, U+1F35F, U+1F360, U+1F361, U+1F362, U+1F363, U+1F364, U+1F365, U+1F366, U+1F367, U+1F368, U+1F369, U+1F36A, U+1F36B, U+1F36C, U+1F36D, U+1F36E, U+1F36F, U+1F370, U+1F371, U+1F372, U+1F373, U+1F374, U+1F375, U+1F376, U+1F377, U+1F378, U+1F379, U+1F37A, U+1F37B, U+1F37C, U+1F37D, U+1F37E, U+1F37F, U+1F380, U+1F381, U+1F382, U+1F383, U+1F384, U+1F385, U+1F386, U+1F387, U+1F388, U+1F389, U+1F38A, U+1F38B, U+1F38C, U+1F38D, U+1F38E, U+1F38F, U+1F390, U+1F391, U+1F392, U+1F393, U+1F396, U+1F397, U+1F399, U+1F39A, U+1F39B, U+1F39E, U+1F39F, U+1F3A0, U+1F3A1, U+1F3A2, U+1F3A3, U+1F3A4, U+1F3A5, U+1F3A6, U+1F3A7, U+1F3A8, U+1F3A9, U+1F3AA, U+1F3AB, U+1F3AC, U+1F3AD, U+1F3AE, U+1F3AF, U+1F3B0, U+1F3B1, U+1F3B2, U+1F3B3, U+1F3B4, U+1F3B5, U+1F3B6, U+1F3B7, U+1F3B8, U+1F3B9, U+1F3BA, U+1F3BB, U+1F3BC, U+1F3BD, U+1F3BE, U+1F3BF, U+1F3C0, U+1F3C1, U+1F3C2, U+1F3C3, U+1F3C4, U+1F3C5, U+1F3C6, U+1F3C7, U+1F3C8, U+1F3C9, U+1F3CA, U+1F3CB, U+1F3CC, U+1F3CD, U+1F3CE, U+1F3CF, U+1F3D0, U+1F3D1, U+1F3D2, U+1F3D3, U+1F3D4, U+1F3D5, U+1F3D6, U+1F3D7, U+1F3D8, U+1F3D9, U+1F3DA, U+1F3DB, U+1F3DC, U+1F3DD, U+1F3DE, U+1F3DF, U+1F3E0, U+1F3E1, U+1F3E2, U+1F3E3, U+1F3E4, U+1F3E5, U+1F3E6, U+1F3E7, U+1F3E8, U+1F3E9, U+1F3EA, U+1F3EB, U+1F3EC, U+1F3ED, U+1F3EE, U+1F3EF, U+1F3F, U+1F3F0, U+1F3F3, U+1F3F4, U+1F3F5, U+1F3F7, U+1F3F8, U+1F3F9, U+1F3FA, U+1F3FB, U+1F3FC, U+1F3FD, U+1F3FE, U+1F3FF, U+1F400, U+1F401, U+1F402, U+1F403, U+1F404, U+1F405, U+1F406, U+1F407, U+1F408, U+1F409, U+1F40A, U+1F40B, U+1F40C, U+1F40D, U+1F40E, U+1F40F, U+1F410, U+1F411, U+1F412, U+1F413, U+1F414, U+1F415, U+1F416, U+1F417, U+1F418, U+1F419, U+1F41A, U+1F41B, U+1F41C, U+1F41D, U+1F41E, U+1F41F, U+1F420, U+1F421, U+1F422, U+1F423, U+1F424, U+1F425, U+1F426, U+1F427, U+1F428, U+1F429, U+1F42A, U+1F42B, U+1F42C, U+1F42D, U+1F42E, U+1F42F, U+1F430, U+1F431, U+1F432, U+1F433, U+1F434, U+1F435, U+1F436, U+1F437, U+1F438, U+1F439, U+1F43A, U+1F43B, U+1F43C, U+1F43D, U+1F43E, U+1F43F, U+1F440, U+1F441, U+1F442, U+1F443, U+1F444, U+1F445, U+1F446, U+1F447, U+1F448, U+1F449, U+1F44A, U+1F44B, U+1F44C, U+1F44D, U+1F44E, U+1F44F, U+1F450, U+1F451, U+1F452, U+1F453, U+1F454, U+1F455, U+1F456, U+1F457, U+1F458, U+1F459, U+1F45A, U+1F45B, U+1F45C, U+1F45D, U+1F45E, U+1F45F, U+1F460, U+1F461, U+1F462, U+1F463, U+1F464, U+1F465, U+1F466, U+1F467, U+1F468, U+1F469, U+1F46A, U+1F46B, U+1F46C, U+1F46D, U+1F46E, U+1F46F, U+1F470, U+1F471, U+1F472, U+1F473, U+1F474, U+1F475, U+1F476, U+1F477, U+1F478, U+1F479, U+1F47A, U+1F47B, U+1F47C, U+1F47D, U+1F47E, U+1F47F, U+1F480, U+1F481, U+1F482, U+1F483, U+1F484, U+1F485, U+1F486, U+1F487, U+1F488, U+1F489, U+1F48A, U+1F48B, U+1F48C, U+1F48D, U+1F48E, U+1F48F, U+1F490, U+1F491, U+1F492, U+1F493, U+1F494, U+1F495, U+1F496, U+1F497, U+1F498, U+1F499, U+1F49A, U+1F49B, U+1F49C, U+1F49D, U+1F49E, U+1F49F, U+1F4A0, U+1F4A1, U+1F4A2, U+1F4A3, U+1F4A4, U+1F4A5, U+1F4A6, U+1F4A7, U+1F4A8, U+1F4A9, U+1F4AA, U+1F4AB, U+1F4AC, U+1F4AD, U+1F4AE, U+1F4AF, U+1F4B0, U+1F4B1, U+1F4B2, U+1F4B3, U+1F4B4, U+1F4B5, U+1F4B6, U+1F4B7, U+1F4B8, U+1F4B9, U+1F4BA, U+1F4BB, U+1F4BC, U+1F4BD, U+1F4BE, U+1F4BF, U+1F4C0, U+1F4C1, U+1F4C2, U+1F4C3, U+1F4C4, U+1F4C5, U+1F4C6, U+1F4C7, U+1F4C8, U+1F4C9, U+1F4CA, U+1F4CB, U+1F4CC, U+1F4CD, U+1F4CE, U+1F4CF, U+1F4D0, U+1F4D1, U+1F4D2, U+1F4D3, U+1F4D4, U+1F4D5, U+1F4D6, U+1F4D7, U+1F4D8, U+1F4D9, U+1F4DA, U+1F4DB, U+1F4DC, U+1F4DD, U+1F4DE, U+1F4DF, U+1F4E0, U+1F4E1, U+1F4E2, U+1F4E3, U+1F4E4, U+1F4E5, U+1F4E6, U+1F4E7, U+1F4E8, U+1F4E9, U+1F4EA, U+1F4EB, U+1F4EC, U+1F4ED, U+1F4EE, U+1F4EF, U+1F4F0, U+1F4F1, U+1F4F2, U+1F4F3, U+1F4F4, U+1F4F5, U+1F4F6, U+1F4F7, U+1F4F8, U+1F4F9, U+1F4FA, U+1F4FB, U+1F4FC, U+1F4FD, U+1F4FF, U+1F500, U+1F501, U+1F502, U+1F503, U+1F504, U+1F505, U+1F506, U+1F507, U+1F508, U+1F509, U+1F50A, U+1F50B, U+1F50C, U+1F50D, U+1F50E, U+1F50F, U+1F510, U+1F511, U+1F512, U+1F513, U+1F514, U+1F515, U+1F516, U+1F517, U+1F518, U+1F519, U+1F51A, U+1F51B, U+1F51C, U+1F51D, U+1F51E, U+1F51F, U+1F520, U+1F521, U+1F522, U+1F523, U+1F524, U+1F525, U+1F526, U+1F527, U+1F528, U+1F529, U+1F52A, U+1F52B, U+1F52C, U+1F52D, U+1F52E, U+1F52F, U+1F530, U+1F531, U+1F532, U+1F533, U+1F534, U+1F535, U+1F536, U+1F537, U+1F538, U+1F539, U+1F53A, U+1F53B, U+1F53C, U+1F53D, U+1F549, U+1F54A, U+1F54B, U+1F54C, U+1F54D, U+1F54E, U+1F550, U+1F551, U+1F552, U+1F553, U+1F554, U+1F555, U+1F556, U+1F557, U+1F558, U+1F559, U+1F55A, U+1F55B, U+1F55C, U+1F55D, U+1F55E, U+1F55F, U+1F560, U+1F561, U+1F562, U+1F563, U+1F564, U+1F565, U+1F566, U+1F567, U+1F56F, U+1F570, U+1F573, U+1F574, U+1F575, U+1F576, U+1F577, U+1F578, U+1F579, U+1F57A, U+1F587, U+1F58A, U+1F58B, U+1F58C, U+1F58D, U+1F590, U+1F595, U+1F596, U+1F5A4, U+1F5A5, U+1F5A8, U+1F5B1, U+1F5B2, U+1F5BC, U+1F5C2, U+1F5C3, U+1F5C4, U+1F5D1, U+1F5D2, U+1F5D3, U+1F5DC, U+1F5DD, U+1F5DE, U+1F5E1, U+1F5E3, U+1F5E8, U+1F5EF, U+1F5F3, U+1F5FA, U+1F5FB, U+1F5FC, U+1F5FD, U+1F5FE, U+1F5FF, U+1F600, U+1F601, U+1F602, U+1F603, U+1F604, U+1F605, U+1F606, U+1F607, U+1F608, U+1F609, U+1F60A, U+1F60B, U+1F60C, U+1F60D, U+1F60E, U+1F60F, U+1F610, U+1F611, U+1F612, U+1F613, U+1F614, U+1F615, U+1F616, U+1F617, U+1F618, U+1F619, U+1F61A, U+1F61B, U+1F61C, U+1F61D, U+1F61E, U+1F61F, U+1F620, U+1F621, U+1F622, U+1F623, U+1F624, U+1F625, U+1F626, U+1F627, U+1F628, U+1F629, U+1F62A, U+1F62B, U+1F62C, U+1F62D, U+1F62E, U+1F62F, U+1F630, U+1F631, U+1F632, U+1F633, U+1F634, U+1F635, U+1F636, U+1F637, U+1F638, U+1F639, U+1F63A, U+1F63B, U+1F63C, U+1F63D, U+1F63E, U+1F63F, U+1F640, U+1F641, U+1F642, U+1F643, U+1F644, U+1F645, U+1F646, U+1F647, U+1F648, U+1F649, U+1F64A, U+1F64B, U+1F64C, U+1F64D, U+1F64E, U+1F64F, U+1F680, U+1F681, U+1F682, U+1F683, U+1F684, U+1F685, U+1F686, U+1F687, U+1F688, U+1F689, U+1F68A, U+1F68B, U+1F68C, U+1F68D, U+1F68E, U+1F68F, U+1F690, U+1F691, U+1F692, U+1F693, U+1F694, U+1F695, U+1F696, U+1F697, U+1F698, U+1F699, U+1F69A, U+1F69B, U+1F69C, U+1F69D, U+1F69E, U+1F69F, U+1F6A0, U+1F6A1, U+1F6A2, U+1F6A3, U+1F6A4, U+1F6A5, U+1F6A6, U+1F6A7, U+1F6A8, U+1F6A9, U+1F6AA, U+1F6AB, U+1F6AC, U+1F6AD, U+1F6AE, U+1F6AF, U+1F6B0, U+1F6B1, U+1F6B2, U+1F6B3, U+1F6B4, U+1F6B5, U+1F6B6, U+1F6B7, U+1F6B8, U+1F6B9, U+1F6BA, U+1F6BB, U+1F6BC, U+1F6BD, U+1F6BE, U+1F6BF, U+1F6C0, U+1F6C1, U+1F6C2, U+1F6C3, U+1F6C4, U+1F6C5, U+1F6CB, U+1F6CC, U+1F6CD, U+1F6CE, U+1F6CF, U+1F6D0, U+1F6D1, U+1F6D2, U+1F6D5, U+1F6D6, U+1F6D7, U+1F6DC, U+1F6DD, U+1F6DE, U+1F6DF, U+1F6E0, U+1F6E1, U+1F6E2, U+1F6E3, U+1F6E4, U+1F6E5, U+1F6E9, U+1F6EB, U+1F6EC, U+1F6F0, U+1F6F3, U+1F6F4, U+1F6F5, U+1F6F6, U+1F6F7, U+1F6F8, U+1F6F9, U+1F6FA, U+1F6FB, U+1F6FC, U+1F7E0, U+1F7E1, U+1F7E2, U+1F7E3, U+1F7E4, U+1F7E5, U+1F7E6, U+1F7E7, U+1F7E8, U+1F7E9, U+1F7EA, U+1F7EB, U+1F7F0, U+1F90C, U+1F90D, U+1F90E, U+1F90F, U+1F910, U+1F911, U+1F912, U+1F913, U+1F914, U+1F915, U+1F916, U+1F917, U+1F918, U+1F919, U+1F91A, U+1F91B, U+1F91C, U+1F91D, U+1F91E, U+1F91F, U+1F920, U+1F921, U+1F922, U+1F923, U+1F924, U+1F925, U+1F926, U+1F927, U+1F928, U+1F929, U+1F92A, U+1F92B, U+1F92C, U+1F92D, U+1F92E, U+1F92F, U+1F930, U+1F931, U+1F932, U+1F933, U+1F934, U+1F935, U+1F936, U+1F937, U+1F938, U+1F939, U+1F93A, U+1F93C, U+1F93D, U+1F93E, U+1F93F, U+1F940, U+1F941, U+1F942, U+1F943, U+1F944, U+1F945, U+1F947, U+1F948, U+1F949, U+1F94A, U+1F94B, U+1F94C, U+1F94D, U+1F94E, U+1F94F, U+1F950, U+1F951, U+1F952, U+1F953, U+1F954, U+1F955, U+1F956, U+1F957, U+1F958, U+1F959, U+1F95A, U+1F95B, U+1F95C, U+1F95D, U+1F95E, U+1F95F, U+1F960, U+1F961, U+1F962, U+1F963, U+1F964, U+1F965, U+1F966, U+1F967, U+1F968, U+1F969, U+1F96A, U+1F96B, U+1F96C, U+1F96D, U+1F96E, U+1F96F, U+1F970, U+1F971, U+1F972, U+1F973, U+1F974, U+1F975, U+1F976, U+1F977, U+1F978, U+1F979, U+1F97A, U+1F97B, U+1F97C, U+1F97D, U+1F97E, U+1F97F, U+1F980, U+1F981, U+1F982, U+1F983, U+1F984, U+1F985, U+1F986, U+1F987, U+1F988, U+1F989, U+1F98A, U+1F98B, U+1F98C, U+1F98D, U+1F98E, U+1F98F, U+1F990, U+1F991, U+1F992, U+1F993, U+1F994, U+1F995, U+1F996, U+1F997, U+1F998, U+1F999, U+1F99A, U+1F99B, U+1F99C, U+1F99D, U+1F99E, U+1F99F, U+1F9A0, U+1F9A1, U+1F9A2, U+1F9A3, U+1F9A4, U+1F9A5, U+1F9A6, U+1F9A7, U+1F9A8, U+1F9A9, U+1F9AA, U+1F9AB, U+1F9AC, U+1F9AD, U+1F9AE, U+1F9AF, U+1F9B0, U+1F9B1, U+1F9B2, U+1F9B3, U+1F9B4, U+1F9B5, U+1F9B6, U+1F9B7, U+1F9B8, U+1F9B9, U+1F9BA, U+1F9BB, U+1F9BC, U+1F9BD, U+1F9BE, U+1F9BF, U+1F9C0, U+1F9C1, U+1F9C2, U+1F9C3, U+1F9C4, U+1F9C5, U+1F9C6, U+1F9C7, U+1F9C8, U+1F9C9, U+1F9CA, U+1F9CB, U+1F9CC, U+1F9CD, U+1F9CE, U+1F9CF, U+1F9D0, U+1F9D1, U+1F9D2, U+1F9D3, U+1F9D4, U+1F9D5, U+1F9D6, U+1F9D7, U+1F9D8, U+1F9D9, U+1F9DA, U+1F9DB, U+1F9DC, U+1F9DD, U+1F9DE, U+1F9DF, U+1F9E0, U+1F9E1, U+1F9E2, U+1F9E3, U+1F9E4, U+1F9E5, U+1F9E6, U+1F9E7, U+1F9E8, U+1F9E9, U+1F9EA, U+1F9EB, U+1F9EC, U+1F9ED, U+1F9EE, U+1F9EF, U+1F9F0, U+1F9F1, U+1F9F2, U+1F9F3, U+1F9F4, U+1F9F5, U+1F9F6, U+1F9F7, U+1F9F8, U+1F9F9, U+1F9FA, U+1F9FB, U+1F9FC, U+1F9FD, U+1F9FE, U+1F9FF, U+1FA70, U+1FA71, U+1FA72, U+1FA73, U+1FA74, U+1FA75, U+1FA76, U+1FA77, U+1FA78, U+1FA79, U+1FA7A, U+1FA7B, U+1FA7C, U+1FA80, U+1FA81, U+1FA82, U+1FA83, U+1FA84, U+1FA85, U+1FA86, U+1FA87, U+1FA88, U+1FA90, U+1FA91, U+1FA92, U+1FA93, U+1FA94, U+1FA95, U+1FA96, U+1FA97, U+1FA98, U+1FA99, U+1FA9A, U+1FA9B, U+1FA9C, U+1FA9D, U+1FA9E, U+1FA9F, U+1FAA0, U+1FAA1, U+1FAA2, U+1FAA3, U+1FAA4, U+1FAA5, U+1FAA6, U+1FAA7, U+1FAA8, U+1FAA9, U+1FAAA, U+1FAAB, U+1FAAC, U+1FAAD, U+1FAAE, U+1FAAF, U+1FAB0, U+1FAB1, U+1FAB2, U+1FAB3, U+1FAB4, U+1FAB5, U+1FAB6, U+1FAB7, U+1FAB8, U+1FAB9, U+1FABA, U+1FABB, U+1FABC, U+1FABD, U+1FABF, U+1FAC0, U+1FAC1, U+1FAC2, U+1FAC3, U+1FAC4, U+1FAC5, U+1FACE, U+1FACF, U+1FAD0, U+1FAD1, U+1FAD2, U+1FAD3, U+1FAD4, U+1FAD5, U+1FAD6, U+1FAD7, U+1FAD8, U+1FAD9, U+1FADA, U+1FADB, U+1FAE0, U+1FAE1, U+1FAE2, U+1FAE3, U+1FAE4, U+1FAE5, U+1FAE6, U+1FAE7, U+1FAE8, U+1FAF0, U+1FAF1, U+1FAF2, U+1FAF3, U+1FAF4, U+1FAF5, U+1FAF6, U+1FAF7, U+1FAF8, U+200D, U+203C, U+2049, U+20E3, U+2122, U+2139, U+2194, U+2195, U+2196, U+2197, U+2198, U+2199, U+21A9, U+21AA, U+231A, U+231B, U+2328, U+23CF, U+23E9, U+23EA, U+23EB, U+23EC, U+23ED, U+23EE, U+23EF, U+23F0, U+23F1, U+23F2, U+23F3, U+23F8, U+23F9, U+23FA, U+24C2, U+25AA, U+25AB, U+25B6, U+25C0, U+25FB, U+25FC, U+25FD, U+25FE, U+2600, U+2601, U+2602, U+2603, U+2604, U+260E, U+2611, U+2614, U+2615, U+2618, U+261D, U+2620, U+2622, U+2623, U+2626, U+262A, U+262E, U+262F, U+2638, U+2639, U+263A, U+2640, U+2642, U+2648, U+2649, U+264A, U+264B, U+264C, U+264D, U+264E, U+264F, U+2650, U+2651, U+2652, U+2653, U+265F, U+2660, U+2663, U+2665, U+2666, U+2668, U+267B, U+267E, U+267F, U+2692, U+2693, U+2694, U+2695, U+2696, U+2697, U+2699, U+269B, U+269C, U+26A0, U+26A1, U+26A7, U+26AA, U+26AB, U+26B0, U+26B1, U+26BD, U+26BE, U+26C4, U+26C5, U+26C8, U+26CE, U+26CF, U+26D1, U+26D3, U+26D4, U+26E9, U+26EA, U+26F0, U+26F1, U+26F2, U+26F3, U+26F4, U+26F5, U+26F7, U+26F8, U+26F9, U+26FA, U+26FD, U+2702, U+2705, U+2708, U+2709, U+270A, U+270B, U+270C, U+270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733, U+2734, U+2744, U+2747, U+274C, U+274E, U+2753, U+2754, U+2755, U+2757, U+2763, U+2764, U+2795, U+2796, U+2797, U+27A1, U+27B0, U+27BF, U+2934, U+2935, U+2B05, U+2B06, U+2B07, U+2B1B, U+2B1C, U+2B50, U+2B55, U+3030, U+303D, U+3297, U+3299, U+1F3F4, U+E0061, U+E0062, U+E0063, U+E0064, U+E0065, U+E0066, U+E0067, U+E0068, U+E0069, U+E006A, U+E006B, U+E006C, U+E006D, U+E006E, U+E006F, U+E0070, U+E0071, U+E0072, U+E0073, U+E0074, U+E0075, U+E0076, U+E0077, U+E0078, U+E0079, U+E007A, U+E007F;} @font-face { font-family: 'emojiiiiii'; size-adjust: 101%; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/the-emoji-guy/Emoji-Swap@main/fonts/Blank.woff2') format('woff2'); ; line-gap-override: 100%; margin-top: 10.1px; unicode-range: U+1F004, U+1F0CF, U+1F170, U+1F171, U+1F17E, U+1F17F, U+1F18E, U+1F191, U+1F192, U+1F193, U+1F194, U+1F195, U+1F196, U+1F197, U+1F198, U+1F199, U+1F19A, U+1F1E6, U+1F1E7, U+1F1E8, U+1F1E9, U+1F1EA, U+1F1EB, U+1F1EC, U+1F1ED, U+1F1EE, U+1F1EF, U+1F1F0, U+1F1F1, U+1F1F2, U+1F1F3, U+1F1F4, U+1F1F5, U+1F1F6, U+1F1F7, U+1F1F8, U+1F1F9, U+1F1FA, U+1F1FB, U+1F1FC, U+1F1FD, U+1F1FE, U+1F1FF, U+1F201, U+1F202, U+1F21A, U+1F22F, U+1F232, U+1F233, U+1F234, U+1F235, U+1F236, U+1F237, U+1F238, U+1F239, U+1F23A, U+1F250, U+1F251, U+1F300, U+1F301, U+1F302, U+1F303, U+1F304, U+1F305, U+1F306, U+1F307, U+1F308, U+1F309, U+1F30A, U+1F30B, U+1F30C, U+1F30D, U+1F30E, U+1F30F, U+1F310, U+1F311, U+1F312, U+1F313, U+1F314, U+1F315, U+1F316, U+1F317, U+1F318, U+1F319, U+1F31A, U+1F31B, U+1F31C, U+1F31D, U+1F31E, U+1F31F, U+1F320, U+1F321, U+1F324, U+1F325, U+1F326, U+1F327, U+1F328, U+1F329, U+1F32A, U+1F32B, U+1F32C, U+1F32D, U+1F32E, U+1F32F, U+1F330, U+1F331, U+1F332, U+1F333, U+1F334, U+1F335, U+1F336, U+1F337, U+1F338, U+1F339, U+1F33A, U+1F33B, U+1F33C, U+1F33D, U+1F33E, U+1F33F, U+1F340, U+1F341, U+1F342, U+1F343, U+1F344, U+1F345, U+1F346, U+1F347, U+1F348, U+1F349, U+1F34A, U+1F34B, U+1F34C, U+1F34D, U+1F34E, U+1F34F, U+1F350, U+1F351, U+1F352, U+1F353, U+1F354, U+1F355, U+1F356, U+1F357, U+1F358, U+1F359, U+1F35A, U+1F35B, U+1F35C, U+1F35D, U+1F35E, U+1F35F, U+1F360, U+1F361, U+1F362, U+1F363, U+1F364, U+1F365, U+1F366, U+1F367, U+1F368, U+1F369, U+1F36A, U+1F36B, U+1F36C, U+1F36D, U+1F36E, U+1F36F, U+1F370, U+1F371, U+1F372, U+1F373, U+1F374, U+1F375, U+1F376, U+1F377, U+1F378, U+1F379, U+1F37A, U+1F37B, U+1F37C, U+1F37D, U+1F37E, U+1F37F, U+1F380, U+1F381, U+1F382, U+1F383, U+1F384, U+1F385, U+1F386, U+1F387, U+1F388, U+1F389, U+1F38A, U+1F38B, U+1F38C, U+1F38D, U+1F38E, U+1F38F, U+1F390, U+1F391, U+1F392, U+1F393, U+1F396, U+1F397, U+1F399, U+1F39A, U+1F39B, U+1F39E, U+1F39F, U+1F3A0, U+1F3A1, U+1F3A2, U+1F3A3, U+1F3A4, U+1F3A5, U+1F3A6, U+1F3A7, U+1F3A8, U+1F3A9, U+1F3AA, U+1F3AB, U+1F3AC, U+1F3AD, U+1F3AE, U+1F3AF, U+1F3B0, U+1F3B1, U+1F3B2, U+1F3B3, U+1F3B4, U+1F3B5, U+1F3B6, U+1F3B7, U+1F3B8, U+1F3B9, U+1F3BA, U+1F3BB, U+1F3BC, U+1F3BD, U+1F3BE, U+1F3BF, U+1F3C0, U+1F3C1, U+1F3C2, U+1F3C3, U+1F3C4, U+1F3C5, U+1F3C6, U+1F3C7, U+1F3C8, U+1F3C9, U+1F3CA, U+1F3CB, U+1F3CC, U+1F3CD, U+1F3CE, U+1F3CF, U+1F3D0, U+1F3D1, U+1F3D2, U+1F3D3, U+1F3D4, U+1F3D5, U+1F3D6, U+1F3D7, U+1F3D8, U+1F3D9, U+1F3DA, U+1F3DB, U+1F3DC, U+1F3DD, U+1F3DE, U+1F3DF, U+1F3E0, U+1F3E1, U+1F3E2, U+1F3E3, U+1F3E4, U+1F3E5, U+1F3E6, U+1F3E7, U+1F3E8, U+1F3E9, U+1F3EA, U+1F3EB, U+1F3EC, U+1F3ED, U+1F3EE, U+1F3EF, U+1F3F, U+1F3F0, U+1F3F3, U+1F3F4, U+1F3F5, U+1F3F7, U+1F3F8, U+1F3F9, U+1F3FA, U+1F3FB, U+1F3FC, U+1F3FD, U+1F3FE, U+1F3FF, U+1F400, U+1F401, U+1F402, U+1F403, U+1F404, U+1F405, U+1F406, U+1F407, U+1F408, U+1F409, U+1F40A, U+1F40B, U+1F40C, U+1F40D, U+1F40E, U+1F40F, U+1F410, U+1F411, U+1F412, U+1F413, U+1F414, U+1F415, U+1F416, U+1F417, U+1F418, U+1F419, U+1F41A, U+1F41B, U+1F41C, U+1F41D, U+1F41E, U+1F41F, U+1F420, U+1F421, U+1F422, U+1F423, U+1F424, U+1F425, U+1F426, U+1F427, U+1F428, U+1F429, U+1F42A, U+1F42B, U+1F42C, U+1F42D, U+1F42E, U+1F42F, U+1F430, U+1F431, U+1F432, U+1F433, U+1F434, U+1F435, U+1F436, U+1F437, U+1F438, U+1F439, U+1F43A, U+1F43B, U+1F43C, U+1F43D, U+1F43E, U+1F43F, U+1F440, U+1F441, U+1F442, U+1F443, U+1F444, U+1F445, U+1F446, U+1F447, U+1F448, U+1F449, U+1F44A, U+1F44B, U+1F44C, U+1F44D, U+1F44E, U+1F44F, U+1F450, U+1F451, U+1F452, U+1F453, U+1F454, U+1F455, U+1F456, U+1F457, U+1F458, U+1F459, U+1F45A, U+1F45B, U+1F45C, U+1F45D, U+1F45E, U+1F45F, U+1F460, U+1F461, U+1F462, U+1F463, U+1F464, U+1F465, U+1F466, U+1F467, U+1F468, U+1F469, U+1F46A, U+1F46B, U+1F46C, U+1F46D, U+1F46E, U+1F46F, U+1F470, U+1F471, U+1F472, U+1F473, U+1F474, U+1F475, U+1F476, U+1F477, U+1F478, U+1F479, U+1F47A, U+1F47B, U+1F47C, U+1F47D, U+1F47E, U+1F47F, U+1F480, U+1F481, U+1F482, U+1F483, U+1F484, U+1F485, U+1F486, U+1F487, U+1F488, U+1F489, U+1F48A, U+1F48B, U+1F48C, U+1F48D, U+1F48E, U+1F48F, U+1F490, U+1F491, U+1F492, U+1F493, U+1F494, U+1F495, U+1F496, U+1F497, U+1F498, U+1F499, U+1F49A, U+1F49B, U+1F49C, U+1F49D, U+1F49E, U+1F49F, U+1F4A0, U+1F4A1, U+1F4A2, U+1F4A3, U+1F4A4, U+1F4A5, U+1F4A6, U+1F4A7, U+1F4A8, U+1F4A9, U+1F4AA, U+1F4AB, U+1F4AC, U+1F4AD, U+1F4AE, U+1F4AF, U+1F4B0, U+1F4B1, U+1F4B2, U+1F4B3, U+1F4B4, U+1F4B5, U+1F4B6, U+1F4B7, U+1F4B8, U+1F4B9, U+1F4BA, U+1F4BB, U+1F4BC, U+1F4BD, U+1F4BE, U+1F4BF, U+1F4C0, U+1F4C1, U+1F4C2, U+1F4C3, U+1F4C4, U+1F4C5, U+1F4C6, U+1F4C7, U+1F4C8, U+1F4C9, U+1F4CA, U+1F4CB, U+1F4CC, U+1F4CD, U+1F4CE, U+1F4CF, U+1F4D0, U+1F4D1, U+1F4D2, U+1F4D3, U+1F4D4, U+1F4D5, U+1F4D6, U+1F4D7, U+1F4D8, U+1F4D9, U+1F4DA, U+1F4DB, U+1F4DC, U+1F4DD, U+1F4DE, U+1F4DF, U+1F4E0, U+1F4E1, U+1F4E2, U+1F4E3, U+1F4E4, U+1F4E5, U+1F4E6, U+1F4E7, U+1F4E8, U+1F4E9, U+1F4EA, U+1F4EB, U+1F4EC, U+1F4ED, U+1F4EE, U+1F4EF, U+1F4F0, U+1F4F1, U+1F4F2, U+1F4F3, U+1F4F4, U+1F4F5, U+1F4F6, U+1F4F7, U+1F4F8, U+1F4F9, U+1F4FA, U+1F4FB, U+1F4FC, U+1F4FD, U+1F4FF, U+1F500, U+1F501, U+1F502, U+1F503, U+1F504, U+1F505, U+1F506, U+1F507, U+1F508, U+1F509, U+1F50A, U+1F50B, U+1F50C, U+1F50D, U+1F50E, U+1F50F, U+1F510, U+1F511, U+1F512, U+1F513, U+1F514, U+1F515, U+1F516, U+1F517, U+1F518, U+1F519, U+1F51A, U+1F51B, U+1F51C, U+1F51D, U+1F51E, U+1F51F, U+1F520, U+1F521, U+1F522, U+1F523, U+1F524, U+1F525, U+1F526, U+1F527, U+1F528, U+1F529, U+1F52A, U+1F52B, U+1F52C, U+1F52D, U+1F52E, U+1F52F, U+1F530, U+1F531, U+1F532, U+1F533, U+1F534, U+1F535, U+1F536, U+1F537, U+1F538, U+1F539, U+1F53A, U+1F53B, U+1F53C, U+1F53D, U+1F549, U+1F54A, U+1F54B, U+1F54C, U+1F54D, U+1F54E, U+1F550, U+1F551, U+1F552, U+1F553, U+1F554, U+1F555, U+1F556, U+1F557, U+1F558, U+1F559, U+1F55A, U+1F55B, U+1F55C, U+1F55D, U+1F55E, U+1F55F, U+1F560, U+1F561, U+1F562, U+1F563, U+1F564, U+1F565, U+1F566, U+1F567, U+1F56F, U+1F570, U+1F573, U+1F574, U+1F575, U+1F576, U+1F577, U+1F578, U+1F579, U+1F57A, U+1F587, U+1F58A, U+1F58B, U+1F58C, U+1F58D, U+1F590, U+1F595, U+1F596, U+1F5A4, U+1F5A5, U+1F5A8, U+1F5B1, U+1F5B2, U+1F5BC, U+1F5C2, U+1F5C3, U+1F5C4, U+1F5D1, U+1F5D2, U+1F5D3, U+1F5DC, U+1F5DD, U+1F5DE, U+1F5E1, U+1F5E3, U+1F5E8, U+1F5EF, U+1F5F3, U+1F5FA, U+1F5FB, U+1F5FC, U+1F5FD, U+1F5FE, U+1F5FF, U+1F600, U+1F601, U+1F602, U+1F603, U+1F604, U+1F605, U+1F606, U+1F607, U+1F608, U+1F609, U+1F60A, U+1F60B, U+1F60C, U+1F60D, U+1F60E, U+1F60F, U+1F610, U+1F611, U+1F612, U+1F613, U+1F614, U+1F615, U+1F616, U+1F617, U+1F618, U+1F619, U+1F61A, U+1F61B, U+1F61C, U+1F61D, U+1F61E, U+1F61F, U+1F620, U+1F621, U+1F622, U+1F623, U+1F624, U+1F625, U+1F626, U+1F627, U+1F628, U+1F629, U+1F62A, U+1F62B, U+1F62C, U+1F62D, U+1F62E, U+1F62F, U+1F630, U+1F631, U+1F632, U+1F633, U+1F634, U+1F635, U+1F636, U+1F637, U+1F638, U+1F639, U+1F63A, U+1F63B, U+1F63C, U+1F63D, U+1F63E, U+1F63F, U+1F640, U+1F641, U+1F642, U+1F643, U+1F644, U+1F645, U+1F646, U+1F647, U+1F648, U+1F649, U+1F64A, U+1F64B, U+1F64C, U+1F64D, U+1F64E, U+1F64F, U+1F680, U+1F681, U+1F682, U+1F683, U+1F684, U+1F685, U+1F686, U+1F687, U+1F688, U+1F689, U+1F68A, U+1F68B, U+1F68C, U+1F68D, U+1F68E, U+1F68F, U+1F690, U+1F691, U+1F692, U+1F693, U+1F694, U+1F695, U+1F696, U+1F697, U+1F698, U+1F699, U+1F69A, U+1F69B, U+1F69C, U+1F69D, U+1F69E, U+1F69F, U+1F6A0, U+1F6A1, U+1F6A2, U+1F6A3, U+1F6A4, U+1F6A5, U+1F6A6, U+1F6A7, U+1F6A8, U+1F6A9, U+1F6AA, U+1F6AB, U+1F6AC, U+1F6AD, U+1F6AE, U+1F6AF, U+1F6B0, U+1F6B1, U+1F6B2, U+1F6B3, U+1F6B4, U+1F6B5, U+1F6B6, U+1F6B7, U+1F6B8, U+1F6B9, U+1F6BA, U+1F6BB, U+1F6BC, U+1F6BD, U+1F6BE, U+1F6BF, U+1F6C0, U+1F6C1, U+1F6C2, U+1F6C3, U+1F6C4, U+1F6C5, U+1F6CB, U+1F6CC, U+1F6CD, U+1F6CE, U+1F6CF, U+1F6D0, U+1F6D1, U+1F6D2, U+1F6D5, U+1F6D6, U+1F6D7, U+1F6DC, U+1F6DD, U+1F6DE, U+1F6DF, U+1F6E0, U+1F6E1, U+1F6E2, U+1F6E3, U+1F6E4, U+1F6E5, U+1F6E9, U+1F6EB, U+1F6EC, U+1F6F0, U+1F6F3, U+1F6F4, U+1F6F5, U+1F6F6, U+1F6F7, U+1F6F8, U+1F6F9, U+1F6FA, U+1F6FB, U+1F6FC, U+1F7E0, U+1F7E1, U+1F7E2, U+1F7E3, U+1F7E4, U+1F7E5, U+1F7E6, U+1F7E7, U+1F7E8, U+1F7E9, U+1F7EA, U+1F7EB, U+1F7F0, U+1F90C, U+1F90D, U+1F90E, U+1F90F, U+1F910, U+1F911, U+1F912, U+1F913, U+1F914, U+1F915, U+1F916, U+1F917, U+1F918, U+1F919, U+1F91A, U+1F91B, U+1F91C, U+1F91D, U+1F91E, U+1F91F, U+1F920, U+1F921, U+1F922, U+1F923, U+1F924, U+1F925, U+1F926, U+1F927, U+1F928, U+1F929, U+1F92A, U+1F92B, U+1F92C, U+1F92D, U+1F92E, U+1F92F, U+1F930, U+1F931, U+1F932, U+1F933, U+1F934, U+1F935, U+1F936, U+1F937, U+1F938, U+1F939, U+1F93A, U+1F93C, U+1F93D, U+1F93E, U+1F93F, U+1F940, U+1F941, U+1F942, U+1F943, U+1F944, U+1F945, U+1F947, U+1F948, U+1F949, U+1F94A, U+1F94B, U+1F94C, U+1F94D, U+1F94E, U+1F94F, U+1F950, U+1F951, U+1F952, U+1F953, U+1F954, U+1F955, U+1F956, U+1F957, U+1F958, U+1F959, U+1F95A, U+1F95B, U+1F95C, U+1F95D, U+1F95E, U+1F95F, U+1F960, U+1F961, U+1F962, U+1F963, U+1F964, U+1F965, U+1F966, U+1F967, U+1F968, U+1F969, U+1F96A, U+1F96B, U+1F96C, U+1F96D, U+1F96E, U+1F96F, U+1F970, U+1F971, U+1F972, U+1F973, U+1F974, U+1F975, U+1F976, U+1F977, U+1F978, U+1F979, U+1F97A, U+1F97B, U+1F97C, U+1F97D, U+1F97E, U+1F97F, U+1F980, U+1F981, U+1F982, U+1F983, U+1F984, U+1F985, U+1F986, U+1F987, U+1F988, U+1F989, U+1F98A, U+1F98B, U+1F98C, U+1F98D, U+1F98E, U+1F98F, U+1F990, U+1F991, U+1F992, U+1F993, U+1F994, U+1F995, U+1F996, U+1F997, U+1F998, U+1F999, U+1F99A, U+1F99B, U+1F99C, U+1F99D, U+1F99E, U+1F99F, U+1F9A0, U+1F9A1, U+1F9A2, U+1F9A3, U+1F9A4, U+1F9A5, U+1F9A6, U+1F9A7, U+1F9A8, U+1F9A9, U+1F9AA, U+1F9AB, U+1F9AC, U+1F9AD, U+1F9AE, U+1F9AF, U+1F9B0, U+1F9B1, U+1F9B2, U+1F9B3, U+1F9B4, U+1F9B5, U+1F9B6, U+1F9B7, U+1F9B8, U+1F9B9, U+1F9BA, U+1F9BB, U+1F9BC, U+1F9BD, U+1F9BE, U+1F9BF, U+1F9C0, U+1F9C1, U+1F9C2, U+1F9C3, U+1F9C4, U+1F9C5, U+1F9C6, U+1F9C7, U+1F9C8, U+1F9C9, U+1F9CA, U+1F9CB, U+1F9CC, U+1F9CD, U+1F9CE, U+1F9CF, U+1F9D0, U+1F9D1, U+1F9D2, U+1F9D3, U+1F9D4, U+1F9D5, U+1F9D6, U+1F9D7, U+1F9D8, U+1F9D9, U+1F9DA, U+1F9DB, U+1F9DC, U+1F9DD, U+1F9DE, U+1F9DF, U+1F9E0, U+1F9E1, U+1F9E2, U+1F9E3, U+1F9E4, U+1F9E5, U+1F9E6, U+1F9E7, U+1F9E8, U+1F9E9, U+1F9EA, U+1F9EB, U+1F9EC, U+1F9ED, U+1F9EE, U+1F9EF, U+1F9F0, U+1F9F1, U+1F9F2, U+1F9F3, U+1F9F4, U+1F9F5, U+1F9F6, U+1F9F7, U+1F9F8, U+1F9F9, U+1F9FA, U+1F9FB, U+1F9FC, U+1F9FD, U+1F9FE, U+1F9FF, U+1FA70, U+1FA71, U+1FA72, U+1FA73, U+1FA74, U+1FA75, U+1FA76, U+1FA77, U+1FA78, U+1FA79, U+1FA7A, U+1FA7B, U+1FA7C, U+1FA80, U+1FA81, U+1FA82, U+1FA83, U+1FA84, U+1FA85, U+1FA86, U+1FA87, U+1FA88, U+1FA90, U+1FA91, U+1FA92, U+1FA93, U+1FA94, U+1FA95, U+1FA96, U+1FA97, U+1FA98, U+1FA99, U+1FA9A, U+1FA9B, U+1FA9C, U+1FA9D, U+1FA9E, U+1FA9F, U+1FAA0, U+1FAA1, U+1FAA2, U+1FAA3, U+1FAA4, U+1FAA5, U+1FAA6, U+1FAA7, U+1FAA8, U+1FAA9, U+1FAAA, U+1FAAB, U+1FAAC, U+1FAAD, U+1FAAE, U+1FAAF, U+1FAB0, U+1FAB1, U+1FAB2, U+1FAB3, U+1FAB4, U+1FAB5, U+1FAB6, U+1FAB7, U+1FAB8, U+1FAB9, U+1FABA, U+1FABB, U+1FABC, U+1FABD, U+1FABF, U+1FAC0, U+1FAC1, U+1FAC2, U+1FAC3, U+1FAC4, U+1FAC5, U+1FACE, U+1FACF, U+1FAD0, U+1FAD1, U+1FAD2, U+1FAD3, U+1FAD4, U+1FAD5, U+1FAD6, U+1FAD7, U+1FAD8, U+1FAD9, U+1FADA, U+1FADB, U+1FAE0, U+1FAE1, U+1FAE2, U+1FAE3, U+1FAE4, U+1FAE5, U+1FAE6, U+1FAE7, U+1FAE8, U+1FAF0, U+1FAF1, U+1FAF2, U+1FAF3, U+1FAF4, U+1FAF5, U+1FAF6, U+1FAF7, U+1FAF8, U+200D, U+203C, U+2049, U+20E3, U+2122, U+2139, U+2194, U+2195, U+2196, U+2197, U+2198, U+2199, U+21A9, U+21AA, U+231A, U+231B, U+2328, U+23CF, U+23E9, U+23EA, U+23EB, U+23EC, U+23ED, U+23EE, U+23EF, U+23F0, U+23F1, U+23F2, U+23F3, U+23F8, U+23F9, U+23FA, U+24C2, U+25AA, U+25AB, U+25B6, U+25C0, U+25FB, U+25FC, U+25FD, U+25FE, U+2600, U+2601, U+2602, U+2603, U+2604, U+260E, U+2611, U+2614, U+2615, U+2618, U+261D, U+2620, U+2622, U+2623, U+2626, U+262A, U+262E, U+262F, U+2638, U+2639, U+263A, U+2640, U+2642, U+2648, U+2649, U+264A, U+264B, U+264C, U+264D, U+264E, U+264F, U+2650, U+2651, U+2652, U+2653, U+265F, U+2660, U+2663, U+2665, U+2666, U+2668, U+267B, U+267E, U+267F, U+2692, U+2693, U+2694, U+2695, U+2696, U+2697, U+2699, U+269B, U+269C, U+26A0, U+26A1, U+26A7, U+26AA, U+26AB, U+26B0, U+26B1, U+26BD, U+26BE, U+26C4, U+26C5, U+26C8, U+26CE, U+26CF, U+26D1, U+26D3, U+26D4, U+26E9, U+26EA, U+26F0, U+26F1, U+26F2, U+26F3, U+26F4, U+26F5, U+26F7, U+26F8, U+26F9, U+26FA, U+26FD, U+2702, U+2705, U+2708, U+2709, U+270A, U+270B, U+270C, U+270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733, U+2734, U+2744, U+2747, U+274C, U+274E, U+2753, U+2754, U+2755, U+2757, U+2763, U+2764, U+2795, U+2796, U+2797, U+27A1, U+27B0, U+27BF, U+2934, U+2935, U+2B05, U+2B06, U+2B07, U+2B1B, U+2B1C, U+2B50, U+2B55, U+3030, U+303D, U+3297, U+3299, U+1F3F4, U+E0061, U+E0062, U+E0063, U+E0064, U+E0065, U+E0066, U+E0067, U+E0068, U+E0069, U+E006A, U+E006B, U+E006C, U+E006D, U+E006E, U+E006F, U+E0070, U+E0071, U+E0072, U+E0073, U+E0074, U+E0075, U+E0076, U+E0077, U+E0078, U+E0079, U+E007A, U+E007F;}</style></head>
+<body class="theme-dark mode-kai">
+  <div class="top-controls">
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode" style="font-family: emojeeeeee, emojiiiiii, Arial;">🌙</button>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-mode="vi" onclick="setMode('vi')">VI</button>
+      <button class="lang-btn" data-mode="zh" onclick="setMode('zh')">中</button>
+      <button class="lang-btn active" data-mode="kai" onclick="setMode('kai')">楷</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- SCREEN 1: HOME -->
+    <div id="screen-home" class="screen active">
+      <header>
+        <h1>交际练习</h1>
+        <p>选择课程 → 选择角色 → 开始问答</p>
+      </header>
+
+      <div class="card">
+        <h2>① 选择课程</h2>
+        <div class="lesson-grid" id="lesson-grid"><button class="lesson-btn selected" data-num="1">第 1 课
+数字练习</button><button class="lesson-btn" data-num="2">第 2 课
+名字与国籍</button><button class="lesson-btn" data-num="3">第 3 课
+贵姓与名字</button><button class="lesson-btn" data-num="4">第 4 课
+去哪里 / 在哪里</button><button class="lesson-btn" data-num="5">第 5 课
+吃什么 / 喝什么</button><button class="lesson-btn" data-num="6">第 6 课
+工作</button><button class="lesson-btn" data-num="7">第 7 课
+附近有什么</button><button class="lesson-btn" data-num="8">第 8 课
+生日</button><button class="lesson-btn" data-num="9">第 9 课
+电影与交通</button><button class="lesson-btn" data-num="10">第 10 课
+家庭与年龄</button></div>
+      </div>
+
+      <div class="card">
+        <h2>② 选择角色</h2>
+        <div class="role-grid">
+          <div class="role-btn selected" data-role="A" onclick="selectRole(this)">
+            <span class="emoji" style="font-family: emojeeeeee, emojiiiiii, &quot;ToneOZ Pinyin Kai&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, sans-serif;">❓</span>
+            <div class="label">角色 A</div>
+            <div class="desc">提问者<br>（有选项可选）</div>
+          </div>
+          <div class="role-btn" data-role="B" onclick="selectRole(this)">
+            <span class="emoji" style="font-family: emojeeeeee, emojiiiiii, &quot;ToneOZ Pinyin Kai&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, sans-serif;">🎲</span>
+            <div class="label">角色 B</div>
+            <div class="desc">回答者<br>（随机产生答案）</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="start-btn" onclick="startActivity()">
+        开始练习
+      </button>
+
+      <p class="footer-note">两人一组 • 一人当 A，一人当 B</p>
+    </div>
+
+    <!-- SCREEN 2: ROLE A -->
+    <div id="screen-A" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← 返回</button>
+        <span class="lesson-tag" id="lesson-tag-A"></span>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleA-title">你是提问者 (A)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px; font-weight:500;" id="roleA-desc">
+          依序问对方，并从选项中选择你想听的答案
+        </p>
+        <div id="questions-A"></div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-A">问完后跟对方核对答案，看看有多相似！</p>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: ROLE B -->
+    <div id="screen-B" class="screen">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goHome()">← 返回</button>
+        <span class="lesson-tag" id="lesson-tag-B"></span>
+      </div>
+
+      <button class="btn btn-random" onclick="randomizeAnswers()" id="btn-random" style="font-family: emojeeeeee, emojiiiiii, &quot;ToneOZ Pinyin Kai&quot;, &quot;Noto Sans TC&quot;, &quot;Microsoft JhengHei&quot;, sans-serif;">
+        🎲 随机产生答案
+      </button>
+      <p class="shake-hint" id="shake-hint">或 <span>摇一摇手机</span> 也可以重新随机</p>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem; margin-bottom:6px;" id="roleB-title">你是回答者 (B)</h2>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px; font-weight:500;" id="roleB-desc">
+          根据下面的答案回答对方的问题
+        </p>
+        <div id="answers-B">
+          <p style="text-align:center; color:var(--muted); padding:30px 0;" id="empty-hint">
+            点上面的按钮产生你的答案吧！
+          </p>
+        </div>
+      </div>
+
+      <div class="compare-box">
+        <p id="compare-text-B">回答完后跟对方核对，看看你们的答案有多像！</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==================== DATA ====================
+    const lessons = {
+      1: {
+        title: { zh: "数字练习", vi: "Luyện số" },
+        questions: [
+          {
+            q: { zh: "第一个数字是什么？", vi: "Số thứ nhất là gì?" },
+            options: [
+              { zh: "1", vi: "1" },
+              { zh: "2", vi: "2" },
+              { zh: "3", vi: "3" },
+              { zh: "4", vi: "4" },
+              { zh: "5", vi: "5" },
+              { zh: "6", vi: "6" },
+              { zh: "7", vi: "7" },
+              { zh: "8", vi: "8" },
+              { zh: "9", vi: "9" },
+              { zh: "10", vi: "10" }
+            ]
+          },
+          {
+            q: { zh: "第二个数字是什么？", vi: "Số thứ hai là gì?" },
+            options: [
+              { zh: "1", vi: "1" },
+              { zh: "2", vi: "2" },
+              { zh: "3", vi: "3" },
+              { zh: "4", vi: "4" },
+              { zh: "5", vi: "5" },
+              { zh: "6", vi: "6" },
+              { zh: "7", vi: "7" },
+              { zh: "8", vi: "8" },
+              { zh: "9", vi: "9" },
+              { zh: "10", vi: "10" }
+            ]
+          }
+        ]
+      },
+      2: {
+        title: { zh: "名字与国籍", vi: "Tên và quốc tịch" },
+        questions: [
+          {
+            q: { zh: "你叫什么名字？", vi: "Bạn tên gì?" },
+            options: [
+              { zh: "我叫王明", vi: "Tôi tên Vương Minh" },
+              { zh: "我叫李华", vi: "Tôi tên Lý Hoa" },
+              { zh: "我叫陈美", vi: "Tôi tên Trần Mỹ" },
+              { zh: "我叫张伟", vi: "Tôi tên Trương Vĩ" },
+              { zh: "我叫林芳", vi: "Tôi tên Lâm Phương" }
+            ]
+          },
+          {
+            q: { zh: "你是哪国人？", vi: "Bạn là người nước nào?" },
+            options: [
+              { zh: "我是中国人", vi: "Tôi là người Trung Quốc" },
+              { zh: "我是越南人", vi: "Tôi là người Việt Nam" },
+              { zh: "我是日本人", vi: "Tôi là người Nhật" },
+              { zh: "我是韩国人", vi: "Tôi là người Hàn" },
+              { zh: "我是美国人", vi: "Tôi là người Mỹ" }
+            ]
+          }
+        ]
+      },
+      3: {
+        title: { zh: "贵姓与名字", vi: "Họ và tên" },
+        questions: [
+          {
+            q: { zh: "请问，您贵姓？", vi: "Xin hỏi, quý danh của bạn là gì?" },
+            options: [
+              { zh: "我姓马", vi: "Tôi họ Mã" },
+              { zh: "我姓王", vi: "Tôi họ Vương" },
+              { zh: "我姓李", vi: "Tôi họ Lý" },
+              { zh: "我姓陈", vi: "Tôi họ Trần" },
+              { zh: "我姓张", vi: "Tôi họ Trương" }
+            ]
+          },
+          {
+            q: { zh: "你叫什么名字？", vi: "Bạn tên gì?" },
+            options: [
+              { zh: "我叫欧文", vi: "Tôi tên Âu Văn" },
+              { zh: "我叫卡马拉", vi: "Tôi tên Kamala" },
+              { zh: "我叫安娜", vi: "Tôi tên Anna" },
+              { zh: "我叫大卫", vi: "Tôi tên David" },
+              { zh: "我叫玛丽", vi: "Tôi tên Mary" }
+            ]
+          }
+        ]
+      },
+      4: {
+        title: { zh: "忙与家庭", vi: "Bận rộn và gia đình" },
+        questions: [
+          {
+            q: { zh: "你忙吗？", vi: "Bạn có bận không?" },
+            options: [
+              { zh: "忙", vi: "Bận" },
+              { zh: "不忙", vi: "Không bận" },
+              { zh: "很忙", vi: "Rất bận" }
+            ]
+          },
+          {
+            q: { zh: "你家有几口人？", vi: "Nhà bạn có mấy người?" },
+            options: [
+              { zh: "3", vi: "3" },
+              { zh: "5", vi: "5" },
+              { zh: "4", vi: "4" }
+            ]
+          },
+          {
+            q: { zh: "你几岁？", vi: "Bạn bao nhiêu tuổi?" },
+            options: [
+              { zh: "18", vi: "18" },
+              { zh: "25", vi: "25" },
+              { zh: "30", vi: "30" }
+            ]
+          }
+        ]
+      },
+      5: {
+        title: { zh: "星期与能力", vi: "Thứ và khả năng" },
+        questions: [
+          {
+            q: { zh: "今天星期几？", vi: "Hôm nay là thứ mấy?" },
+            options: [
+              { zh: "一", vi: "Thứ Hai" },
+              { zh: "二", vi: "Thứ Ba" },
+              { zh: "三", vi: "Thứ Tư" },
+              { zh: "四", vi: "Thứ Năm" },
+              { zh: "五", vi: "Thứ Sáu" },
+              { zh: "六", vi: "Thứ Bảy" },
+              { zh: "七", vi: "Chủ nhật" },
+              { zh: "天", vi: "Chủ nhật" }
+            ]
+          },
+          {
+            q: { zh: "你会做什么？", vi: "Bạn biết làm gì?" },
+            options: [
+              { zh: "做菜", vi: "Nấu món" },
+              { zh: "做面条", vi: "Làm mì" },
+              { zh: "做饭", vi: "Nấu cơm" }
+            ]
+          },
+          {
+            q: { zh: "你下班吗？", vi: "Bạn tan làm chưa?" },
+            options: [
+              { zh: "对", vi: "Đúng" },
+              { zh: "不是", vi: "Không phải" }
+            ]
+          }
+        ]
+      },
+      6: {
+        title: { zh: "电话与出行", vi: "Số điện thoại và đi lại" },
+        questions: [
+          {
+            q: { zh: "你的手机号是多少？", vi: "Số điện thoại của bạn là bao nhiêu?" },
+            options: [
+              { zh: "2346", vi: "2346" },
+              { zh: "1152", vi: "1152" },
+              { zh: "3899", vi: "3899" }
+            ]
+          },
+          {
+            q: { zh: "你怎么去？", vi: "Bạn đi bằng gì?" },
+            options: [
+              { zh: "坐出租车", vi: "Đi taxi" },
+              { zh: "坐车", vi: "Đi xe" },
+              { zh: "不去", vi: "Không đi" }
+            ]
+          },
+          {
+            q: { zh: "你去哪儿吃饭？", vi: "Bạn đi đâu ăn cơm?" },
+            options: [
+              { zh: "饭店", vi: "Nhà hàng" },
+              { zh: "超市", vi: "Siêu thị" }
+            ]
+          }
+        ]
+      },
+      7: {
+        title: { zh: "时间与位置", vi: "Thời gian và vị trí" },
+        questions: [
+          {
+            q: { zh: "现在几点？", vi: "Bây giờ mấy giờ?" },
+            options: [
+              { zh: "7", vi: "7" },
+              { zh: "11", vi: "11" },
+              { zh: "22", vi: "22" }
+            ]
+          },
+          {
+            q: { zh: "下午你做什么？", vi: "Buổi chiều bạn làm gì?" },
+            options: [
+              { zh: "上课", vi: "Học bài" },
+              { zh: "上班", vi: "Đi làm" },
+              { zh: "下课", vi: "Tan học" },
+              { zh: "下班", vi: "Tan làm" }
+            ]
+          },
+          {
+            q: { zh: "你在哪儿呢？", vi: "Bạn đang ở đâu?" },
+            options: [
+              { zh: "家里", vi: "Ở nhà" },
+              { zh: "医院", vi: "Bệnh viện" },
+              { zh: "店", vi: "Cửa hàng" }
+            ]
+          }
+        ]
+      },
+      8: {
+        title: { zh: "位置与见面", vi: "Vị trí và gặp mặt" },
+        questions: [
+          {
+            q: { zh: "猫在哪里？", vi: "Con mèo ở đâu?" },
+            options: [
+              { zh: "桌子上", vi: "Trên bàn" },
+              { zh: "桌子下", vi: "Dưới bàn" },
+              { zh: "桌子前", vi: "Trước bàn" },
+              { zh: "桌子后", vi: "Sau bàn" }
+            ]
+          },
+          {
+            q: { zh: "我们在哪儿见面？", vi: "Chúng ta gặp nhau ở đâu?" },
+            options: [
+              { zh: "学校前", vi: "Trước trường" },
+              { zh: "书店前", vi: "Trước hiệu sách" },
+              { zh: "医院后", vi: "Sau bệnh viện" }
+            ]
+          },
+          {
+            q: { zh: "你还没吃饭吗？", vi: "Bạn vẫn chưa ăn cơm à?" },
+            options: [
+              { zh: "没吃", vi: "Chưa ăn" },
+              { zh: "吃了", vi: "Đã ăn rồi" }
+            ]
+          }
+        ]
+      },
+      9: {
+        title: { zh: "学校与活动", vi: "Trường học và hoạt động" },
+        questions: [
+          {
+            q: { zh: "学校前边有什么？", vi: "Phía trước trường có gì?" },
+            options: [
+              { zh: "电影院", vi: "Rạp chiếu phim" },
+              { zh: "医院", vi: "Bệnh viện" },
+              { zh: "书店", vi: "Hiệu sách" }
+            ]
+          },
+          {
+            q: { zh: "这是谁的书？", vi: "Đây là sách của ai?" },
+            options: [
+              { zh: "我", vi: "Của tôi" },
+              { zh: "天中", vi: "Của Thiên Trung" },
+              { zh: "家月", vi: "Của Gia Nguyệt" }
+            ]
+          },
+          {
+            q: { zh: "星期六，你做什么？", vi: "Thứ bảy bạn làm gì?" },
+            options: [
+              { zh: "唱歌", vi: "Hát" },
+              { zh: "读书", vi: "Đọc sách" },
+              { zh: "玩手机", vi: "Chơi điện thoại" }
+            ]
+          }
+        ]
+      },
+      10: {
+        title: { zh: "购物", vi: "Mua sắm" },
+        questions: [
+          {
+            q: { zh: "杯子，一个多少钱？", vi: "Cái cốc, một cái bao nhiêu tiền?" },
+            options: [
+              { zh: "50", vi: "50" },
+              { zh: "100", vi: "100" },
+              { zh: "250", vi: "250" }
+            ]
+          },
+          {
+            q: { zh: "你想买什么？", vi: "Bạn muốn mua gì?" },
+            options: [
+              { zh: "苹果", vi: "Táo" },
+              { zh: "杯子", vi: "Cốc" },
+              { zh: "书", vi: "Sách" }
+            ]
+          },
+          {
+            q: { zh: "衣服，一百元，怎么样？", vi: "Quần áo một trăm đồng, thế nào?" },
+            options: [
+              { zh: "贵", vi: "Đắt" },
+              { zh: "不贵", vi: "Không đắt" },
+              { zh: "还好", vi: "Cũng được" }
+            ]
+          }
+        ]
+      }
+    };
+    };
+
+    // ==================== STATE ====================
+    let selectedLesson = null;
+    let selectedRole = null;
+    let currentMode = 'zh';
+    let currentAnswersB = null;
+    let isDark = false;
+
+    // ==================== THEME TOGGLE ====================
+    function toggleTheme() {
+      isDark = !isDark;
+      document.body.classList.toggle('theme-dark', isDark);
+      document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('themeDark', isDark ? '1' : '0');
+    }
+
+    if (localStorage.getItem('themeDark') === '1') {
+      isDark = true;
+      document.body.classList.add('theme-dark');
+    }
+
+    // ==================== MODE SWITCHER ====================
+    function setMode(mode) {
+      currentMode = mode;
+      
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+
+      document.body.classList.toggle('mode-kai', mode === 'kai');
+
+      if (selectedRole === 'A' && document.getElementById('screen-A').classList.contains('active')) {
+        renderRoleA();
+      }
+      if (selectedRole === 'B' && document.getElementById('screen-B').classList.contains('active')) {
+        if (currentAnswersB) {
+          renderAnswersB(currentAnswersB);
+        }
+        updateRoleBTexts();
+      }
+
+      document.querySelectorAll('.lesson-btn').forEach(btn => {
+        const num = btn.dataset.num;
+        if (num) updateLessonBtnText(btn, num);
+      });
+
+      localStorage.setItem('displayMode', mode);
+    }
+
+    const savedMode = localStorage.getItem('displayMode');
+    if (savedMode && ['vi', 'zh', 'kai'].includes(savedMode)) {
+      setMode(savedMode);
+    }
+
+    // ==================== INIT ====================
+    function init() {
+      const grid = document.getElementById("lesson-grid");
+      grid.innerHTML = "";
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement("button");
+        btn.className = "lesson-btn" + (i === 1 ? " selected" : "");
+        btn.dataset.num = i;
+        updateLessonBtnText(btn, i);
+        btn.onclick = () => selectLesson(i, btn);
+        grid.appendChild(btn);
+      }
+      selectedLesson = 1;
+      selectedRole = "A";
+      document.querySelectorAll(".role-btn").forEach(b => {
+        b.classList.toggle("selected", b.dataset.role === "A");
+      });
+      updateStartBtn();
+    }
+
+    function updateLessonBtnText(btn, num) {
+      const t = lessons[num].title;
+      const text = currentMode === 'vi' ? t.vi : t.zh;
+      btn.textContent = `第 ${num} 课\n${text}`;
+    }
+
+    function selectLesson(num, btn) {
+      selectedLesson = num;
+      document.querySelectorAll(".lesson-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      updateStartBtn();
+    }
+
+    function selectRole(el) {
+      selectedRole = el.dataset.role;
+      document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("selected"));
+      el.classList.add("selected");
+      updateStartBtn();
+    }
+
+    function updateStartBtn() {
+      document.getElementById("start-btn").disabled = !(selectedLesson && selectedRole);
+    }
+
+    function startActivity() {
+      if (!selectedLesson || !selectedRole) return;
+
+      document.getElementById("screen-home").classList.remove("active");
+
+      if (selectedRole === "A") {
+        renderRoleA();
+        document.getElementById("screen-A").classList.add("active");
+      } else {
+        currentAnswersB = null;
+        document.getElementById("answers-B").innerHTML = `
+          <p style="text-align:center; color:var(--muted); padding:30px 0;" id="empty-hint">
+            ${currentMode === 'vi' ? 'Nhấn nút phía trên để tạo câu trả lời!' : '点上面的按钮产生你的答案吧！'}
+          </p>`;
+        updateRoleBTexts();
+        document.getElementById("screen-B").classList.add("active");
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      }
+    }
+
+    function getLessonTag() {
+      const t = lessons[selectedLesson].title;
+      const name = currentMode === 'vi' ? t.vi : t.zh;
+      return currentMode === 'vi' ? `Bài ${selectedLesson}｜${name}` : `第 ${selectedLesson} 课｜${name}`;
+    }
+
+    function goHome() {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-home").classList.add("active");
+      
+      document.querySelectorAll(".lesson-btn").forEach(btn => {
+        updateLessonBtnText(btn, btn.dataset.num);
+      });
+    }
+
+    // ==================== ROLE A ====================
+    function renderRoleA() {
+      const data = lessons[selectedLesson];
+      if (!data) return;
+      document.getElementById("lesson-tag-A").textContent = getLessonTag();
+
+      if (currentMode === 'vi') {
+        document.getElementById("roleA-title").textContent = "Bạn là người hỏi (A)";
+        document.getElementById("roleA-desc").textContent = "Hỏi lần lượt và chọn đáp án bạn muốn nghe";
+        document.getElementById("compare-text-A").textContent = "Hỏi xong hãy đối chiếu với đối phương xem giống nhau không!";
+      } else {
+        document.getElementById("roleA-title").textContent = "你是提问者 (A)";
+        document.getElementById("roleA-desc").textContent = "依序问对方，并从选项中选择你想听的答案";
+        document.getElementById("compare-text-A").textContent = "问完后跟对方核对答案，看看有多相似！";
+      }
+
+      const prevSelects = document.querySelectorAll("#questions-A select");
+      const selectedIndices = Array.from(prevSelects).map(sel => sel.selectedIndex);
+
+      const container = document.getElementById("questions-A");
+      container.innerHTML = "";
+
+      data.questions.forEach((item, idx) => {
+        const div = document.createElement("div");
+        div.className = "question-item";
+
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const optionsHtml = item.options.map(opt => {
+          const text = currentMode === 'vi' ? opt.vi : opt.zh;
+          return `<option value="${text}">${text}</option>`;
+        }).join("");
+
+        div.innerHTML = `
+          <div class="q-text">
+            <span class="q-number">${idx + 1}</span>
+            <span>${qText}</span>
+          </div>
+          <select>
+            <option value="" disabled selected>${currentMode === 'vi' ? 'Chọn đáp án...' : '请选择答案...'}</option>
+            ${optionsHtml}
+          </select>
+        `;
+        container.appendChild(div);
+      });
+
+      const newSelects = document.querySelectorAll("#questions-A select");
+      newSelects.forEach((sel, idx) => {
+        if (selectedIndices[idx] > 0 && selectedIndices[idx] < sel.options.length) {
+          sel.selectedIndex = selectedIndices[idx];
+        }
+      });
+    }
+
+    // ==================== ROLE B ====================
+    function updateRoleBTexts() {
+      if (currentMode === 'vi') {
+        document.getElementById("roleB-title").textContent = "Bạn là người trả lời (B)";
+        document.getElementById("roleB-desc").textContent = "Trả lời theo các đáp án bên dưới";
+        document.getElementById("btn-random").textContent = "🎲 Tạo đáp án ngẫu nhiên";
+        document.getElementById("shake-hint").innerHTML = `Hoặc <span>lắc điện thoại</span> để random lại`;
+        document.getElementById("compare-text-B").textContent = "Trả lời xong hãy đối chiếu với đối phương xem giống nhau không!";
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      } else {
+        document.getElementById("roleB-title").textContent = "你是回答者 (B)";
+        document.getElementById("roleB-desc").textContent = "根据下面的答案回答对方的问题";
+        document.getElementById("btn-random").textContent = "🎲 随机产生答案";
+        document.getElementById("shake-hint").innerHTML = `或 <span>摇一摇手机</span> 也可以重新随机`;
+        document.getElementById("compare-text-B").textContent = "回答完后跟对方核对，看看你们的答案有多像！";
+        document.getElementById("lesson-tag-B").textContent = getLessonTag();
+      }
+    }
+
+    function randomizeAnswers() {
+      const data = lessons[selectedLesson];
+      const answers = data.questions.map(item => {
+        const randomOpt = item.options[Math.floor(Math.random() * item.options.length)];
+        return randomOpt;
+      });
+      currentAnswersB = answers;
+      renderAnswersB(answers);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function renderAnswersB(answers) {
+      const data = lessons[selectedLesson];
+      const container = document.getElementById("answers-B");
+      container.innerHTML = "";
+
+      data.questions.forEach((item, idx) => {
+        const opt = answers[idx];
+        const qText = currentMode === 'vi' ? item.q.vi : item.q.zh;
+        const aText = currentMode === 'vi' ? opt.vi : opt.zh;
+
+        const div = document.createElement("div");
+        div.className = "answer-card";
+        div.innerHTML = `
+          <div class="q">${idx + 1}. ${qText}</div>
+          <div class="a">${aText}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ==================== SHAKE ====================
+    let lastShake = 0;
+    window.addEventListener("devicemotion", (e) => {
+      if (!document.getElementById("screen-B").classList.contains("active")) return;
+      const acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+      const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+      const now = Date.now();
+      if (force > 28 && now - lastShake > 1200) {
+        lastShake = now;
+        randomizeAnswers();
+      }
+    }, false);
+
+    // ==================== START ====================
+    init();
+
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+
+<div id="emojiSwitcherOptions" class="emojiSwitcheroptions emojiSwitcherHidden" style="display: none;"><!-- Start of floating menu -->
+	<div id="emojiSwitcherContainer"><div id="emojiSwitcherSizeChanger">
+	 <b id="emojiSwitcherLabel">Size adj:</b>&nbsp;&nbsp; <input id="emojiSwitcherNewSize" type="number" step="1" value="1" style="font-family: emojeeeeee, emojiiiiii, Arial;"></div>
+	 <select name="emojiSets" id="emojiSets">
+		<optgroup label="[ʟᴀᴛᴇꜱᴛ]" disabled=""></optgroup>
+		<option value="1">&nbsp;&nbsp; Noto Color Emoji</option>
+		<option value="2">&nbsp;&nbsp; Twemoji </option>
+		<option value="3">&nbsp;&nbsp; Blobmoji</option>
+		<option value="4">&nbsp;&nbsp; OpenMoji</option>
+		<option value="5">&nbsp;&nbsp; Fluent Emoji</option>
+		<optgroup label="[ᴍᴏɴᴏᴄʜʀᴏᴍᴇ]" disabled=""></optgroup>
+		<option value="6">&nbsp;&nbsp; Noto Emoji Mono</option>
+		<option value="7">&nbsp;&nbsp; OpenMoji Black</option>
+		<option value="8">&nbsp;&nbsp; OpenSans+Noto</option>
+		<option value="9">&nbsp;&nbsp; Fluent Emoji Mono</option>
+		<optgroup label="[ᴄʟᴀꜱꜱɪᴄ]" disabled=""></optgroup>
+		<option value="10">&nbsp;&nbsp; EmojiTwo</option>
+		<optgroup label="[Sʏsᴛᴇᴍ]" disabled=""></optgroup>
+		<option value="11">&nbsp;&nbsp; System default</option>
+	 </select>
+	 <button id="emojiSwitcherButton" data-title="Convert all visible emojis">Emojify!</button>
+	 <button id="disableButton" data-title="View the current page without the extension">View original</button>
+	 <button id="gotoOptionsPage" data-title="Make changes persistent">Go to options</button>
+	 <button id="readHelp" data-title="Read the help file">Read help</button>
+	 <div id="emojiSwitcherWarning">Changes made from this popup are temporary and only affect the current tab. </div>
+	 <div id="emojiSwitcherClose">×</div>
+	</div></div></body></html>
